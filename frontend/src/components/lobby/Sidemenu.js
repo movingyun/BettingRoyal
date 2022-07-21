@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./LoginMain.module.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -29,7 +28,9 @@ export default function Sidemenu(props) {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <Link to="mypage">
+            <ListItemText primary="내정보" />
+          </Link>
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 1}
@@ -43,21 +44,21 @@ export default function Sidemenu(props) {
       </List>
       <Divider />
       <List component="nav" aria-label="secondary mailbox folder">
-      <ListItemButton
+        <ListItemButton
           selected={selectedIndex === 2}
           onClick={(event) => handleListItemClick(event, 2)}
-        ><Link to="rooms">
-          <ListItemText primary="방 목록" />
-        </Link>
-          
+        >
+          <Link to="rooms">
+            <ListItemText primary="방 목록" />
+          </Link>
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
           onClick={(event) => handleListItemClick(event, 3)}
-        ><Link to="noticeboard">
-          <ListItemText primary="공지사항" />
-        </Link>
-          
+        >
+          <Link to="noticeboard">
+            <ListItemText primary="공지사항" />
+          </Link>
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 4}

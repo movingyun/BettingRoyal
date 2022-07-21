@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import styles from "./LoginMain.module.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Sidemenu from "./Sidemenu";
-import Noticeboard from "./Noticeboard";
-import Rooms from "./Rooms";
+import Sidemenu from "./lobby/Sidemenu";
+import Noticeboard from "./lobby/Noticeboard";
+import Rooms from "./lobby/Rooms";
 
 export default function Lobby(props) {
   useEffect(() => {}, []);
@@ -22,6 +20,7 @@ export default function Lobby(props) {
             <Route path="noticeboard" element ={<Noticeboard/>} ></Route>
             <Route path="rank" ></Route>
             <Route path="friend" ></Route>
+            <Route path="mypage" ></Route>
           </Routes>
       </Grid>
     </Grid>

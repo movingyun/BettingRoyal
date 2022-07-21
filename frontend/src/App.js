@@ -1,12 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import Gameroom from './components/Gameroom'
-import LoginMain from './components/LoginMain'
-import Lobby from './components/Lobby'
+import Header from './components/Header'
 function App() {
   return (
     <div className="App">
-      <LoginMain/>
+      <Header/>
     </div>
   );
 }

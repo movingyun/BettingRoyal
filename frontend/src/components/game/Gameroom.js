@@ -6,11 +6,12 @@ import sockjs from "sockjs-client";
 import stompjs from "stompjs";
 
 
-var sock = new sockjs("http://localhost:8080");
-let stomp = stompjs.over(sock)
+// var sock = new sockjs("http://localhost:8080");
+// let stomp = stompjs.over(sock)
 
 export default function Gameroom(props) {
   const [players, setPlayers] = useState([]);
+  
   let roomid=props.roomid;
   
   //const [stomp, setStomp] = useState(); //stomp 연결을 state로 관리. 연결 끊어지면 다시 연결하기 위해.
@@ -18,12 +19,12 @@ export default function Gameroom(props) {
   useEffect(() => {
     //setStomp(stompjs.over(sock));
 
-    stomp.connect({}, () => {
-      stomp.subscribe("/game/"+roomid, (data) => {
-        const playersData = JSON.parse(data.body);
-        setPlayers(playersData);
-      });
-    }); 
+    // stomp.connect({}, () => {
+    //   stomp.subscribe("/game/"+roomid, (data) => {
+    //     const playersData = JSON.parse(data.body);
+    //     setPlayers(playersData);
+    //   });
+    // }); 
   }, []);
 
   //useeffect에 빈 배열 넣으면 컴포넌트 생성 시에만 실행됨.
@@ -38,6 +39,10 @@ export default function Gameroom(props) {
   //   ]);
   // }, []);
 
+  //클라이언트 webrtc socket on: 
+  //클라이언트 game socket emit : bet, call, raise, die , 나가기, 참가, 
+  //클라이언트 game socket on : 내 카드 받기, 공통카드 받기, 차례 받기,
+  //클라이언트 api 요청: 
 
   return (
     <div>
