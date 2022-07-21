@@ -1,11 +1,13 @@
 import { useState } from "react";
+import styles from './Player.module.css'
+
 export default function Player(props) {
   const [player, setPlayer] = useState(props.player);
 
   return (
     <div>
       {player ? (
-        <div>
+        <div className={styles.Player}>
           <div class="face">{player.face}</div>
           <div class="name">{player.name}</div>
           <div class="ruby">{player.ruby}</div>
