@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Sidemenu from "./lobby/Sidemenu";
-import Noticeboard from "./lobby/Noticeboard";
-import Rooms from "./lobby/Rooms";
+import Sidemenu from "../../components/lobbycomp/Sidemenu";
+import Noticeboard from "../Noticepage/Noticeboard";
+import Rooms from "../../components/lobbycomp/Rooms";
 
 export default function Lobby(props) {
   useEffect(() => {}, []);

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./Header.module.css";
+import styles from "./First.module.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Login from "./login/Login";
-import SignUpPage from "./login/SignUpPage"
-import Lobby from "./Lobby";
+import Login from "../Loginpage/Login";
+import SignUpPage from "../Signuppage/SignUp"
+import Lobby from "../LobbyPage/Lobby";
 import Paper from "@mui/material/Paper";
 
-export default function Header(props) {
+export default function First(props) {
   useEffect(() => {}, []);
 
   let header = (

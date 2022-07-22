@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 // import React, { Component } from 'react';
 import { React, useState } from "react";
 import axios from "axios";
-import InputWithLabel from "./InputWithLabel";
-import AuthContent from "./AuthContent";
+import InputWithLabel from "../../components/Logincomp/InputWithLabel";
+import AuthContent from "../../components/Logincomp/AuthContent";
 
 export default function SignUpPage() {
   const [NickName, setNickName] = useState("");
