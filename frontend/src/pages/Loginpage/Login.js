@@ -2,6 +2,7 @@ import { useState } from "react";
 // import { useUserContext } from "./user-context";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import InputWithLabel from "../../components/Logincomp/InputWithLabel";
 
 export default function Login() {
   // const { setUser } = useUserContext();
@@ -59,15 +60,16 @@ export default function Login() {
 
   return (
     <div>
-      <Link to="/">뒤로가기</Link>
-      <input id="id" name="id" placeholder="아이디 입력" />
-      <input
+      <h1><Link to="/login">로그인</Link></h1>
+      ID <InputWithLabel id="id" name="id" placeholder="아이디 입력" /><br/>
+      비밀번호 <InputWithLabel
         id="password"
         name="password"
         type="password"
         placeholder="비밀번호 입력"
-      />
-      <button onClick={onSubmitAccount}>로그인</button>
+      /><br/>
+      <button onClick={onSubmitAccount}>로그인</button><br/>
+      <Link to="/">뒤로가기</Link>
     </div>
   );
 }

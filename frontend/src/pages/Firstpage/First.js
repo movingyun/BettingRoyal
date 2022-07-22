@@ -4,7 +4,7 @@ import styles from "./First.module.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Login from "../Loginpage/Login";
 import SignUpPage from "../Signuppage/SignUp"
-import Lobby from "../LobbyPage/Lobby";
+import Lobby from "../Lobbypage/Lobby";
 import Paper from "@mui/material/Paper";
 
 export default function First(props) {
@@ -14,7 +14,6 @@ export default function First(props) {
     <div className={styles.mainframe}>
       <Paper className={styles.loginmenu} elevation={3}>
         <p className="title">멘탈리스트</p>
-
         <div>
           <Link to="/login">로그인</Link>
         </div>
