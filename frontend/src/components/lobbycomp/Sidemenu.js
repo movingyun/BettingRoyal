@@ -66,6 +66,15 @@ export default function Sidemenu(props) {
         >
           <ListItemText primary="친구" />
         </ListItemButton>
+        <ListItemButton
+          selected={selectedIndex === 4}
+          onClick={(event) => handleListItemClick(event, 4)}
+        >
+          <Link to="rank">
+            <ListItemText primary="랭킹" />
+          </Link>
+          
+        </ListItemButton>
       </List>
     </Box>
   );

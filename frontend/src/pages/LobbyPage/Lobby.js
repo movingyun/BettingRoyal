@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Sidemenu from "../../components/lobbycomp/Sidemenu";
 import Noticeboard from "../Noticepage/Noticeboard";
 import Rooms from "../../components/lobbycomp/Rooms";
+import Rank from "../Rankpage/Rank"
 
 export default function Lobby(props) {
   useEffect(() => {}, []);
@@ -18,7 +19,7 @@ export default function Lobby(props) {
           <Routes>
           <Route path="rooms" element ={<Rooms/>} ></Route>
             <Route path="noticeboard" element ={<Noticeboard/>} ></Route>
-            <Route path="rank" ></Route>
+            <Route path="rank" element={<Rank/>}></Route>
             <Route path="friend" ></Route>
             <Route path="mypage" ></Route>
           </Routes>
