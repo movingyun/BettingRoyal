@@ -113,9 +113,10 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="signup" variant="body2">
                     {"Don't have an account? Sign Up"}
-                  </Link>
+                  </Link><br/>
+                  <Link href="/" variant="body2">Back to first page.</Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+// import axios from "axios";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,8 +23,7 @@ function Copyright(props) {
       <Link color="inherit" href="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Fe7fac6ba-f892-47f4-9d4c-61a0d49c2699%2Fme.jpg?table=space&id=1454beab-817a-4a98-981c-cf89764cb3c7&width=60&userId=d83ef3f2-95c8-4a05-9da4-95cb8a2abdbc&cache=v2">
         Sungmini
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {new Date().getFullYear()}{'.'}<br/>
     </Typography>
   );
 }
@@ -29,14 +31,96 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const [NickName, setNickName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Nation, setNation] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [ErrorMsgPassword, setErrorMsgPassword] = useState("");
+
+  const onNickNameHandler = (event) => {
+    setNickName(event.currentTarget.value);
+  };
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onNationHandler = (event) => {
+    setNation(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const onConfirmPasswordHandler = (event) => {
+    setConfirmPassword(event.currentTarget.value);
+    if (event.currentTarget.value !== Password)
+      setErrorMsgPassword("비밀번호를 확인해주세요.");
+    else setErrorMsgPassword("");
+  };
+
+
+  const onSubmitHandler = (event) => {
     event.preventDefault();
+
+    const userInfo = {
+      NickName: NickName,
+      Email: Email,
+      Nation: Nation,
+      Password: Password,
+      ConfirmPassword: ConfirmPassword,
+    };
+
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    var hasEmptyInfo = false;
+    for (var i in userInfo) {
+      if (!userInfo[i]) {
+        hasEmptyInfo = true;
+      }
+    }
+
+    if (hasEmptyInfo) {
+      alert("모든 항목을 다 입력하세요.");
+    } else {
+      createUserFetch(userInfo).then((data) => {
+        alert("로그인 성공");
+        // if(data.success) {
+        //     console.log("로긴대따");
+        // } else {
+        //     alert("ㄴㄴ");
+        // }
+      });
+    }
+    navigate("/");
   };
+
+  async function createUserFetch(userInfo) {
+
+    // var axios = require("axios");
+
+    // // var config = {
+    // //   method: "post",
+    // //   url: "",
+    // // };
+    // console.log(Email, Password)
+    // axios.post('/api/v1/users',{id:Email,password:Password})
+    //   .then(function (response) {
+    //     console.log(JSON.stringify(response.statusCode));
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +140,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={onSubmitHandler} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -66,17 +150,19 @@ export default function SignUp() {
                   fullWidth
                   id="nickName"
                   label="닉네임(Nick Name)"
+                  onChange={onNickNameHandler}
                   autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  autoComplete="email"
+                  name="email"
                   required
                   fullWidth
                   id="email"
                   label="이메일(Email Address)"
-                  name="email"
-                  autoComplete="email"
+                  onChange={onEmailHandler}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -86,6 +172,7 @@ export default function SignUp() {
                   label="국가(Nation)"
                   name="nation"
                   autoComplete="family-name"
+                  onChange={onNationHandler}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,6 +184,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={onPasswordHandler}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -108,6 +196,7 @@ export default function SignUp() {
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
+                  onChange={onConfirmPasswordHandler}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -127,9 +216,10 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="login" variant="body2">
                   Already have an account? Sign in
-                </Link>
+                </Link><br/>
+                <Link href="/" variant="body2">Back to first page.</Link>
               </Grid>
             </Grid>
           </Box>
