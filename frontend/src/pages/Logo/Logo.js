@@ -15,7 +15,8 @@ export default function First(props) {
       <Paper className={styles.logomenu} elevation={3}>
         <p className={styles.title}>Ford Kacar</p>
           <Link to="/login">로그인</Link><br/>
-          <Link to="/signup">회원가입</Link>
+          <Link to="/signup">회원가입</Link><br/>
+          <Link to="/lobby">로비 바로가기</Link>
       </Paper>
     </div>
   );
