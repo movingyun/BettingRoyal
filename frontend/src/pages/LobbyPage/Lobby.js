@@ -36,10 +36,12 @@ export default function Lobby(props) {
 
   let sidemenu = (
     <Grid container>
+      <Grid item container xs={12}>
+      <Headerbar /></Grid>
       <Grid item container xs={3}>
         <Sidemenu />
       </Grid>
-      <Headerbar />
+      
       <Grid item container xs={9}>
           <Routes>
           <Route path="rooms" element ={<Rooms/>} ></Route>
