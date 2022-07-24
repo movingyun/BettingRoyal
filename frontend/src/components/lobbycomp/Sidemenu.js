@@ -10,8 +10,20 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import Modal from "./Modal";
 
 export default function Sidemenu(props) {
+
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {}, []);
   const [selectedIndex, setSelectedIndex] = useState(1);
 
@@ -21,26 +33,14 @@ export default function Sidemenu(props) {
   let sidemenu = (
     <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <List component="nav" aria-label="main mailbox folders">
-        <ListItemButton
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
           <Link to="mypage">
-            <ListItemText primary="내정보" />
+          <button> 내 정보</button>
           </Link>
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
-        >
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItemButton>
+          <button onClick={ openModal }>금고</button>
+          <Modal open={ modalOpen } close={ closeModal } header="루비금고">
+            <button>입금</button>
+            <button>출금</button>
+          </Modal>
       </List>
       <Divider />
       <List component="nav" aria-label="secondary mailbox folder">

@@ -7,6 +7,7 @@ import Noticeboard from "../Noticepage/Noticeboard";
 import Rooms from "../../components/lobbycomp/Rooms";
 import Rank from "../Rankpage/Rank";
 import Sockjs from "sockjs-client";
+import MyPage from "../MyPage/MyPage";
 
 export default function Lobby(props) {
   useEffect(() => {}, []);
@@ -38,13 +39,13 @@ export default function Lobby(props) {
         <Sidemenu />
       </Grid>
       <Grid item container xs={9}>
-        <Routes>
-          <Route path="rooms" element={<Rooms />}></Route>
-          <Route path="noticeboard" element={<Noticeboard />}></Route>
-          <Route path="rank" element={<Rank />}></Route>
-          <Route path="friend"></Route>
-          <Route path="mypage"></Route>
-        </Routes>
+          <Routes>
+          <Route path="rooms" element ={<Rooms/>} ></Route>
+            <Route path="noticeboard" element ={<Noticeboard/>} ></Route>
+            <Route path="rank" ></Route>
+            <Route path="friend" ></Route>
+            <Route path="mypage" element ={<MyPage/>}></Route>
+          </Routes>
       </Grid>
     </Grid>
   );

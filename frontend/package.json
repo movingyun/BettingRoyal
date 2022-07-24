@@ -8,7 +8,11 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.1",
+<<<<<<< HEAD
     "@mui/x-data-grid": "^5.13.1",
+=======
+    "@mui/styled-engine-sc": "^5.8.0",
+>>>>>>> 03a0beb3beab10ba0f33da0d9b781c99e01f44fd
     "@stomp/stompjs": "^6.1.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
