@@ -8,6 +8,7 @@ import Rooms from "../../components/lobbycomp/Rooms";
 import Rank from "../Rankpage/Rank";
 import Sockjs from "sockjs-client";
 import MyPage from "../MyPage/MyPage";
+import Headerbar from "../../components/Headerbar";
 
 export default function Lobby(props) {
   useEffect(() => {}, []);
@@ -38,6 +39,7 @@ export default function Lobby(props) {
       <Grid item container xs={3}>
         <Sidemenu />
       </Grid>
+      <Headerbar />
       <Grid item container xs={9}>
           <Routes>
           <Route path="rooms" element ={<Rooms/>} ></Route>
