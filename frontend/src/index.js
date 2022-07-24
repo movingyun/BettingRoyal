@@ -8,7 +8,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')   // id값 root인 곳에 렌더링
 );
 
 // If you want to start measuring performance in your app, pass a function

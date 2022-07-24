@@ -1,0 +1,13 @@
+.mainframe {
+    width:100vh;
+    margin: 0 auto;
+}
+
+.loginmenu{
+    position: relative;
+    text-align: center;
+    top:30vh;
+    height: 400px;
+    width: 300px;
+    background-color: #ffffff;
+}
