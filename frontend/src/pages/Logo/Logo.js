@@ -1,0 +1,37 @@
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Paper from "@mui/material/Paper";
+// import axios from "axios";
+import styles from "./Logo.module.css";
+import Login from '../../pages/Login/Login';
+import Signup from '../../pages/Signup/Signup';
+import Lobby from '../../pages/Lobby/Lobby';
+
+export default function First(props) {
+  useEffect(() => {}, []);
+
+  let header = (
+    <div className={styles.mainframe}>
+      <Paper className={styles.logomenu} elevation={3}>
+        <p className={styles.title}>Ford Kacar</p>
+          <Link to="/login">로그인</Link><br/>
+          <Link to="/signup">회원가입</Link>
+      </Paper>
+    </div>
+  );
+
+  return (
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={header}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup/>}></Route>
+          <Route path="/lobby/*" element={<Lobby />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+
+}
+
