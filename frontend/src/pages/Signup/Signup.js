@@ -2,20 +2,38 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import styles from "./Signup.module.css";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import axios from "axios"
+
+const gender = [
+  {
+    value: 'M',
+    label: '남성',
+  },
+  {
+    value: 'F',
+    label: '여성',
+  },
+];
 
 function Copyright(props) {
   return (
@@ -46,7 +64,7 @@ export default function SignUp() {
 
   const [NickName, setNickName] = useState("");
   const [Email, setEmail] = useState("");
-  const [Nation, setNation] = useState("");
+  // const [Gender, setGender] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [ErrorMsgPassword, setErrorMsgPassword] = useState("");
@@ -59,8 +77,8 @@ export default function SignUp() {
     setEmail(event.currentTarget.value);
   };
 
-  const onNationHandler = (event) => {
-    setNation(event.currentTarget.value);
+  const onGenderHandler = (event) => {
+    setGender(event.currentTarget.value);
   };
 
   const onPasswordHandler = (event) => {
@@ -74,13 +92,19 @@ export default function SignUp() {
     else setErrorMsgPassword("");
   };
 
+  const [Gender, setGender] = React.useState('EUR');
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
+
 
   async function  onSubmitHandler(event){
     event.preventDefault();
     const userInfo = {
       NickName: NickName,
       Email: Email,
-      Nation: Nation,
+      Gender: Gender,
       Password: Password,
       ConfirmPassword: ConfirmPassword,
     };
@@ -201,19 +225,23 @@ export default function SignUp() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
+        <Box marginTop={10}><div><Link href="/" variant="body2">
+          <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
+        </Link></div></Box>
+
         <Box
           sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
+            <PersonRoundedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign Up
+            회원가입
           </Typography>
           <Box
             component="form"
@@ -224,43 +252,23 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="nickName"
-                  required
-                  fullWidth
-                  id="nickName"
-                  label="닉네임(Nick Name)"
-                  onChange={onNickNameHandler}
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
+                color="secondary"
                   autoComplete="email"
                   name="email"
                   required
                   fullWidth
                   id="email"
-                  label="이메일(Email Address)"
+                  label="이메일 아이디"
                   onChange={onEmailHandler}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  fullWidth
-                  id="nation"
-                  label="국가(Nation)"
-                  name="nation"
-                  autoComplete="family-name"
-                  onChange={onNationHandler}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
+                color="secondary"
                   required
                   fullWidth
                   name="password"
-                  label="비밀번호(Password)"
+                  label="비밀번호"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -269,10 +277,11 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                color="secondary"
                   required
                   fullWidth
                   name="confirmpassword"
-                  label="비밀번호 확인(Confirm Password)"
+                  label="비밀번호 확인"
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
@@ -280,31 +289,62 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                color="secondary"
+                  autoComplete="given-name"
+                  name="nickName"
+                  required
+                  fullWidth
+                  id="nickName"
+                  label="닉네임"
+                  onChange={onNickNameHandler}
+                  autoFocus
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                required
+                color="secondary"
+                fullWidth
+                  id="gender"
+                  select
+                  label="성별"
+                  value={Gender}
+                  onChange={handleChange}
+                >
+                  {gender.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="마케팅 동의"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
+            <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            }}>
+               <button type="submit" className={styles.button}>
+              회원가입
+              </button>
+            </Box>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-                <br />
-                <Link href="/" variant="body2">
-                  Back to first page.
-                </Link>
+                <Link href="login" variant="body2" className={styles.li}>
+                  로그인
+                </Link><br/>
               </Grid>
             </Grid>
           </Box>

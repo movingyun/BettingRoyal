@@ -11,11 +11,13 @@ export default function First(props) {
   useEffect(() => {}, []);
 
   let header = (
-    <div className={styles.mainframe}>
-        <p className={styles.title}>Ford Kacar</p>
-        <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
-        <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
-        <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
+    <div>
+      <div className={styles.mainframe}>
+      <div className={styles.parent}><div className={styles.child}>Ford Kacar</div></div>
+          <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
+          <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
+          <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
+      </div>
     </div>
   );
 
