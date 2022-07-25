@@ -10,8 +10,10 @@ function LobbyApp() {
   const location = useLocation();
   
   useEffect(() => {
-    const parsedTitle = location.pathname.replace(/\W/g, ' ');
-    setTitle(parsedTitle);
+    let path = location.pathname.split("/");
+    // const parsedTitle = location.pathname.replace(/\W/g, ' ');
+    let parsedTitle = path[path.length-1];
+     setTitle(parsedTitle);
   }, [location]);
 
   return (

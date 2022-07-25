@@ -64,8 +64,8 @@ export default function SignInSide() {
       console.log(JSON.stringify(response.data.accessToken));
       window.localStorage.setItem("accessToken", response.data.accessToken);
 
-    //로비/rooms 로 이동
-      navigate("/lobby/rooms");
+    //로비/공지사항 로 이동
+      navigate("/lobby/notice");
     })
     .catch(function (error) {
       console.log(error);
