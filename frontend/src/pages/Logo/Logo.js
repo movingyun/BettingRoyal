@@ -12,12 +12,10 @@ export default function First(props) {
 
   let header = (
     <div className={styles.mainframe}>
-      <Paper className={styles.logomenu} elevation={3}>
         <p className={styles.title}>Ford Kacar</p>
-          <Link to="/login">로그인</Link><br/>
-          <Link to="/signup">회원가입</Link><br/>
-          <Link to="/lobby">로비 바로가기</Link>
-      </Paper>
+        <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
+        <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
+        <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
     </div>
   );
 

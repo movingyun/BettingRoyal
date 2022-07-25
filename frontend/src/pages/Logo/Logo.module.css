@@ -1,27 +1,41 @@
 .mainframe {
     width:100vh;
     margin: 0 auto;
-    border-radius: 30px;
-}
-
-.logomenu{
-    position: relative;
     text-align: center;
-    top:10vh;
-    height: 500px;
-    width: 700px;
-    margin: 0 auto; /* 페이지 중앙 정렬 */
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); /* 그림자 */ 
-    background-color: #ffffff;
 }
 
 .title {
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    padding: 10rem;
-    font-size: 3rem;
+    padding: 8rem;
+    font-size: 5rem;
     text-align: center;
     font-weight: 100;
-    background: #4c1a5b;;
+    color: rgb(0, 0, 0);
+}
+
+.button {
+    background-color: rgb(0, 0, 0);
     color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 250px;
+}
+
+.button:hover{
+    background-color: rgb(124, 0, 158);
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 250px;
 }
