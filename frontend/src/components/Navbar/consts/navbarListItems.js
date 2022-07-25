@@ -51,5 +51,10 @@ export const mainNavbarItems = [
         icon:<StarRoundedIcon/>,
         label: 'Tutorial',
         route: 'tutorial',
+    },{
+        id:6,
+        icon:<StarRoundedIcon/>,
+        label: 'Rooms',
+        route: 'rooms',
     },
 ]
