@@ -14,6 +14,11 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import styles from "./Login.module.css";
+// import { ArrowBackRoundedIcon } from '@material-ui/icons';
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import Container from "@mui/material/Container";
 import axios from "axios";
 
 function Copyright(props) {
@@ -57,131 +62,114 @@ export default function SignInSide() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(userId, pw);
-    axios.post("http://localhost:8080/api/v1/auth/login", {
-      id: userId,
-      password: pw,
-    }).then(function (response) {
-      console.log(JSON.stringify(response.data.accessToken));
-      window.localStorage.setItem("accessToken", response.data.accessToken);
+    axios
+      .post("http://localhost:8080/api/v1/auth/login", {
+        id: userId,
+        password: pw,
+      })
+      .then(function (response) {
+        console.log(JSON.stringify(response.data.accessToken));
+        window.localStorage.setItem("accessToken", response.data.accessToken);
 
-    //로비/공지사항 로 이동
-      navigate("/lobby/notice");
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  
+        //로비/공지사항 로 이동
+        navigate("/lobby/notice");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
-  
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
+        <Box marginTop={10}>
+          <div>
+            <Link href="/" variant="body2">
+              <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
+            </Link>
+          </div>
+        </Box>
+
+        <Box
           sx={{
-            backgroundImage:
-              "url(https://pbs.twimg.com/media/EIRbtonWwAAa6XY.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-        />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-          backgroundColor="#A89B92"
         >
+          <Avatar sx={{ m: 1, bgcolor: "#000000" }}>
+            <PersonRoundedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            로그인
+          </Typography>
           <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            {/* 글씨 색상 color="white" */}
-            <Typography component="h1" variant="h5" color="">
-              Sign in
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                onChange={(e) => setId(e.target.value)}
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                onChange={(e) => setPw(e.target.value)}
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                onChange={(e)=>{setId(e.target.value)}}
+                  color="secondary"
+                  required
+                  fullWidth
+                  id="email"
+                  label="이메일 아이디"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                onChange={(e)=>{setPw(e.target.value)}}
+                  color="secondary"
+                  required
+                  fullWidth
+                  name="password"
+                  label="비밀번호"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                {/* <FormControlLabel 
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                  <br />
-                  <Link href="/" variant="body2">
-                    Back to first page.
-                  </Link>
-                </Grid>
+              /> */}
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+            </Grid>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <button type="submit" className={styles.button}>
+                로그인
+              </button>
             </Box>
+
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2" className={styles.li}>
+                  아이디·비밀번호 찾기
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="signup" variant="body2" className={styles.li}>
+                  {"회원가입"}
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+        <Copyright sx={{ mt: 5 }} />
+      </Container>
     </ThemeProvider>
   );
 }

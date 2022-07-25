@@ -1,27 +1,50 @@
 .mainframe {
     width:100vh;
-    margin: 0 auto;
-    border-radius: 30px;
-}
-
-.logomenu{
-    position: relative;
+    margin: 14rem auto;
     text-align: center;
-    top:10vh;
-    height: 500px;
-    width: 700px;
-    margin: 0 auto; /* 페이지 중앙 정렬 */
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); /* 그림자 */ 
-    background-color: #ffffff;
 }
 
-.title {
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    padding: 10rem;
-    font-size: 3rem;
+/* .title {
+    font-size: 5rem;
     text-align: center;
     font-weight: 100;
-    background: #4c1a5b;;
+    color: rgb(0, 0, 0);
+} */
+
+.parent {
+    margin: 12rem auto;
+    height: 5em; /* 애니메이션 높이 */
+    overflow-y: hidden;
+    display: block;
+}
+.parent .child {
+    font-size: 5em;/* 애니메이션 높이 */
+    font-weight: 100;
+    line-height: 1;
+    animation-name: grow;
+    animation-duration: 1.5s;/* 애니메이션 시간 */
+}
+/* 키프레임 애니메이션 */
+@keyframes grow {
+    from { transform: translateY(3em) }/* 애니메이션 높이 */
+    to { transform: translateY(0) }
+}
+
+.button {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 250px;
+}
+
+.button:hover{
+    background-color: rgb(124, 0, 158);
     color: white;
 }
