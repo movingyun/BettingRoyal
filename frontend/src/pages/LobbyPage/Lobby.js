@@ -37,19 +37,20 @@ export default function Lobby(props) {
   let sidemenu = (
     <Grid container>
       <Grid item container xs={12}>
-      <Headerbar /></Grid>
+        <Headerbar />
+      </Grid>
       <Grid item container xs={3}>
         <Sidemenu />
       </Grid>
-      
+
       <Grid item container xs={9}>
-          <Routes>
-          <Route path="rooms" element ={<Rooms/>} ></Route>
-            <Route path="noticeboard" element ={<Noticeboard/>} ></Route>
-            <Route path="rank" ></Route>
-            <Route path="friend" ></Route>
-            <Route path="mypage" element ={<MyPage/>}></Route>
-          </Routes>
+        <Routes>
+          <Route path="rooms" element={<Rooms />}></Route>
+          <Route path="noticeboard" element={<Noticeboard />}></Route>
+          <Route path="rank"></Route>
+          <Route path="friend"></Route>
+          <Route path="mypage" element={<MyPage />}></Route>
+        </Routes>
       </Grid>
     </Grid>
   );
