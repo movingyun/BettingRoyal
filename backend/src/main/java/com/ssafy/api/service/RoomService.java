@@ -4,8 +4,6 @@ import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,4 +27,15 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    //방 1개조회
+    @Transactional(readOnly = true) // select만 하는곳엔 readOnly속성 붙혀줌
+    public Room getRoom(int roomId) {
+        return roomRepository.findByRoomId(roomId);
+    }
+    
+    //방 제거하기
+    @Transactional
+    public void deleteByRoomId(int roomId) {
+        roomRepository.deleteByRoomId(roomId);
+    }
 }
