@@ -1,11 +1,17 @@
 import React from "react"
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { cardStyles } from './styles';
 
-const BasicCard = () => {
+const BasicCard = ({header, content }) => {
     return (
-        <div style={{marginLeft: '500px'}}>
-        공지사항
-        </div>
+        <Card sx={cardStyles}>
+            {header}
+            <CardContent>
+                {content}
+            </CardContent>
+        </Card>
     )
-}
+};
 
 export default BasicCard

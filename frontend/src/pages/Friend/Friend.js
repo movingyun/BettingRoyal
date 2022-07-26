@@ -1,12 +1,16 @@
 import React from "react";
-import { Grid } from "@mui/material";
-import Header from "../../components/Header/Header";
+import { Card, Grid } from "@mui/material";
+import BasicCard from "../../components/common/BasicCard/BasicCard";
+import SearchBar from "../../components/common/SearchBar/SearchBar";
 
 const Friend = () => {
     return (
-        <div style={{marginLeft: '500px'}}>
-        Hi
-        </div>
+        <Card>
+            {/* {eader} */}
+            <Grid item xs={8} sx={{marginLeft: '200px'}}>
+                <BasicCard header={<SearchBar />}/>
+            </Grid>
+        </Card>
     );
 }
 

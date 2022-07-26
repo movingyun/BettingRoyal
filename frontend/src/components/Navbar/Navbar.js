@@ -14,6 +14,7 @@ const Navbar = (title) => {
     const navigate = useNavigate();
 
     return(
+        <React.Fragment>
         <Drawer
           sx={navbarStyles.drawer}
           variant="permanent"
@@ -44,6 +45,7 @@ const Navbar = (title) => {
           ))}
         </List>
       </Drawer>
+      </React.Fragment>
     )
 }
 
