@@ -1,5 +1,7 @@
 import styles from "./Test.module.css";
 import React, { useState, useCallback } from "react";
+import MicRoundedIcon from '@mui/icons-material/MicRounded';
+import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
   
 function Test() {
 
@@ -12,7 +14,7 @@ function Test() {
 	const [audioUrl, setAudioUrl] = useState();
 	const [disabled, setDisabled] = useState(true);
   
-	const onRecAudio = () => {
+	const onAudio = () => {
   
 	  setDisabled(true) 
 	  
@@ -55,7 +57,7 @@ function Test() {
 	  });
 	};
   
-	const offRecAudio = () => {
+	const offAudio = () => {
 	  media.ondataavailable = function (e) {
 		setAudioUrl(e.data);
 		setOnRec(true);
@@ -92,7 +94,7 @@ function Test() {
 	// 비디오
 	const [playing, setPlaying] = useState(false);
 
-	const startVideo = () => {
+	const onVideo = () => {
 		setPlaying(true);
 		navigator.getUserMedia(
 			{
@@ -108,30 +110,44 @@ function Test() {
 		);
 	};
 
-	const stopVideo = () => {
+	const offVideo = () => {
 		setPlaying(false);
 		let video = document.getElementsByClassName('vid')[0];
 		video.srcObject.getTracks()[0].stop();
 	};
 
 	return (
-		<div className={styles.app} style={{marginLeft: '250px'}}>
-			<div>
-				<video
-					muted
-					autoPlay
-					className={styles.vid}
-				></video>
-			</div>
-			<div>
-				{playing ? (
-					<button onClick={stopVideo}>중지</button>
+		<div className={styles.container} style={{marginLeft: '250px'}}>
+      <div className={styles.col}>
+      <div className={styles.row}><MicRoundedIcon className={styles.icon}/><p className={styles.title}>마이크 테스트</p></div>
+        <div className={styles.center}>
+				{onRec ? (
+					<button onClick={onAudio} className={styles.button}>시작</button>
 				) : (
-					<button onClick={startVideo}>테스트</button>
+					<button onClick={offAudio} className={styles.button}>완료</button>
 				)}
+        <button onClick={play} disabled={disabled} className={styles.button}>재생</button>
+        </div>
+      </div>
+
+			<div className={styles.col}>
+      <div className={styles.row}><VideocamRoundedIcon className={styles.icon}/><p className={styles.title}>카메라 테스트</p></div>
+        <div className={styles.center}>
+          <video
+            muted
+            autoPlay
+            className="vid"
+            width="90%"
+          ></video>
+          <div>
+            {playing ? (
+              <button onClick={offVideo} className={styles.button}>중지</button>
+            ) : (
+              <button onClick={onVideo} className={styles.button}>시작</button>
+            )}
+          </div>
+        </div>
 			</div>
-			<button onClick={onRec ? onRecAudio : offRecAudio}>녹음</button>
-     		<button onClick={play} disabled={disabled}>재생</button>
 		</div>
 	);
 }
