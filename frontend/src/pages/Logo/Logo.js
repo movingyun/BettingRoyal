@@ -11,9 +11,10 @@ export default function First(props) {
   useEffect(() => {}, []);
 
   let header = (
-    <div>
+    <div className={styles.bg}>
       <div className={styles.mainframe}>
-      <div className={styles.parent}><div className={styles.child}>Ford Kacar</div></div>
+      <div className={styles.explan}>WebRTC 기반 화상 심리 카드게임</div>
+      <div className={styles.parent}><div className={styles.child}>Mentalist</div></div>
           <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
           <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
           <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>

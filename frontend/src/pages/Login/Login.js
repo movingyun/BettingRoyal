@@ -2,24 +2,19 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./Login.module.css";
-// import { ArrowBackRoundedIcon } from '@material-ui/icons';
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import Container from "@mui/material/Container";
 import axios from "axios";
+import { makeStyles } from '@material-ui/core/styles';
 
 function Copyright(props) {
   return (
@@ -80,17 +75,17 @@ export default function SignInSide() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div className={styles.bg}>
+      <div className={styles.tb}>
+      <div className={styles.borderBox}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box marginTop={10}>
+        <Box>
           <div>
             <Link href="/" variant="body2">
               <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
             </Link>
           </div>
         </Box>
-
         <Box
           sx={{
             display: "flex",
@@ -98,12 +93,12 @@ export default function SignInSide() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "#000000" }}>
+          <Avatar sx={{ mt: 5, bgcolor: "#2C3639", color: "#FFFFFF" }}>
             <PersonRoundedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
+          <p className={styles.title}>
+            Login
+          </p>
           <Box
             component="form"
             noValidate
@@ -114,7 +109,7 @@ export default function SignInSide() {
               <Grid item xs={12}>
                 <TextField
                 onChange={(e)=>{setId(e.target.value)}}
-                  color="secondary"
+                  color="action"
                   required
                   fullWidth
                   id="email"
@@ -127,7 +122,7 @@ export default function SignInSide() {
               <Grid item xs={12}>
                 <TextField
                 onChange={(e)=>{setPw(e.target.value)}}
-                  color="secondary"
+                  color="action"
                   required
                   fullWidth
                   name="password"
@@ -153,23 +148,24 @@ export default function SignInSide() {
                 로그인
               </button>
             </Box>
-
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" className={styles.li}>
+                <a href="#" variant="body2" className={styles.link}>
                   아이디·비밀번호 찾기
-                </Link>
+                </a>
               </Grid>
               <Grid item>
-                <Link href="signup" variant="body2" className={styles.li}>
+                <a href="signup" variant="body2" className={styles.link}>
                   {"회원가입"}
-                </Link>
+                </a>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
-    </ThemeProvider>
+      </div>
+      </div>
+    </div>
   );
 }

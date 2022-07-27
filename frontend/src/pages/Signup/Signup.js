@@ -222,14 +222,15 @@ export default function SignUp() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <div className={styles.bg}>
+    <div className={styles.tb}>
+    <div className={styles.borderBox}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
-
-        <Box marginTop={10}><div><Link href="/" variant="body2">
+        <Box>
+          <div><Link href="/" variant="body2">
           <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
-        </Link></div></Box>
-
+        </Link></div>
+        </Box>
         <Box
           sx={{
             display: 'flex',
@@ -237,12 +238,12 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: '#2C3639' }}>
             <PersonRoundedIcon/>
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
+          </Avatar> */}
+          <p className={styles.title}>
+            Sign Up
+          </p>
           <Box
             component="form"
             noValidate
@@ -252,7 +253,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                color="secondary"
+                color="action"
                   autoComplete="email"
                   name="email"
                   required
@@ -264,7 +265,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                color="secondary"
+                color="action"
                   required
                   fullWidth
                   name="password"
@@ -277,7 +278,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                color="secondary"
+                color="action"
                   required
                   fullWidth
                   name="confirmpassword"
@@ -290,7 +291,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                color="secondary"
+                color="action"
                   autoComplete="given-name"
                   name="nickName"
                   required
@@ -305,7 +306,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                 required
-                color="secondary"
+                color="action"
                 fullWidth
                   id="gender"
                   select
@@ -342,15 +343,17 @@ export default function SignUp() {
             </Box>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="login" variant="body2" className={styles.li}>
+                <a href="login" variant="body2" className={styles.link}>
                   로그인
-                </Link><br/>
+                </a>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
-    </ThemeProvider>
+      </div>
+      </div>
+    </div>
   );
 }
