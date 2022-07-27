@@ -1,60 +1,69 @@
-import EmojiPeopleRoundedIcon from '@mui/icons-material/EmojiPeopleRounded';
-import AnnouncementRoundedIcon from '@mui/icons-material/AnnouncementRounded';
-import SportsKabaddiRoundedIcon from '@mui/icons-material/SportsKabaddiRounded';
-import SupervisorAccountRoundedIcon from '@mui/icons-material/SupervisorAccountRounded';
-import OndemandVideoRoundedIcon from '@mui/icons-material/OndemandVideoRounded';
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
-
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
+import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
+import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 
 export const mainMyPageItems = [
     {
         id:0,
         icon:'',
-        label: 'My Page',
+        label: '내 정보',
         route: 'mypage',
     },
+    {
+        id:1,
+        icon:'',
+        label: '금고',
+        route: 'vault',
+    }
 ]
 
 export const mainNavbarItems = [
     {
         id:0,
-        icon:<AnnouncementRoundedIcon />,
-        label: 'Notice',
-        route: 'notice',
+        icon:<HomeRoundedIcon/>,
+        label: '홈',
+        route: 'rooms',
     },
     {
         id:1,
-        icon:<EmojiPeopleRoundedIcon/>,
-        label: 'Friend',
-        route: 'friend',
+        icon:<ChatRoundedIcon />,
+        label: '공지사항',
+        route: 'notice',
     },
     {
         id:2,
-        icon:<SportsKabaddiRoundedIcon/>,
-        label: 'Ranking',
+        icon:<MilitaryTechRoundedIcon/>,
+        label: '랭킹',
         route: 'ranking',
     },
     {
         id:3,
-        icon:<SupervisorAccountRoundedIcon/>,
-        label: 'Guild',
-        route: 'guild',
+        icon:<PersonAddRoundedIcon/>,
+        label: '친구목록',
+        route: 'friend',
     },
     {
         id:4,
-        icon:<OndemandVideoRoundedIcon/>,
-        label: 'Replay',
-        route: 'replay',
+        icon:<GroupsRoundedIcon/>,
+        label: '길드',
+        route: 'guild',
     },
     {
         id:5,
-        icon:<StarRoundedIcon/>,
-        label: 'Tutorial',
+        icon:<ReplayRoundedIcon/>,
+        label: '리플레이',
+        route: 'replay',
+    }
+]
+
+export const mainTutorialItems = [
+    {
+        id:0,
+        icon:'',
+        label: '도움말',
         route: 'tutorial',
-    },{
-        id:6,
-        icon:<StarRoundedIcon/>,
-        label: 'Rooms',
-        route: 'rooms',
     },
 ]

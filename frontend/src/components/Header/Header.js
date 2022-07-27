@@ -14,7 +14,7 @@ const Header = ({ title }) => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#FFB900',
+            backgroundColor: '#A27B5C',
             padding: '10px',
         },
         topRow: {
