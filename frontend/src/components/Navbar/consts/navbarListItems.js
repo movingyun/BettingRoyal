@@ -63,6 +63,12 @@ export const mainTutorialItems = [
     {
         id:0,
         icon:'',
+        label: '환경테스트',
+        route: 'test',
+    },
+    {
+        id:1,
+        icon:'',
         label: '도움말',
         route: 'tutorial',
     },

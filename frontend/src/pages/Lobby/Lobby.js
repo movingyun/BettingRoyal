@@ -12,6 +12,7 @@ import Replay from "../../pages/Replay/Replay";
 import Tutorial from "../../pages/Tutorial/Tutorial";
 import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../../pages/Rooms/Rooms";
+import Test from "../../pages/Test/Test";
 
 export default function Lobby(props) {
   useEffect(() => {}, []);
@@ -28,6 +29,7 @@ export default function Lobby(props) {
         <Route path="guild" element={<Guild />} />
         <Route path="replay" element={<Replay />} />
         <Route path="tutorial" element={<Tutorial />} />
+        <Route path="test" element={<Test />} />
       </Routes>
     </ThemeProvider>
   );
