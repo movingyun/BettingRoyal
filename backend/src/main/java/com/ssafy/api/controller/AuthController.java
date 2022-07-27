@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiResponse;
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
 	@Autowired
 	UserService userService;

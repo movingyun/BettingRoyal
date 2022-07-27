@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController //RESTFull Controller 개발
 @Api(value = "Room API", tags = {"Room"}) //Swagger에 이름 변경(기본값:room-controller)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoomController {
 
     @Autowired
