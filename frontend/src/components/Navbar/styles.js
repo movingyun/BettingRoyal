@@ -1,26 +1,32 @@
 export const navbarStyles = {
     drawer: {
-        width: 280,
+        width: 250,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
             width: 250,
             boxSizing: 'border-box',
-            backgroundColor: '#101F33',
-            color: 'rgba(255, 255, 255, 0.7)',
+            backgroundColor: '#2C3639',
+            color: '#DCD7C9',
         },
         '& .Mui-selected': {
             color: '',
         },
     },
     icons: {
-        color: 'rgba(255, 255, 255, 0.7)!important',
+        color: '#DCD7C9',
         marginLeft: '20px',
     },
     text: {
-        '& span': {
-            marginLeft: '10px',  // -10px
-            fontWeight: '550',
-            fontSize: '15px',
-        }
-    }
+        fontFamily: 'Noto Sans KR',
+        fontWeight: '300',
+        fontSize: '15px',
+        '&:hover': {
+            color: '#A27B5C',
+        },
+        '&:active': {
+            color: '#000000',
+        },
+    },
+
+
 };

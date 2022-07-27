@@ -6,9 +6,9 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { navbarStyles } from './styles';
-import { mainMyPageItems, mainNavbarItems } from './consts/navbarListItems';
+import { mainMyPageItems, mainNavbarItems, mainTutorialItems} from './consts/navbarListItems';
 import { useNavigate } from "react-router-dom";
+import { navbarStyles } from './styles';
 
 const Navbar = (title) => {
     const navigate = useNavigate();
@@ -22,15 +22,14 @@ const Navbar = (title) => {
         <List>
             {mainMyPageItems.map((item, index) => (
                 <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-                  <ListItemIcon sx={navbarStyles.icons}>
+                  {/* <ListItemIcon sx={navbarStyles.icons}>
                     {item.icon}
-                  </ListItemIcon>
+                  </ListItemIcon> */}
                   <ListItemText
                     sx={navbarStyles.text} primary={item.label}/>
                 </ListItem>
               ))}
         </List>
-
         <Divider />
         <List>
            {mainNavbarItems.map((item, index) => (
@@ -38,6 +37,18 @@ const Navbar = (title) => {
               <ListItemIcon sx={navbarStyles.icons}>
                 {item.icon}
               </ListItemIcon>
+              <ListItemText
+                sx={navbarStyles.text} primary={item.label}/>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+           {mainTutorialItems.map((item, index) => (
+              <ListItem button key={item.id} onClick={() => navigate(item.route)}>
+              {/* <ListItemIcon sx={navbarStyles.icons}>
+                {item.icon}
+              </ListItemIcon> */}
               <ListItemText
                 sx={navbarStyles.text} primary={item.label}/>
             </ListItem>

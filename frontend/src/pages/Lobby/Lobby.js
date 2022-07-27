@@ -3,7 +3,7 @@ import LobbyApp from "../../LobbyApp";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import Mypage from "../../pages/MyPage/Mypage";
+import Mypage from "../../pages/Mypage/Mypage";
 import Friend from "../../pages/Friend/Friend";
 import Notice from "../../pages/Notice/Notice";
 import Ranking from "../../pages/Ranking/Ranking";

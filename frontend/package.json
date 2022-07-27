@@ -5,8 +5,9 @@
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.9.1",
+    "@mui/material": "^5.9.2",
     "@mui/x-data-grid": "^5.14.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -21,7 +22,6 @@
     "stompjs": "^2.3.3",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
-
   },
   "scripts": {
     "start": "react-scripts start",
