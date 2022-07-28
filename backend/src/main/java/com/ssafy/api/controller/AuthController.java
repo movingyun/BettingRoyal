@@ -21,14 +21,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 public class AuthController {
 	@Autowired
 	UserService userService;
