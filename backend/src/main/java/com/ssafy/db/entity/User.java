@@ -8,8 +8,8 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.Pattern;
+//import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -81,7 +81,7 @@ public class User {
     @ApiModelProperty(value =  "0: 유저, 1: 관리자", allowableValues = "0, 1")
     @Column(name = "userType", nullable = false, length = 1,
             columnDefinition = "CHAR(1) DEFAULT '0'")
-    private String userType="0";
+    private String userType;
 
     @ApiModelProperty(value = "활성화 여부")
     @Column(name = "userIsActive")
