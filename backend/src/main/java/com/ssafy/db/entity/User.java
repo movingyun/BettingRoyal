@@ -1,12 +1,16 @@
 package com.ssafy.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * 유저 모델 정의.
@@ -14,13 +18,76 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class User extends BaseEntity{
-    String position;
-    String department;
-    String name;
-    String userId;
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@DynamicUpdate
+public class User {
 
-    @JsonIgnore
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId", nullable = false, updatable = false,
+            columnDefinition = "INT(11)")
+    private Integer userId;
+
+    @Column(name = "userEmail", length = 100, unique = true)
+    private String userEmail;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    String password;
+    @Column(name = "userPw", length = 200)
+    private String userPw;
+
+    @Column(name = "userNickname" )
+    private String userNickname;
+
+    @Column(name = "userRuby", columnDefinition = "INT(11)")
+    private Integer userRuby;
+
+    @ApiModelProperty(value = "금고", example = "금고 제한 루비에 따라 변경")
+    @Column(name = "userVault", columnDefinition = "INT(11)")
+    private Integer userVault;
+
+    @Column(name = "userGuild", columnDefinition = "INT(11)")
+    private Integer userGuild;
+
+    @Column(name = "userGameCount", columnDefinition = "INT(11)")
+    private Integer userGameCount;
+
+    @Column(name = "userWin", columnDefinition = "INT(11)")
+    private Integer userWin;
+
+    @Column(name = "userGender", nullable = false, length = 1,
+            columnDefinition = "CHAR(1) DEFAULT 'M'")
+    private String userGender;
+
+    @ApiModelProperty(value = "생성일시")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+
+    @Column(name = "userCreate", nullable = false, updatable=false, insertable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date userCreate;
+
+    @ApiModelProperty(value = "최근접속일시")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "userRecent", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date userRecent;
+
+    @ApiModelProperty(value = "연속접속일")
+    @Column(name = "userRow", columnDefinition = "INT(11)")
+    private Integer userRow;
+
+    @ApiModelProperty(value =  "0: 유저, 1: 관리자", allowableValues = "0, 1")
+    @Column(name = "userType", nullable = false, length = 1,
+            columnDefinition = "CHAR(1) DEFAULT '0'")
+    private String userType="0";
+
+    @ApiModelProperty(value = "활성화 여부")
+    @Column(name = "userIsActive")
+    private boolean userIsActive;
+
+    //////////////////////////////////////////
+    // 다중성인 엔티티 관계는 그때그때 생성하는걸로 함. 너무 많...
+
 }
