@@ -47,16 +47,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     		 * Front-end에서 참조하는 URL을 /dist로 매핑
     		 * 
     		 */
-        registry.addResourceHandler("/css/**")
-        			.addResourceLocations("classpath:/dist/css/");
-        	registry.addResourceHandler("/fonts/**")
-        			.addResourceLocations("classpath:/dist/fonts/");
-        registry.addResourceHandler("/icons/**")
-				.addResourceLocations("classpath:/dist/icons/");
+        registry.addResourceHandler("/static/css/**")
+                .addResourceLocations("classpath:/dist/static/css/");
+        registry.addResourceHandler("/static/fonts/**")
+                .addResourceLocations("classpath:/dist/static/fonts/");
+        registry.addResourceHandler("/static/icons/**")
+                .addResourceLocations("classpath:/dist/icons/");
         registry.addResourceHandler("/img/**")
-			.addResourceLocations("classpath:/dist/img/");
-        registry.addResourceHandler("/js/**")
-				.addResourceLocations("classpath:/dist/js/");
+                .addResourceLocations("classpath:/dist/img/");
+        registry.addResourceHandler("/static/js/**")
+                .addResourceLocations("classpath:/dist/static/js/");
     }
 
     public Filter requestLoggingFilter() {
