@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // configuration.addAllowedOrigin("*");
+         //configuration.addAllowedOrigin("*");
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
@@ -52,9 +52,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/fonts/**")
                 .addResourceLocations("classpath:/dist/static/fonts/");
         registry.addResourceHandler("/static/icons/**")
-                .addResourceLocations("classpath:/dist/icons/");
-        registry.addResourceHandler("/img/**")
-                .addResourceLocations("classpath:/dist/img/");
+                .addResourceLocations("classpath:/dist/static/icons/");
+        registry.addResourceHandler("/static/media/**")
+                .addResourceLocations("classpath:/dist/static/media/");
         registry.addResourceHandler("/static/js/**")
                 .addResourceLocations("classpath:/dist/static/js/");
     }
