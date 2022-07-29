@@ -19,20 +19,35 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+    public final DateTimePath<java.util.Date> userCreate = createDateTime("userCreate", java.util.Date.class);
 
-    public final StringPath department = createString("department");
+    public final StringPath userEmail = createString("userEmail");
 
-    //inherited
-    public final NumberPath<Long> id = _super.id;
+    public final NumberPath<Integer> userGameCount = createNumber("userGameCount", Integer.class);
 
-    public final StringPath name = createString("name");
+    public final StringPath userGender = createString("userGender");
 
-    public final StringPath password = createString("password");
+    public final NumberPath<Integer> userGuild = createNumber("userGuild", Integer.class);
 
-    public final StringPath position = createString("position");
+    public final NumberPath<Integer> userId = createNumber("userId", Integer.class);
 
-    public final StringPath userId = createString("userId");
+    public final BooleanPath userIsActive = createBoolean("userIsActive");
+
+    public final StringPath userNickname = createString("userNickname");
+
+    public final StringPath userPw = createString("userPw");
+
+    public final DateTimePath<java.util.Date> userRecent = createDateTime("userRecent", java.util.Date.class);
+
+    public final NumberPath<Integer> userRow = createNumber("userRow", Integer.class);
+
+    public final NumberPath<Integer> userRuby = createNumber("userRuby", Integer.class);
+
+    public final StringPath userType = createString("userType");
+
+    public final NumberPath<Integer> userVault = createNumber("userVault", Integer.class);
+
+    public final NumberPath<Integer> userWin = createNumber("userWin", Integer.class);
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));
