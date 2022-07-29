@@ -33,7 +33,7 @@ public class RoomController {
         //스켈레톤 코드 UserController에서 가져옴
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
-        User user = userService.getUserByUserId(userId);
+        User user = userService.getUserByUserEmail(userId);
         roomService.createRoom(room, user);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
