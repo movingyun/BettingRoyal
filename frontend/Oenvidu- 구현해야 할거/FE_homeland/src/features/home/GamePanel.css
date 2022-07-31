@@ -1,0 +1,187 @@
+.panel {
+  height: 400px;
+  background-color: #d3e5e8;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  color: black;
+}
+.game-header {
+  padding: 8px;
+  font-size: 17px;
+  height: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-weight: bold;
+  background-color: orange;
+  top: 0;
+}
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
+  padding: 20px 0px;
+}
+.games > div {
+  padding: 10px 0px;
+}
+.countDown > div {
+  padding: 10px 0px;
+}
+CountDown {
+  margin: 30px 0px;
+}
+
+.nondisplay {
+  display: none;
+}
+
+.liab-box {
+  height: 260px;
+  background-color: rgb(177, 129, 39);
+  width: 90%;
+  border-radius: 15px;
+}
+
+.title-btn {
+  background-color: rgb(235, 180, 2);
+  color: rgb(165, 115, 8);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 5%;
+  height: 20%;
+  width: 80%;
+  border: rgb(165, 115, 8) solid 4px;
+  border-radius: 20px;
+}
+
+.title-btn:hover {
+  background-color: rgb(247, 225, 26);
+}
+
+.liar-subject-box div {
+  font-size: 13px;
+  font-weight: 600;
+  height: 80px;
+  justify-content: center;
+  padding-top: 25px;
+  background-color: rgb(235, 180, 2);
+  border-radius: 15px;
+  border: solid 3px rgb(177, 129, 39);
+}
+.liar-subject-box div:hover {
+  background-color: yellow;
+}
+
+.back {
+  position: fixed;
+  margin-left: 10px;
+  color: rgb(109, 76, 5);
+}
+.back:hover {
+  color: rgb(209, 147, 12);
+}
+.liar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
+}
+
+.liar-or-not {
+  font-size: 24px;
+  font-weight: 700;
+  color: rgb(165, 115, 8);
+}
+
+.liar-user {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(165, 115, 8);
+}
+
+.game-btn {
+  background-color: rgb(235, 180, 2);
+  color: rgb(165, 115, 8);
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 2%;
+  height: 10%;
+  width: 80%;
+  border: rgb(165, 115, 8) solid 4px;
+  border-radius: 20px;
+}
+
+.game-btn:hover {
+  background-color: rgb(247, 225, 26);
+}
+
+.b31-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(109, 76, 5);
+}
+.box-green {
+  background-color: green;
+}
+.br31-number-box div {
+  height: 30px;
+}
+
+.bigBox-31 {
+  background-color: rgb(165, 115, 8);
+  margin-left: 5%;
+  width: 90%;
+  border-radius: 15px;
+}
+
+.box-31 {
+  height: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: rgb(235, 180, 2);
+  border-radius: 20px;
+  border: solid 3px rgb(238, 218, 105);
+}
+.box-31:hover {
+  background-color: rgb(247, 225, 26);
+}
+
+.b31-btn {
+  background-color: rgb(235, 180, 2);
+  color: rgb(165, 115, 8);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 2%;
+  height: 8%;
+  width: 70%;
+  border: rgb(165, 115, 8) solid 4px;
+  border-radius: 20px;
+  margin-bottom: 5px;
+}
+
+.b31-btn:hover {
+  background-color: rgb(247, 225, 26);
+}
+
+.UD-input {
+  margin: 15px;
+  height: 50px;
+  text-align: center;
+  color: rgb(165, 115, 8);
+  width: 60%;
+  font-size: 30px;
+  font-weight: 600;
+  border-radius: 15px;
+  background-color: rgb(235, 180, 2);
+  border: 5px solid rgb(165, 115, 8);
+}
+
+.UD {
+  font-size: 40px;
+  color: rgb(165, 115, 8);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

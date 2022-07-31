@@ -1,0 +1,24 @@
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.time-wrapper {
+  position: relative;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.time {
+  font-size: 82px;
+}
+
+.time-wrapper .time.up {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.time-wrapper .time.down {
+  opacity: 0;
+  transform: translateY(100%);
+}

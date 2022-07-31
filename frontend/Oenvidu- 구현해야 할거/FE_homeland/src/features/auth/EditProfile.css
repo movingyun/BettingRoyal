@@ -1,0 +1,14 @@
+.edit-profile-form {
+  padding: 50px;
+  text-align: start;
+  width: 100%;
+  background-color: #d3e5e8;
+  border-radius: 20px;
+  border: solid 5px #353f71;
+}
+
+.edit-profile-font-size {
+  color: #353f71;
+  font-size: 20px;
+  font-weight: 600;
+}

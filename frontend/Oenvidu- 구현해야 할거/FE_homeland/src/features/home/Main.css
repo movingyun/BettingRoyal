@@ -1,0 +1,13 @@
+.stream-container {
+  padding: 0;
+}
+
+.font-big-orange {
+  color: orange;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.grey {
+  color: grey;
+}
