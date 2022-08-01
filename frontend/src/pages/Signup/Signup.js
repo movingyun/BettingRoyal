@@ -128,9 +128,11 @@ export default function SignUp() {
       // const statusCode = await createUserFetch();
 
       await axios
-      .post("http://localhost:8080/api/v1/users", {
-        id: Email,
-        password: Password,
+      .post("http://localhost:8080/api/auth/signup", {
+        userEmail: Email,
+        userGender: 'F',
+        userNickname: "s",
+        userPw:Password
       })
       .then(function (response) {
         console.log(JSON.stringify(response.data.statusCode));
