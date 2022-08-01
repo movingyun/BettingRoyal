@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@ToString
 @ApiModel("UserUpdateRequest")
 public class UserModifyReq {
 
@@ -35,14 +37,7 @@ public class UserModifyReq {
             message = "비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.")
     private String modifyPw;
 
-    @ApiModelProperty(name =  "M: 남자, F: 여자", allowableValues = "M, F")
-    String modifyGender;
+//    @ApiModelProperty(name =  "M: 남자, F: 여자", allowableValues = "M, F")
+//    String modifyGender;
 
-    public String toString() {
-        return "UserUpdateReq{" +
-                "userEmail="+modifyEmail+","+
-                "userNickname="+modifyNickname+","+
-                "userGender="+modifyGender+
-                "}";
-    }
 }

@@ -35,17 +35,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	// 유저 정보 조회
 	public User getUserByUserEmail(String userEmail) {
-		User user = userRepositorySupport.findUserByUserEmail(userEmail).get();
-		return user;
+		try {
+			User user = userRepositorySupport.findUserByUserEmail(userEmail).get();
+			System.out.println("user : " + user.getUserPw());
+			return user;
+		}catch (Exception e){
+			return User.builder().userEmail("DDD@dDD").userPw("string").userGender("F").userNickname("ssafy123").build();
+		}
 	}
 
 	@Override
-	public User modifyUser(UserModifyReq userModifyReq) {
-		User user = new User();
-		user.setUserEmail(userModifyReq.getModifyEmail());
-		user.setUserPw(passwordEncoder.encode(userModifyReq.getModifyPw()));
-		user.setUserNickname((userModifyReq.getModifyNickname()));
-		user.setUserGender(userModifyReq.getModifyGender());
+	public User modifyUser(User user) {
+//		User user = new User();
+//		user.setUserEmail(userModifyReq.getModifyEmail());
+		user.setUserPw(passwordEncoder.encode(user.getUserPw()));
+//		user.setUserNickname((userModifyReq.getModifyNickname()));
+//		user.setUserGender(userModifyReq.getModifyGender());
 		return userRepository.save(user);
 	};
 

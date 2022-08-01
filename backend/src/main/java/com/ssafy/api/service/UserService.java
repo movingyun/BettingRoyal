@@ -10,7 +10,7 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User signUp(UserSignUpReq userRegisterInfo);
 	User getUserByUserEmail(String userEmail);
-	User modifyUser(UserModifyReq userModifyReq);
+	User modifyUser(User user);
 	User changeUserPw(User user);
 	boolean isUserEmailDuplicate(String userEmail);
 	boolean isUserNicknameDuplicate(String userNickname);

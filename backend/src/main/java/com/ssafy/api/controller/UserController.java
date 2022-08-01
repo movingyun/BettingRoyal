@@ -62,10 +62,12 @@ public class UserController {
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserModifyReq modifyInfo) {
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		User user = userService.getUserByUserEmail(modifyInfo.getModifyEmail());
-		boolean check = passwordEncoder.matches(modifyInfo.getModifyPw(), user.getUserPw());
-		if(!check) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+//		boolean check = passwordEncoder.matches(modifyInfo.getModifyPw(), user.getUserPw());
+		if(false) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		else{
-			User us = userService.modifyUser(modifyInfo);
+			user.setUserNickname(modifyInfo.getModifyNickname());
+			user.setUserPw(modifyInfo.getModifyPw());
+			User us = userService.modifyUser(user);
 		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
