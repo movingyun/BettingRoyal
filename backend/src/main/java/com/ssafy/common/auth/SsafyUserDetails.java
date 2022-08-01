@@ -34,9 +34,12 @@ public class SsafyUserDetails implements UserDetails {
 	public String getPassword() {
 		return this.user.getUserPw();
 	}
+	/**
+	 * 유저 네임이라 써있지만 사실 이메일 가져옴
+	 */
 	@Override
 	public String getUsername() {
-		return this.user.getUserNickname();
+		return this.user.getUserEmail();
 	}
 	@Override
 	public boolean isAccountNonExpired() {

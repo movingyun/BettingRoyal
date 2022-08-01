@@ -46,8 +46,8 @@ public class VaultLogController {
         //로그인 한 user정보 찾아오는 code
         //스켈레톤 코드 UserController에서 가져옴
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
-        String userId = userDetails.getUsername();
-        User user = userService.getUserByUserEmail(userId);
+        String userEmail = userDetails.getUsername();
+        User user = userService.getUserByUserEmail(userEmail);
 
         int vault = user.getUserVault();
         return new ResponseEntity<Integer>(vault, HttpStatus.OK);
@@ -73,11 +73,7 @@ public class VaultLogController {
         //유저의 현재 금고금액, 보유루비 바꿔준 후 유저 디비 업데이트 해줌
         user.setUserVault(user.getUserVault() + deposit);
         user.setUserRuby(user.getUserRuby() - deposit);
-        /**
-         * todo
-         * 유저 정보에 루비랑 금고 금액 바꾸면 유저 디비 업데이트 해줄 서비스 필요함!
-         */
-//        userService.modifyUser(user)
+        userService.modifyUser(user);
 
         VaultLog vaultLog = VaultLog.builder()
                 .user(user)
