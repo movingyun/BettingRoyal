@@ -74,14 +74,21 @@ public class VaultLogController {
         user.setUserVault(user.getUserVault() + deposit);
         user.setUserRuby(user.getUserRuby() - deposit);
         userService.modifyUser(user);
+        Map<String, Integer> map = new HashMap<>();
+        if(user.getUserRuby() < deposit){//보유 루비보다 금고에 입금을 많이하려고 하면 에러남
+            map.put("error", 10);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }else if(user.getUserVault() < -deposit){//금고 보유 금액보다 많이 출금하려고 하면 에러
+            map.put("error", 20);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
 
         VaultLog vaultLog = VaultLog.builder()
                 .user(user)
                 .vaultMoneyChange(deposit)
-                .vaultBalance(user.getUserRuby())
+                .vaultBalance(user.getUserVault())
                 .build();
         vaultLogService.writeVaultLog(vaultLog, user);
-        Map<String, Integer> map = new HashMap<>();
         map.put("userRuby", user.getUserRuby());
         map.put("userVault", user.getUserVault());
 
