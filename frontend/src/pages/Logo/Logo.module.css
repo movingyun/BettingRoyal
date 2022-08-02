@@ -4,7 +4,10 @@
     width: 100%;        
     height: 100%;
     display: table;
+    /* animation-name: vanishIn;
+    animation-duration: 1.5s; */
 }
+  
 
 .mainframe {
     width:100vh;
@@ -72,4 +75,17 @@
 .button:hover{
     background-color: #A27B5C;
     color: #DCD7C9;
+}
+
+@keyframes vanishIn {
+    0% {
+    opacity: 0;
+    transform: scale(2, 2);
+    /* filter: blur(90px); */
+    }
+    100% {
+    opacity: 1;
+    transform: scale(1, 1);
+    filter: blur(0px);
+    }
 }

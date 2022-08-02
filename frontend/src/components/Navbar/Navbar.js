@@ -9,8 +9,27 @@ import ListItemText from '@mui/material/ListItemText';
 import { mainMyPageItems, mainNavbarItems, mainTutorialItems} from './consts/navbarListItems';
 import { useNavigate } from "react-router-dom";
 import { navbarStyles } from './styles';
+import Modal from "../Modal/Modal";
+import { useEffect, useState } from "react";
 
 const Navbar = (title) => {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  useEffect(() => {}, []);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+  
     const navigate = useNavigate();
 
     return(
@@ -29,6 +48,11 @@ const Navbar = (title) => {
                     sx={navbarStyles.text} primary={item.label}/>
                 </ListItem>
               ))}
+              <button onClick={ openModal }>금고</button>
+              <Modal open={ modalOpen } close={ closeModal } header="루비금고">
+            <button>입금</button>
+            <button>출금</button>
+          </Modal>
         </List>
         <Divider />
         <List>
