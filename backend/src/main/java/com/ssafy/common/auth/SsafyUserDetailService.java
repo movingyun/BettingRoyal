@@ -1,16 +1,13 @@
 package com.ssafy.common.auth;
 
-import java.util.Optional;
-
+import com.ssafy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepository;
 
 
 /**
