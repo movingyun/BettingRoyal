@@ -1,3 +1,118 @@
-.Player{
+.container{
+    /* position: relative; */
+    height: 100%;
+    /* width: 100vw; */
+}
+
+.player{
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.list {
+    padding: none;
+    margin: none;
+    height: 100%;
+    text-align: center;
+}
+
+.camera {
+    width: 60%;
+    height: 100%;
+    background-color: rgb(109, 109, 109);
+    border-radius: 15px;
+    display: inline-block;
+    float: left;
+}
+
+.info {
+    width: 40%;
+    height: 100%;
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.userInfo{
+    height: 30%;
+    /* margin-left: 10px;
+    margin-bottom: 5px; */
+    /* background-color: red; */
+
+}
+/* .userInfo > hr {
+    border-top: black 1.5px solid;
+    margin: 0;
+    margin-top: 8px;;
+} */
+
+.name{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.ruby{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.divider{
+    /* height: 5%; */
+    margin: 0px;
+    padding: 0px;
+    /* background-color: blue; */
+}
+
+.gameInfo{
+    height: 65%;
+    /* background-color: blue; */
+    margin-top: 10px;
+}
+
+.card{
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+    border-radius: 8px;
+    padding: 10px;
     
+}
+
+.status {
+    background-color: aqua;
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+    padding: 10px;
+}
+
+
+.pair {
+
+}
+
+.emotion {
+
+}
+
+.empty{
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    font-size: 80px;
+    color: #FFFFFF;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+
+.empty:hover{
+    border-radius: 15px;
+    background-color: #E8E2D3;
 }

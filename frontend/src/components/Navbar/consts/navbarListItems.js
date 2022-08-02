@@ -12,12 +12,6 @@ export const mainMyPageItems = [
         label: '내 정보',
         route: 'mypage',
     },
-    // {
-    //     id:1,
-    //     icon:'',
-    //     label: '금고',
-    //     route: 'vault',
-    // }
 ]
 
 export const mainNavbarItems = [

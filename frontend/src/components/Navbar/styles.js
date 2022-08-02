@@ -24,7 +24,7 @@ export const navbarStyles = {
             color: '#A27B5C',
         },
         '&:active': {
-            color: '#000000',
+            color: '#A27B5C',
         },
     },
 

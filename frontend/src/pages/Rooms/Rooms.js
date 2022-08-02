@@ -32,7 +32,7 @@ export default function Rooms(props) {
 
   let roomcreate = (
     <Grid item xs={12}>
-      <Button variant="outlined" onClick={handlemakeroom}>
+      <Button variant="primary" onClick={handlemakeroom}>
         방만들기
       </Button>
       <Dialog
@@ -100,6 +100,7 @@ export default function Rooms(props) {
   let roomsdummy = (
     <Grid className={styles.container}>
       {roomcreate}
+      <Link to="/game">게임방 테스트</Link>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
