@@ -1,3 +1,110 @@
-.Player{
+.container{
+    /* position: relative; */
+    height: 100%;
+    /* width: 100vw; */
+}
+
+.player{
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.list {
+    padding: none;
+    margin: none;
+    height: 100%;
+    text-align: center;
+}
+
+.camera {
+    width: 60%;
+    height: 100%;
+    background-color: rgb(109, 109, 109);
+    border-radius: 15px;
+    display: inline-block;
+    float: left;
+}
+
+.info {
+    width: 40%;
+    height: 100%;
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.userInfo{
+    height: 30%;
+    /* background-color: red; */
     
+}
+
+.name{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: left;
+}
+
+.ruby{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    text-align: left;
+}
+
+.divider{
+    margin: 0px;
+    padding: 0px;
+    height: 5%;
+}
+
+.gameInfo{
+    height: 65%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    /* background-color: aqua; */
+}
+
+.card {
+    background-color: rgb(255, 255, 255);
+    grid-row: 1 / 3;
+    /* width: 50%; */
+    /* height: 100%; */
+    border-radius: 8px;
+ 
+}
+
+.status {
+    /* background-color: aqua; */
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #A27B5C;
+    display: grid;
+    align-items:center;
+}
+
+.emotion {
+    background-color: aqua;
+    display: grid;
+    align-items:center;
+}
+
+.empty{
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    font-size: 80px;
+    color: #FFFFFF;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+
+.empty:hover{
+    border-radius: 15px;
+    background-color: #E8E2D3;
 }
