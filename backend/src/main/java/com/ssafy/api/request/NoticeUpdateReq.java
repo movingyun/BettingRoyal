@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 @Setter
 @ApiModel("NoticeUpdateReq")
 public class NoticeUpdateReq {
-//    @ApiModelProperty(name="noticeTitle", example = "공지사항입니다.")
-//    String n
-//    @ApiModelProperty(name="noticeTitle", example = "공지내용")
+
+    @ApiModelProperty(name="noticeId")
+    Integer noticeId;
+    @ApiModelProperty(name="noticeTitle", example = "공지사항입니다.")
+    String noticeTitle;
+    @ApiModelProperty(name="noticeContent", example = "공지내용")
+    String noticeContent;
 }

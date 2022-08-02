@@ -1,5 +1,6 @@
 package com.ssafy.api.request;
 
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -9,8 +10,9 @@ import lombok.Setter;
 @Setter
 @ApiModel("NoticeDeleteRequest")
 public class NoticeDeleteReq {
+
     @ApiModelProperty(name="noticeId")
     Integer noticeId;
-    @ApiModelProperty(name="userId")
-    Integer userId;
+
+
 }
