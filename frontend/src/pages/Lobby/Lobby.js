@@ -1,7 +1,7 @@
 import React from "react";
 import LobbyApp from "../../LobbyApp";
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Mypage from "../../pages/Mypage/Mypage";
 import Friend from "../../pages/Friend/Friend";
@@ -14,11 +14,17 @@ import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../../pages/Rooms/Rooms";
 
 export default function Lobby(props) {
-  useEffect(() => {}, []);
-
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      console.log("로그인하세요");
+      navigate("/login");
+    }
+  }, []);
+  const navigate = useNavigate();
   let sidemenu = (
     <ThemeProvider theme={dashboardTheme}>
       <LobbyApp />
+
       <Routes>
         <Route path="rooms" element={<Rooms />} />
         <Route path="mypage" element={<Mypage />} />
