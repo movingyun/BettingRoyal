@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -31,6 +32,9 @@ public class VaultLogController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("")
     @ApiOperation(value = "회원 금고 조회", notes = "아이디로 로그인한 회원의 금고 금액을 보여준다.")

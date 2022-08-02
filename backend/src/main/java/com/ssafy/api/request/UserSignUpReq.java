@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Setter
 @ApiModel("UserSignUpRequest")
 public class UserSignUpReq {
-	@ApiModelProperty(name = "이메일", allowableValues = "email@domain.com")
+	@ApiModelProperty(name = "이메일", allowableValues = "ssafy@domain.com")
 	@NotNull(message = "Email should not be empty.")
 	@Email(message = "이메일 형식이 아닙니다.")
 	@Pattern(regexp = "[a-zA-z0-9]+@[a-zA-z]+[.]+[a-zA-z.]+")

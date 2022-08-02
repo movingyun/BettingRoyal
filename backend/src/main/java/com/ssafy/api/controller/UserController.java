@@ -1,10 +1,12 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserModifyReq;
+import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.User;
+import springfox.documentation.annotations.ApiIgnore;
 //import com.ssafy.db.repository.UserRepositorySupport;
 
 
@@ -59,16 +62,22 @@ public class UserController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserModifyReq modifyInfo) {
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		User user = userService.getUserByUserEmail(modifyInfo.getModifyEmail());
-//		boolean check = passwordEncoder.matches(modifyInfo.getModifyPw(), user.getUserPw());
-		if(false) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
-		else{
-			user.setUserNickname(modifyInfo.getModifyNickname());
-			user.setUserPw(modifyInfo.getModifyPw());
-			User us = userService.modifyUser(user);
+			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserModifyReq modifyInfo,  @ApiIgnore Authentication authentication) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		//로그인 한 user 정보 찾아오는 code
+		//스켈레톤 코드 UserController 에서 가져옴
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserEmail(userId);
+
+		user.setUserNickname(modifyInfo.getModifyNickname());
+		if(modifyInfo.getModifyPw() != null) {
+			user.setUserPw(passwordEncoder.encode(modifyInfo.getModifyPw()));
 		}
+		User us = userService.modifyUser(user);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 

@@ -46,11 +46,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User modifyUser(User user) {
-//		User user = new User();
-//		user.setUserEmail(userModifyReq.getModifyEmail());
-		user.setUserPw(passwordEncoder.encode(user.getUserPw()));
-//		user.setUserNickname((userModifyReq.getModifyNickname()));
-//		user.setUserGender(userModifyReq.getModifyGender());
 		return userRepository.save(user);
 	};
 
