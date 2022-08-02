@@ -86,7 +86,7 @@ public class GetFriendController {
 
         //친구목록을 가져오긴 했는데 아직 userId만 있어서 디비에서 유저 객체의 리스트로 받아와야함!
         List<Integer> userIdList = getFriendService.searchMyFriends(user.getUserId());
-
+        //친구목록 유저객체로 만들어서 리턴해줌!!
         return new ResponseEntity<>(userService.findMyFriends(userIdList), HttpStatus.OK);
     }
 }
