@@ -10,6 +10,8 @@ import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 인터페이스 정의.
  */
@@ -75,5 +77,9 @@ public class UserService {
 		return true;
 	}
 
+	@Transactional
+	public List<User> findMyFriends(List<Integer> userIdList){
+		return userRepository.findByUserIdIn(userIdList);
+	}
 
 }
