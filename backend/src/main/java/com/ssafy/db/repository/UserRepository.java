@@ -15,8 +15,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     // 아래와 같이, Query Method 인터페이스(반환값, 메소드명, 인자) 정의를 하면 자동으로 Query Method 구현됨.
-    Optional<User> findUserByUserEmail(String userEmail);
-    Optional<User> findUserByUserNickname(String userNickname);
+    Optional<User> findByUserEmail(String userEmail);
+    Optional<User> findByUserNickname(String userNickname);
     @Query(value = "SELECT * from user where user_type=0 and user_is_active = 1", nativeQuery = true)
     List<User> findActiveUser();
 

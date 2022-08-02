@@ -1,6 +1,7 @@
 package com.ssafy.db.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@DynamicInsert
 public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

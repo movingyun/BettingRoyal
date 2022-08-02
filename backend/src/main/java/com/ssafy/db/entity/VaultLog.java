@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@DynamicInsert
 public class VaultLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +33,7 @@ public class VaultLog {
     @Column(name = "vaultMoneyChange", columnDefinition = "INT(11)")
     private Integer vaultMoneyChange;
 
+    //현재자산
     @Column(name = "vaultBalance", columnDefinition = "INT(11)")
     private Integer vaultBalance;
 
