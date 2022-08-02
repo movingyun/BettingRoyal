@@ -52,10 +52,10 @@ public class User {
     @Column(name = "userGuild", columnDefinition = "INT(11)")
     private Integer userGuild;
 
-    @Column(name = "userGameCount", columnDefinition = "INT(11)")
+    @Column(name = "userGameCount", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userGameCount;
 
-    @Column(name = "userWin", columnDefinition = "INT(11)")
+    @Column(name = "userWin", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userWin;
 
     @Column(name = "userGender", nullable = false, length = 1,

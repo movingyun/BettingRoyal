@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("NoticePostRequest")
 public class NoticePostReq {
-    @ApiModelProperty(name="userId")
-    Integer userId;
+
     @ApiModelProperty(name="noticeTitle", example = "공지사항 입니다.")
     String noticeTitle;
     @ApiModelProperty(name="noticeContent", example = "공지내용")

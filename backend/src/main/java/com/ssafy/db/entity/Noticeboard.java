@@ -41,7 +41,7 @@ public class Noticeboard {
     @Column(name = "noticeboardContent", columnDefinition = "TEXT")
     private String noticeboardContent;
 
-    @Column(name = "noticeboardHit", columnDefinition = "INT(11)")
+    @Column(name = "noticeboardHit", columnDefinition = "INT(11) DEFAULT 0")
     private Integer noticeboardHit;
 
 
