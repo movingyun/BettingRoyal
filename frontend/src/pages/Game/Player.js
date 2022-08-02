@@ -48,12 +48,9 @@ export default function Player(props) {
               </div>
               <hr className={styles.divider}/>
               <div className={styles.gameInfo}>
-                <div className={styles.card}>카드</div>
-                <div className={styles.status}>
-                  상태
-                    {/* <div className={styles.pair}>원페어</div>
-                    <div className={styles.emotion}>감정상태</div> */}
-                </div>
+                <div className={styles.card}></div>
+                <div className={styles.status}>원페어</div>
+                <div className={styles.emotion}>감정상태</div>
               </div>
             </div>
           </div>
