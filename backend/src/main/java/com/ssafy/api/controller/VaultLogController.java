@@ -1,8 +1,6 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
-import com.ssafy.api.service.UserServiceImpl;
 import com.ssafy.api.service.VaultLogService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.db.entity.User;

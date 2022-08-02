@@ -24,7 +24,7 @@ public class UserSignUpReq {
 	@Size(max=100)
 	private String userEmail;
 
-	@ApiModelProperty(name = "비밀번호")
+	@ApiModelProperty(name = "비밀번호" )
 	@NotNull(message = "Password should not be empty.")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~?!@#$%^&*()+|=])[A-Za-z\\d~?!@#$%^&*()+|=]{8,}$",
 			message = "비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.")
