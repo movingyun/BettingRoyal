@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findActiveUser();
 
     List<User> findByUserIdIn(List<Integer> userIdList);
+
 }

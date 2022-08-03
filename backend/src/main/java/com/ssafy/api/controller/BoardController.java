@@ -35,7 +35,7 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> create(
-            @ApiParam(value="게시판 작성", readOnly = true) @ModelAttribute BoardPostReq boardPostReq,
+            @ApiParam(value="게시판 작성", readOnly = true) @RequestBody BoardPostReq boardPostReq,
             @ApiIgnore Authentication authentication
     ) throws Exception {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
@@ -69,7 +69,7 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> modify (
-            @ApiParam(value = "게시판 수정", required = true)  @ModelAttribute BoardUpdateReq boardUpdateReq,
+            @ApiParam(value = "게시판 수정", required = true)  @RequestBody BoardUpdateReq boardUpdateReq,
             @ApiIgnore Authentication authentication
         ) throws Exception {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
