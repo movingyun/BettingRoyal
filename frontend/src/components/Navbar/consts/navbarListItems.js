@@ -12,12 +12,6 @@ export const mainMyPageItems = [
         label: '내 정보',
         route: 'mypage',
     },
-    {
-        id:1,
-        icon:'',
-        label: '금고',
-        route: 'vault',
-    }
 ]
 
 export const mainNavbarItems = [
@@ -62,6 +56,12 @@ export const mainNavbarItems = [
 export const mainTutorialItems = [
     {
         id:0,
+        icon:'',
+        label: '환경테스트',
+        route: 'test',
+    },
+    {
+        id:1,
         icon:'',
         label: '도움말',
         route: 'tutorial',

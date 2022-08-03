@@ -10,6 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";import Box from '@mui/material/Box';
 import { DataGrid } from "@mui/x-data-grid";
+import styles from "./Rooms.module.css";
 
 export default function Rooms(props) {
   const [rooms, setRooms] = useState([]);
@@ -31,7 +32,7 @@ export default function Rooms(props) {
 
   let roomcreate = (
     <Grid item xs={12}>
-      <Button variant="outlined" onClick={handlemakeroom}>
+      <Button variant="primary" onClick={handlemakeroom}>
         방만들기
       </Button>
       <Dialog
@@ -97,8 +98,9 @@ export default function Rooms(props) {
   ];
 
   let roomsdummy = (
-    <Grid container>
+    <Grid className={styles.container}>
       {roomcreate}
+      <Link to="/game">게임방 테스트</Link>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

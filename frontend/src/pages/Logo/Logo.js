@@ -5,7 +5,8 @@ import Paper from "@mui/material/Paper";
 import styles from "./Logo.module.css";
 import Login from '../../pages/Login/Login';
 import Signup from '../../pages/Signup/Signup';
-import Lobby from '../../pages/Lobby/Lobby';
+import Lobby from '../../pages/Lobby/Lobby'
+import Game from '../../pages/Game/Game';;
 
 export default function First(props) {
   useEffect(() => {}, []);
@@ -30,6 +31,7 @@ export default function First(props) {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup/>}></Route>
           <Route path="/lobby/*" element={<Lobby />}></Route>
+          <Route path="/game" element={<Game />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
