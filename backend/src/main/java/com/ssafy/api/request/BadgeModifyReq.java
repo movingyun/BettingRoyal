@@ -11,7 +11,7 @@ import lombok.Setter;
 public class BadgeModifyReq {
 
     @ApiModelProperty(name="badgeId", example = "1")
-    Integer badgeId;
+    int badgeId;
 
     @ApiModelProperty(name="badgeName", example = "새싹")
     String badgeName;

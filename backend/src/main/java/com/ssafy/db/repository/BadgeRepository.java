@@ -10,4 +10,6 @@ public interface BadgeRepository extends JpaRepository<Badge, Integer> {
     @Modifying
     @Transactional
     void deleteByBadgeId(int badgeId);
+
+    Badge findByBadgeId(int badgeId);
 }
