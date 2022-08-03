@@ -44,7 +44,7 @@ public class NoticeService {
     noticeRepository.deleteNoticeboardByNoticeboardIdAndUserId( noticeId );
     }
 
-    @Transactional
+    @Transactional // 공지사항 조회
     public Noticeboard findByNoticeId ( Integer noticeId ) {
         Noticeboard notice = noticeRepositorySupport.findByNoticeboardId(noticeId).get();
         return notice;

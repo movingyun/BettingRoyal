@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("NoticeDeleteRequest")
-public class NoticeDeleteReq {
-    @ApiModelProperty(name="noticeId")
-    Integer noticeId;
+@ApiModel("BoardDeleteRequest")
+public class BoardDeleteReq {
+    @ApiModelProperty(name="boardId")
+    Integer boardId;
 
 }
 
