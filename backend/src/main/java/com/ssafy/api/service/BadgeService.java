@@ -29,7 +29,7 @@ public class BadgeService {
         return badgeRepository.findAll();
     }
 
-    public Badge searchBadge(Integer badgeId){
-        return badgeRepository.findById(badgeId).get();
+    public Badge searchBadge(int badgeId){
+        return badgeRepository.findByBadgeId(badgeId);
     }
 }
