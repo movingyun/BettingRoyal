@@ -5,6 +5,7 @@ import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
+import com.ssafy.api.request.RoomReq;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,13 +29,17 @@ public class RoomController {
 
     //방 만들기
     @PostMapping("/api/room")
-    public ResponseEntity<String> createRoom(@RequestBody Room room, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<String> createRoom(@RequestBody RoomReq roomreq, @ApiIgnore Authentication authentication) {
 
         //로그인 한 user정보 찾아오는 code
         //스켈레톤 코드 UserController에서 가져옴
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
         User user = userService.getUserByUserEmail(userId);
+        Room room= Room.builder()
+                        .roomTitle(roomreq.getRoomTitle())
+                                .roomBettingUnit(roomreq.getRoomBettingUnit())
+                                        .build();
         roomService.createRoom(room, user);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
