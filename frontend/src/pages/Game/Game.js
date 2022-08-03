@@ -16,7 +16,18 @@ export default function Game(props) {
     useEffect(() => {
 
     }, []);
-    
+
+
+    window.onload = function(){
+        var card = document.getElementById('card');
+        var sttBtn = document.getElementById('stt_btn');
+        
+        sttBtn.addEventListener('click', () => {
+            console.log("ddd");
+          card.classList.add('stt');
+        });
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -34,8 +45,15 @@ export default function Game(props) {
                     </div>
                     {/* 카드뒷면 */}
                     <div className={styles.cards}>
-                        <img src={card_back} />
-                        <img src={card_back} />
+                        <div className={styles.cards_back}>
+                            <img src={card_back} />
+                            <img src={card_back} />
+                        </div>
+                        <div className={styles.cards_front}>
+                            <img src={card_am_1} />
+                            <img src={card_aq_1} />
+                        </div>
+     
                     </div>
                     {/* 공용카드공개 */}
                     {/* <div className={styles.cards}>
@@ -46,6 +64,7 @@ export default function Game(props) {
                         돈돈돈돈
                     </div>
                 </div>
+
                 <div className={styles.player1}>
                     <Player player={players[1]} />
                 </div>
@@ -66,16 +85,16 @@ export default function Game(props) {
                 </div>
 
                 {/* 게임시작버튼 */}
-                {/* <div className={styles.start}>
-                    <button>게임시작</button>
-                </div> */}
+                <div className={styles.start}>
+                    <button id="stt_btn" className="stt_btn">게임시작</button>
+                </div>
                 {/* 베팅버튼 */}
-                <div className={styles.betting}>
+                {/* <div className={styles.betting}>
                     <button>다이</button>
                     <button>콜</button>
                     <button>레이즈</button>
                     <button>올인</button>
-                </div>
+                </div> */}
                 <div className={styles.rules}>
                 트리플 &#62; 스트레이트 &#62; 더블 <br/>
                 에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
