@@ -10,9 +10,9 @@ import lombok.Setter;
 @ApiModel("ReportRegistRequest")
 public class ReportRegistReq {
 
-    @ApiModelProperty(name="reportReason", allowableValues = "욕설 신고 합니다.")
+    @ApiModelProperty(name="reportReason", example = "욕설 신고 합니다.")
     private String reportReason;
 
-    @ApiModelProperty(name="reportBlackUserId", allowableValues = "1")
+    @ApiModelProperty(name="reportBlackUserId", example = "1")
     private int reportBlackUserId;
 }

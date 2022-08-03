@@ -10,10 +10,10 @@ import lombok.Setter;
 @ApiModel("ReportResultRequest")
 public class ReportResultReq {
 
-    @ApiModelProperty(name="reportId", allowableValues = "1")
+    @ApiModelProperty(name="reportId", example = "1")
     private int reportId;
 
-    @ApiModelProperty(name="reportResult", allowableValues = "욕설로 인해 3일 정지.")
+    @ApiModelProperty(name="reportResult", example = "욕설로 인해 3일 정지.")
     private String reportResult;
 
 }

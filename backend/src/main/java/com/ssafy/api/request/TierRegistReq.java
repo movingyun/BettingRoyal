@@ -10,9 +10,9 @@ import lombok.Setter;
 @ApiModel("TierRegistRequest")
 public class TierRegistReq {
 
-    @ApiModelProperty(name="tierName", allowableValues = "골드")
+    @ApiModelProperty(name="tierName", example = "골드")
     private String tierName;
 
-    @ApiModelProperty(name="tierImg", allowableValues = "gold.jpg")
+    @ApiModelProperty(name="tierImg", example = "gold.jpg")
     private String tierImg;
 }

@@ -2,11 +2,9 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ReportRegistReq;
 import com.ssafy.api.request.ReportResultReq;
-import com.ssafy.api.service.GetFriendService;
 import com.ssafy.api.service.ReportService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
-import com.ssafy.db.entity.GetFriend;
 import com.ssafy.db.entity.Report;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.Api;
@@ -63,7 +61,7 @@ public class ReportController {
     @GetMapping("/{reportBlackUserId}")
     public ResponseEntity<List<Report>> reportResult(@PathVariable int reportBlackUserId){
 
-        
+
         return new ResponseEntity<>(reportService.searchReportUser(reportBlackUserId), HttpStatus.OK);
     }
 }
