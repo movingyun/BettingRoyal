@@ -63,6 +63,7 @@ public class ReportController {
     @GetMapping("/{reportBlackUserId}")
     public ResponseEntity<List<Report>> reportResult(@PathVariable int reportBlackUserId){
 
+        
         return new ResponseEntity<>(reportService.searchReportUser(reportBlackUserId), HttpStatus.OK);
     }
 }
