@@ -1,6 +1,6 @@
 import * as React from "react";
 import Player from "./Player";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./Gameroom.module.css";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import card_am_1 from "../../images/cards/card_am_1.png";
@@ -17,16 +17,39 @@ export default function Game(props) {
 
     }, []);
 
-
-    window.onload = function(){
-        var card = document.getElementById('card');
-        var sttBtn = document.getElementById('stt_btn');
+    // window.onload = function(){
+    //     var card = document.getElementById('card');
+    //     var sttBtn = document.getElementById('stt_btn');
         
-        sttBtn.addEventListener('click', () => {
-            console.log("ddd");
-          card.classList.add('stt');
-        });
-    }
+    //     sttBtn.addEventListener('click', () => {
+    //         console.log("ddd");
+    //       card.classList.add('stt');
+    //     });
+    // }
+
+
+    // 타이머
+    const [min, setMin] = useState(1);
+    const [sec, setSec] = useState(0);
+    const time = useRef(60);
+    const timerId = useRef(null);
+  
+    useEffect(() => {
+      timerId.current = setInterval(() => {
+        setMin(parseInt(time.current / 60));
+        setSec(time.current % 60);
+        time.current -= 1;
+      }, 1000);
+  
+      return () => clearInterval(timerId.current);
+    }, []);
+  
+    useEffect(() => {
+      if (time.current <= 0) {
+        console.log("끝");
+        clearInterval(timerId.current);
+      }
+    }, [sec]);
 
     return (
         <div className={styles.container}>
@@ -55,8 +78,17 @@ export default function Game(props) {
                             <img src={card_aq_1} />
                         </div>
                     </div>
-                    <div className={styles.money}>
-                        돈돈돈돈
+                    <div className={styles.info}>
+                        <div className={styles.time}>
+                            <div className="timer">
+                                {min}분 {sec}초
+                            </div>
+                            {/* <div className={styles.timer_front}></div>
+                            <div className={styles.timer_back}></div> */}
+                        </div>
+                        <div className={styles.money}>
+                            돈돈돈돈
+                        </div>
                     </div>
                 </div>
 
