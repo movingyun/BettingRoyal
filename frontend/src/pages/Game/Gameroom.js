@@ -228,11 +228,9 @@ class Gameroom extends Component {
 
         return (
             <div className="container">
+                <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p>
                 {this.state.session === undefined ? (
                     <div id="join">
-                        <div id="img-div">
-                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-                        </div>
                         <div id="join-dialog" className="jumbotron vertical-center">
                             <h1> Join a video session </h1>
                             <form className="form-group" onSubmit={this.joinSession}>
@@ -278,8 +276,8 @@ class Gameroom extends Component {
                                 value="Leave session"
                             />
                         </div>
-
-                        {this.state.mainStreamManager !== undefined ? (
+{/* 자신의 비디오를 한번 더 보여준다. */}
+                        {/* {this.state.mainStreamManager !== undefined ? (
                             <div id="main-video" className="col-md-6">
                                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
                                 <input
@@ -290,10 +288,10 @@ class Gameroom extends Component {
                                     value="Switch Camera"
                                 />
                             </div>
-                        ) : null}
+                        ) : null} */}
                         <div id="video-container" className="col-md-6">
                             {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                <div id="me" className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                                     <UserVideoComponent
                                         streamManager={this.state.publisher} />
                                 </div>
