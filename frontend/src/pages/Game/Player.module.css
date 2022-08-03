@@ -71,10 +71,34 @@
     /* background-color: rgb(214, 12, 12); */
     grid-row: 1 / 3;
     height: 100%;
+    position: relative;
 }
 
+.card_back {
+    position: absolute;
+    backface-visibility: hidden;
+    animation-name: flipOutBack;
+    animation-delay: 2.5s;
+    animation-duration: 1s;
+}
 
-.card > img{
+.card_back > img{
+    object-fit: cover;
+	width: 100%;
+	height: 100%;
+    
+}
+
+.card_front {
+    position: absolute;
+    animation-name: opacity, flipOutBack;
+    animation-delay: 0s, 2.5s;
+    animation-duration: 2.5s, 1s;
+    backface-visibility: hidden;
+    animation-name: opacity, flipOutFront;
+}
+
+.card_front > img{
     object-fit: cover;
 	width: 100%;
 	height: 100%;
@@ -111,4 +135,38 @@
 .empty:hover{
     border-radius: 15px;
     background-color: #E8E2D3;
+}
+
+@keyframes flipOutBack {
+    from {
+      -webkit-transform: perspective(400px);
+      transform: perspective(400px);
+    }
+
+    to {
+      -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 180deg);
+      transform: perspective(400px) rotate3d(1, 0, 0, 180deg);
+    }
+}
+
+@keyframes flipOutFront {
+    from {
+      -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -180deg);
+      transform: perspective(400px) rotate3d(1, 0, 0, -180deg);
+    }
+
+    to {
+      -webkit-transform: perspective(400px);
+      transform: perspective(400px);
+    }
+}
+
+@keyframes opacity {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0;
+    }
 }

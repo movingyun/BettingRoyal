@@ -43,23 +43,18 @@ export default function Game(props) {
                     <div className={styles.qs}>
                         누가 거짓말쟁이?
                     </div>
-                    {/* 카드뒷면 */}
                     <div className={styles.cards}>
+                        {/* 카드뒷면 */}
                         <div className={styles.cards_back}>
                             <img src={card_back} />
                             <img src={card_back} />
                         </div>
+                        {/* 카드앞면오픈 */}
                         <div className={styles.cards_front}>
                             <img src={card_am_1} />
                             <img src={card_aq_1} />
                         </div>
-     
                     </div>
-                    {/* 공용카드공개 */}
-                    {/* <div className={styles.cards}>
-                        <img src={card_am_1} />
-                        <img src={card_aq_1} />
-                    </div> */}
                     <div className={styles.money}>
                         돈돈돈돈
                     </div>

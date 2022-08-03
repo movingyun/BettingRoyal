@@ -2,6 +2,7 @@ import { Divider } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import styles from "./Player.module.css";
 import card_back from "../../images/cards/card_back.png";
+import card_am_1 from "../../images/cards/card_am_1.png";
 
 export default function Player(props) {
   const [player, setPlayer] = useState(props.player);
@@ -50,7 +51,14 @@ export default function Player(props) {
               {/* <hr className={styles.divider}/> */}
               <div className={styles.gameInfo}>
                 <div className={styles.card}>
-                  <img src={card_back} />
+                    {/* 카드뒷면 */}
+                    <div className={styles.card_back}>
+                        <img src={card_back} />
+                    </div>
+                    {/* 카드앞면오픈 */}
+                    <div className={styles.card_front}>
+                        <img src={card_am_1} />
+                    </div>
                 </div>
                 <div className={styles.status}>더블</div>
                 <div className={styles.emotion}>감정상태</div>
