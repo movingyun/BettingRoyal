@@ -35,7 +35,7 @@ public class NoticeController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> create(
-            @ApiParam(value="공지사항 작성", readOnly = true) @ModelAttribute NoticePostReq noticePostReq,
+            @ApiParam(value="공지사항 작성", readOnly = true) @RequestBody NoticePostReq noticePostReq,
             @ApiIgnore Authentication authentication
     ) throws Exception {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
@@ -69,7 +69,7 @@ public class NoticeController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> modify (
-            @ApiParam(value = "공지사항 수정", required = true)  @ModelAttribute NoticeUpdateReq noticeUpdateReq,
+            @ApiParam(value = "공지사항 수정", required = true)  @RequestBody NoticeUpdateReq noticeUpdateReq,
             @ApiIgnore Authentication authentication
         ) throws Exception {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
