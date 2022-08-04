@@ -17,33 +17,28 @@ export default function Game(props) {
 
     }, []);
 
-    // window.onload = function(){
-    //     var card = document.getElementById('card');
-    //     var sttBtn = document.getElementById('stt_btn');
-        
-    //     sttBtn.addEventListener('click', () => {
-    //         console.log("ddd");
-    //       card.classList.add('stt');
-    //     });
-    // }
 
-
-    // 타이머
-    const [min, setMin] = useState(1);
     const [sec, setSec] = useState(0);
-    const time = useRef(60);
+    const time = useRef(30); // 30초타이머
     const timerId = useRef(null);
-  
-    useEffect(() => {
-      timerId.current = setInterval(() => {
-        setMin(parseInt(time.current / 60));
-        setSec(time.current % 60);
-        time.current -= 1;
-      }, 1000);
-  
-      return () => clearInterval(timerId.current);
-    }, []);
-  
+
+    const [isStart, setIsStart] = React.useState(false);
+
+    function gameStart(e) {
+
+        console.log("겜시작");
+        setIsStart(true);
+
+        // 타이머 시작
+        timerId.current = setInterval(() => {
+            setSec(time.current);
+            time.current -= 1;
+        }, 1000);
+      
+        return () => clearInterval(timerId.current);
+
+    }
+    
     useEffect(() => {
       if (time.current <= 0) {
         console.log("끝");
@@ -68,21 +63,19 @@ export default function Game(props) {
                     </div>
                     <div className={styles.cards}>
                         {/* 카드뒷면 */}
-                        <div className={styles.cards_back}>
+                        <div id="card" className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`} >
                             <img src={card_back} />
                             <img src={card_back} />
                         </div>
                         {/* 카드앞면오픈 */}
-                        <div className={styles.cards_front}>
+                        <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
                             <img src={card_am_1} />
                             <img src={card_aq_1} />
                         </div>
                     </div>
                     <div className={styles.info}>
                         <div className={styles.time}>
-                            <div className="timer">
-                                {min}분 {sec}초
-                            </div>
+                            {sec}초
                             {/* <div className={styles.timer_front}></div>
                             <div className={styles.timer_back}></div> */}
                         </div>
@@ -113,7 +106,7 @@ export default function Game(props) {
 
                 {/* 게임시작버튼 */}
                 <div className={styles.start}>
-                    <button id="stt_btn" className="stt_btn">게임시작</button>
+                    <button onClick={gameStart}>게임시작</button>
                 </div>
                 {/* 베팅버튼 */}
                 {/* <div className={styles.betting}>

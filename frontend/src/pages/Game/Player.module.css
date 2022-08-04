@@ -78,7 +78,7 @@
     position: absolute;
     backface-visibility: hidden;
     animation-name: flipOutBack;
-    animation-delay: 2.5s;
+    /* animation-delay: 2.5s; */
     animation-duration: 1s;
 }
 
@@ -91,11 +91,11 @@
 
 .card_front {
     position: absolute;
-    animation-name: opacity, flipOutBack;
-    animation-delay: 0s, 2.5s;
-    animation-duration: 2.5s, 1s;
+    /* animation-name: opacity, flipOutBack; */
+    /* animation-delay: 0s, 2.5s; */
+    animation-duration: 1s;
     backface-visibility: hidden;
-    animation-name: opacity, flipOutFront;
+    animation-name: flipOutFront;
 }
 
 .card_front > img{
