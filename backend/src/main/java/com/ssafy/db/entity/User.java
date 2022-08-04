@@ -86,8 +86,8 @@ public class User {
     private String userType;
 
     @ApiModelProperty(value = "회원 탈퇴 여부")
-    @Column(name = "userIsActive", columnDefinition = "boolean DEFAULT true")
-    private boolean userIsActive;
+    @Column(name = "userIsActive", columnDefinition = "INT(1) DEFAULT 1")//columnDefinition = "boolean DEFAULT true")
+    private Integer userIsActive;
 
     @ManyToOne //객체관계 생성 -> 하나의 티어를 여러 유저가 사용 가능
     @JoinColumn(name="tierId")

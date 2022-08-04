@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.UserActiveReq;
 import com.ssafy.api.request.UserModifyReq;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.api.service.UserService;
@@ -119,19 +120,39 @@ public class UserController {
 		return new ResponseEntity<>(userService.searchAllUser(), HttpStatus.OK);
 	}
 
+	@DeleteMapping("")
+	@ApiOperation(value = "회원 탈퇴", notes = "회원을 탈퇴한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> delete (@RequestParam Integer userId) {
+		userService.deleteUser(userId);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 
-//	@DeleteMapping("/{userId}")
-//	@ApiOperation(value = "회원 탈퇴", notes = "회원 정보를 삭제한다.")
+
+//	@PostMapping("/{userId}")
+//	@ApiOperation(value = "회원 탈퇴", notes = "회원 정보는 저장하되 userIsActive=0 으로 변환한다.")
 //	@ApiResponses({
 //			@ApiResponse(code = 200, message = "성공"),
 //			@ApiResponse(code = 401, message = "인증 실패"),
 //			@ApiResponse(code = 404, message = "사용자 없음"),
 //			@ApiResponse(code = 500, message = "서버 오류")
 //	})
-//	public ResponseEntity<?> removeuser(@ApiParam(value = "삭제할 유저 이메일", required = true)@PathVariable String userEmail){
-//		userService.deleteUser(userEmail);
+//	public ResponseEntity<?> removeUser( @RequestBody UserActiveReq userActiveReq,
+//										 @ApiIgnore Authentication authentication){
+//		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+//		String userId = userDetails.getUsername();
+//		User user = userService.getUserByUserEmail(userId);
+//
+//		User us = userService.searchUser(user.getUserId());
+////		us.setUserIsActive(userActiveReq.getUserId());
+//		us.setUserIsActive(0);
+//		userService.isUserActive(user);
 //		return ResponseEntity.status(200).body("OK");
 //	}
-
 
 }

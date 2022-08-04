@@ -87,6 +87,11 @@ public class UserService {
 	}
 
 	@Transactional
+	public void deleteUser(Integer userId) {
+		userRepository.deleteByUserId(userId);
+	}
+
+	@Transactional
 	public List<User> findMyFriends(List<Integer> userIdList){
 		return userRepository.findByUserIdIn(userIdList);
 	}
