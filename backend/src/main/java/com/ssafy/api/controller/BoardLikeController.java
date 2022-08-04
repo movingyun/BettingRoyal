@@ -31,7 +31,7 @@ public class BoardLikeController {
     }
 
 
-    @DeleteMapping("/boardId}")
+    @DeleteMapping("{boardId}")
     @ApiOperation(value = "좋아요 삭제", notes = "게시물에 대한 좋아요를 삭제한다.")
     public void deleteLike(@PathVariable Integer boardId,@ApiIgnore Authentication authentication ) {
         this.boardLikeService.clickBoardUnLikes(boardId, authentication.getName());

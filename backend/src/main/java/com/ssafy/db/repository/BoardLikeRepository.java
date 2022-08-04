@@ -19,5 +19,5 @@ public interface BoardLikeRepository extends JpaRepository<BoardLike, Integer> {
 
     @Modifying
     @Query(value = "DELETE FROM board_like WHERE board_id = :boardId AND user_id = :userId", nativeQuery = true)
-    void boardUnLikes(Integer boardId, Optional<User> user);
+    void boardUnLikes(Integer boardId, Optional<User> userId);
 }

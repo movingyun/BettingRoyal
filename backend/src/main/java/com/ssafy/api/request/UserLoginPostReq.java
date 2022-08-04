@@ -23,7 +23,7 @@ public class UserLoginPostReq {
 	@Size(max=100)
 	private String userEmail;
 
-	@ApiModelProperty(name="유저 Password", example="your_password")
+	@ApiModelProperty(name="유저 Password", example="string")
 	@NotNull(message = "Password should not be empty.")
 	private String userPw;
 }
