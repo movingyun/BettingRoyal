@@ -24,7 +24,7 @@ public class UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@Transactional
+	@Transactional // 회원가입
 	public User signUp(UserSignUpReq userSignUpReq) {
 		User user = new User();
 		user.setUserEmail(userSignUpReq.getUserEmail());
@@ -34,8 +34,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	@Transactional
-	// 유저 정보 조회
+	@Transactional // 유저 정보조회
 	public User getUserByUserEmail(String userEmail) {
 		try {
 			User user = userRepositorySupport.findUserByUserEmail(userEmail).get();
@@ -75,6 +74,16 @@ public class UserService {
 			return false;
 		}
 		return true;
+	}
+
+	@Transactional
+	public List<User> searchAllUser() {
+		return userRepository.findAll();
+	}
+
+	@Transactional
+	public User searchUser(Integer userId) {
+		return userRepository.findByUserId(userId);
 	}
 
 	@Transactional
