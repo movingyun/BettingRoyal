@@ -53,7 +53,7 @@ public class QGuildMember extends EntityPathBase<GuildMember> {
     public QGuildMember(Class<? extends GuildMember> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.guild = inits.isInitialized("guild") ? new QGuild(forProperty("guild")) : null;
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

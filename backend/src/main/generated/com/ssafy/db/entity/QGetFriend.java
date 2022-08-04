@@ -50,7 +50,7 @@ public class QGetFriend extends EntityPathBase<GetFriend> {
 
     public QGetFriend(Class<? extends GetFriend> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }
