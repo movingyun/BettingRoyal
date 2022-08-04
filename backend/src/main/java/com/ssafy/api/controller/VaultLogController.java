@@ -90,6 +90,7 @@ public class VaultLogController {
                 .user(user)
                 .vaultMoneyChange(deposit)
                 .vaultBalance(user.getUserVault())
+                .userBalance(user.getUserRuby())
                 .build();
         vaultLogService.writeVaultLog(vaultLog, user);
         map.put("userRuby", user.getUserRuby());

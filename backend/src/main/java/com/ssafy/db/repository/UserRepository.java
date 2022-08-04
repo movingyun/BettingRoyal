@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * from user where user_type=0 and user_is_active = 1", nativeQuery = true)
     List<User> findActiveUser();
 
+    List<User> findByUserIdIn(List<Integer> userIdList);
+
 }

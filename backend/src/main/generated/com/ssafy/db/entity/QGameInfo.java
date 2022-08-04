@@ -55,7 +55,7 @@ public class QGameInfo extends EntityPathBase<GameInfo> {
     public QGameInfo(Class<? extends GameInfo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.game = inits.isInitialized("game") ? new QGame(forProperty("game"), inits.get("game")) : null;
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

@@ -41,10 +41,11 @@ public class Board {
     @Column(name = "boardContent", columnDefinition = "TEXT")
     private String boardContent;
 
-    @Column(name = "boardHit", columnDefinition = "INT(11)")
+    @Column(name = "boardHit", columnDefinition = "INT(11) DEFAULT 0")
     private Integer boardHit;
 
-    @Column(name = "boardLike", columnDefinition = "INT(11)")
+    @Column(name = "boardLike", columnDefinition = "INT(11) DEFAULT 0")
     private Integer boardLike;
+
 
 }

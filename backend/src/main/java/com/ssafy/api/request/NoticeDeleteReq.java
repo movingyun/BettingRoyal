@@ -11,6 +11,6 @@ import lombok.Setter;
 public class NoticeDeleteReq {
     @ApiModelProperty(name="noticeId")
     Integer noticeId;
-    @ApiModelProperty(name="userId")
-    Integer userId;
+
 }
+

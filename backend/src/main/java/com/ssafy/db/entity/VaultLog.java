@@ -33,10 +33,14 @@ public class VaultLog {
     @Column(name = "vaultMoneyChange", columnDefinition = "INT(11)")
     private Integer vaultMoneyChange;
 
-    //현재자산
+    //현재 금고 자산
     @Column(name = "vaultBalance", columnDefinition = "INT(11)")
     private Integer vaultBalance;
 
+    //현재 유저 자산
+    @Column(name = "userBalance", columnDefinition = "INT(11)")
+    private Integer userBalance;
+    
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "vaultLogDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
