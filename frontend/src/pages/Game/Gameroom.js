@@ -1,14 +1,26 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
-import './Gameroom.module.css';
 import UserVideoComponent from '../../components/Openvidu/UserVideoComponent';
+
+
+import Player from "./Player";
+import { useEffect, useState } from "react";
+import styles from "./Gameroom.module.css";
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import card_am_1 from "../../images/cards/card_am_1.png";
+import card_aq_1 from "../../images/cards/card_aq_1.png";
+import card_back from "../../images/cards/card_back.png";
+
+
+
+
 
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 
-class Gameroom extends Component {
+class Gameroom extends Component {  
     constructor(props) {
         super(props);
 
@@ -19,7 +31,12 @@ class Gameroom extends Component {
             mainStreamManager: undefined,
             publisher: undefined,
             subscribers: [],
+            players: [],
+            setPlayers: [],
+            number: 0,
         };
+
+        let roomid=props.mySessionId;
 
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
@@ -28,6 +45,15 @@ class Gameroom extends Component {
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
         this.onbeforeunload = this.onbeforeunload.bind(this);
+        
+    }
+
+    
+    increase = () => {
+        this.setState({
+          number: this.state.number + 1,
+        });
+        console.log(this.state.number)
     }
 
     componentDidMount() {
@@ -222,15 +248,20 @@ class Gameroom extends Component {
           }
     }
 
+
+
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
-
+        const players = this.state.players
+        const state = this.state
         return (
-            <div className="container">
-                <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p>
+            <div>
+                
+                {/* 입장 전 */}
                 {this.state.session === undefined ? (
                     <div id="join">
+                        <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p>
                         <div id="join-dialog" className="jumbotron vertical-center">
                             <h1> Join a video session </h1>
                             <form className="form-group" onSubmit={this.joinSession}>
@@ -262,48 +293,78 @@ class Gameroom extends Component {
                             </form>
                         </div>
                     </div>
-                ) : null}
+                    ) : null}
 
+                {/* 입장 후 */}
                 {this.state.session !== undefined ? (
-                    <div id="session">
-                        <div id="session-header">
-                            <h1 id="session-title">{mySessionId}</h1>
-                            <input
-                                className="btn btn-large btn-danger"
-                                type="button"
-                                id="buttonLeaveSession"
-                                onClick={this.leaveSession}
-                                value="Leave session"
-                            />
-                        </div>
-{/* 자신의 비디오를 한번 더 보여준다. */}
-                        {/* {this.state.mainStreamManager !== undefined ? (
-                            <div id="main-video" className="col-md-6">
-                                <UserVideoComponent streamManager={this.state.mainStreamManager} />
-                                <input
-                                    className="btn btn-large btn-success"
-                                    type="button"
-                                    id="buttonSwitchCamera"
-                                    onClick={this.switchCamera}
-                                    value="Switch Camera"
-                                />
+                    <div className={styles.container}>
+                        <div className={styles.header}>
+                            <h1><ArrowForwardIosRoundedIcon className={styles.icon}/>게임방 이름</h1>
+                            <h2>기본 베팅 10 루비</h2>
+                            <div className={styles.buttonList}>
+                                <button className={styles.button}>관전자모드</button>
+                                <button className={styles.button}>나가기</button>      
                             </div>
-                        ) : null} */}
-                        <div id="video-container" className="col-md-6">
-                            {this.state.publisher !== undefined ? (
-                                <div id="me" className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                                    <UserVideoComponent
-                                        streamManager={this.state.publisher} />
+                        </div>
+                        <div className={styles.grid}>
+                            <div className={styles.center}>
+                                <div className={styles.qs}>
+                                    누가 거짓말쟁이?
                                 </div>
-                            ) : null}
-                            {this.state.subscribers.map((sub, i) => (
-                                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                    <UserVideoComponent streamManager={sub} />
+                                <div className={styles.cards}>
+                                    {/* 카드뒷면 */}
+                                    <div className={styles.cards_back}>
+                                        <img src={card_back} />
+                                        <img src={card_back} />
+                                    </div>
+                                    {/* 카드앞면오픈 */}
+                                    <div className={styles.cards_front}>
+                                        <img src={card_am_1} />
+                                        <img src={card_aq_1} />
+                                    </div>
                                 </div>
-                            ))}
+                                <div className={styles.money}>
+                                    돈돈돈돈
+                                </div>
+                            </div>
+
+                            {/* <div className={styles.player1}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[1]} state={state}/>
+                            </div>
+                            <div className={styles.player2}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[2]} state={state}/>
+                            </div>
+                            <div className={styles.player3}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[3]} state={state}/>
+                            </div>
+                            <div className={styles.player4}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[4]} state={state}/>
+                            </div>
+                            <div className={styles.player5}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[5]} state={state}/>
+                            </div> */}
+                            <div className={styles.playerMe}>
+                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[0]} state={state}/>
+                            </div>
+
+                            {/* 게임시작버튼 */}
+                            <div className={styles.start}>
+                                <button id="stt_btn" className="stt_btn">게임시작</button>
+                            </div>
+                            {/* 베팅버튼 */}
+                            {/* <div className={styles.betting}>
+                                <button>다이</button>
+                                <button>콜</button>
+                                <button>레이즈</button>
+                                <button>올인</button>
+                            </div> */}
+                            <div className={styles.rules}>
+                            트리플 &#62; 스트레이트 &#62; 더블 <br/>
+                            에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
+                            </div>
                         </div>
                     </div>
-                ) : null}
+                    ) : null}
             </div>
         );
     }
