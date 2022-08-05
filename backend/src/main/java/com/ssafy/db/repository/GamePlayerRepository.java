@@ -56,8 +56,22 @@ public class GamePlayerRepository {
     	}
     	return gp;
     }
-    
-    
-    
-    
+
+	//CALL 베팅하기 - call하려면 몇개 베팅해야되는지 돌려주자
+	public int callBetting(int roomId, String sessionId){
+		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
+		int callBettingCnt = 0;
+		for(int i=0; i<gamePlayerList.size(); i++) {
+			//베팅한 애면
+			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+				//현재까지 베팅 금액
+				int currentBetting = gamePlayerList.get(i).getMyBetting();
+				//콜하려면 내야하는 금액
+				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				//베팅 Cnt만큼 바꿔주기
+				gamePlayerList.get(i).setMyBetting(currentBetting+callBettingCnt);
+			}
+		}
+		return callBettingCnt;
+	}
 }

@@ -56,10 +56,11 @@ public class MessageController {
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
 	// headerAccessor는 소켓서버의 주인ID를 확인하기 위해서 사용
-	public void message(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
+	public void message(GameMessage message, SimpMessageHeaderAccessor headerAccessor) throws InterruptedException {
 		log.info(message.getType());
 
 		if (message.getType().equals(MessageType.ENTER)) {
+			log.info(headerAccessor.getUser().getName());
 			// 방에 들어오면 player를 한명 올려준다.
 			roomSizeRepository.plusPlayerCnt(message.getRoomId());
 
@@ -86,7 +87,10 @@ public class MessageController {
 			}
 
 			// tb_game 생성 -> 공용카드 넣기
-			gameService.createGame(roomId, groundCard1, groundCard2);
+			int gameId = gameService.createGame(roomId, groundCard1, groundCard2);
+			log.info(gameId);
+			message.setGameId(gameId);
+
 			message.setMessage("공통카드 : " + groundCard1 + ", " + groundCard2);
 			message.setType(MessageType.GROUNDCARD);
 			template.convertAndSend("/sub/game/room" + roomId, message);
@@ -116,17 +120,35 @@ public class MessageController {
 			playerCardSetInGame.setCardSet(cardSet);
 			playerCardSetInGame.setTurn(0);
 			// 게임의 개인 카드뭉치를 서버에서 갖고있는다.
-			int gameCnt = playerCardSetInGameRepository.getGameCnt();
-			playerCardSetInGameRepository.addPlayerCardSet(gameCnt + 1, playerCardSetInGame);
+			playerCardSetInGameRepository.addPlayerCardSet(gameId, playerCardSetInGame);
 
 			// 끝났고 이제 카드달라고 각 요청하라함.
 			message.setMessage("");
 			message.setType(MessageType.MAKECARDSET);
 			template.convertAndSend("/sub/game/room" + roomId, message);
+
+			List<GamePlayer> thisGamePlayer = gamePlayerRepository.getGamePlayer(message.getRoomId());
+
+			// 10초 기다리기(자유롭게 대화)
+			Thread.sleep(10000);
+			log.info("10초끝");
+
+			// Turn부터 시작하기
+			// 마이턴 찾아서 너 해!!
+			for (GamePlayer pg : thisGamePlayer) {
+				// 얘가 첨이다
+				if (pg.isMyTurn()) {
+					String firstUserId = pg.getSessionId();
+					message.setMessage("당신의 차례입니다. 배팅을 하세요");
+					message.setType(MessageType.FIRSTBETTING);
+					template.convertAndSendToUser(firstUserId, "sub/game/room" + message.getRoomId(), message);
+				}
+			}
 		}
 
 		// 카드 달라는 요청 받기(user의 수 만큼)
 		if (message.getType().equals(MessageType.GETMYCARD)) {
+			int gameId = message.getGameId();
 			log.info("개인 카드 만들어볼께");
 
 			int roomId = message.getRoomId();
@@ -163,16 +185,34 @@ public class MessageController {
 			//특정 유저한테 메시지 보내기
 			log.info(userInfo);
 			template.convertAndSendToUser(userInfo, "sub/game/room" + message.getRoomId(), message);
-		}
+		}//GETMYCARD
 
-		// 방장먼저 베팅하기
-		if (message.getType().equals(MessageType.BETTING)) {
-			
-		}
 
+
+		//********************배팅관련 처리********************
 		// 콜이 들어왔을 때
 		if (message.getType().equals(MessageType.CALL)) {
+			int roomId =  message.getRoomId();
+			int gameId = message.getGameId();
+			// call한 사람 sessionId
+			String userInfo = headerAccessor.getUser().getName();
 
+			// 이 사람이 콜 누른걸 알려줘야댐.
+			message.setMessage(userInfo+"플레이어가 콜을 하셨습니다.");
+			message.setType(MessageType.PLAYERCALL);
+			template.convertAndSend("/sub/game/room" + roomId, message);
+
+			// GamePlayer에서 myBetting plus 해주고 callBettingCnt 돌려주기
+			int callBettingCnt = gamePlayerRepository.callBetting(roomId, userInfo);
+
+			// GameInfo에서 rubyGet minus해주기
+//			gameInfoService.callBetting(gameId, userInfo, callBettingCnt);
+
+
+			// 끝났는지체크
+
+
+			// 다음턴으로 넘기고 그사람한테 배팅하라고 알려줌
 		}
 
 		// 다이가 들어왔을 때
@@ -182,14 +222,38 @@ public class MessageController {
 
 		// 레이즈가 들어왔을 때
 		if (message.getType().equals(MessageType.RAISE)) {
+			int roomId =  message.getRoomId();
 
+			// raise한 사람 sessionId
+			String userInfo = headerAccessor.getUser().getName();
+
+			// 이 사람이 레이즈 누른걸 알려줘야댐.
+			message.setMessage(userInfo+"플레이어가 레이즈를 하셨습니다.");
+			message.setType(MessageType.PLAYERCALL);
+			template.convertAndSend("/sub/game/room" + roomId, message);
+
+			// GamePlayer에서 myBetting plus 해주고 callBettingCnt 돌려주기
+			int callBettingCnt = gamePlayerRepository.callBetting(roomId, userInfo);
+
+			// GameInfo에서 rubyGet minus해주기
+			//gameInfoService.callBetting(gameId, userInfo, callBettingCnt);
+
+
+			// 끝났는지체크
+
+
+			// 다음턴으로 넘기고 그사람한테 배팅하라고 알려줌
 		}
 
 		// 올인이 들어왔을 때
 		if (message.getType().equals(MessageType.ALLIN)) {
 
 		}
-		
+		//***************************************************
+
+
+
+		//********************나갔을때 확인********************
 		// 나갔을때
 		if (message.getType().equals(MessageType.EXIT)) {
 			// 방에 나가면 player를 한명 내려준다.

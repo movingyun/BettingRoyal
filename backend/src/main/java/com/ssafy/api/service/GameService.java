@@ -16,13 +16,14 @@ public class GameService {
 	private RoomRepository roomRepository;
 
 	@Transactional
-	public void createGame(int roomId, int card1, int card2) {// title content 받아옴
+	public int createGame(int roomId, int card1, int card2) {// title content 받아옴
 		Game game = new Game();
 		game.setGameId(0);
 		game.setGameGroundCart1(card1);
 		game.setGameGroundCart2(card2);
 		game.setRoom(roomRepository.findByRoomId(roomId));
 		gameRepository.save(game);
+		return gameRepository.findTopByOrderByGameIdDesc().getGameId();
 	}
 
 }
