@@ -13,5 +13,6 @@ public enum MessageType {
 	BETTING, 
 	GETMYCARD,
 	MAKECARDSET,
-	EXIT
+	EXIT,
+	GAMEEND
 }

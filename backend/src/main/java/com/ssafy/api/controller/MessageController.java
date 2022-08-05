@@ -209,4 +209,38 @@ public class MessageController {
 
 	}
 
+
+	//다음 사람을 비교해서 게임 종료 여부와 다음 차례인 사람을 찾는 함수
+	public void nextTurn(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
+		//게임방에 참여중인 참가자들을 구한다
+		List<GamePlayer> gp = gamePlayerRepository.getGamePlayer(message.getRoomId());
+		GamePlayer me = null;
+		int i = 0;
+		for(; i < gp.size(); i++){ //내가 누군지 찾는다
+			if(gp.get(i).getSessionId().equals(headerAccessor.getUser().getName())){
+				me = gp.get(i);
+				break;
+			}
+		}
+
+		//앞 사람과 비교해서 max베팅이 같으면 모두가 콜을 한 것이니 게임 종료!
+		if(me.getMaxBetting() == gp.get((i+1)%gp.size()).getMaxBetting()){
+			//타입을 게임 끝으로 바꿔주고 방 안에 있는 모든 사용자에게 알려줌
+			message.setType(MessageType.GAMEEND);
+			message.setMessage("게임이 끝났습니다.");
+			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+			return;
+		}
+
+		//위에서 리턴이 안되고 내려오면 게임이 안 끝나고 다음 사람이 배팅을 해야함.
+		gp.get((i+1)%gp.size()).setMaxBetting(me.getMaxBetting()); // 다음 사람의 maxbetting을 내 맥스베팅금액으로 업데이트해준다.
+		gp.get(i).setMyTurn(false); //내 턴 끝
+		gp.get((i+1)%gp.size()).setMyTurn(true); //다음사람 턴 시작
+		message.setType(MessageType.BETTING);
+		message.setMessage("내 차례입니다.");
+		//베팅할 차례를 해당 유저에게만 알려준다.
+		template.convertAndSendToUser(gp.get((i+1)%gp.size()).getSessionId(), "/sub/game/room" + message.getRoomId(), message);
+
+	}
+
 }
