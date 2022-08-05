@@ -20,6 +20,7 @@
 </div>
 <div>
 	<button class="call">콜</button>
+	<input name="raise" />
 	<button class="raise">레이즈</button>
 	<button class="die">다이</button>
 	<button class="allin">올인</button>
@@ -27,8 +28,9 @@
 <script>
 	$(function() {
 		var gameBox = $(".game_box");
-		var messageInput = $('input[name="message"]');
 		var nicknameInput = $('input[name="nickname"]');
+		var messageInput = $('input[name="message"]');
+		var raiseInput = $('input[name="raise"]');
 		var sendBtn = $(".send");
 		var startBtn = $(".start");
 		var callBtn = $(".call");
@@ -180,6 +182,17 @@
 				message : "",
 				sender : "",
 				type : "CALL"
+			}));
+		});
+
+		raiseBtn.click(function() {
+			console.log("레이즈 버튼이 눌렸다")
+			var raiseCnt = raiseInput.val();
+			client.send("/pub/game/message", {}, JSON.stringify({
+				roomId : roomId,
+				message : "raiseCnt",
+				sender : "",
+				type : "RAISE"
 			}));
 		});
 

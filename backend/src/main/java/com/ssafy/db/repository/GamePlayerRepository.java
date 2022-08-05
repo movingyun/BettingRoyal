@@ -74,4 +74,29 @@ public class GamePlayerRepository {
 		}
 		return callBettingCnt;
 	}
+
+	//RAISE 베팅하기
+	public int raiseBetting(int roomId, String sessionId,int raiseCnt){
+		//현재 방에있는 플레이어 수
+		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
+		int callBettingCnt = 0;
+		for(int i=0; i<gamePlayerList.size(); i++) {
+			//베팅한 애면
+			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+				//현재까지 베팅 금액
+				int currentBetting = gamePlayerList.get(i).getMyBetting();
+				//콜하려면 내야하는 금액
+				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				//(콜+레이즈)Cnt만큼 바꿔주기
+				gamePlayerList.get(i).setMyBetting(currentBetting+(callBettingCnt+raiseCnt));
+			}
+		}
+		return callBettingCnt+raiseCnt;
+	}
+
+
+
+
+
+
 }

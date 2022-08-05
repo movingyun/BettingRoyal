@@ -177,6 +177,7 @@ public class MessageController {
 			int gameId = message.getGameId();
 			// call한 사람 sessionId
 			String userInfo = headerAccessor.getUser().getName();
+			String userNickname = message.getSenderNickName();
 
 			// 이 사람이 콜 누른걸 알려줘야댐.
 			message.setMessage(userInfo+"플레이어가 콜을 하셨습니다.");
@@ -187,7 +188,7 @@ public class MessageController {
 			int callBettingCnt = gamePlayerRepository.callBetting(roomId, userInfo);
 
 			// GameInfo에서 rubyGet minus해주기
-//			gameInfoService.callBetting(gameId, userInfo, callBettingCnt);
+			gameInfoService.callBetting(gameId, userNickname, callBettingCnt);
 
 
 			// 끝났는지체크
@@ -207,17 +208,21 @@ public class MessageController {
 
 			// raise한 사람 sessionId
 			String userInfo = headerAccessor.getUser().getName();
+			int gameId = message.getGameId();
 
 			// 이 사람이 레이즈 누른걸 알려줘야댐.
 			message.setMessage(userInfo+"플레이어가 레이즈를 하셨습니다.");
-			message.setType(MessageType.PLAYERCALL);
+			message.setType(MessageType.PLAYERRAISE);
 			template.convertAndSend("/sub/game/room" + roomId, message);
 
-			// GamePlayer에서 myBetting plus 해주고 callBettingCnt 돌려주기
-			int callBettingCnt = gamePlayerRepository.callBetting(roomId, userInfo);
+			//얼마나 raise?
+			int raiseCnt = Integer.parseInt(message.getMessage());
+
+			// GamePlayer에서 myBetting plus 해주고 raiseBettingCnt 돌려주기
+			int raiseBetting = gamePlayerRepository.raiseBetting(roomId, userInfo, raiseCnt);
 
 			// GameInfo에서 rubyGet minus해주기
-			//gameInfoService.callBetting(gameId, userInfo, callBettingCnt);
+			gameInfoService.raiseBetting(gameId, userInfo, raiseBetting);
 
 
 			// 끝났는지체크
