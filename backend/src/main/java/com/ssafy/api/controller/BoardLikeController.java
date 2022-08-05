@@ -27,14 +27,14 @@ public class BoardLikeController {
     @PostMapping("{boardId}")
     @ApiOperation(value = "좋아요 생성", notes = "게시물에 대한 좋아요를 생성한다.")
     public void createLike(@PathVariable Integer boardId,@ApiIgnore Authentication authentication ) {
-        this.boardLikeService.clickBoardLikes(boardId, authentication.getName());
+        boardLikeService.clickBoardLikes(boardId, authentication.getName());
     }
 
 
     @DeleteMapping("{boardId}")
     @ApiOperation(value = "좋아요 삭제", notes = "게시물에 대한 좋아요를 삭제한다.")
     public void deleteLike(@PathVariable Integer boardId,@ApiIgnore Authentication authentication ) {
-        this.boardLikeService.clickBoardUnLikes(boardId, authentication.getName());
+        boardLikeService.clickBoardUnLikes(boardId, authentication.getName());
     }
 
 }

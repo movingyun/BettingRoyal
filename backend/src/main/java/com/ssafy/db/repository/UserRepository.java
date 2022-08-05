@@ -2,8 +2,10 @@ package com.ssafy.db.repository;
 
 import com.ssafy.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +23,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findActiveUser();
 
     List<User> findByUserIdIn(List<Integer> userIdList);
+
+    User findByUserId(Integer userId);
+
+    @Modifying
+    @Transactional
+    void deleteByUserId(Integer userId);
 
 }

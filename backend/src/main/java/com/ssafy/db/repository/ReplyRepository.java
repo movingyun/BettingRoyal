@@ -12,5 +12,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer> {
     @Transactional
     void deleteByReplyId(Integer replyId);
 
-    Reply findByReplyId(int ReplyId);
+    Reply findByReplyId(int replyId);
 }
