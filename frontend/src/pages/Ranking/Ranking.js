@@ -10,6 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";import Box from '@mui/material/Box';
 import { DataGrid } from "@mui/x-data-grid";
+import styles from "./Ranking.module.css";
 
 export default function Ranking(props) {
   useEffect(() => {
@@ -18,7 +19,11 @@ export default function Ranking(props) {
 
 
   const columns = [
-    { field: "id", headerName: "순위", width: 90 },
+    {
+      field: "id",
+      headerName: "순위",
+      width: 90
+    },
     {
         field: "tier",
         headerName: "티어",
@@ -59,7 +64,7 @@ export default function Ranking(props) {
   ];
 
   let roomsdummy = (
-    <Grid container>
+    <Grid className={styles.container}>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

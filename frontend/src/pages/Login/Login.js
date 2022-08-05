@@ -58,9 +58,9 @@ export default function SignInSide() {
     e.preventDefault();
     console.log(userId, pw);
     axios
-      .post("http://localhost:8080/api/v1/auth/login", {
-        id: userId,
-        password: pw,
+      .post("http://localhost:8080/api/auth/login", {
+        userEmail: userId,
+        userPw: pw,
       })
       .then(function (response) {
         console.log(JSON.stringify(response.data.accessToken));

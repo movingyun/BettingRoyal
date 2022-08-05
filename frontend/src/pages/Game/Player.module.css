@@ -78,7 +78,7 @@
     position: absolute;
     backface-visibility: hidden;
     animation-name: flipOutBack;
-    animation-delay: 2.5s;
+    /* animation-delay: 2.5s; */
     animation-duration: 1s;
 }
 
@@ -91,11 +91,11 @@
 
 .card_front {
     position: absolute;
-    animation-name: opacity, flipOutBack;
-    animation-delay: 0s, 2.5s;
-    animation-duration: 2.5s, 1s;
+    /* animation-name: opacity, flipOutBack; */
+    /* animation-delay: 0s, 2.5s; */
+    animation-duration: 1s;
     backface-visibility: hidden;
-    animation-name: opacity, flipOutFront;
+    animation-name: flipOutFront;
 }
 
 .card_front > img{
@@ -139,25 +139,25 @@
 
 @keyframes flipOutBack {
     from {
-      -webkit-transform: perspective(400px);
-      transform: perspective(400px);
+      -webkit-transform: perspective(500px);
+      transform: perspective(500px);
     }
 
     to {
-      -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 180deg);
-      transform: perspective(400px) rotate3d(1, 0, 0, 180deg);
+      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
+      transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
     }
 }
 
 @keyframes flipOutFront {
     from {
-      -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -180deg);
-      transform: perspective(400px) rotate3d(1, 0, 0, -180deg);
+      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
+      transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
     }
 
     to {
-      -webkit-transform: perspective(400px);
-      transform: perspective(400px);
+      -webkit-transform: perspective(500px);
+      transform: perspective(500px);
     }
 }
 

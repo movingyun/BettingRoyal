@@ -1,6 +1,6 @@
-// import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-// import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
+import GroupsRoundedIcon from '@material-ui/icons/GroupRounded';
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
@@ -12,18 +12,12 @@ export const mainMyPageItems = [
         label: '내 정보',
         route: 'mypage',
     },
-    {
-        id:1,
-        icon:'',
-        label: '금고',
-        route: 'vault',
-    }
 ]
 
 export const mainNavbarItems = [
     {
         id:0,
-        // icon:<HomeRoundedIcon/>,
+        icon:<HomeRoundedIcon/>,
         label: '홈',
         route: 'rooms',
     },
@@ -41,13 +35,13 @@ export const mainNavbarItems = [
     },
     {
         id:3,
-        // icon:<PersonAddRoundedIcon/>,
+        icon:<PersonAddRoundedIcon/>,
         label: '친구목록',
         route: 'friend',
     },
     {
         id:4,
-        // icon:<GroupsRoundedIcon/>,
+        icon:<GroupsRoundedIcon/>,
         label: '길드',
         route: 'guild',
     },
@@ -62,6 +56,12 @@ export const mainNavbarItems = [
 export const mainTutorialItems = [
     {
         id:0,
+        icon:'',
+        label: '환경테스트',
+        route: 'test',
+    },
+    {
+        id:1,
         icon:'',
         label: '도움말',
         route: 'tutorial',

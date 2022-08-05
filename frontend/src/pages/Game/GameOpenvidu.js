@@ -2,17 +2,13 @@ import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
 import UserVideoComponent from '../../components/Openvidu/UserVideoComponent';
+import Chat from '../../components/Openvidu/Chat'
 
-
-import Player from "./Player";
 import { useEffect, useState } from "react";
-import styles from "./Gameroom.module.css";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-
-
 
 
 
@@ -34,6 +30,7 @@ class Gameroom extends Component {
             players: [],
             setPlayers: [],
             number: 0,
+            chatList: [],
         };
 
         let roomid=props.mySessionId;
@@ -45,7 +42,9 @@ class Gameroom extends Component {
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
         this.onbeforeunload = this.onbeforeunload.bind(this);
-        
+        this.sendMessage = this.sendMessage.bind(this);
+        this.sendChat = this.sendChat.bind(this);
+        // this.updateChat = this.updateChat.bind(this);
     }
 
     
@@ -122,11 +121,29 @@ class Gameroom extends Component {
                     var subscriber = mySession.subscribe(event.stream, undefined);
                     var subscribers = this.state.subscribers;
                     subscribers.push(subscriber);
+                    
+                    // const message = event
 
                     // Update the state with the new subscribers
                     this.setState({
                         subscribers: subscribers,
                     });
+                });
+
+                mySession.on("signal:my-chat", (event) => {
+                    const message = event.data.split(":");
+                    const chatmsg = { name: message[0], msg: message[1] };
+                    console.log("event.date print:"+event.data)
+                    console.log("event print:"+event)
+                    console.log(event)
+                    var chatList = this.state.chatList.concat(chatmsg);
+                    console.log("chatlist print: "+ this.state.chatList)
+                    console.log(this.state.chatList)
+                    // this.updateChat(chatList)
+                    this.setState({
+                        chatList: chatList
+                    })
+
                 });
 
                 // On every Stream destroyed...
@@ -213,6 +230,27 @@ class Gameroom extends Component {
         });
     }
 
+    // 채팅 메세지 부분
+    sendMessage(type, data) {
+        const mySession = this.state.session;
+
+        mySession.signal({
+            data: data,
+            to: [],
+            type: type
+        });
+    }
+    sendChat(msg) {
+        var chatMsg = this.state.myUserName + " : " + msg;
+        this.sendMessage("my-chat", chatMsg)
+    }
+    // updateChat(chatList) {
+    //     this.state.chatList = chatList
+    //     console.log("채팅 update 완료")
+    //     console.log(chatList)
+    //     console.log(this.state.chatList)
+    // }
+
     async switchCamera() {
         try{
             const devices = await this.OV.getDevices()
@@ -253,8 +291,9 @@ class Gameroom extends Component {
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
-        const players = this.state.players
-        const state = this.state
+        const players = this.state.players;
+        const state = this.state;
+        const chatList = this.state.chatList;
         return (
             <div>
                 
@@ -297,74 +336,23 @@ class Gameroom extends Component {
 
                 {/* 입장 후 */}
                 {this.state.session !== undefined ? (
-                    <div className={styles.container}>
-                        <div className={styles.header}>
-                            <h1><ArrowForwardIosRoundedIcon className={styles.icon}/>게임방 이름</h1>
-                            <h2>기본 베팅 10 루비</h2>
-                            <div className={styles.buttonList}>
-                                <button className={styles.button}>관전자모드</button>
-                                <button className={styles.button}>나가기</button>      
+                    <div id="video-container" className="col-md-6">
+                        {this.state.publisher !== undefined ? (
+                            <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                <UserVideoComponent
+                                    streamManager={this.state.publisher} />
                             </div>
-                        </div>
-                        <div className={styles.grid}>
-                            <div className={styles.center}>
-                                <div className={styles.qs}>
-                                    누가 거짓말쟁이?
-                                </div>
-                                <div className={styles.cards}>
-                                    {/* 카드뒷면 */}
-                                    <div className={styles.cards_back}>
-                                        <img src={card_back} />
-                                        <img src={card_back} />
-                                    </div>
-                                    {/* 카드앞면오픈 */}
-                                    <div className={styles.cards_front}>
-                                        <img src={card_am_1} />
-                                        <img src={card_aq_1} />
-                                    </div>
-                                </div>
-                                <div className={styles.money}>
-                                    돈돈돈돈
-                                </div>
+                        ) : null}
+                        {this.state.subscribers.map((sub, i) => (
+                            <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                                <UserVideoComponent streamManager={sub} />
                             </div>
-
-                            {/* <div className={styles.player1}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[1]} state={state}/>
-                            </div>
-                            <div className={styles.player2}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[2]} state={state}/>
-                            </div>
-                            <div className={styles.player3}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[3]} state={state}/>
-                            </div>
-                            <div className={styles.player4}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[4]} state={state}/>
-                            </div>
-                            <div className={styles.player5}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[5]} state={state}/>
-                            </div> */}
-                            <div className={styles.playerMe}>
-                                <Player handleMainVideoStream={this.handleMainVideoStream()} player={players[0]} state={state}/>
-                            </div>
-
-                            {/* 게임시작버튼 */}
-                            <div className={styles.start}>
-                                <button id="stt_btn" className="stt_btn">게임시작</button>
-                            </div>
-                            {/* 베팅버튼 */}
-                            {/* <div className={styles.betting}>
-                                <button>다이</button>
-                                <button>콜</button>
-                                <button>레이즈</button>
-                                <button>올인</button>
-                            </div> */}
-                            <div className={styles.rules}>
-                            트리플 &#62; 스트레이트 &#62; 더블 <br/>
-                            에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
-                            </div>
-                        </div>
+                        ))}
                     </div>
                     ) : null}
+                <div>
+                    <Chat sendChat={this.sendChat} chatList={chatList} />
+                </div>
             </div>
         );
     }
