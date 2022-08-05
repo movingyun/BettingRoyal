@@ -103,9 +103,9 @@ export default function SignUp() {
     event.preventDefault();
     const userInfo = {
       NickName: NickName,
-      Email: Email,
-      Gender: Gender,
-      Password: Password,
+      userEmail: Email,
+      userGender: Gender,
+      userPw: Password,
       ConfirmPassword: ConfirmPassword,
     };
 
@@ -124,13 +124,19 @@ export default function SignUp() {
 
     if (hasEmptyInfo) {
       alert("모든 항목을 다 입력하세요.");
-    } else {
+    }
+    else if(Password != ConfirmPassword){
+      alert("비밀번호가 일치하지 않습니다")
+    } 
+    else {
       // const statusCode = await createUserFetch();
 
       await axios
-      .post("http://localhost:8080/api/v1/users", {
-        id: Email,
-        password: Password,
+      .post("http://localhost:8080/api/auth/signup", {
+        userEmail: userInfo.userEmail,
+        userGender: userInfo.userGender,
+        userNickname: userInfo.userNickname,
+        userPw:userInfo.userPw
       })
       .then(function (response) {
         console.log(JSON.stringify(response.data.statusCode));
@@ -140,7 +146,7 @@ export default function SignUp() {
           navigate("/");
         } else {
           console.log(response.data.statusCode);
-          alert("ㄴㄴ");
+          alert("회원가입 실패");
         }
       })
       .catch(function (error) {
@@ -337,7 +343,7 @@ export default function SignUp() {
             flexDirection: 'column',
             alignItems: 'center',
             }}>
-               <button type="submit" className={styles.button}>
+               <button type="submit"  className={styles.button}>
               회원가입
               </button>
             </Box>

@@ -1,6 +1,6 @@
+
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
@@ -8,15 +8,19 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { mainMyPageItems, mainNavbarItems, mainTutorialItems} from './consts/navbarListItems';
+import {
+  mainMyPageItems,
+  mainNavbarItems,
+  mainTutorialItems,
+} from "./consts/navbarListItems";
 import { useNavigate } from "react-router-dom";
-import { navbarStyles } from './styles';
+import { navbarStyles } from "./styles";
 import Modal from "../Modal/Modal";
 import { useEffect, useState } from "react";
 import ruby from "../../images/icon/ruby.png";
+import Vault from './Vault'
 
 const Navbar = (title) => {
-
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -32,9 +36,9 @@ const Navbar = (title) => {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  
-    const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  
     return(
         <Drawer
           sx={navbarStyles.drawer}
@@ -55,8 +59,7 @@ const Navbar = (title) => {
               ))}
                 <Button onClick={ openModal } sx={navbarStyles.btn} >금고</Button>
               <Modal open={ modalOpen } close={ closeModal } header="루비금고">
-            <button>입금</button>
-            <button>출금</button>
+               <Vault/>
           </Modal>
           </Box>
         </List>
@@ -85,5 +88,6 @@ const Navbar = (title) => {
       </Drawer>
     )
 }
+
 
 export default Navbar;
