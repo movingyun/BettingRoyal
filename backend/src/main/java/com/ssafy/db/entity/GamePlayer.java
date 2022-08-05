@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GamePlayer {
 	private int roomId;
+	private int gameId;
 	private String sessionId;
 	private boolean myTurn;
 	//게임의 최대 배팅금액
 	private int maxBetting;
 	//내 배팅금액
 	private int myBetting;
+	//다이 확인
+	private  boolean isDie;
 }
