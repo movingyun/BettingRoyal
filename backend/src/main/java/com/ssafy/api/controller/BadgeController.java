@@ -2,21 +2,15 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.BadgeModifyReq;
 import com.ssafy.api.request.BadgeRegistReq;
-import com.ssafy.api.request.ReportRegistReq;
-import com.ssafy.api.request.ReportResultReq;
 import com.ssafy.api.service.BadgeService;
 import com.ssafy.api.service.UserService;
-import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.db.entity.Badge;
-import com.ssafy.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 

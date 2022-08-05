@@ -51,7 +51,7 @@ public class QBadgeOwn extends EntityPathBase<BadgeOwn> {
     public QBadgeOwn(Class<? extends BadgeOwn> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.badge = inits.isInitialized("badge") ? new QBadge(forProperty("badge")) : null;
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }
