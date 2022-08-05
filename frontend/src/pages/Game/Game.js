@@ -125,7 +125,6 @@ export default function Game(props) {
           if (currentMaxBet > myTotalBet) {
             //콜 버튼 비활성화
           }
-
         }
 
         //수시로 서버와 동기화
