@@ -15,4 +15,5 @@ public class GameMessage {
 	private String writer;
 	private String message;
 	private MessageType type;
+	private int gameId;
 }
