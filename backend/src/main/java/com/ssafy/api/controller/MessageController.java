@@ -116,18 +116,42 @@ public class MessageController {
 					}
 				}
 			} // 카드뽑기 for문 종료
-			PlayerCardSetInGame playerCardSetInGame = new PlayerCardSetInGame();
-			playerCardSetInGame.setCardSet(cardSet);
-			playerCardSetInGame.setTurn(0);
+			PlayerCardSetInGame thisGameCardSet = new PlayerCardSetInGame();
+			thisGameCardSet.setCardSet(cardSet);
+
 			// 게임의 개인 카드뭉치를 서버에서 갖고있는다.
-			playerCardSetInGameRepository.addPlayerCardSet(gameId, playerCardSetInGame);
+			playerCardSetInGameRepository.addPlayerCardSet(gameId, thisGameCardSet);
 
-			// 끝났고 이제 카드달라고 각 요청하라함.
-			message.setMessage("");
-			message.setType(MessageType.MAKECARDSET);
-			template.convertAndSend("/sub/game/room" + roomId, message);
+//			// 끝났고 이제 카드달라고 각 요청하라함.
+//			message.setMessage("");
+//			message.setType(MessageType.MAKECARDSET);
+//			template.convertAndSend("/sub/game/room" + roomId, message);
 
+			//이 방에서 게임하고있는 플레이어들
 			List<GamePlayer> thisGamePlayer = gamePlayerRepository.getGamePlayer(message.getRoomId());
+
+			//이 방에있는 플레이어들한테 각자 메시지 보내주자
+			int idx = 0;
+			for(GamePlayer gp : thisGamePlayer){
+				log.info(idx);
+				String content ="";
+				//카드뭉치에서 자기것만 빼고 보내준다.
+				int myCard = cardSet.get(idx);
+				for(int i=0; i< thisGamePlayer.size(); i++){
+					if(idx==i)
+						continue;
+					content+=cardSet.get(i)+" ";
+				}
+				idx++;
+
+				message.setMessage(content);
+				message.setType(MessageType.GETMYCARD);
+
+				// tb_game_info생성 후 게임id, 플레이어id, 개인카드 입력
+				gameInfoService.createGameInfo(gameId, 1, myCard);
+
+				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + message.getRoomId(), message);
+			}
 
 			// 10초 기다리기(자유롭게 대화)
 			Thread.sleep(10000);
@@ -145,49 +169,6 @@ public class MessageController {
 				}
 			}
 		}
-
-		// 카드 달라는 요청 받기(user의 수 만큼)
-		if (message.getType().equals(MessageType.GETMYCARD)) {
-			int gameId = message.getGameId();
-			log.info("개인 카드 만들어볼께");
-
-			int roomId = message.getRoomId();
-			int roomSize = roomSizeRepository.getRoomSize(roomId);
-			String userInfo = headerAccessor.getUser().getName();
-
-			int thisGameId = playerCardSetInGameRepository.getGameCnt();
-			PlayerCardSetInGame playerCardSetInGame = playerCardSetInGameRepository.getCardSet(thisGameId);
-			List<Integer> cardSet = playerCardSetInGame.getCardSet();
-			String content = "";
-
-
-			// 내것만 빼고 나머지를 받는다.
-			int idx = 0;
-			int myCard = -1;
-			for (GamePlayer gp : gamePlayerRepository.getGamePlayer(message.getRoomId())) {
-				// 내거면 패스~
-				if (gp.getSessionId().equals(userInfo)) {
-					myCard = cardSet.get(idx);
-					idx++;
-					continue;
-				} else {
-					content += (cardSet.get(idx) + " ");
-					idx++;
-				}
-
-			}
-			message.setMessage(content);
-
-			// tb_game_info생성 후 게임id, 플레이어id, 개인카드 입력
-			gameInfoService.createGameInfo(gameRepository.findByGameId(thisGameId), 1, myCard);
-			message.setType(MessageType.GETMYCARD);
-			
-			//특정 유저한테 메시지 보내기
-			log.info(userInfo);
-			template.convertAndSendToUser(userInfo, "sub/game/room" + message.getRoomId(), message);
-		}//GETMYCARD
-
-
 
 		//********************배팅관련 처리********************
 		// 콜이 들어왔을 때

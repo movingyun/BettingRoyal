@@ -20,15 +20,19 @@ public class GameInfoService {
 	private GameInfoRepository gameInfoRepository;
 	
 	@Transactional
-	public void createGameInfo(Game game, int userId, int card ) {
+	public void createGameInfo(int gameId, int userId, int card ) {
 		//userId로 user생성
 		//나중엔 토큰으로 가져와야된다.
 		User player = userRepository.findById(userId).get();
-		
+
+		//gameId로 Game정보 가져오기
+		Game game = gameRepository.findByGameId(gameId);
+
 		//gameInfo 정보(player, gameInfoId) 넣어주기
 		GameInfo gameInfo = new GameInfo();
 		gameInfo.setUser(player);
 		gameInfo.setGameInfoId(0);
+		gameInfo.setGame(game);
 		gameInfo.setMycard(card);
 		gameInfoRepository.save(gameInfo);
 	}

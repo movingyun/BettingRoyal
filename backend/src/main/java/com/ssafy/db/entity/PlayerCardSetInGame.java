@@ -13,5 +13,4 @@ import java.util.List;
 @AllArgsConstructor
 public class PlayerCardSetInGame {
 	List<Integer> cardSet;
-	int turn;
 }
