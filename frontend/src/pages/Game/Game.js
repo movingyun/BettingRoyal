@@ -1,6 +1,6 @@
 import * as React from "react";
 import Player from "./Player";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./Game.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import sockjs from "sockjs-client";
@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
+import card_am_1 from "../../images/cards/card_am_1.png";
+import card_aq_1 from "../../images/cards/card_aq_1.png";
+import card_back from "../../images/cards/card_back.png";
 
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
@@ -146,6 +149,38 @@ export default function Game(props) {
     };
   }, []);
 
+
+
+
+  
+  const [sec, setSec] = useState(0);
+  const time = useRef(30); // 30초타이머
+  const timerId = useRef(null);
+  const [isStart, setIsStart] = React.useState(false);
+
+
+  useEffect(() => {
+    if (time.current <= 0) {
+      console.log("끝");
+      clearInterval(timerId.current);
+    }
+  }, [sec]);
+
+  function gameStart(e) {
+    console.log("겜시작");
+    setIsStart(true);
+
+    // 타이머 시작
+    timerId.current = setInterval(() => {
+      setSec(time.current);
+      time.current -= 1;
+    }, 1000);
+
+    return () => clearInterval(timerId.current);
+  }
+
+
+
   //콜 다이 레이즈 올인 클릭
   function sendBet(action) {
     //call die raise allin
@@ -236,12 +271,34 @@ export default function Game(props) {
           <button className={styles.button}>나가기</button>
         </div>
       </div>
-
       <div className={styles.grid}>
-        <div className={styles.cards}>
-          <div>질문영역</div>
-          <div>카드영역</div>
+        <div className={styles.center}>
+          <div className={styles.qs}>누가 거짓말쟁이?</div>
+          <div className={styles.cards}>
+            {/* 카드뒷면 */}
+            <div
+              id="card"
+              className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
+            >
+              <img src={card_back} />
+              <img src={card_back} />
+            </div>
+            {/* 카드앞면오픈 */}
+            <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
+              <img src={card_am_1} />
+              <img src={card_aq_1} />
+            </div>
+          </div>
+          <div className={styles.info}>
+            <div className={styles.time}>
+              {sec}초
+              {/* <div className={styles.timer_front}></div>
+                        <div className={styles.timer_back}></div> */}
+            </div>
+            <div className={styles.money}>돈돈돈돈</div>
+          </div>
         </div>
+
         <div className={styles.player1}>
           <Player player={players[1]} />
         </div>
@@ -260,15 +317,18 @@ export default function Game(props) {
         <div className={styles.playerMe}>
           <Player player={players[0]} />
         </div>
-        <div className={styles.bottoms}>
-          <div>
-            {/* <button>다이</button>
-                        <button>콜</button>
-                        <button>레이즈</button>
-                        <button>올인</button> */}
-          </div>
-        </div>
 
+        {/* 게임시작버튼 */}
+        <div className={styles.start}>
+          <button onClick={gameStart}>게임시작</button>
+        </div>
+        {/* 베팅버튼 */}
+        {/* <div className={styles.betting}>
+                <button>다이</button>
+                <button>콜</button>
+                <button>레이즈</button>
+                <button>올인</button>
+            </div> */}
         <div className={styles.rules}>
           트리플 &#62; 스트레이트 &#62; 더블 <br />
           에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
