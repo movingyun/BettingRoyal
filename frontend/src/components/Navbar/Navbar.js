@@ -6,11 +6,14 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import { mainMyPageItems, mainNavbarItems, mainTutorialItems} from './consts/navbarListItems';
 import { useNavigate } from "react-router-dom";
 import { navbarStyles } from './styles';
 import Modal from "../Modal/Modal";
 import { useEffect, useState } from "react";
+import ruby from "../../images/icon/ruby.png";
 
 const Navbar = (title) => {
 
@@ -37,44 +40,45 @@ const Navbar = (title) => {
           sx={navbarStyles.drawer}
           variant="permanent"
           anchor="left">
-        <Toolbar />
-        <List>
+        <List sx={navbarStyles.topList}>
+          <Box sx={navbarStyles.topInfo}>
+            <Box sx={navbarStyles.infoName}>
+              닉네임
+            </Box>
+            <Box sx={navbarStyles.infoRuby}>
+              <img src={ruby} height="15" width="15"/> 100000 루비
+            </Box>
+          </Box>
+          <Box sx={navbarStyles.topBtns}>
             {mainMyPageItems.map((item, index) => (
-                <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-                  {/* <ListItemIcon sx={navbarStyles.icons}>
-                    {item.icon}
-                  </ListItemIcon> */}
-                  <ListItemText
-                    sx={navbarStyles.text} primary={item.label}/>
-                </ListItem>
+                <Button button key={item.id} onClick={() => navigate(item.route)} sx={navbarStyles.btn} >내정보</Button>
               ))}
-              <button onClick={ openModal }>금고</button>
+                <Button onClick={ openModal } sx={navbarStyles.btn} >금고</Button>
               <Modal open={ modalOpen } close={ closeModal } header="루비금고">
             <button>입금</button>
             <button>출금</button>
           </Modal>
+          </Box>
         </List>
-        <Divider />
-        <List>
+        <Divider sx={navbarStyles.divider}/>
+        <List sx={navbarStyles.centerList}>
            {mainNavbarItems.map((item, index) => (
-              <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-              <ListItemIcon sx={navbarStyles.icons}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                sx={navbarStyles.text} primary={item.label}/>
+              <ListItem sx={navbarStyles.center} button key={item.id} onClick={() => navigate(item.route)}>
+                  <ListItemIcon sx={navbarStyles.icons}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={navbarStyles.centerText} primary={item.label}/>
+
             </ListItem>
           ))}
         </List>
-        <Divider />
-        <List>
+        <List sx={navbarStyles.bottomList}>
+        {/* <Divider sx={navbarStyles.divider}/> */}
            {mainTutorialItems.map((item, index) => (
-              <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-              {/* <ListItemIcon sx={navbarStyles.icons}>
-                {item.icon}
-              </ListItemIcon> */}
+              <ListItem sx={navbarStyles.bottom} button key={item.id} onClick={() => navigate(item.route)}>
               <ListItemText
-                sx={navbarStyles.text} primary={item.label}/>
+                sx={navbarStyles.bottomText} primary={item.label}/>
             </ListItem>
           ))}
         </List>
