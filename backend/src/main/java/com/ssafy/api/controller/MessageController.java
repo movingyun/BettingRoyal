@@ -284,16 +284,63 @@ public class MessageController {
 	public void nextTurn(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
 		//게임방에 참여중인 참가자들을 구한다
 		List<GamePlayer> gp = gamePlayerRepository.getGamePlayer(message.getRoomId());
+		int roomId = message.getRoomId();
+		int roombettingUnit = message.getBattingUnit();
+
+
+
+		//finishCnt와 dieCnt를 활용해서 게임이 끝났는지 확인
+		//finishCnt = dieCnt + (userBetting==MaxBetting)Cnt
+		int finishcnt = 0;
+		int dieCnt = 0;
+		for(GamePlayer player : gp){
+			if(player.getMyBetting()!=roombettingUnit&&player.getMyBetting()==player.getMaxBetting()){
+				finishcnt++;
+			}
+			else if(player.isDie()){
+				finishcnt++;
+				dieCnt++;
+			}
+		}
+
+		//finishCnt가 gameSize거나
+		//dieCnt가 gameSize-1이면 게임을 끝낸다.
+		int gameSize = gp.size();
+		//******************************게임 끝남!!!!******************************
+		if(finishcnt==gameSize||dieCnt==gameSize-1){
+
+		}
+
+
+
+		//*******************게임 계속할거야. 다음사람한테 턴 넘겨!!*******************
+
+
+
+
+
+
 		GamePlayer me = null;
-		int i = 0;
-		for(; i < gp.size(); i++){ //내가 누군지 찾는다
+		int myIdx = -1;
+		for(int i=0; i < gp.size(); i++){ //내가 누군지 찾는다
 			if(gp.get(i).getSessionId().equals(headerAccessor.getUser().getName())){
 				me = gp.get(i);
+				myIdx = i;
 				break;
 			}
 		}
 
-		//앞 사람과 비교해서 max베팅이 같으면 모두가 콜을 한 것이니 게임 종료!
+		//나 다음에 죽지않은 사람
+		int nextPlayerIdx = -1;
+		for(int i=(myIdx+1)%gp.size(); i < gp.size(); i++){
+			if(!gp.get(i).isDie()){
+				nextPlayerIdx = i;
+				break;
+			}
+		}
+
+
+		//죽지않은 제일 앞 사람과 비교해서 max베팅이 같으면 모두가 콜을 한 것이니 게임 종료!
 		if(me.getMaxBetting() == gp.get((i+1)%gp.size()).getMaxBetting()){
 			//타입을 게임 끝으로 바꿔주고 방 안에 있는 모든 사용자에게 알려줌
 			message.setType(MessageType.GAMEEND);
