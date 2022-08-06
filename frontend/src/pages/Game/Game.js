@@ -7,7 +7,7 @@ import sockjs from "sockjs-client";
 import stompjs from "stompjs";
 import axios from "axios";
 import { listClasses } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
@@ -29,12 +29,15 @@ export default function Game(props) {
   const [groundCard, setGroundCard] = useState([]);
 
   let navigate = useNavigate();
-  let roomId = ""; //방 컴포넌트에 roomid 포함
-  let stomp;
+  let location=useLocation();
+  let roomId =location.state.roomid //방 컴포넌트에 roomid 포함
+  var sock = new sockjs("http://localhost:8080/stomp-game");
+   let stomp = stompjs.over(sock);
+   
 
   useEffect(() => {
-    var sock = new sockjs("http://localhost:8080/stomp-game");
-    stomp = stompjs.over(sock);
+    console.log(roomId +'번 방 참가')
+    
     stomp.connect({}, () => {
       stomp.send(
         "/pub/game/message",
@@ -46,7 +49,7 @@ export default function Game(props) {
       stomp.subscribe("/sub/game/room" + roomId, function (message) {
         //content.type, content.message등으로 사용 가능
         var content = JSON.parse(message.body);
-
+        
         //참가 후 정보받기
         if (content.type == "PLAYERSINFO") {
           //{players[], betUnit}
@@ -97,7 +100,7 @@ export default function Game(props) {
           ))
           setTotalBet(totalBet+content.bet)
         }
-*/
+    */
 
         //플레이어 카드 받기
         if (content.type == "MAKECARDSET") {

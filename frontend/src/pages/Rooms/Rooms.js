@@ -100,7 +100,7 @@ export default function Rooms(props) {
   let roomsdummy = (
     <Grid className={styles.container}>
       {roomcreate}
-      <Link to="/game">게임방 테스트</Link>
+      <Link to="/room" state={{roomid:1}}>게임방 테스트</Link>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
