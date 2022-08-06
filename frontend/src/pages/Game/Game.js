@@ -63,7 +63,7 @@ export default function Game(props) {
         if (content.type == "ENTER") {
           //{player}
           console.log("사람들어왔다" + message.body);
-          setPlayers([...players, content.playerInfo]);
+          setPlayers([content.playersInfo]);
         }
 
         //사람이 나갔을 때

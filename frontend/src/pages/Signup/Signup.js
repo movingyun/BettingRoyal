@@ -135,15 +135,15 @@ export default function SignUp() {
     if(!emailRegex.test(Email)) {
       setEmailcheck('이메일 형식이 아닙니다')
       
-    }checkcount++;
+    }else checkcount++;
     if(!pwRegex.test(Password)) {
       setPwcheck('비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.')
       
-    }checkcount++;
+    }else checkcount++;
     if(!nicknameRegex.test(NickName)) {
       setNickcheck('닉네임은 한글/숫자/영어만 가능합니다.')
       
-    }checkcount++;
+    }else checkcount++;
     if(checkcount!=3) return;
 
 
@@ -155,7 +155,7 @@ export default function SignUp() {
     } 
     else {
       // const statusCode = await createUserFetch();
-      console.log('sending '+userInfo)
+      console.log('sending '+JSON.stringify(userInfo))
       await axios
       .post("http://localhost:8080/api/auth/signup", {
         UserEmail: userInfo.userEmail,
