@@ -54,6 +54,7 @@ export default function Game(props) {
         if (content.type == "PLAYERSINFO") {
           //{players[], betUnit}
           //받은 player[0]이 자신
+          console.log('플레이어들 정보 받기' +content.playersInfo)
           setPlayers(content.playersInfo);
           setPlayerOpenvidu(content.playerOpenvidu);
         }
@@ -66,7 +67,7 @@ export default function Game(props) {
         }
 
         //사람이 나갔을 때
-        if (content.type == "ENTER") {
+        if (content.type == "EXIT") {
           //{player}
           let leftPlayer = players.find((player) => player.socketId == content.socketId);
           setPlayers(players.filter((player) => player.socketId != content.socketId));
