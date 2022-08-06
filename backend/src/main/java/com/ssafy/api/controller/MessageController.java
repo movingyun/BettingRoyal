@@ -199,7 +199,14 @@ public class MessageController {
 
 		// 다이가 들어왔을 때
 		if (message.getType().equals(MessageType.DIE)) {
+			int roomId =  message.getRoomId();
+			String userInfo = headerAccessor.getUser().getName();
+			gamePlayerRepository.dieBetting(roomId, userInfo);
 
+			// 끝났는지체크
+
+
+			// 다음턴으로 넘기고 그사람한테 배팅하라고 알려줌
 		}
 
 		// 레이즈가 들어왔을 때
@@ -218,10 +225,10 @@ public class MessageController {
 			//얼마나 raise?
 			int raiseCnt = Integer.parseInt(message.getMessage());
 
-			// GamePlayer에서 myBetting plus 해주고 raiseBettingCnt 돌려주기
+			//(Server) GamePlayer에서 myBetting plus 해주고 raiseBettingCnt 돌려주기
 			int raiseBetting = gamePlayerRepository.raiseBetting(roomId, userInfo, raiseCnt);
 
-			// GameInfo에서 rubyGet minus해주기
+			//(DB) GameInfo에서 rubyGet minus해주기
 			gameInfoService.raiseBetting(gameId, userInfo, raiseBetting);
 
 
@@ -233,7 +240,20 @@ public class MessageController {
 
 		// 올인이 들어왔을 때
 		if (message.getType().equals(MessageType.ALLIN)) {
+			String userInfo = headerAccessor.getUser().getName();
+			int gameId = message.getGameId();
 
+			//(Server) GamePlayer에서 myBetting plus 해주고 allInBettingCnt 돌려주기
+			int allInBettingCnt = gamePlayerRepository.allInBetting(message, userInfo);
+
+			//(DB) GameInfo에서 allInBettingCnt만큼 rubyGet minus해주기
+			gameInfoService.allInBetting(gameId, message.getSenderNickName(), allInBettingCnt);
+
+
+			// 끝났는지체크
+			nextTurn(message, headerAccessor);
+
+			// 다음턴으로 넘기고 그사람한테 배팅하라고 알려줌
 		}
 		//***************************************************
 
