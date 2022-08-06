@@ -20,4 +20,10 @@ public class GamePlayer {
 	private int myBetting;
 	//다이 확인
 	private  boolean isDie;
+	//내카드
+	private int myCard;
+	//방 기본 배팅
+	private int battingUnit;
+
+	private User user;
 }

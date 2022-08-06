@@ -65,7 +65,7 @@ public class MessageController {
 			roomSizeRepository.plusPlayerCnt(message.getRoomId());
 
 			// gamePlayer에 넣어준다.
-			gamePlayerRepository.addGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
+			gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
 
 			message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
 			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
