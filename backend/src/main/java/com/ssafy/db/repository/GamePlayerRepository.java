@@ -3,6 +3,7 @@ package com.ssafy.db.repository;
 import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
+
 import com.ssafy.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,25 +14,27 @@ import java.util.List;
 
 @Repository
 public class GamePlayerRepository {
-	@Autowired
-	private UserService userService;
 
 	private List<GamePlayer> gamePlayerMap;
+
+	@Autowired
+	private UserService userService;
 	
     @PostConstruct
     private void init(){
     	gamePlayerMap = new ArrayList<GamePlayer>();
     }
     
-    public void addGamePlayer(int roomId, String sessionId) {
+    public void addGamePlayer(GameMessage message, String sessionId) {
     	GamePlayer gamePlayer = new GamePlayer();
-    	gamePlayer.setRoomId(roomId);
+    	gamePlayer.setRoomId(message.getRoomId());
     	gamePlayer.setSessionId(sessionId);
-    	if(getGamePlayer(roomId).size()==0) {
+    	if(getGamePlayer(message.getRoomId()).size()==0) {
     		gamePlayer.setMyTurn(true);
     	}else {
     		gamePlayer.setMyTurn(false);
     	}
+		gamePlayer.setUser(userService.searchUserByNickname(message.getSenderNickName()));
     	gamePlayerMap.add(gamePlayer);
     }
     
