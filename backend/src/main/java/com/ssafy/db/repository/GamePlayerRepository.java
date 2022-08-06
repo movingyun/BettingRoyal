@@ -1,6 +1,10 @@
 package com.ssafy.db.repository;
 
+import com.ssafy.api.service.UserService;
+import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
+import com.ssafy.db.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +13,9 @@ import java.util.List;
 
 @Repository
 public class GamePlayerRepository {
+	@Autowired
+	private UserService userService;
+
 	private List<GamePlayer> gamePlayerMap;
 	
     @PostConstruct
@@ -94,9 +101,37 @@ public class GamePlayerRepository {
 		return callBettingCnt+raiseCnt;
 	}
 
+	//DIE 베팅하기
+	public void dieBetting(int roomId, String sessionId){
+		//현재 방에있는 플레이어 수
+		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
+		for(int i=0; i<gamePlayerList.size(); i++) {
+			//베팅한 애면
+			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+				gamePlayerList.get(i).setDie(true);
+			}
+		}
+	}
 
+	//ALLIN 베팅하기
+	public int allInBetting(GameMessage message, String sessionId){
+		//현재 방에있는 플레이어 수
+		List<GamePlayer> gamePlayerList = getGamePlayer(message.getRoomId());
+		int userRuby = 0;
+		for(int i=0; i<gamePlayerList.size(); i++) {
+			//베팅한 애면
+			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+				//내가 갖고있는 돈
+				User user = userService.searchUserByNickname(message.getSenderNickName());
+				userRuby = user.getUserRuby();
 
+				//현재까지 베팅 금액
+				int currentBetting = gamePlayerList.get(i).getMyBetting();
 
-
-
+				//내가 가진 돈 만큼 myBetting 바꿔주기
+				gamePlayerList.get(i).setMyBetting(currentBetting+userRuby);
+			}
+		}
+		return userRuby;
+	}
 }
