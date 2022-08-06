@@ -1,12 +1,11 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
 import com.ssafy.db.entity.PlayerCardSetInGame;
-import com.ssafy.db.repository.GamePlayerRepository;
-import com.ssafy.db.repository.GameRepository;
-import com.ssafy.db.repository.PlayerCardSetInGameRepository;
-import com.ssafy.db.repository.RoomSizeRepository;
+import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.*;
 import com.ssafy.db.vo.MessageType;
 import com.ssafy.api.service.GameInfoService;
 import com.ssafy.api.service.GameService;
@@ -52,6 +51,10 @@ public class MessageController {
 	private GameRepository gameRepository;
 	@Autowired
 	private GamePlayerRepository gamePlayerRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private UserService userService;
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -184,12 +187,17 @@ public class MessageController {
 			message.setType(MessageType.PLAYERCALL);
 			template.convertAndSend("/sub/game/room" + roomId, message);
 
+
 			// GamePlayer에서 myBetting plus 해주고 callBettingCnt 돌려주기
 			int callBettingCnt = gamePlayerRepository.callBetting(roomId, userInfo);
 
-			// GameInfo에서 rubyGet minus해주기
+			// tb_GameInfo에서 rubyGet minus해주기
 			gameInfoService.callBetting(gameId, userNickname, callBettingCnt);
 
+			// tb_User에서 ruby minus해주기
+			User user = userRepository.findByUserNickname(userNickname);
+			user.setUserRuby(user.getUserRuby()-callBettingCnt);
+			userService.modifyUser(user);
 
 			// 끝났는지체크
 
@@ -212,6 +220,7 @@ public class MessageController {
 		// 레이즈가 들어왔을 때
 		if (message.getType().equals(MessageType.RAISE)) {
 			int roomId =  message.getRoomId();
+			String userNickname = message.getSenderNickName();
 
 			// raise한 사람 sessionId
 			String userInfo = headerAccessor.getUser().getName();
@@ -231,6 +240,10 @@ public class MessageController {
 			//(DB) GameInfo에서 rubyGet minus해주기
 			gameInfoService.raiseBetting(gameId, userInfo, raiseBetting);
 
+			// tb_User에서 ruby minus해주기
+			User user = userRepository.findByUserNickname(userNickname);
+			user.setUserRuby(user.getUserRuby()-raiseBetting);
+			userService.modifyUser(user);
 
 			// 끝났는지체크
 
@@ -240,8 +253,13 @@ public class MessageController {
 
 		// 올인이 들어왔을 때
 		if (message.getType().equals(MessageType.ALLIN)) {
+			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
+			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
+
+
 			String userInfo = headerAccessor.getUser().getName();
 			int gameId = message.getGameId();
+			String userNickname = message.getSenderNickName();
 
 			//(Server) GamePlayer에서 myBetting plus 해주고 allInBettingCnt 돌려주기
 			int allInBettingCnt = gamePlayerRepository.allInBetting(message, userInfo);
@@ -249,9 +267,13 @@ public class MessageController {
 			//(DB) GameInfo에서 allInBettingCnt만큼 rubyGet minus해주기
 			gameInfoService.allInBetting(gameId, message.getSenderNickName(), allInBettingCnt);
 
+			// tb_User에서 ruby minus해주기
+			User user = userRepository.findByUserNickname(userNickname);
+			user.setUserRuby(user.getUserRuby()-allInBettingCnt);
+			userService.modifyUser(user);
 
 			// 끝났는지체크
-			nextTurn(message, headerAccessor);
+			checkFinish(message, headerAccessor);
 
 			// 다음턴으로 넘기고 그사람한테 배팅하라고 알려줌
 		}
@@ -273,7 +295,7 @@ public class MessageController {
 				gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
 			}
 
-			message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
+			message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
 			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
 		}
 
@@ -281,82 +303,86 @@ public class MessageController {
 
 
 	//다음 사람을 비교해서 게임 종료 여부와 다음 차례인 사람을 찾는 함수
-	public void nextTurn(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
+	public void checkFinish(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
 		//게임방에 참여중인 참가자들을 구한다
 		List<GamePlayer> gp = gamePlayerRepository.getGamePlayer(message.getRoomId());
-		int roomId = message.getRoomId();
-		int roombettingUnit = message.getBattingUnit();
-
-
 
 		//finishCnt와 dieCnt를 활용해서 게임이 끝났는지 확인
 		//finishCnt = dieCnt + (userBetting==MaxBetting)Cnt
-		int finishcnt = 0;
+		int finishCnt = 0;
 		int dieCnt = 0;
 		for(GamePlayer player : gp){
-			if(player.getMyBetting()!=roombettingUnit&&player.getMyBetting()==player.getMaxBetting()){
-				finishcnt++;
+			//플레이어의 베팅이 기본베팅이 아니면서 maxBetting이랑 같으면 finishCnt올려준다.
+			if(player.getMyBetting()!=player.getBattingUnit()&&player.getMyBetting()==player.getMaxBetting()){
+				finishCnt++;
+				continue;
 			}
 			else if(player.isDie()){
-				finishcnt++;
+				finishCnt++;
 				dieCnt++;
+				continue;
 			}
+			//하나라도 충족못하면 다음턴 진행해야된다.
+			break;
 		}
 
 		//finishCnt가 gameSize거나
 		//dieCnt가 gameSize-1이면 게임을 끝낸다.
 		int gameSize = gp.size();
 		//******************************게임 끝남!!!!******************************
-		if(finishcnt==gameSize||dieCnt==gameSize-1){
+		if(finishCnt==gameSize||dieCnt==gameSize-1){
+			//누가 이겼는지 확인해보자.
 
+			//메세지(Message.setMessage)에 누가 이겼는지 알려줘야 함
+
+
+			//tb_gameInfo에 이긴사람은 루비획득+해주고 승리여부 이긴거 기록해줘야함.
+
+			
+			//tb_gameInfo에 진사람은 루비획득+해주고 승리여부 false 기록해줘야함.
+
+
+			//tb_game에 승자 기록
+
+
+			//이긴 user의 승수,루비 수 올려주기
+
+
+			//gamePlayer의 요소들 초기화
+
+
+			//이긴사람이 처음 시작하는걸로 바꿔주자.
+
+
+			//끝났다고 알려줘~~!!
+			message.setType(MessageType.GAMEEND);
+			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
 		}
 
 
 
 		//*******************게임 계속할거야. 다음사람한테 턴 넘겨!!*******************
+		else{
+			//이번 플레이어의 myTurn은 false로 바꿔주고 다음번 애 true로 바꿔준다.
 
 
-
-
-
-
-		GamePlayer me = null;
-		int myIdx = -1;
-		for(int i=0; i < gp.size(); i++){ //내가 누군지 찾는다
-			if(gp.get(i).getSessionId().equals(headerAccessor.getUser().getName())){
-				me = gp.get(i);
-				myIdx = i;
-				break;
+			//turnIdx++ 해주기
+			message.setTurnIdx(message.getTurnIdx()+1);
+			//어떤 행동을 했는지 확인!
+			String bettingType = String.valueOf(message.getType());
+			//RAISE했으면 얼만큼 레이즈했는지 알려줘야함. ex)RAISE 5
+			if(bettingType.equals("RAISE")){
+				bettingType+=(" " + message.getMessage());
 			}
-		}
+			message.setMessage(bettingType);
+			message.setType(MessageType.NEXTTURN);
 
-		//나 다음에 죽지않은 사람
-		int nextPlayerIdx = -1;
-		for(int i=(myIdx+1)%gp.size(); i < gp.size(); i++){
-			if(!gp.get(i).isDie()){
-				nextPlayerIdx = i;
-				break;
-			}
+			//각자한테 마스킹해서 보내주기.
 		}
 
 
-		//죽지않은 제일 앞 사람과 비교해서 max베팅이 같으면 모두가 콜을 한 것이니 게임 종료!
-		if(me.getMaxBetting() == gp.get((i+1)%gp.size()).getMaxBetting()){
-			//타입을 게임 끝으로 바꿔주고 방 안에 있는 모든 사용자에게 알려줌
-			message.setType(MessageType.GAMEEND);
-			message.setMessage("게임이 끝났습니다.");
-			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
-			return;
-		}
 
-		//위에서 리턴이 안되고 내려오면 게임이 안 끝나고 다음 사람이 배팅을 해야함.
-		gp.get((i+1)%gp.size()).setMaxBetting(me.getMaxBetting()); // 다음 사람의 maxbetting을 내 맥스베팅금액으로 업데이트해준다.
-		gp.get(i).setMyTurn(false); //내 턴 끝
-		gp.get((i+1)%gp.size()).setMyTurn(true); //다음사람 턴 시작
-		message.setType(MessageType.BETTING);
-		message.setMessage("내 차례입니다.");
-		//베팅할 차례를 해당 유저에게만 알려준다.
-		template.convertAndSendToUser(gp.get((i+1)%gp.size()).getSessionId(), "/sub/game/room" + message.getRoomId(), message);
+
 
 	}
 
