@@ -33,7 +33,7 @@ export default function Game(props) {
   let stomp;
 
   useEffect(() => {
-    var sock = new sockjs("http://localhost:8080");
+    var sock = new sockjs("http://localhost:8080/stomp-game");
     stomp = stompjs.over(sock);
     stomp.connect({}, () => {
       stomp.send(
