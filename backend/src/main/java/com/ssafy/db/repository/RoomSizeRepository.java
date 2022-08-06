@@ -19,7 +19,7 @@ public class RoomSizeRepository {
     	roomSizeMap = new LinkedHashMap<>();
     }
     
-    //방의 크기 구하기
+    //방의 사람 수 구하기
     public int getRoomSize(int roomId) {
     	return roomSizeMap.get(roomId);
     }
