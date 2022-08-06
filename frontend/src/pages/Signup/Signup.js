@@ -68,6 +68,9 @@ export default function SignUp() {
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [ErrorMsgPassword, setErrorMsgPassword] = useState("");
+  const [emailcheck, setEmailcheck] = useState("");
+  const [pwcheck, setPwcheck] = useState("");
+  const [nickcheck, setNickcheck] = useState("");
 
   const onNickNameHandler = (event) => {
     setNickName(event.currentTarget.value);
@@ -102,7 +105,7 @@ export default function SignUp() {
   async function  onSubmitHandler(event){
     event.preventDefault();
     const userInfo = {
-      NickName: NickName,
+      userNickname: NickName,
       userEmail: Email,
       userGender: Gender,
       userPw: Password,
@@ -110,10 +113,10 @@ export default function SignUp() {
     };
 
     const data = new FormData(event.currentTarget);
-    console.log({
+    /*console.log({
       email: data.get("email"),
       password: data.get("password"),
-    });
+    });*/
 
     var hasEmptyInfo = false;
     for (var i in userInfo) {
@@ -121,6 +124,28 @@ export default function SignUp() {
         hasEmptyInfo = true;
       }
     }
+
+    setEmailcheck('')
+    setPwcheck('')
+    setNickcheck('')
+    let emailRegex=new RegExp("[a-zA-z0-9]+@[a-zA-z]+[.]+[a-zA-z.]+")
+    let pwRegex = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~?!@#$%^&*()+|=])[A-Za-z\\d~?!@#$%^&*()+|=]{8,}$")
+    let nicknameRegex= new RegExp("^[0-9a-zA-Z가-힣]*$")
+    let checkcount=0;
+    if(!emailRegex.test(Email)) {
+      setEmailcheck('이메일 형식이 아닙니다')
+      
+    }checkcount++;
+    if(!pwRegex.test(Password)) {
+      setPwcheck('비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.')
+      
+    }checkcount++;
+    if(!nicknameRegex.test(NickName)) {
+      setNickcheck('닉네임은 한글/숫자/영어만 가능합니다.')
+      
+    }checkcount++;
+    if(checkcount!=3) return;
+
 
     if (hasEmptyInfo) {
       alert("모든 항목을 다 입력하세요.");
@@ -130,13 +155,13 @@ export default function SignUp() {
     } 
     else {
       // const statusCode = await createUserFetch();
-
+      console.log('sending '+userInfo)
       await axios
       .post("http://localhost:8080/api/auth/signup", {
-        userEmail: userInfo.userEmail,
-        userGender: userInfo.userGender,
-        userNickname: userInfo.userNickname,
-        userPw:userInfo.userPw
+        UserEmail: userInfo.userEmail,
+        UserGender: userInfo.userGender,
+        UserNickname: userInfo.userNickname,
+        UserPw:userInfo.userPw
       })
       .then(function (response) {
         console.log(JSON.stringify(response.data.statusCode));
@@ -205,7 +230,7 @@ export default function SignUp() {
   //   }
   //   //
   // };
-
+/*
   async function createUserFetch(userInfo) {
     // var config = {
     //   method: "post",
@@ -226,7 +251,7 @@ export default function SignUp() {
         return error;
       });
   }
-
+*/
   return (
     <div className={styles.bg}>
     <div className={styles.tb}>
@@ -268,6 +293,7 @@ export default function SignUp() {
                   label="이메일 아이디"
                   onChange={onEmailHandler}
                 />
+                <p>{emailcheck}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -294,6 +320,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                   onChange={onConfirmPasswordHandler}
                 />
+                <p>{pwcheck}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -307,6 +334,7 @@ export default function SignUp() {
                   onChange={onNickNameHandler}
                   autoFocus
                 />
+                <p>{nickcheck}</p>
               </Grid>
 
               <Grid item xs={12}>

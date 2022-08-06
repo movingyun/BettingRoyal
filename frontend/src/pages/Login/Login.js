@@ -14,16 +14,11 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import Container from "@mui/material/Container";
 import axios from "axios";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {"Copyright © "}
       <Link
         color="inherit"
@@ -53,10 +48,12 @@ export default function SignInSide() {
 
   const [userId, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [loginResult, setLoginResult] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(userId, pw);
+    setLoginResult("")
     axios
       .post("http://localhost:8080/api/auth/login", {
         userEmail: userId,
@@ -70,6 +67,9 @@ export default function SignInSide() {
         navigate("/lobby/notice");
       })
       .catch(function (error) {
+        if (error.response.status == 401) {
+          setLoginResult('유저 정보가 없습니다')
+        }
         console.log(error);
       });
   };
@@ -77,66 +77,15 @@ export default function SignInSide() {
   return (
     <div className={styles.bg}>
       <div className={styles.tb}>
-      <div className={styles.borderBox}>
-      <Container component="main" maxWidth="xs">
-        <Box>
-          <div>
-            <Link href="/" variant="body2">
-              <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
-            </Link>
-          </div>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ mt: 5, bgcolor: "#2C3639", color: "#FFFFFF" }}>
-            <PersonRoundedIcon />
-          </Avatar>
-          <p className={styles.title}>
-            Login
-          </p>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                onChange={(e)=>{setId(e.target.value)}}
-                  color="action"
-                  required
-                  fullWidth
-                  id="email"
-                  label="이메일 아이디"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                onChange={(e)=>{setPw(e.target.value)}}
-                  color="action"
-                  required
-                  fullWidth
-                  name="password"
-                  label="비밀번호"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-                {/* <FormControlLabel 
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
-              </Grid>
-            </Grid>
+        <div className={styles.borderBox}>
+          <Container component="main" maxWidth="xs">
+            <Box>
+              <div>
+                <Link href="/" variant="body2">
+                  <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
+                </Link>
+              </div>
+            </Box>
             <Box
               sx={{
                 display: "flex",
@@ -144,27 +93,76 @@ export default function SignInSide() {
                 alignItems: "center",
               }}
             >
-              <button type="submit" className={styles.button}>
-                로그인
-              </button>
+              <Avatar sx={{ mt: 5, bgcolor: "#2C3639", color: "#FFFFFF" }}>
+                <PersonRoundedIcon />
+              </Avatar>
+              <p className={styles.title}>Login</p>
+              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={(e) => {
+                        setId(e.target.value);
+                      }}
+                      color="action"
+                      required
+                      fullWidth
+                      id="email"
+                      label="이메일 아이디"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={(e) => {
+                        setPw(e.target.value);
+                      }}
+                      color="action"
+                      required
+                      fullWidth
+                      name="password"
+                      label="비밀번호"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                    {/* <FormControlLabel 
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              /> */}
+                  </Grid>
+                </Grid>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <p>{loginResult}</p>
+                  <button type="submit" className={styles.button}>
+                    로그인
+                  </button>
+                </Box>
+                <Grid container>
+                  <Grid item xs>
+                    <a href="#" variant="body2" className={styles.link}>
+                      아이디·비밀번호 찾기
+                    </a>
+                  </Grid>
+                  <Grid item>
+                    <a href="signup" variant="body2" className={styles.link}>
+                      {"회원가입"}
+                    </a>
+                  </Grid>
+                </Grid>
+              </Box>
             </Box>
-            <Grid container>
-              <Grid item xs>
-                <a href="#" variant="body2" className={styles.link}>
-                  아이디·비밀번호 찾기
-                </a>
-              </Grid>
-              <Grid item>
-                <a href="signup" variant="body2" className={styles.link}>
-                  {"회원가입"}
-                </a>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        {/* <Copyright sx={{ mt: 5 }} /> */}
-      </Container>
-      </div>
+            {/* <Copyright sx={{ mt: 5 }} /> */}
+          </Container>
+        </div>
       </div>
     </div>
   );
