@@ -8,5 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //Room테이블 관리하는 레퍼지토린데 Room테이블의 PK는 Integer형식이다.
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     Room findByRoomId(int roomId);
+
+
+
+
+    Room findByRoomTitle(String roomTitle);
+
     void deleteByRoomId(int roomId);
 }

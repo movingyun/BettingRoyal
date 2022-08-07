@@ -30,7 +30,7 @@ export default function Game(props) {
 
   let navigate = useNavigate();
   let location=useLocation();
-  let roomId =location.state.roomid //방 컴포넌트에 roomid 포함
+  let roomId =location.state.roomId //방 컴포넌트에 roomid 포함
   var sock = new sockjs("http://localhost:8080/stomp-game");
    let stomp = stompjs.over(sock);
    
@@ -61,8 +61,9 @@ export default function Game(props) {
 
         //사람이 들어왔을 때
         if (content.type == "ENTER") {
-          //{player}
-          console.log("사람들어왔다" + message.body);
+          //nickname , ruby
+          console.log("사람들어왔다" + content);
+          setPlayers([...players,content])
           setPlayers([content.playersInfo]);
         }
 
@@ -83,25 +84,26 @@ export default function Game(props) {
 
         //그라운드 카드 받을 때
         if (content.type == "GROUNDCARD") {
-          //{groundCard[]}
+          //message : {"공통카드 : card1, card2"}
           console.log("그라운드카드 받아라~" + content.message);
           setGroundCard(content.groundCard);
         }
 
-        /*
+        
         // 배팅 하자
         if (content.type == "UNITBETTING") {
+          //서버에서 베팅 처리하고 프론트 효과만
           //
-          //setPlayers(content.playerInfo);
           
-          setPlayers(players.map(
-            player => player.socketId === content.socketId
-            ? {...player, bet: content.bet}
-            : player
-          ))
+          // setPlayers(players.map(
+          //   player => player.socketId === content.socketId
+          //   ? {...player, bet: content.bet}
+          //   : player
+          // ))
           setTotalBet(totalBet+content.bet)
+          
         }
-    */
+    
 
         //플레이어 카드 받기
         if (content.type == "MAKECARDSET") {

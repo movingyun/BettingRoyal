@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -8,14 +8,36 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";import Box from '@mui/material/Box';
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Rooms.module.css";
 
 export default function Rooms(props) {
   const [rooms, setRooms] = useState([]);
+  const [makeRoomTitle, setMakeRoomTitle] = useState("");
+  const [makeRoomBettingunit, setMakeRoomBettingunit] = useState();
+  const [makeRoomPw, setMakeRoomPw] = useState("");
+  let navigate = useNavigate();
+
   useEffect(() => {
     //fetch room list
+    axios
+      .get("http://localhost:8080/api/room", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+        },
+      })
+      .then(function (response) {
+        //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
+        console.log(JSON.stringify(response.data));
+        // return JSON.stringify(response.data.statusCode);
+
+        setRooms(makeRoomList(response.data));
+      })
+      .catch(function (error) {
+        alert("방 정보 가져오기 실패");
+      });
   }, []);
 
   let fetchedRooms = <Grid container></Grid>;
@@ -28,6 +50,39 @@ export default function Rooms(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  function makeRoom() {
+    axios
+      .post(
+        "http://localhost:8080/api/room",
+        {
+          roomTitle: makeRoomTitle,
+          roomBettingUnit: makeRoomBettingunit,
+        },
+        {
+          headers: {
+            Authorization: window.localStorage.accessToken,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log('room has made')
+        setOpen(false);
+        let room = JSON.parse(response.data);
+        navigate("/room", { state: { roomId: room.roomId } });
+      })
+      .catch(function (error) {});
+  }
+
+  const onRoomTitleHandler = (event) => {
+    setMakeRoomTitle(event.currentTarget.value);
+  };
+  const onRoomBettingunitHandler = (event) => {
+    setMakeRoomBettingunit(event.currentTarget.value);
+  };
+  const onRoomPwHandler = (event) => {
+    setMakeRoomPw(event.currentTarget.value);
   };
 
   let roomcreate = (
@@ -43,35 +98,71 @@ export default function Rooms(props) {
       >
         <DialogContent>
           <div>
-            <TextField id="standard-basic" label="방제목" variant="standard" />
+            <TextField
+              id="standard-basic"
+              label="방제목"
+              variant="standard"
+              onChange={onRoomTitleHandler}
+            />
           </div>
           <div>
             <TextField
               id="standard-basic"
               label="비밀번호"
               variant="standard"
+              onChange={onRoomPwHandler}
+            />
+          </div>
+          <div>
+            <TextField
+              id="standard-basic"
+              label="베팅 단위"
+              variant="standard"
+              onChange={onRoomBettingunitHandler}
             />
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>만들기</Button>
+          <Button onClick={makeRoom}>만들기</Button>
         </DialogActions>
       </Dialog>
     </Grid>
   );
 
+  function makeRoomList(roomsdata) {
+    let list = [];
+    for (let i = 0; i < roomsdata.length; i++) {
+      let room = new Object();
+      room.id = roomsdata[i].roomId;
+      room.roomTitle = roomsdata[i].roomTitle;
+      room.roomBettingUnit = roomsdata[i].roomBettingUnit;
+      room.isPw = roomsdata[i].roomPw;
+      room.current_count = 1;
+      room.max_count = 1;
+      console.log(JSON.stringify(room));
+      list.push(room);
+    }
+    return list;
+  }
+  //[{roomId, user, roomTitle, roomBettingUnit, roomPw}, ... ]
   const columns = [
     { field: "id", headerName: "방 번호", width: 90 },
     {
-      field: "roomname",
+      field: "roomTitle",
       headerName: "방 제목",
       width: 150,
       editable: false,
     },
     {
+      field: "roomBettingUnit",
+      headerName: "베팅 단위",
+      width: 50,
+      editable: false,
+    },
+    {
       field: "current_count",
       headerName: "현재인원",
-      width: 150,
+      width: 50,
       editable: false,
     },
     {
@@ -82,7 +173,7 @@ export default function Rooms(props) {
       editable: false,
     },
     {
-      field: "password",
+      field: "isPw",
       headerName: "비밀 방",
       sortable: false,
       width: 160,
@@ -90,27 +181,28 @@ export default function Rooms(props) {
     },
   ];
 
-  const rows = [
-    { id: 1, roomname: "방1", current_count: 1, max_count: 6 , password: "" },
-    { id: 2, roomname: "방2", current_count: 1, max_count: 6 , password: "" },
-    { id: 3, roomname: "방3", current_count: 1, max_count: 6 , password: "ㅇ" },
-    
-  ];
+  // const rows = [
+  //   { roomId: 1, roomTitle: "방1",roomBettingUnit:1, current_count: 1, max_count: 6 , roomPw: "" },
+  //   { roomId: 2, roomTitle: "방2", current_count: 1, max_count: 6 , roomPw: "" },
+  //   { roomId: 3, roomTitle: "방3", current_count: 1, max_count: 6 , roomPw: "ㅇ" },
+
+  // ];
 
   let roomsdummy = (
     <Grid className={styles.container}>
       {roomcreate}
-      <Link to="/room" state={{roomid:1}}>게임방 테스트</Link>
+      <Link to="/room" state={{ roomid: 1 }}>
+        게임방 테스트
+      </Link>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={rows}
+          rows={rooms}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />
       </Box>
-      
     </Grid>
   );
 

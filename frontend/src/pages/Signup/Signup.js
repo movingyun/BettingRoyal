@@ -158,10 +158,10 @@ export default function SignUp() {
       console.log('sending '+JSON.stringify(userInfo))
       await axios
       .post("http://localhost:8080/api/auth/signup", {
-        UserEmail: userInfo.userEmail,
-        UserGender: userInfo.userGender,
-        UserNickname: userInfo.userNickname,
-        UserPw:userInfo.userPw
+        userEmail: userInfo.userEmail,
+        userGender: userInfo.userGender,
+        userNickname: userInfo.userNickname,
+        userPw:userInfo.userPw
       })
       .then(function (response) {
         console.log(JSON.stringify(response.data.statusCode));
