@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class GamePlayer {
 	private int roomId;
 	private int gameId;
+	private int myRuby;
 	private String nickName;
 	private String sessionId;
 	private boolean myTurn;

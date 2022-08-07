@@ -37,6 +37,20 @@ public class GamePlayerRepository {
 		gamePlayer.setUser(userService.searchUserByNickname(message.getSenderNickName()));
     	gamePlayerMap.add(gamePlayer);
     }
+
+	public int findRoomBySesssionId(String sessionId) {
+		int roomid=-1;
+		for (int i=0; i<gamePlayerMap.size(); i++){
+			System.out.println(gamePlayerMap.get(i).getSessionId());
+			System.out.println(sessionId);
+			if(gamePlayerMap.get(i).getSessionId()==sessionId){
+
+				roomid= gamePlayerMap.get(i).getRoomId();
+			}
+		}
+		return roomid;
+
+	}
     
     public boolean deleteGamePlayer(int roomId, String sessionId) {
     	List<GamePlayer> gp = getGamePlayer(roomId);

@@ -24,6 +24,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.context.event.EventListener;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,18 +73,19 @@ public class MessageController {
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
 	// headerAccessor는 소켓서버의 주인ID를 확인하기 위해서 사용
-	public void message(GameMessage message, SimpMessageHeaderAccessor headerAccessor) throws InterruptedException {
+	public void message( GameMessage message, SimpMessageHeaderAccessor headerAccessor) throws InterruptedException {
 		log.info(message.getType());
 
 		if (message.getType().equals(MessageType.ENTER)) {
 			log.info(headerAccessor.getUser().getName());
 
-
 			//방이 만들어졌을때
 			if(!roomSizeRepository.isRoomExist(message.getRoomId())){
 				roomSizeRepository.plusPlayerCnt(message.getRoomId());
 				gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
+				message.setPlayerInfo(gamePlayerRepository.getGamePlayer(message.getRoomId()));
 
+				template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
 			}
 			else{
 				//6명 초과면 거절
@@ -340,30 +344,30 @@ public class MessageController {
 
 		//********************나갔을때 확인********************
 		// 나갔을때
-		if (message.getType().equals(MessageType.EXIT)) {
-			// 방에 나가면 player를 한명 내려준다.
-			roomSizeRepository.minusPlayerCnt(message.getRoomId());
-
-			//인원 0 되면 방 지우기
-			if(roomSizeRepository.getRoomSize(message.getRoomId()) <=0) {
-				roomService.deleteByRoomId(message.getRoomId());
-				System.out.println("room deleted : " + message.getRoomId());
-			}else{
-				// gamePlayer에서 빼준다.
-				//지운애가 방장이면 true 반환한다.
-				boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
-				//방장 지웠으면 그 다음애 true
-				if(flag) {
-					gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
-				}
-
-
-				message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
-				message.setPlayerInfo(gamePlayerRepository.getGamePlayer(message.getRoomId()));
-				template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
-
-			}
-		}
+//		if (message.getType().equals(MessageType.EXIT)) {
+//			// 방에 나가면 player를 한명 내려준다.
+//			roomSizeRepository.minusPlayerCnt(message.getRoomId());
+//
+//			//인원 0 되면 방 지우기
+//			if(roomSizeRepository.getRoomSize(message.getRoomId()) <=0) {
+//				roomService.deleteByRoomId(message.getRoomId());
+//				System.out.println("room deleted : " + message.getRoomId());
+//			}else{
+//				// gamePlayer에서 빼준다.
+//				//지운애가 방장이면 true 반환한다.
+//				boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
+//				//방장 지웠으면 그 다음애 true
+//				if(flag) {
+//					gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
+//				}
+//
+//
+//				message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
+//				message.setPlayerInfo(gamePlayerRepository.getGamePlayer(message.getRoomId()));
+//				template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+//
+//			}
+//		}
 
 	}
 
@@ -452,4 +456,41 @@ public class MessageController {
 
 	}
 
+	//소켓 끊김 감지
+	@EventListener
+	public void onDisconnectEvent(SessionDisconnectEvent event) {
+//		LOGGER.debug("Client with username {} disconnected", event.getUser());
+	//System.out.println("user left : "+event.getUser().getName());
+	String sessionid = event.getUser().getName();
+	int roomid = gamePlayerRepository.findRoomBySesssionId(sessionid);
+		boolean flag = gamePlayerRepository.deleteGamePlayer(roomid, sessionid);
+
+		if(roomid!=-1){
+		roomSizeRepository.minusPlayerCnt(roomid);
+
+		//인원 0 되면 방 지우기
+		if(roomSizeRepository.getRoomSize(roomid) <=0) {
+			roomService.deleteByRoomId(roomid);
+			System.out.println("room deleted : " + roomid);
+		}else{
+			// gamePlayer에서 빼준다.
+			//지운애가 방장이면 true 반환한다.
+			//방장 지웠으면 그 다음애 true
+			if(flag) {
+				gamePlayerRepository.getGamePlayer(roomid).get(0).setMyTurn(true);
+			}
+
+			GameMessage message = new GameMessage();
+			message.setPlayerInfo(gamePlayerRepository.getGamePlayer(roomid));
+			message.setType(MessageType.EXIT);
+			message.setMessage(sessionid+" 플레이어가 퇴장하셨습니다.");
+			template.convertAndSend("/sub/game/room" + roomid, message);
+
+		}
+	}
+
+
+
+
+	}
 }

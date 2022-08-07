@@ -63,15 +63,23 @@ export default function Game(props) {
         if (content.type == "ENTER") {
           //nickname , ruby
           console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
-          setPlayers([content.playersInfo])
+          setPlayers(content.playerInfo)
+          console.log(players)
         }
 
         //사람이 나갔을 때
         if (content.type == "EXIT") {
           //{player}
-          let leftPlayer = players.find((player) => player.socketId == content.socketId);
-          setPlayers(players.filter((player) => player.socketId != content.socketId));
-          console.log(leftPlayer.nickname + " left");
+          let arr = players;
+          for (let i = 0; i < players; i++) {
+            if(players[i]!=content.playerInfo[i]){
+              arr.splice(i,1);
+              console.log(players[i].sessionId + " left");
+            }
+            
+          }
+          setPlayers(arr);
+          
         }
 
         //게임이 시작됐을 때
