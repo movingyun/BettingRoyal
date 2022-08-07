@@ -35,9 +35,6 @@ public class GameRoomController {
         Room room = new Room();
         //나중에 사용자 값 받아서 넣는것으로 해야한다.
         room.setRoomBettingUnit(1);
-        room.setRoomId(0);
-        room.setRoomIsClose(false);
-        room.setRoomIsStart(false);
         room.setRoomTitle(roomTitle);
         //나중에 토큰값 받아서 넣는것으로 해야된다.
         room.setUser(userRepository.findById(1).get());

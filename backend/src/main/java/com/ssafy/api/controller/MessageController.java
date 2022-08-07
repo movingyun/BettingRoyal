@@ -120,6 +120,7 @@ public class MessageController {
 
 			// 게임 방 안의 모든 유저 돈 내고 게임 한 판 추가
 			for(GamePlayer gp : thisGamePlayer){
+				//디비에 유저에서도 업데이트 해줌
 				User temp = gp.getUser();
 				temp.setUserRuby(temp.getUserRuby()-bettingUnit);
 				temp.setUserGameCount(temp.getUserGameCount()+1);
@@ -128,9 +129,6 @@ public class MessageController {
 				gp.setMaxBetting(gp.getMaxBetting()+bettingUnit);
 				gp.setMyBetting(gp.getMyBetting()+bettingUnit);
 			}
-
-			//todo
-			//밑에 있는거 하나씩 해당하는거 디비 업데이트나 게임플레이어 정보 업데이트해주기!!!
 
 			// 카드뭉치에 개인 카드 넣기
 			// 방인원 수 구하기
@@ -144,6 +142,11 @@ public class MessageController {
 					// 새로운 카드면 카드뭉치에 넣고 다음사람 카드 뽑는다.
 					if (playerCard != groundCard1 && playerCard != groundCard2 && !cardSet.contains(playerCard)) {
 						cardSet.add(playerCard);
+						//서버에 저장하는 방 인원 정보에도 카드 넣어주기
+						thisGamePlayer.get(i).setMyCard(playerCard);
+						//공통 카드도 넣어주기
+						thisGamePlayer.get(i).setGroundCard1(groundCard1);
+						thisGamePlayer.get(i).setGroundCard2(groundCard2);
 						break;
 					}
 				}
@@ -159,6 +162,8 @@ public class MessageController {
 //			message.setType(MessageType.MAKECARDSET);
 //			template.convertAndSend("/sub/game/room" + roomId, message);
 
+			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다. todo
+			message.setPlayerInfo(getClientPlayerInfoMsg(thisGamePlayer, message));
 
 			//이 방에있는 플레이어들한테 각자 메시지 보내주자
 			int idx = 0;
@@ -179,13 +184,21 @@ public class MessageController {
 				}
 				idx++;
 
+
 				message.setMessage(content);
 				message.setType(MessageType.GETMYCARD);
 
-				// tb_game_info생성 후 게임id, 플레이어id, 개인카드 입력
-				gameInfoService.createGameInfo(gameId, 1, myCard);
+				// tb_game_info생성 후 게임id, 플레이어, 개인카드 입력
+				gameInfoService.createGameInfo(gameId, gp.getUser(), myCard);
 
-				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + message.getRoomId(), message);
+				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에는 내 카드를 알려주면 안된다! 0~39 이니 40으로 잠시 설정해둠
+				message.getPlayerInfo().get(idx-1).setMyCard(40);
+				//기본 데이터들 서버 데이터로 바꿔주기
+				settingBasicGameMessage(gp, message);
+				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
+				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
+				message.getPlayerInfo().get(idx-1).setMyCard(gp.getMyCard());
+			//todo 지용현 여기까지함
 			}
 
 			// 10초 기다리기(자유롭게 대화)
@@ -416,6 +429,39 @@ public class MessageController {
 
 
 
+	}
+
+	/**
+	 * 클라이언트 들에게 뿌려줄 정보 리스트를 반환해줌
+	 */
+	public List<PlayerInfo> getClientPlayerInfoMsg(List<GamePlayer> thisGamePlayer, GameMessage message){
+		//리스트 하나 만들어서
+		List<PlayerInfo> infos = new ArrayList<>();
+		//총 배팅 금액도 더해서 메세지에 넣어주기.
+		int gameTotalBet = 0;
+		//안에 정보들을 채워준다!
+		for(GamePlayer gp : thisGamePlayer){
+			PlayerInfo info = new PlayerInfo();
+			info.setNickname(gp.getUser().getUserNickname());
+			info.setMyruby(gp.getUser().getUserRuby());
+			info.setMytotalBet(gp.getMyBetting());
+			info.setMyCard(gp.getMyCard());
+			infos.add(info);
+			gameTotalBet += gp.getMyBetting();
+		}
+
+		message.setGameTotalBet(gameTotalBet);
+
+		return infos;
+	}
+
+	//게임 기본 정보들 메세지에 다시 서버 데이터로 채워주기 혹시 모를 클라이언트의 변조 데이터를 피하기 위함
+	public void settingBasicGameMessage(GamePlayer gp, GameMessage message){
+		message.setBattingUnit(gp.getBattingUnit());
+		message.setGroundCardNum1(gp.getGroundCard1());
+		message.setGroundCardNum2(gp.getGroundCard2());
+		message.setRoomId(gp.getRoomId());
+		message.setGameId(gp.getGameId());
 	}
 
 }
