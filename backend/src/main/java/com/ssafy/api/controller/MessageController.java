@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.*;
@@ -63,6 +65,7 @@ public class MessageController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+	Gson gson = new Gson();
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -72,14 +75,36 @@ public class MessageController {
 
 		if (message.getType().equals(MessageType.ENTER)) {
 			log.info(headerAccessor.getUser().getName());
-			// 방에 들어오면 player를 한명 올려준다.
-			roomSizeRepository.plusPlayerCnt(message.getRoomId());
 
-			// gamePlayer에 넣어준다.
-			gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
 
-			message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
-			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+			//방이 만들어졌을때
+			if(!roomSizeRepository.isRoomExist(message.getRoomId())){
+				roomSizeRepository.plusPlayerCnt(message.getRoomId());
+				gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
+
+			}
+			else{
+				//6명 초과면 거절
+				if(roomSizeRepository.getRoomSize(  message.getRoomId() ) >=6 ){
+
+				}else{
+					// 방에 들어오면 player를 한명 올려준다.
+					roomSizeRepository.plusPlayerCnt(message.getRoomId());
+
+					// gamePlayer에 넣어준다.
+					gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
+
+//					String players =gson.toJson(gamePlayerRepository.getGamePlayer(message.getRoomId()));
+					//				players.add(gamePlayerRepository.getGamePlayer(message.getRoomId()));
+					message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
+					//모든 플레이어 정보 전송
+					message.setPlayerInfo(gamePlayerRepository.getGamePlayer(message.getRoomId()));
+					template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+
+					}
+			}
+
+
 		}
 
 		// 게임이 시작버튼이 눌렸다.
@@ -319,16 +344,25 @@ public class MessageController {
 			// 방에 나가면 player를 한명 내려준다.
 			roomSizeRepository.minusPlayerCnt(message.getRoomId());
 
-			// gamePlayer에서 빼준다.
-			//지운애가 방장이면 true 반환한다.
-			boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
-			//방장 지웠으면 그 다음애 true
-			if(flag) {
-				gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
-			}
+			//인원 0 되면 방 지우기
+			if(roomSizeRepository.getRoomSize(message.getRoomId()) <=0) {
+				roomService.deleteByRoomId(message.getRoomId());
+				System.out.println("room deleted : " + message.getRoomId());
+			}else{
+				// gamePlayer에서 빼준다.
+				//지운애가 방장이면 true 반환한다.
+				boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
+				//방장 지웠으면 그 다음애 true
+				if(flag) {
+					gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
+				}
 
-			message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
-			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+
+				message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
+				message.setPlayerInfo(gamePlayerRepository.getGamePlayer(message.getRoomId()));
+				template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+
+			}
 		}
 
 	}

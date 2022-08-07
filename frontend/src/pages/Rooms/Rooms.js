@@ -30,7 +30,7 @@ export default function Rooms(props) {
       })
       .then(function (response) {
         //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         // return JSON.stringify(response.data.statusCode);
 
         setRooms(makeRoomList(response.data));
@@ -67,12 +67,16 @@ export default function Rooms(props) {
         }
       )
       .then(function (response) {
-        console.log('room has made')
+        //console.log(JSON.stringify(response))
         setOpen(false);
-        let room = JSON.parse(response.data);
-        navigate("/room", { state: { roomId: room.roomId } });
+        navigate("/room", { state: { roomId:response.data.roomId } });
       })
       .catch(function (error) {});
+  }
+
+  function enterRoom(e){
+    navigate("/room", { state: { roomId:e.id } })
+    //console.log(e.id);
   }
 
   const onRoomTitleHandler = (event) => {
@@ -196,6 +200,7 @@ export default function Rooms(props) {
       </Link>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
+          onRowClick={enterRoom}
           rows={rooms}
           columns={columns}
           pageSize={5}

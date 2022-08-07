@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class GamePlayer {
 	private int roomId;
 	private int gameId;
+	private String nickName;
 	private String sessionId;
 	private boolean myTurn;
 	//게임의 최대 배팅금액

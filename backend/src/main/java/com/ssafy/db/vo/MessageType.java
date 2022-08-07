@@ -15,6 +15,7 @@ public enum MessageType {
 	MAKECARDSET,
 	EXIT,
 	GAMEEND,
+	PLAYERSINFO,
 
 	FIRSTBETTING,
 

@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.VaultReq;
 import com.ssafy.api.service.UserService;
 import com.ssafy.api.service.VaultLogService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -61,7 +62,7 @@ public class VaultLogController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, Integer>> vaultUpdate(@RequestParam int deposit, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<Map<String, Integer>> vaultUpdate(@RequestBody VaultReq depositreq, @ApiIgnore Authentication authentication) {
         /**
          * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
          * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -74,6 +75,7 @@ public class VaultLogController {
 
         //유저의 현재 금고금액, 보유루비 바꿔준 후 유저 디비 업데이트 해줌
         Map<String, Integer> map = new HashMap<>();
+        int deposit = depositreq.getDeposit();
         if(user.getUserRuby() < deposit){//보유 루비보다 금고에 입금을 많이하려고 하면 에러남
             map.put("error", 10);
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);

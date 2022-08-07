@@ -50,21 +50,20 @@ export default function Game(props) {
         //content.type, content.message등으로 사용 가능
         var content = JSON.parse(message.body);
         
-        //참가 후 정보받기
-        if (content.type == "PLAYERSINFO") {
-          //{players[], betUnit}
-          //받은 player[0]이 자신
-          console.log('플레이어들 정보 받기' +content.playersInfo)
-          setPlayers(content.playersInfo);
-          setPlayerOpenvidu(content.playerOpenvidu);
-        }
+        // //참가 후 정보받기
+        // if (content.type == "PLAYERSINFO") {
+        //   //{players[], betUnit}
+        //   //받은 player[0]이 자신
+        //   console.log('플레이어들 정보 받기' +content.playersInfo)
+        //   setPlayers(content.playersInfo);
+        //   setPlayerOpenvidu(content.playerOpenvidu);
+        // }
 
         //사람이 들어왔을 때
         if (content.type == "ENTER") {
           //nickname , ruby
-          console.log("사람들어왔다" + content);
-          setPlayers([...players,content])
-          setPlayers([content.playersInfo]);
+          console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
+          setPlayers([content.playersInfo])
         }
 
         //사람이 나갔을 때
