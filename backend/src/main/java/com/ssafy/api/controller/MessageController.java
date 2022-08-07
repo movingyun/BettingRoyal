@@ -1,8 +1,8 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.db.entity.GameMessage;
-import com.ssafy.db.entity.GamePlayer;
-import com.ssafy.db.entity.PlayerCardSetInGame;
+import com.ssafy.api.service.RoomService;
+import com.ssafy.api.service.UserService;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.GamePlayerRepository;
 import com.ssafy.db.repository.GameRepository;
 import com.ssafy.db.repository.PlayerCardSetInGameRepository;
@@ -52,6 +52,10 @@ public class MessageController {
 	private GameRepository gameRepository;
 	@Autowired
 	private GamePlayerRepository gamePlayerRepository;
+	@Autowired
+	private RoomService roomService;
+	@Autowired
+	private UserService userService;
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -95,10 +99,31 @@ public class MessageController {
 			message.setType(MessageType.GROUNDCARD);
 			template.convertAndSend("/sub/game/room" + roomId, message);
 
+			//방 정보 가져와서 기본 배팅 금액 가져오기
+			Room room = roomService.getRoom(roomId);
+			int bettingUnit = room.getRoomBettingUnit();
+
 			// 사람들한테 bettingUnit만큼 돈 내게하기
 			message.setMessage("기본 베팅금액을 베팅하십시오.");
 			message.setType(MessageType.UNITBETTING);
 			template.convertAndSend("/sub/game/room" + roomId, message);
+
+			//이 방에서 게임하고있는 플레이어들
+			List<GamePlayer> thisGamePlayer = gamePlayerRepository.getGamePlayer(message.getRoomId());
+
+			// 게임 방 안의 모든 유저 돈 내고 게임 한 판 추가
+			for(GamePlayer gp : thisGamePlayer){
+				User temp = gp.getUser();
+				temp.setUserRuby(temp.getUserRuby()-bettingUnit);
+				temp.setUserGameCount(temp.getUserGameCount()+1);
+				userService.modifyUser(temp);
+				//게임 유저들 게임 배팅 정보 업데이트
+				gp.setMaxBetting(gp.getMaxBetting()+bettingUnit);
+				gp.setMyBetting(gp.getMyBetting()+bettingUnit);
+			}
+
+			//todo
+			//밑에 있는거 하나씩 해당하는거 디비 업데이트나 게임플레이어 정보 업데이트해주기!!!
 
 			// 카드뭉치에 개인 카드 넣기
 			// 방인원 수 구하기
@@ -127,12 +152,15 @@ public class MessageController {
 //			message.setType(MessageType.MAKECARDSET);
 //			template.convertAndSend("/sub/game/room" + roomId, message);
 
-			//이 방에서 게임하고있는 플레이어들
-			List<GamePlayer> thisGamePlayer = gamePlayerRepository.getGamePlayer(message.getRoomId());
 
 			//이 방에있는 플레이어들한테 각자 메시지 보내주자
 			int idx = 0;
 			for(GamePlayer gp : thisGamePlayer){
+				//서버에서 저장하는 이 방에서 게임하는 플레이어들의 게임 아이디를 저장해주자
+				gp.setGameId(gameId);
+				//서버에서 저장하는 이 방에서 게임하는 플레이어들에게 방의 기본 베팅도 저장해주자
+				gp.setBattingUnit(bettingUnit);
+
 				log.info(idx);
 				String content ="";
 				//카드뭉치에서 자기것만 빼고 보내준다.
