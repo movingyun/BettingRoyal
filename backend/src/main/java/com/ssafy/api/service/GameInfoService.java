@@ -20,16 +20,54 @@ public class GameInfoService {
 	private GameInfoRepository gameInfoRepository;
 	
 	@Transactional
-	public void createGameInfo(Game game, int userId, int card ) {
+	public void createGameInfo(int gameId, User player, int card ) {
 		//userId로 user생성
 		//나중엔 토큰으로 가져와야된다.
-		User player = userRepository.findById(userId).get();
-		
+		// 0807.새로 바꾼것은 유저 자체를 가져오도록 하기!
+
+		//gameId로 Game정보 가져오기
+		Game game = gameRepository.findByGameId(gameId);
+
 		//gameInfo 정보(player, gameInfoId) 넣어주기
 		GameInfo gameInfo = new GameInfo();
 		gameInfo.setUser(player);
-		gameInfo.setGameInfoId(0);
+		gameInfo.setGame(game);
 		gameInfo.setMycard(card);
 		gameInfoRepository.save(gameInfo);
 	}
+
+	@Transactional
+	public void callBetting(int gameId, String userNickname, int callBettingCnt ) {
+		//지금 얘 gameInfo가져오기
+		GameInfo gameInfo = gameInfoRepository.findByGameIdAndUserNickname(gameId,userNickname);
+		//현재까지 베팅 금액(ex.5베팅했으면 -5로 나온다)
+		int currentBetting = gameInfo.getRubyGet();
+		//콜하려면 베팅해야하는 금액 빼준다.
+		gameInfo.setRubyGet(currentBetting-callBettingCnt);
+		gameInfoRepository.save(gameInfo);
+	}
+
+	@Transactional
+	public void raiseBetting(int gameId, String userNickname, int raiseBettingCnt ) {
+		//지금 얘 gameInfo가져오기
+		GameInfo gameInfo = gameInfoRepository.findByGameIdAndUserNickname(gameId,userNickname);
+		//현재까지 베팅 금액(ex.5베팅했으면 -5로 나온다)
+		int currentBetting = gameInfo.getRubyGet();
+		//콜하려면 베팅해야하는 금액 빼준다.
+		gameInfo.setRubyGet(currentBetting-raiseBettingCnt);
+		gameInfoRepository.save(gameInfo);
+	}
+
+
+	@Transactional
+	public void allInBetting(int gameId, String userNickname, int allInBettingCnt ) {
+		//지금 얘 gameInfo가져오기
+		GameInfo gameInfo = gameInfoRepository.findByGameIdAndUserNickname(gameId,userNickname);
+		//현재까지 베팅 금액(ex.5베팅했으면 -5로 나온다)
+		int currentBetting = gameInfo.getRubyGet();
+		//콜하려면 베팅해야하는 금액 빼준다.
+		gameInfo.setRubyGet(currentBetting-allInBettingCnt);
+		gameInfoRepository.save(gameInfo);
+	}
+
 }
