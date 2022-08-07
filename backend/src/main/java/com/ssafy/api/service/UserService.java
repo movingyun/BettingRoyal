@@ -96,4 +96,9 @@ public class UserService {
 		return userRepository.findByUserIdIn(userIdList);
 	}
 
+	@Transactional
+	public User searchUserByNickname(String userNickname){
+		return userRepository.findByUserNickname(userNickname);
+	}
+
 }
