@@ -24,6 +24,9 @@ public class GamePlayer {
 	private Integer myCard;
 	//방 기본 배팅
 	private int battingUnit;
+	//내 족보
+	//0:트리플 / 1:스트레이트 / 2:더블 / 3:탑
+	private Integer myPair;
 
 	private User user;
 	private Integer groundCard1;

@@ -45,15 +45,29 @@ public class GamePlayerRepository {
 		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
     	gamePlayerMap.add(gamePlayer);
     }
-    
-    public boolean deleteGamePlayer(int roomId, String sessionId) {
+
+
+	public int findRoomBySesssionId(String sessionId) {
+		int roomId=-1;
+		for (int i=0; i<gamePlayerMap.size(); i++){
+			if(gamePlayerMap.get(i).getSessionId().equals(sessionId)){
+				roomId= gamePlayerMap.get(i).getRoomId();
+				break;
+			}
+		}
+		return roomId;
+
+	}
+
+
+	public boolean deleteGamePlayer(int roomId, String sessionId) {
     	List<GamePlayer> gp = getGamePlayer(roomId);
     	
     	boolean flag = false;
     	
     	for(int i=0; i<gp.size(); i++) {
     		//나간애면
-    		if(gp.get(i).getSessionId()==sessionId) {
+    		if(gp.get(i).getSessionId().equals(sessionId)) {
     			//그사람 턴인지 확인?
     			if(gp.get(i).isMyTurn()) {
     				flag=true;
@@ -81,7 +95,7 @@ public class GamePlayerRepository {
 		int callBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
 				//콜하려면 내야하는 금액
@@ -100,7 +114,7 @@ public class GamePlayerRepository {
 		int callBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
 				//콜하려면 내야하는 금액
@@ -118,31 +132,31 @@ public class GamePlayerRepository {
 		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				gamePlayerList.get(i).setDie(true);
 			}
 		}
 	}
 
 	//ALLIN 베팅하기
-	public int allInBetting(GameMessage message, String sessionId){
+	public int allInBetting(int roomId, String sessionId){
 		//현재 방에있는 플레이어 수
-		List<GamePlayer> gamePlayerList = getGamePlayer(message.getRoomId());
-		int userRuby = 0;
+		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
+		int callBettingCnt = 0;
+		int allInBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
-				//내가 갖고있는 돈
-				User user = userService.searchUserByNickname(message.getSenderNickName());
-				userRuby = user.getUserRuby();
-
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
-
-				//내가 가진 돈 만큼 myBetting 바꿔주기
-				gamePlayerList.get(i).setMyBetting(currentBetting+userRuby);
+				//콜하려면 내야하는 금액
+				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				//올인하면 추가로 내는 금액
+				allInBettingCnt = gamePlayerList.get(i).getUser().getUserRuby()-callBettingCnt;
+				//(콜+올인)Cnt만큼 바꿔주기
+				gamePlayerList.get(i).setMyBetting(currentBetting+(allInBettingCnt+callBettingCnt));
 			}
 		}
-		return userRuby;
+		return allInBettingCnt+callBettingCnt;
 	}
 }
