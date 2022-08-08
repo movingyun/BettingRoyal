@@ -1,6 +1,9 @@
 package com.ssafy.db.repository;
 
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
 
@@ -34,7 +37,12 @@ public class GamePlayerRepository {
     	}else {
     		gamePlayer.setMyTurn(false);
     	}
-		gamePlayer.setUser(userService.searchUserByNickname(message.getSenderNickName()));
+		String token = message.getSenderNickName();
+		JWTVerifier verifier = JwtTokenUtil.getVerifier();
+		JwtTokenUtil.handleError(token);
+		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+		String userEmail = decodedJWT.getSubject();
+		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
     	gamePlayerMap.add(gamePlayer);
     }
 
