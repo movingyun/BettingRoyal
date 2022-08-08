@@ -1,0 +1,31 @@
+/* *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+main {
+  width: 500px;
+  margin: auto;
+} */
+
+
+
+.scroll-to-top-btn {
+  bottom: 5%;
+  border: 0px;
+  background-color: rgb(247,235,239);
+  cursor: pointer;
+  display: block;
+  padding: 0px;
+  position: fixed;
+  right: 5%;
+
+  /* &:hover {
+    transform: scale(1.1);
+  } */
+}
+
+.hidden {
+  display: none;
+}
