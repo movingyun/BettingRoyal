@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("{userId}")
+	@GetMapping("")
 	@ApiOperation(value = "내 정보 조회", notes = "아이디로 로그인한 회원 본인의 정보를 응답한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -61,7 +61,7 @@ public class UserController {
 		String userEmail = userDetails.getUsername();
 		User user = userService.getUserByUserEmail(userEmail);
 
-		return ResponseEntity.ok(userService.searchUser(userId));
+		return ResponseEntity.ok(user);
 	}
 
 	@PutMapping("/modify")
@@ -108,7 +108,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping("")
+	@GetMapping("all")
 	@ApiOperation(value = "전체 회원 조회", notes = "전체 회원을 조회한다")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
