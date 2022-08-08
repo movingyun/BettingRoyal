@@ -133,18 +133,18 @@ export default function SignUp() {
     let nicknameRegex= new RegExp("^[0-9a-zA-Z가-힣]*$")
     let checkcount=0;
     if(!emailRegex.test(Email)) {
-      setEmailcheck('이메일 형식이 아닙니다')
+      setEmailcheck(<p className={styles.read}>이메일 형식이 아닙니다. </p>)
       
     }else checkcount++;
     if(!pwRegex.test(Password)) {
-      setPwcheck('비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.')
+      setPwcheck(<p className={styles.read}>비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.</p>)
       
     }else checkcount++;
     if(!nicknameRegex.test(NickName)) {
-      setNickcheck('닉네임은 한글/숫자/영어만 가능합니다.')
+      setNickcheck(<p className={styles.read}>닉네임은 한글/숫자/영어만 가능합니다.</p>)
       
     }else if(NickName<2 || NickName >8) {
-      setNickcheck('닉네임은 2자 이상 8자 이하만 가능합니다.')
+      setNickcheck( <p className={styles.read}>닉네임은 2자 이상 8자 이하만 가능합니다.</p>)
     
     }else checkcount++;
     if(checkcount!=3) return;
@@ -266,7 +266,7 @@ export default function SignUp() {
         </Link></div>
         </Box>
         <Box
-          sx={{
+          sx={{ 
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
