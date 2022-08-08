@@ -25,6 +25,7 @@ const Navbar = (title) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [nickname, setNickname] = useState("");
   const [myruby, setMyRuby] = useState();
+  
 
   const openModal = () => {
     setModalOpen(true);
@@ -57,12 +58,16 @@ const Navbar = (title) => {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
 
-  
-
   };
 
 
   const navigate = useNavigate();
+
+  function logout(){
+    window.localStorage.removeItem("accessToken");
+    alert("로그아웃 되었습니다.")
+    navigate("/");
+  }
   
     return(
         <Drawer
@@ -83,6 +88,7 @@ const Navbar = (title) => {
                 <Button button key={item.id} onClick={() => navigate(item.route)} sx={navbarStyles.btn} >내정보</Button>
               ))}
                 <Button onClick={ openModal } sx={navbarStyles.btn} >금고</Button>
+                <Button onClick={ logout } sx={navbarStyles.btn} >로그아웃</Button>
               <Modal open={ modalOpen } close={ closeModal } header="루비금고">
                <Vault/>
           </Modal>

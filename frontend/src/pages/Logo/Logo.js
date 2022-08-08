@@ -24,7 +24,7 @@ export default function First(props) {
         </div>
           <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
           <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
-          <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
+          {/* <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link> */}
       </div>
     </div>
   );
