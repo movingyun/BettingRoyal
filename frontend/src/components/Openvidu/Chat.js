@@ -28,15 +28,15 @@ export default function Chat(props){
   // });
 
   return (
-    <div>
+    <div className={styles.chat}>
       <div className={styles.chatList}>
         {props.chatList.map((data, idx) => (
-          <p className={styles.chat} >
+          <p className={styles.chatLine} >
             {data.name} : {data.msg}
           </p>
         ))}
       </div>
-      <div>
+      <div className={styles.inputList}>
           <input className={styles.input} type={"text"} id={"chatTxt"} onKeyPress={onKeyPress} placeholder='메세지'></input>
           <button className={styles.inputBtn} type={"button"} onClick={send}>전송</button>
       </div>

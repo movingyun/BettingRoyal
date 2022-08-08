@@ -295,7 +295,7 @@ class Gameroom extends Component {
         const state = this.state;
         const chatList = this.state.chatList;
         return (
-            <div>
+            <div className={styles.container}>
                 
                 {/* 입장 전 */}
                 {this.state.session === undefined ? (
@@ -335,7 +335,7 @@ class Gameroom extends Component {
                     ) : null}
 
                 {/* 입장 후 */}
-            <div className={styles.container}>
+
                 <div className={styles.header}>
                     <h1>
                     <ArrowForwardIosRoundedIcon className={styles.icon} />
@@ -343,7 +343,6 @@ class Gameroom extends Component {
                     </h1>
                     <h2>기본 베팅 10 루비</h2>
                     <div className={styles.buttonList}>
-                    <button className={styles.button}>관전자모드</button>
                     <button className={styles.button}>나가기</button>
                     </div>
                 </div>
@@ -397,7 +396,7 @@ class Gameroom extends Component {
                     </div>
                     ) : null}
             </div>
-            </div>
+
         );
     }
 

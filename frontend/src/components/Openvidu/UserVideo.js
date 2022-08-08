@@ -14,35 +14,32 @@ export default class UserVideoComponent extends Component {
     render() {
         return (
             <div className={styles.container}>
-            <div className={styles.player}>
-            <div className={styles.list}>
-              <div>
-              {this.props.streamManager !== undefined ? (
-                    <div>
-                        <OpenViduVideoComponent streamManager={this.props.streamManager} />
+                <div className={styles.cam}>
+                    {this.props.streamManager !== undefined ? (
+                        <div className={styles.openvidu}>
+                            <OpenViduVideoComponent streamManager={this.props.streamManager} />
+                        </div>
+                    ) : null}
+                </div>
+                    <div className={styles.info}>
+                        <div className={styles.userInfo}>
+                            <div className={styles.name}>{this.getNicknameTag()}</div>
+                            <div className={styles.ruby}>100,000 루비</div>
+                        </div>
+                        <div className={styles.gameInfo}>
+                            <div className={styles.card}>
+                                <div className={styles.card_back}>
+                                    <img src={card_back} />
+                                </div>
+                                <div className={styles.card_front}>
+                                    <img src={card_am_1} />
+                                </div>
+                            </div>
+                            <div className={styles.status}>더블</div>
+                            <div className={styles.emotion}>감정상태</div>
+                        </div>
                     </div>
-                ) : null}
-              </div>
-              <div className={styles.info}>
-                <div className={styles.userInfo}>
-                    <div className={styles.name}>{this.getNicknameTag()}</div>
-                    <div className={styles.ruby}>100,000 루비</div>
-                </div>
-                <div className={styles.gameInfo}>
-                  <div className={styles.card}>
-                      <div className={styles.card_back}>
-                          <img src={card_back} />
-                      </div>
-                      <div className={styles.card_front}>
-                          <img src={card_am_1} />
-                      </div>
-                  </div>
-                  <div className={styles.status}>더블</div>
-                  <div className={styles.emotion}>감정상태</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        
           </div>
 
             // <div>

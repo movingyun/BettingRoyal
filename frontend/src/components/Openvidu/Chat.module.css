@@ -1,14 +1,24 @@
+.chat {
+    height: 100%;
+    /* padding: 5px; */
+    /* background-color: red; */
+}
 .chatList {
     /* overflow: scroll; */
-    overflow-y:scroll;
-    height: 100px;
-    background-color: aqua;
+    overflow-y:auto;
+    height: 80px;
+    padding-left: 10px;
+    /* background-color: aqua; */
 }
 
-.chat {
+.chatLine {
     margin: 0;
     padding: 0;
     /* overflow-y:scroll; */
+}
+
+.inputList {
+    /* height: 10%; */
 }
 
 .input {

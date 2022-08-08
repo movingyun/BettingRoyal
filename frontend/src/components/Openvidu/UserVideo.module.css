@@ -1,52 +1,56 @@
 .container{
+    width: 100%;
     /* position: relative; */
     height: 100%;
     /* width: 100vw; */
+    
 }
 
-.player{
-    padding: 10px;
+.cam {
+    /* background-color: #A27B5C; */
     height: 100%;
-    width: 100%;
-    display: table;
-}
-
-.list {
-    padding: none;
-    margin: none;
-    height: 100%;
-    text-align: center;
-}
-
-.camera {
     width: 60%;
-    height: 100%;
-    background-color: rgb(109, 109, 109);
-    border-radius: 15px;
+    padding: 10px;
     display: inline-block;
     float: left;
 }
+
+.openvidu{
+    width: 100%;
+    height: 100%;
+}
+
 
 .info {
     width: 40%;
     height: 100%;
     display: inline-block;
-    padding-left: 10px;
+    /* padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px; */
+    float: right;
+    /* padding-top: 10px; */
+    padding-right: 10px;
 }
 
-.userInfo{
+.userInfo{ 
     height: 30%;
     /* background-color: red; */
+    padding-top: 10px;
+    /* display: grid; */
+    /* grid-template-rows: repeat(2, 1fr); */
 }
 
 .name{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 600;
     text-align: left;
+    
 }
 
-.ruby{
+.ruby{ 
+
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 1em;
     font-weight: 400;
@@ -65,6 +69,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     /* background-color: aqua; */
+    padding-bottom: 10px;
 }
 
 .card {
@@ -72,6 +77,10 @@
     grid-row: 1 / 3;
     height: 100%;
     position: relative;
+    
+    /* padding-bottom: 10px;
+    padding-right: 10px; */
+    /* background-color: blue; */
 }
 
 .card_back {
@@ -80,10 +89,12 @@
     animation-name: flipOutBack;
     /* animation-delay: 2.5s; */
     animation-duration: 1s;
+    width: 100%;
+	height: 100%;
 }
 
 .card_back > img{
-    object-fit: cover;
+    object-fit: contain;
 	width: 100%;
 	height: 100%;
     
@@ -96,10 +107,12 @@
     animation-duration: 1s;
     backface-visibility: hidden;
     animation-name: flipOutFront;
+    width: 100%;
+	height: 100%;
 }
 
 .card_front > img{
-    object-fit: cover;
+    object-fit: contain;
 	width: 100%;
 	height: 100%;
     
@@ -113,29 +126,16 @@
     color: #A27B5C;
     display: grid;
     align-items:center;
+    text-align: center;
 }
 
 .emotion {
     background-color: aqua;
     display: grid;
     align-items:center;
-}
-
-.empty{
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-    font-size: 80px;
-    color: #FFFFFF;
-    vertical-align: middle;
-    display: table-cell;
     text-align: center;
 }
 
-.empty:hover{
-    border-radius: 15px;
-    background-color: #E8E2D3;
-}
 
 @keyframes flipOutBack {
     from {
