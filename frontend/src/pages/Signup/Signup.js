@@ -143,6 +143,9 @@ export default function SignUp() {
     if(!nicknameRegex.test(NickName)) {
       setNickcheck('닉네임은 한글/숫자/영어만 가능합니다.')
       
+    }else if(NickName<2 || NickName >8) {
+      setNickcheck('닉네임은 2자 이상 8자 이하만 가능합니다.')
+    
     }else checkcount++;
     if(checkcount!=3) return;
 
