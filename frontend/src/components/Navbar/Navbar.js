@@ -19,9 +19,12 @@ import Modal from "../Modal/Modal";
 import { useEffect, useState } from "react";
 import ruby from "../../images/icon/ruby.png";
 import Vault from '../../pages/modal/Vault/Vault'
+import axios from "axios";
 
 const Navbar = (title) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [myruby, setMyRuby] = useState();
 
   const openModal = () => {
     setModalOpen(true);
@@ -30,12 +33,34 @@ const Navbar = (title) => {
     setModalOpen(false);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+    .get("http://localhost:8080/api/user", {
+      headers : {
+        Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log("user Info = " + JSON.stringify(response.data.userRuby))
+      setNickname(response.data.userNickname);
+      setMyRuby(response.data.userRuby);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+
+
   const [selectedIndex, setSelectedIndex] = useState(1);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+
+  
+
   };
+
 
   const navigate = useNavigate();
   
@@ -47,10 +72,10 @@ const Navbar = (title) => {
         <List sx={navbarStyles.topList}>
           <Box sx={navbarStyles.topInfo}>
             <Box sx={navbarStyles.infoName}>
-              닉네임
+              {nickname}
             </Box>
             <Box sx={navbarStyles.infoRuby}>
-              <img src={ruby} height="15" width="15"/> 100000 루비
+              <img src={ruby} height="15" width="15"/> {myruby} 루비
             </Box>
           </Box>
           <Box sx={navbarStyles.topBtns}>
