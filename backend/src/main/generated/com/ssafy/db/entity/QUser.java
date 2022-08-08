@@ -36,7 +36,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Integer> userId = createNumber("userId", Integer.class);
 
-    public final BooleanPath userIsActive = createBoolean("userIsActive");
+    public final NumberPath<Integer> userIsActive = createNumber("userIsActive", Integer.class);
 
     public final StringPath userNickname = createString("userNickname");
 

@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 public class GamePlayer {
 	private int roomId;
 	private int gameId;
-	private int myRuby;
-	private String nickName;
+	private int myruby;
+	private int mytotalBet;
+	private String nickname;
 	private String sessionId;
 	private boolean myTurn;
 	//게임의 최대 배팅금액
@@ -28,4 +29,6 @@ public class GamePlayer {
 	private int battingUnit;
 
 	private User user;
+	private int groundCard1;
+	private int groundCard2;
 }
