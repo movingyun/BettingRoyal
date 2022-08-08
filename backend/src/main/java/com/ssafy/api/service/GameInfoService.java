@@ -70,4 +70,17 @@ public class GameInfoService {
 		gameInfoRepository.save(gameInfo);
 	}
 
+	@Transactional
+	public void winnerGetRubyAndWriteWin(int gameId, String userNickname, int winnerRuby ) {
+		//지금 얘 gameInfo가져오기
+		GameInfo gameInfo = gameInfoRepository.findByGameIdAndUserNickname(gameId,userNickname);
+		//현재까지 베팅 금액(ex.5베팅했으면 -5로 나온다)
+		int currentBetting = gameInfo.getRubyGet();
+		//이겨서 딴 루비를 더해준다.
+		gameInfo.setRubyGet(currentBetting+winnerRuby);
+		//이긴거 기록해주기
+		gameInfo.setIsWinner(true);
+		gameInfoRepository.save(gameInfo);
+	}
+
 }

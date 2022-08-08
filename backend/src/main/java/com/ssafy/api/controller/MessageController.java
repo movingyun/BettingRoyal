@@ -24,6 +24,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -191,6 +192,8 @@ public class MessageController {
 				// tb_game_info생성 후 게임id, 플레이어, 개인카드 입력
 				gameInfoService.createGameInfo(gameId, gp.getUser(), myCard);
 
+				// Do it : 기본베팅한거 DB넣어주기!!
+
 				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에는 내 카드를 알려주면 안된다! 0~39 이니 40으로 잠시 설정해둠
 				message.getPlayerInfo().get(idx-1).setMyCard(40);
 				//기본 데이터들 서버 데이터로 바꿔주기
@@ -239,7 +242,7 @@ public class MessageController {
 			// tb_GameInfo에서 rubyGet minus해주기
 			gameInfoService.callBetting(gameId, userNickname, callBettingCnt);
 
-			// tb_User에서 ruby minus해주기
+			// to do : tb_User에서 ruby minus해주기(gp에 있는 User를 변경)
 			User user = userRepository.findByUserNickname(userNickname);
 			user.setUserRuby(user.getUserRuby()-callBettingCnt);
 			userService.modifyUser(user);
@@ -356,7 +359,9 @@ public class MessageController {
 		//finishCnt = dieCnt + (userBetting==MaxBetting)Cnt
 		int finishCnt = 0;
 		int dieCnt = 0;
+		int winnerRuby = 0;
 		for(GamePlayer player : gp){
+			winnerRuby+=player.getMyBetting();
 			//플레이어의 베팅이 기본베팅이 아니면서 maxBetting이랑 같으면 finishCnt올려준다.
 			if(player.getMyBetting()!=player.getBattingUnit()&&player.getMyBetting()==player.getMaxBetting()){
 				finishCnt++;
@@ -376,28 +381,44 @@ public class MessageController {
 		int gameSize = gp.size();
 		//******************************게임 끝남!!!!******************************
 		if(finishCnt==gameSize||dieCnt==gameSize-1){
-			//누가 이겼는지 확인해보자.
+			// Do it : 누가 이겼는지 확인해보자.
+			int winnerIdx = getWinner(gp);
 
-			//메세지(Message.setMessage)에 누가 이겼는지 알려줘야 함
-
-
-			//tb_gameInfo에 이긴사람은 루비획득+해주고 승리여부 이긴거 기록해줘야함.
-
-			
-			//tb_gameInfo에 진사람은 루비획득+해주고 승리여부 false 기록해줘야함.
+			// Do it : 메세지(Message.setMessage)에 누가 이겼는지 알려줘야 함
 
 
-			//tb_game에 승자 기록
+			// Do it : tb_gameInfo에 이긴사람은 루비획득+해주고 승리여부 이긴거 기록해줘야함.
+			int gameId = gp.get(winnerIdx).getGameId();
+			String winnerNickname = gp.get(winnerIdx).getUser().getUserNickname();
+			gameInfoService.winnerGetRubyAndWriteWin(gameId, winnerNickname, winnerRuby);
 
+			// Do it : tb_game에 승자 기록
+			Game game = gameRepository.findByGameId(gameId);
+			game.setGameWinner(gp.get(winnerIdx).getUser().getUserId());
+			gameService.modifyGame(game);
 
-			//이긴 user의 승수,루비 수 올려주기
+			// Do it : tb_user의 승수,루비 수 올려주기
+			User user = userRepository.findByUserNickname(winnerNickname);
+			user.setUserRuby(user.getUserRuby()+winnerRuby);
+			userService.modifyUser(user);
 
-
-			//gamePlayer의 요소들 초기화
-
-
-			//이긴사람이 처음 시작하는걸로 바꿔주자.
-
+			// Do it : gamePlayer의 요소들 초기화
+			for(GamePlayer player : gp){
+				player.setGameId(null);
+				//이겼으면 myTurn true 졌으면 false
+				if(player.getUser().getUserNickname().equals(winnerNickname))
+					player.setMyTurn(true);
+				else{
+					player.setMyTurn(false);
+				}
+				player.setMaxBetting(0);
+				player.setMyBetting(0);
+				player.setDie(false);
+				player.setMyCard(null);
+				player.setBattingUnit(0);
+				player.setGroundCard1(null);
+				player.setGroundCard2(null);
+			}
 
 			//끝났다고 알려줘~~!!
 			message.setType(MessageType.GAMEEND);
@@ -424,10 +445,6 @@ public class MessageController {
 
 			//각자한테 마스킹해서 보내주기.
 		}
-
-
-
-
 
 	}
 
@@ -464,4 +481,78 @@ public class MessageController {
 		message.setGameId(gp.getGameId());
 	}
 
+	//게임의 우승자를 찾는 로직
+	public int getWinner(List<GamePlayer> gamePlayerList){
+		int[] playerRank = new int[gamePlayerList.size()];
+		for(int i=0; i<gamePlayerList.size(); i++){
+			int groundFirst = (gamePlayerList.get(i).getGroundCard1() / 4) +1 ;
+			int groundSecond = (gamePlayerList.get(i).getGroundCard2() / 4) + 1;
+			int myCard = (gamePlayerList.get(i).getMyCard() / 4) + 1;
+			int[] arr = { groundFirst, groundSecond, myCard };
+			Arrays.sort(arr);
+
+			// 트리플 확인
+			if (checkTriple(arr))
+				playerRank[i] = 0;
+			// 스트레이트 확인
+			if (checkStraight(arr))
+				playerRank[i] = 1;
+			// 더블 확인
+			if (checkDouble(arr))
+				playerRank[i] = 2;
+			// 아니면 탑
+			playerRank[i] = 3;
+
+		}
+
+		int winnerIdx = -1; //1등의 index
+		int winnerRank = 5; //1등의 족보
+		for (int i = 0; i < gamePlayerList.size(); i++) {
+			// 죽어있는 사람은 Pass
+			if(gamePlayerList.get(i).isDie())
+				continue;
+
+			// 더 높은 족보면
+			if (playerRank[i] < winnerRank) {
+				winnerRank = playerRank[i];
+				winnerIdx = i;
+			}
+			// 같은 족보면
+			else if (playerRank[i] == winnerRank) {
+				// 개인의 숫자가 더 높은애가 승리
+				if (gamePlayerList.get(winnerIdx).getMyCard() < gamePlayerList.get(i).getMyCard()) {
+					winnerRank = playerRank[i];
+					winnerIdx = i;
+				}
+			}
+		}
+		return winnerIdx;
+	}
+
+	// 트리플
+	private static boolean checkTriple(int[] cardArr) {
+		if (cardArr[0] == cardArr[1]) {
+			if (cardArr[1] == cardArr[2]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 스트레이트
+	private static boolean checkStraight(int[] cardArr) {
+		if (cardArr[0] + 1 == cardArr[1]) {
+			if (cardArr[1] + 1 == cardArr[2]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 더블
+	private static boolean checkDouble(int[] cardArr) {
+		if (cardArr[0] == cardArr[1] || cardArr[0] == cardArr[2] || cardArr[1] == cardArr[2])
+			return true;
+		return false;
+	}
 }
