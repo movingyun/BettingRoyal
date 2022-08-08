@@ -1,0 +1,23 @@
+.chatList {
+    /* overflow: scroll; */
+    overflow-y:scroll;
+    height: 100px;
+    background-color: aqua;
+}
+
+.chat {
+    margin: 0;
+    padding: 0;
+    /* overflow-y:scroll; */
+}
+
+.input {
+    width: 90%;
+    display: inline-block;
+}
+
+.inputBtn {
+    width: 10%;
+    bottom: 0;
+    display: inline-block;
+}

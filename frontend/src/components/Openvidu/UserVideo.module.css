@@ -21,6 +21,7 @@
 .camera {
     width: 60%;
     height: 100%;
+    background-color: rgb(109, 109, 109);
     border-radius: 15px;
     display: inline-block;
     float: left;

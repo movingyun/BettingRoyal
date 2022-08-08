@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "./Player.module.css";
 import card_back from "../../images/cards/card_back.png";
 import card_am_1 from "../../images/cards/card_am_1.png";
-import UserVideoComponent from '../../components/Openvidu/UserVideoComponent';
+import UserVideoComponent from '../../components/Openvidu/UserVideo';
 
 
 
@@ -46,12 +46,12 @@ export default function Player(props) {
         <div className={styles.player}>
           <div className={styles.list}>
             <div className={styles.camera}>
-              {props.streamManager !== undefined ? (
+              {/* {props.streamManager !== undefined ? (
                 <div id="me" className="stream-container col-md-6 col-xs-6" onClick={() => props.handleMainVideoStream(props.streamManager)}>
                     <UserVideoComponent
                         streamManager={props.streamManager} />
                 </div>
-                ) : null}
+                ) : null} */}
             </div>
             <div className={styles.info}>
               <div className={styles.userInfo}>
@@ -62,13 +62,13 @@ export default function Player(props) {
               <div className={styles.gameInfo}>
                 <div className={styles.card}>
                     {/* 카드뒷면 */}
-                    <div className={styles.card_back}>
+                    {/* <div className={styles.card_back}>
                         <img src={card_back} />
-                    </div>
+                    </div> */}
                     {/* 카드앞면오픈 */}
-                    <div className={styles.card_front}>
+                    {/* <div className={styles.card_front}>
                         <img src={card_am_1} />
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.status}>더블</div>
                 <div className={styles.emotion}>감정상태</div>
