@@ -19,7 +19,7 @@ public class GamePlayerRepository {
 
 	@Autowired
 	private UserService userService;
-	
+
     @PostConstruct
     private void init(){
     	gamePlayerMap = new ArrayList<GamePlayer>();

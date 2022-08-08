@@ -26,4 +26,6 @@ public class GamePlayer {
 	private int battingUnit;
 
 	private User user;
+	private int groundCard1;
+	private int groundCard2;
 }
