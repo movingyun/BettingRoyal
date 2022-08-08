@@ -21,7 +21,8 @@ public class GameMessage {
 	private int gameTotalBet;
 	private int groundCardNum1;
 	private int groundCardNum2;
-	private int turnIdx;
+	//초기값 null을 위해 Integer로 함
+	private Integer turnIdx;
 	private MessageType type;
 	private int battingUnit;
 }

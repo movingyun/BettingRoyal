@@ -1,0 +1,12 @@
+.color-nav{
+  /* background-color: #FCEEC0; */
+  background-color: rgb(247,235,239);
+}
+
+hr{
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 2px solid rgb(52,62,117);
+  border-radius: 5px;
+  /* border-top: 4px solid rgb(52,62,117); */
+}

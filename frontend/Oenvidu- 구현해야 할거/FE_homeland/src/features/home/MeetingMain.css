@@ -1,0 +1,246 @@
+.height-100 {
+  height: 100%;
+}
+
+.height-80 {
+  height: 80%;
+}
+
+.padding-100px {
+  padding-top: 100px;
+}
+.height-main {
+  height: calc(100% - 242px);
+}
+.height-calc {
+  height: calc(100% - 150px);
+}
+.btn-font {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(52, 62, 117);
+}
+.font-join {
+  color: rgb(52, 62, 117);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.stage_screen {
+  max-height: 50px;
+}
+
+.video-container {
+  margin-bottom: 20px;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stream-container-v1 {
+  width: calc(96% / 2);
+  margin: 1%;
+}
+
+.stream-container-v2 {
+  width: calc(95.5% / 3);
+  margin: 0.75%;
+}
+
+.bg {
+  background-color: #f5ebe9;
+  height: 100vh;
+}
+/* chat */
+
+.chatbox__support {
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+  width: auto;
+  transition: all 0.5s ease-in-out;
+  background-color: rgb(204, 222, 255);
+}
+
+.chat-height-with-panel {
+  height: 400px;
+}
+.chat-height-without-panel {
+  height: 700px;
+}
+
+.chatbox__header {
+  padding: 8px;
+  font-size: 17px;
+  height: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-weight: bold;
+  background-color: orange;
+  top: 0;
+}
+
+/* btn */
+.btn_toolbar {
+}
+
+.btn_toolbar *,
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* MESSAGES */
+.chatbox__messages {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+.messages__bigBox--operator {
+  width: 70%;
+  margin-left: 30%;
+  word-wrap: break-word;
+}
+
+.messages__box--operator {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-bottom: 15px;
+  background-color: rgb(241, 241, 57);
+  min-height: 30px;
+}
+.messages__bigBox--visitor {
+  width: 70%;
+  margin-right: 30%;
+  word-wrap: break-word;
+}
+
+.messages__box--visitor {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 15px;
+  background-color: white;
+  min-height: 30px;
+}
+
+.chatbox__footer input {
+  width: 60%;
+
+  border: 1.5px solid white; /*테두리 두께, 선스타일, 색상*/
+
+  border-bottom-left-radius: 10px; /*테두리 둥글게*/
+  border-top-left-radius: 10px; /*테두리 둥글게*/
+
+  outline: none; /*기본테두리안보이게*/
+
+  padding: 3px 3px 2px 7px; /*안쪽여백*/
+
+  box-sizing: border-box; /*테두리를 기준으로 박스크기 설정*/
+
+  transition: 0.3s; /*서서히 나타내기*/
+}
+.chatbox__footer input:focus {
+  border: 2px solid #4285f4;
+
+  box-shadow: 0 0 8px 0 #4285f4;
+
+  background-color: #ffffff;
+}
+.chatbox__footer button {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.chatbox__footer {
+  margin-bottom: 20px;
+}
+
+.chatbox__send--footer {
+  width: 25%;
+  background-color: #fafafa; /*배경색*/
+
+  border: 1.5px solid white; /*테두리 두께, 선스타일, 색상*/
+
+  outline: none; /*기본테두리안보이게*/
+
+  padding: 3px 3px 2px 7px; /*안쪽여백*/
+
+  box-sizing: border-box; /*테두리를 기준으로 박스크기 설정*/
+
+  transition: 0.3s; /*서서히 나타내기*/
+}
+
+.join-box {
+  height: 400px;
+  width: 350px;
+  background-color: #d3e5e8;
+  border-radius: 20px;
+  border: solid 5px #353f71;
+}
+
+.join-width1 {
+  width: 320px;
+}
+.join-width2 {
+  width: 350px;
+}
+
+.join-box div {
+  margin-top: 15px;
+  color: #353f71;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.join-box-inner {
+  background-color: #353f71;
+  color: #d3e5e8;
+  font-size: 24px;
+  margin-top: 10%;
+  height: 15%;
+  width: 80%;
+}
+
+.join-box p {
+  font-size: 20px;
+  color: #353f71;
+  font-weight: 600;
+}
+.btn-color {
+  color: white;
+  background-color: #353f71;
+}
+
+.margin-left10 {
+  margin-left: 10%;
+}
+
+.margin-right10 {
+  margin-right: 10%;
+}
+.input-style {
+  margin-top: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
+  width: 80%;
+}
+
+.color-353f71 {
+  color: #353f71;
+}
+
+/* panel */
+/* 
+.panel {
+  height: 70%;
+  background-color: black;
+  border-radius: 20px;
+  margin-bottom: 10px;
+} */

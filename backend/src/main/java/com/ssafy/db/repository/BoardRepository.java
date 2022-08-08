@@ -22,4 +22,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     @Transactional
     @Query(value = "delete from Board where board_id=?",nativeQuery = true)
     void deleteBoardByBoardIdAndUserId( Integer boardId);
+
+    /////////
+    Boolean existsByUser(Integer userId);
 }

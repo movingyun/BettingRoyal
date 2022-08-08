@@ -14,6 +14,8 @@ export default function Vault() {
       .get("http://localhost:8080/api/vault", {
         headers: {
           Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+
         },
       })
       .then((response) => {

@@ -1,0 +1,11 @@
+1. docker start wsl 2 에서
+$ sudo service docker start
+
+2. 오픈비두 서버 실행 : 그 서버 접속이 안돼서 콘솔로 보니까 뭐드라 세션 접속 409 충돌 에러 나서 아래 명령어로 실행하니 세션은 통과된다.
+$ docker run -p 4443:4443 --rm -e openvidu.secret=MY_SECRET -e openvidu.publicurl=https://OPENVIDU_SERVER_IP_ACCESSIBLE_TO_YOUR_APPLICATION:4443/ openvidu/openvidu-server-kms:2.22.0
+==> 이게 문제가 아니다
+==> 새로고침으로 접속하면 conflict 난다.
+
+3. 
+
+docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.22.0
