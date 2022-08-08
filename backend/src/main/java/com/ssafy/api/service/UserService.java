@@ -1,6 +1,9 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserSignUpReq;
+import com.ssafy.db.entity.Board;
+import com.ssafy.db.repository.BoardRepository;
+import com.ssafy.db.repository.ReplyRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,8 +89,31 @@ public class UserService {
 		return userRepository.findByUserId(userId);
 	}
 
+//	@Transactional
+//	public void deleteUser(Integer userId) {
+//		userRepository.deleteByUserId(userId);
+//	}
+
+	@Autowired
+	BoardRepository boardRepository;
+	@Autowired
+	ReplyRepository replyRepository;
+
 	@Transactional
 	public void deleteUser(Integer userId) {
+//		User user = userRepository.findByUserId(userId);
+//
+//		// 탈퇴한 회원이 작성한 게시물이 있을 때
+//		if(boardRepository.existsByUser(user.getUserId())) {
+//			List<Board> board = boardRepository.findByUserId(user.getUserId());
+//			for(int i=0; i<board.size(); i++) {
+//				// 게시물에 댓글이 있을 때 댓글 모두 삭제
+//				if(replyRepository.existsByBoard(board.get(i))){
+//					replyRepository.deleteByBoard(board.get(i));
+//				}
+//				boardRepository.deleteBoardByBoardIdAndUserId(board.get(i).getBoardId());
+//			}
+//		}
 		userRepository.deleteByUserId(userId);
 	}
 
