@@ -68,7 +68,7 @@ export default function SignInSide() {
       })
       .catch(function (error) {
         if (error.response.status == 401) {
-          setLoginResult('유저 정보가 없습니다')
+          setLoginResult(<p className={styles.read}>아이디 혹은 비밀번호를 확인하세요.</p>)
         }
         console.log(error);
       });
