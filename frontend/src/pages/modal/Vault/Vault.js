@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
+import styles from "./Vault.module.css";
 
 export default function Vault() {
   const [vaultmoney, setVaultmoney] = useState();
@@ -9,6 +10,8 @@ export default function Vault() {
   const [withdrawamount, setWithdrawamount] = useState();
   const [depositstatus, setDepositstatus] = useState("");
   const [withdrawstatus, setWithdrawstatus] = useState("");
+  const [ruby, setRuby] = useState();
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/vault", {
@@ -21,6 +24,24 @@ export default function Vault() {
       .then((response) => {
         console.log("vault balance = " + response.data);
         setVaultmoney(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    axios
+    .get("http://localhost:8080/api/user", { 
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+
+        },
+      })
+      .then((response) => {
+        console.log("ruby balance = " + JSON.stringify(response.data.userRuby));
+        setRuby(response.data.userRuby);
+
       })
       .catch((error) => {
         console.log(error);
@@ -38,12 +59,14 @@ export default function Vault() {
       })
       .then((response) => {
         console.log("vault balance = " + response.data.userVault);
+        setRuby(response.data.userRuby);
         setVaultmoney(response.data.userVault);
         setDepositstatus(deposit + "루비 입금 완료");
       })
       .catch((error) => {
         if (error.response.data.error == 10) {console.log("보유량 초과");
         setDepositstatus("보유량 초과")}
+
       });
   }
 
@@ -58,6 +81,7 @@ export default function Vault() {
       })
       .then((response) => {
         console.log("vault balance = " + response.data.userVault);
+        setRuby(response.data.userRuby);
         setVaultmoney(response.data.userVault);
         setWithdrawstatus(withdrawamount + "루비 출금 완료");
       })
@@ -71,8 +95,8 @@ export default function Vault() {
 
   return (
     <div>
-      <p>현재 금고 잔액</p>
-      <p>{vaultmoney}</p>
+      <p className={styles.bg}> <div className={styles.tite}>현재 보유 루비 : {ruby}</div></p>
+      <p className={styles.bg}>현재 금고 잔액 : {vaultmoney}</p>
 
       <TextField
         onChange={(e) => {
@@ -81,14 +105,14 @@ export default function Vault() {
         autoFocus
       ></TextField>
       <button onClick={Deposit}>입금</button>
-      <p>{depositstatus}</p>
+      <p className={styles.read}>{depositstatus}</p>
       <TextField
         onChange={(e) => {
           setWithdrawamount(e.target.value);
         }}
       ></TextField>
       <button onClick={Withdraw}>출금</button>
-      <p>{withdrawstatus}</p>
+      <p className={styles.read}>{withdrawstatus}</p>
     </div>
   );
 }

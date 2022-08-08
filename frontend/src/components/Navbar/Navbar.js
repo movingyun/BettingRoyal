@@ -18,7 +18,7 @@ import { navbarStyles } from "./styles";
 import Modal from "../Modal/Modal";
 import { useEffect, useState } from "react";
 import ruby from "../../images/icon/ruby.png";
-import Vault from './Vault'
+import Vault from '../../pages/modal/Vault/Vault'
 
 const Navbar = (title) => {
   const [modalOpen, setModalOpen] = useState(false);
