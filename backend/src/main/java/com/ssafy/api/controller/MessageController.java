@@ -712,4 +712,3 @@ public class MessageController {
 }
 
 // todo 나를 기준으로 0번부터 보내주기
-// todo turnIdx첨에 넣어서 보내주기
