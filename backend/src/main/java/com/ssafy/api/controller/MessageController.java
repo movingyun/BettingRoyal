@@ -66,6 +66,8 @@ public class MessageController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MissionRepository missionRepository;
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -101,9 +103,15 @@ public class MessageController {
 			}
 
 			// tb_game 생성 -> 공용카드 넣기
-			int gameId = gameService.createGame(roomId, groundCard1, groundCard2);
+			//미션도 찾아와서 게임에 같이 넣어줌
+			int missionId = r.nextInt(missionRepository.getMissionCnt())+1;
+			System.out.println("1111111||||||||  " + missionId);
+			Mission mission = missionRepository.findByMissionId(missionId);
+			int gameId = gameService.createGame(roomId, groundCard1, groundCard2, mission);
 			log.info(gameId);
 			message.setGameId(gameId);
+			//메세지에 미션도 추가해줌!
+			message.setMission(mission.getMission());
 
 			message.setMessage("공통카드 : " + groundCard1 + ", " + groundCard2);
 			message.setType(MessageType.GROUNDCARD);
