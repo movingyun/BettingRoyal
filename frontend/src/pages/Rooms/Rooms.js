@@ -23,7 +23,7 @@ export default function Rooms(props) {
   useEffect(() => {
     //fetch room list
     axios
-      .get("http://localhost:8080/api/room", {
+      .get("/api/room", {
         headers: {
           Authorization: window.localStorage.accessToken,
         },
@@ -55,7 +55,7 @@ export default function Rooms(props) {
   function makeRoom() {
     axios
       .post(
-        "http://localhost:8080/api/room",
+        "/api/room",
         {
           roomTitle: makeRoomTitle,
           roomBettingUnit: makeRoomBettingunit,

@@ -14,7 +14,7 @@ export default function Vault() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/vault", {
+      .get("/api/vault", {
         headers: {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export default function Vault() {
 
 
     axios
-    .get("http://localhost:8080/api/user", { 
+    .get("/api/user", { 
         headers: {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export default function Vault() {
   function Deposit() {
     console.log("입금", deposit);
     axios
-      .put("http://localhost:8080/api/vault/update",  {deposit:deposit},{
+      .put("/api/vault/update",  {deposit:deposit},{
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           Authorization: window.localStorage.accessToken,
@@ -73,7 +73,7 @@ export default function Vault() {
   function Withdraw() {
     console.log("출금" + withdrawamount);
     axios
-      .put("http://localhost:8080/api/vault/update", {deposit:withdrawamount* -1} , {
+      .put("/api/vault/update", {deposit:withdrawamount* -1} , {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           Authorization: window.localStorage.accessToken,

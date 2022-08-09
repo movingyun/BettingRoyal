@@ -160,7 +160,7 @@ export default function SignUp() {
       // const statusCode = await createUserFetch();
       console.log('sending '+JSON.stringify(userInfo))
       await axios
-      .post("http://localhost:8080/api/auth/signup", {
+      .post("/api/auth/signup", {
         userEmail: userInfo.userEmail,
         userGender: userInfo.userGender,
         userNickname: userInfo.userNickname,
