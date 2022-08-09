@@ -16,7 +16,7 @@ public class GameMessage {
 	private int roomId;
 	private String senderNickName;
 	private String message;
-	private List<GamePlayer> playerInfo;
+	private List<PlayerInfo> playerInfo;
 	private int gameId;
 	private int gameTotalBet;
 	private int groundCardNum1;

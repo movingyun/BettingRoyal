@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("{userId}")
+	@GetMapping("")
 	@ApiOperation(value = "내 정보 조회", notes = "아이디로 로그인한 회원 본인의 정보를 응답한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -45,8 +45,7 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<User> getUser(@RequestParam Integer userId,
-	    @ApiIgnore Authentication authentication) {
+	public ResponseEntity<User> getUser(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -61,7 +60,7 @@ public class UserController {
 		String userEmail = userDetails.getUsername();
 		User user = userService.getUserByUserEmail(userEmail);
 
-		return ResponseEntity.ok(userService.searchUser(userId));
+		return ResponseEntity.ok(user);
 	}
 
 	@PutMapping("/modify")
@@ -108,7 +107,8 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping("")
+
+	@GetMapping("users")
 	@ApiOperation(value = "전체 회원 조회", notes = "전체 회원을 조회한다")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),

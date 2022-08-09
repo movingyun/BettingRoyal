@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.db.entity.Game;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.GameRepository;
 import com.ssafy.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,11 @@ public class GameService {
 		gameRepository.save(game);
 		return gameRepository.findTopByOrderByGameIdDesc().getGameId();
 	}
+
+	@Transactional
+	public Game modifyGame(Game game) {
+		return gameRepository.save(game);
+	};
+
 
 }

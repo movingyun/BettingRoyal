@@ -23,11 +23,6 @@ public class RoomSizeRepository {
     public int getRoomSize(int roomId) {
     	return roomSizeMap.get(roomId);
     }
-
-    //방 존재하는지
-    public boolean isRoomExist(int roomId) {
-        return roomSizeMap.containsKey(roomId);
-    }
     
     //player가 방에 들어오면 지금 플레이어의 수에 +1
     public void plusPlayerCnt(Integer roomId){

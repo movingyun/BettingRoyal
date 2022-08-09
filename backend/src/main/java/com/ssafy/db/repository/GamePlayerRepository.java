@@ -1,6 +1,9 @@
 package com.ssafy.db.repository;
 
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
 
@@ -19,6 +22,10 @@ public class GamePlayerRepository {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoomSizeRepository roomSizeRepository;
 
     @PostConstruct
     private void init(){
@@ -34,9 +41,17 @@ public class GamePlayerRepository {
     	}else {
     		gamePlayer.setMyTurn(false);
     	}
-		gamePlayer.setUser(userService.searchUserByNickname(message.getSenderNickName()));
-    	gamePlayerMap.add(gamePlayer);
-    }
+		// TODO: 진짜 돌릴땐 이거 켜줘서 access-token으로 정보 가져오게
+//		String token = message.getSenderNickName();
+//		JWTVerifier verifier = JwtTokenUtil.getVerifier();
+//		JwtTokenUtil.handleError(token);
+//		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+//		String userEmail = decodedJWT.getSubject();
+//		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
+		gamePlayer.setUser(userRepository.findByUserId(roomSizeRepository.getRoomSize(message.getRoomId())));
+		gamePlayerMap.add(gamePlayer);
+	}
+
 
 	public int findRoomBySesssionId(String sessionId) {
 		int roomid=-1;
@@ -44,7 +59,6 @@ public class GamePlayerRepository {
 			System.out.println(gamePlayerMap.get(i).getSessionId());
 			System.out.println(sessionId);
 			if(gamePlayerMap.get(i).getSessionId()==sessionId){
-
 				roomid= gamePlayerMap.get(i).getRoomId();
 			}
 		}
@@ -59,7 +73,7 @@ public class GamePlayerRepository {
     	
     	for(int i=0; i<gp.size(); i++) {
     		//나간애면
-    		if(gp.get(i).getSessionId()==sessionId) {
+    		if(gp.get(i).getSessionId().equals(sessionId)) {
     			//그사람 턴인지 확인?
     			if(gp.get(i).isMyTurn()) {
     				flag=true;
@@ -87,7 +101,7 @@ public class GamePlayerRepository {
 		int callBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
 				//콜하려면 내야하는 금액
@@ -106,7 +120,7 @@ public class GamePlayerRepository {
 		int callBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
 				//콜하려면 내야하는 금액
@@ -124,31 +138,31 @@ public class GamePlayerRepository {
 		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				gamePlayerList.get(i).setDie(true);
 			}
 		}
 	}
 
 	//ALLIN 베팅하기
-	public int allInBetting(GameMessage message, String sessionId){
+	public int allInBetting(int roomId, String sessionId){
 		//현재 방에있는 플레이어 수
-		List<GamePlayer> gamePlayerList = getGamePlayer(message.getRoomId());
-		int userRuby = 0;
+		List<GamePlayer> gamePlayerList = getGamePlayer(roomId);
+		int callBettingCnt = 0;
+		int allInBettingCnt = 0;
 		for(int i=0; i<gamePlayerList.size(); i++) {
 			//베팅한 애면
-			if(gamePlayerList.get(i).getSessionId()==sessionId) {
-				//내가 갖고있는 돈
-				User user = userService.searchUserByNickname(message.getSenderNickName());
-				userRuby = user.getUserRuby();
-
+			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
-
-				//내가 가진 돈 만큼 myBetting 바꿔주기
-				gamePlayerList.get(i).setMyBetting(currentBetting+userRuby);
+				//콜하려면 내야하는 금액
+				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				//올인하면 추가로 내는 금액
+				allInBettingCnt = gamePlayerList.get(i).getUser().getUserRuby()-callBettingCnt;
+				//(콜+올인)Cnt만큼 바꿔주기
+				gamePlayerList.get(i).setMyBetting(currentBetting+(allInBettingCnt+callBettingCnt));
 			}
 		}
-		return userRuby;
+		return allInBettingCnt+callBettingCnt;
 	}
 }
