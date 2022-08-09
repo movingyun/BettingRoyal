@@ -34,6 +34,7 @@ public class UserService {
 		user.setUserPw(passwordEncoder.encode(userSignUpReq.getUserPw()));
 		user.setUserNickname((userSignUpReq.getUserNickname()));
 		user.setUserGender(userSignUpReq.getUserGender());
+		System.out.println(user.getUserEmail()+ user.getUserNickname());
 		return userRepository.save(user);
 	}
 

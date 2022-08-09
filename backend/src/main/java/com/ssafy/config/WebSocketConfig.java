@@ -27,9 +27,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
     	//stomp websockey의 연결 endpoint는 /stomp-game으로 설정
         registry.addEndpoint("/stomp-game")
-                .setAllowedOrigins("http://localhost:8080")
+                .setAllowedOriginPatterns("*")
                 //내가 만든 핸들러 실행할 수 있도록 등록
                 .setHandshakeHandler(new CustomHandshakeHandler())
                 .withSockJS();
     }
+
 }

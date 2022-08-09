@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 
 export default function Vault() {
   const [vaultmoney, setVaultmoney] = useState();
-  const [depositamount, setDepositamount] = useState();
+  const [deposit, setDeposit] = useState();
   const [withdrawamount, setWithdrawamount] = useState();
   const [depositstatus, setDepositstatus] = useState("");
   const [withdrawstatus, setWithdrawstatus] = useState("");
@@ -13,9 +13,9 @@ export default function Vault() {
     axios
       .get("http://localhost:8080/api/vault", {
         headers: {
+          Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
 
-          Authorization: window.localStorage.getItem("accessToken"),
         },
       })
       .then((response) => {
@@ -28,34 +28,32 @@ export default function Vault() {
   }, []);
 
   function Deposit() {
-    console.log("입금", depositamount);
+    console.log("입금", deposit);
     axios
-      .put("http://localhost:8080/api/vault/update", depositamount, {
+      .put("http://localhost:8080/api/vault/update",  {deposit:deposit},{
         headers: {
-          "Content-Type": "application/json",
-
-          Authorization: window.localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: window.localStorage.accessToken,
         },
       })
       .then((response) => {
         console.log("vault balance = " + response.data.userVault);
         setVaultmoney(response.data.userVault);
-        setDepositstatus(depositamount + "루비 입금 완료");
+        setDepositstatus(deposit + "루비 입금 완료");
       })
       .catch((error) => {
-        if (error.response.data.error == 10) console.log("보유량 초과");
-        setDepositstatus("보유량 초과");
+        if (error.response.data.error == 10) {console.log("보유량 초과");
+        setDepositstatus("보유량 초과")}
       });
   }
 
   function Withdraw() {
     console.log("출금" + withdrawamount);
     axios
-      .put("http://localhost:8080/api/vault/update", withdrawamount * -1, {
+      .put("http://localhost:8080/api/vault/update", {deposit:withdrawamount* -1} , {
         headers: {
-          "Content-Type": "application/json",
-
-          Authorization: window.localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: window.localStorage.accessToken,
         },
       })
       .then((response) => {
@@ -78,7 +76,7 @@ export default function Vault() {
 
       <TextField
         onChange={(e) => {
-          setDepositamount(e.target.value);
+          setDeposit(e.target.value);
         }}
         autoFocus
       ></TextField>

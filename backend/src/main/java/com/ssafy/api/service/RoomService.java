@@ -32,6 +32,11 @@ public class RoomService {
     public Room getRoom(int roomId) {
         return roomRepository.findByRoomId(roomId);
     }
+
+    @Transactional(readOnly = true) // select만 하는곳엔 readOnly속성 붙혀줌
+    public Room getRoomByName(String roomName) {
+        return roomRepository.findByRoomTitle(roomName);
+    }
     
     //방 제거하기
     @Transactional

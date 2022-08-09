@@ -29,7 +29,7 @@ public class RoomController {
 
     //방 만들기
     @PostMapping("/api/room")
-    public ResponseEntity<String> createRoom(@RequestBody RoomReq roomreq, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<Room> createRoom(@RequestBody RoomReq roomreq, @ApiIgnore Authentication authentication) {
 
         //로그인 한 user정보 찾아오는 code
         //스켈레톤 코드 UserController에서 가져옴
@@ -41,8 +41,8 @@ public class RoomController {
                                 .roomBettingUnit(roomreq.getRoomBettingUnit())
                                         .build();
         roomService.createRoom(room, user);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+        Room roommade = roomService.getRoomByName(roomreq.getRoomTitle());
+        return new ResponseEntity<Room>(roommade, HttpStatus.OK);
     }
 
     //방 전체조회
@@ -55,6 +55,12 @@ public class RoomController {
     @GetMapping("/api/room/{roomId}")
     public ResponseEntity<Room> getRoom(@PathVariable int roomId) {
         return new ResponseEntity<Room>(roomService.getRoom(roomId), HttpStatus.OK);
+    }
+
+    //방이름으로 조회
+    @GetMapping("/api/room/{roomName}")
+    public ResponseEntity<Room> getRoomByName(@PathVariable String roomName) {
+        return new ResponseEntity<Room>(roomService.getRoomByName(roomName), HttpStatus.OK);
     }
 
     //방 제거하기

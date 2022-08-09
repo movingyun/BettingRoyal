@@ -1,0 +1,58 @@
+{
+  "GameMessage": {
+    "roomId": 1,
+    "senderNickname": "",
+    "message": "",
+    "gameId": 1,
+    "gameTotalBet": 5000,
+    "groundCardNum1": 2,
+    "groundCardNum2": 5,
+    "turnIdx": 2,
+    "type": "BETTING",
+    "bettingUnit": 100,
+    "playerInfo": [
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      },
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      },
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      },
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      },
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      },
+      {
+        "nickname": "nickname",
+        "myruby": 10000,
+        "mytotalBet": 200,
+        "myCard": 20,
+        "myPair": "onepair"
+      }
+    ]
+  }
+}

@@ -81,44 +81,27 @@
 
             //기본 배팅 하자
             if (content.type == "UNITBETTING") {
+              console.log(content);
               gameBox.append("<li>" + content.message + "</li>");
             }
 
             //카드 받자 player수만큼 요청하자
-            if (content.type == "MAKECARDSET") {
-              //console.log("개인카드 달라고 요청했음")
-              //기본배팅 했으니까 GETCARD 요청
-              client.send(
-                "/pub/game/message",
-                {},
-                JSON.stringify({
-                  roomId: roomId,
-                  message: "",
-                  sender: "",
-                  type: "GETMYCARD",
-                })
-              );
-            }
+            // if (content.type == "MAKECARDSET") {
+            //   //console.log("개인카드 달라고 요청했음")
+            //   //기본배팅 했으니까 GETCARD 요청
+            //   client.send(
+            //     "/pub/game/message",
+            //     {},
+            //     JSON.stringify({
+            //       roomId: roomId,
+            //       message: "",
+            //       sender: "",
+            //       type: "GETMYCARD",
+            //     })
+            //   );
+            // }
 
-            //플레이어가 콜 버튼 눌렀네
-            if (content.type == "PLAYERCALL") {
-              gameBox.append("<li>" + content.message + "</li>");
-            }
 
-            //플레이어가 레이즈 버튼 눌렀네
-            if (content.type == "PLAYERRAISE") {
-              gameBox.append("<li>" + content.message + "</li>");
-            }
-
-            //플레이어가 다이 버튼 눌렀네
-            if (content.type == "PLAYERDIE") {
-              gameBox.append("<li>" + content.message + "</li>");
-            }
-
-            //플레이어가 올인 버튼 눌렀네
-            if (content.type == "PLAYERALLIN") {
-              gameBox.append("<li>" + content.message + "</li>");
-            }
           });
 
           //개인 메시지를 받으면
@@ -133,16 +116,12 @@
             }
 
             //첫 배팅하기
-            if (content.type == "FIRSTBETTING") {
-              //이거 받은사람만 콜빼고 배팅버튼 활성화
+            if (content.type == "NEXTTURN") {
+              console.log(content);
               gameBox.append("<li>" + content.message + "</li>");
             }
 
-            //나머지 배팅하기
-            if (content.type == "BETTING") {
-              //이거 받은사람만 배팅버튼 활성화
-              gameBox.append("<li>" + content.message + "</li>");
-            }
+
           });
         });
         /*
@@ -208,12 +187,44 @@
             {},
             JSON.stringify({
               roomId: roomId,
-              message: "raiseCnt",
+              message: raiseCnt,
               sender: "",
               type: "RAISE",
             })
           );
         });
+
+
+        dieBtn.click(function () {
+          console.log("다이 버튼이 눌렸다");
+          client.send(
+                  "/pub/game/message",
+                  {},
+                  JSON.stringify({
+                    roomId: roomId,
+                    message: "",
+                    sender: "",
+                    type: "DIE",
+                  })
+          );
+        });
+
+        allinBtn.click(function () {
+          console.log("올인 버튼이 눌렸다");
+          client.send(
+                  "/pub/game/message",
+                  {},
+                  JSON.stringify({
+                    roomId: roomId,
+                    message: "",
+                    sender: "",
+                    type: "ALLIN",
+                  })
+          );
+        });
+
+
+
       });
     </script>
   </body>

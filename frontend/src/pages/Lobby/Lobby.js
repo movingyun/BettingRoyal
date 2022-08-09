@@ -15,12 +15,12 @@ import Rooms from "../../pages/Rooms/Rooms";
 import Test from "../../pages/Test/Test";
 
 export default function Lobby(props) {
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      console.log("로그인하세요");
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("accessToken")) {
+  //     console.log("로그인하세요");
+  //     navigate("/login");
+  //   }
+  // }, []);
   const navigate = useNavigate();
   let sidemenu = (
     <ThemeProvider theme={dashboardTheme}>

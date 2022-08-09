@@ -22,6 +22,10 @@ public class GamePlayerRepository {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoomSizeRepository roomSizeRepository;
 
     @PostConstruct
     private void init(){
@@ -37,30 +41,32 @@ public class GamePlayerRepository {
     	}else {
     		gamePlayer.setMyTurn(false);
     	}
-		String token = message.getSenderNickName();
-		JWTVerifier verifier = JwtTokenUtil.getVerifier();
-		JwtTokenUtil.handleError(token);
-		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
-		String userEmail = decodedJWT.getSubject();
-		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
-    	gamePlayerMap.add(gamePlayer);
-    }
-
-
-	public int findRoomBySesssionId(String sessionId) {
-		int roomId=-1;
-		for (int i=0; i<gamePlayerMap.size(); i++){
-			if(gamePlayerMap.get(i).getSessionId().equals(sessionId)){
-				roomId= gamePlayerMap.get(i).getRoomId();
-				break;
-			}
-		}
-		return roomId;
-
+		// TODO: 진짜 돌릴땐 이거 켜줘서 access-token으로 정보 가져오게
+//		String token = message.getSenderNickName();
+//		JWTVerifier verifier = JwtTokenUtil.getVerifier();
+//		JwtTokenUtil.handleError(token);
+//		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+//		String userEmail = decodedJWT.getSubject();
+//		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
+		gamePlayer.setUser(userRepository.findByUserId(roomSizeRepository.getRoomSize(message.getRoomId())));
+		gamePlayerMap.add(gamePlayer);
 	}
 
 
-	public boolean deleteGamePlayer(int roomId, String sessionId) {
+	public int findRoomBySesssionId(String sessionId) {
+		int roomid=-1;
+		for (int i=0; i<gamePlayerMap.size(); i++){
+			System.out.println(gamePlayerMap.get(i).getSessionId());
+			System.out.println(sessionId);
+			if(gamePlayerMap.get(i).getSessionId()==sessionId){
+				roomid= gamePlayerMap.get(i).getRoomId();
+			}
+		}
+		return roomid;
+
+	}
+    
+    public boolean deleteGamePlayer(int roomId, String sessionId) {
     	List<GamePlayer> gp = getGamePlayer(roomId);
     	
     	boolean flag = false;

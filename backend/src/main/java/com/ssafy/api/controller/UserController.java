@@ -107,6 +107,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
+
 	@GetMapping("users")
 	@ApiOperation(value = "전체 회원 조회", notes = "전체 회원을 조회한다")
 	@ApiResponses({

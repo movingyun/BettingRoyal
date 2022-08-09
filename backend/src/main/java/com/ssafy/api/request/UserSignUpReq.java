@@ -28,14 +28,14 @@ public class UserSignUpReq {
 	@NotNull(message = "Password should not be empty.")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~?!@#$%^&*()+|=])[A-Za-z\\d~?!@#$%^&*()+|=]{8,}$",
 			message = "비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.")
-	private String UserPw;
+	private String userPw;
 
 	@ApiModelProperty(name = "닉네임")
 	@NotNull(message = "Nickname should not be empty.")
 	@Size(min=2, max =8)
 	@Pattern(regexp = "^[0-9a-zA-Z가-힣]*$",
 			message = "닉네임은 한글/숫자/영어만 가능합니다.")
-	private String UserNickname;
+	private String userNickname;
 
 	@ApiModelProperty(name =  "M: 남자, F: 여자", allowableValues = "M, F")
 	@NotNull(message = "Gender should not be empty.")

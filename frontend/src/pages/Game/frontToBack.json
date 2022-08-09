@@ -1,0 +1,15 @@
+{
+  "GameMessage": {
+    "roomId": 1,
+    "senderNickname": "nickname",
+    "message": "",
+    "gameId": "",
+    "gameTotalBet": "",
+    "groundCardNum1": "",
+    "groundCardNum2": "",
+    "turnIdx": "",
+    "type": "ENTER",
+    "bettingUnit": "",
+    "playerInfo": []
+  }
+}
