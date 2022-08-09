@@ -25,4 +25,5 @@ public class GameMessage {
 	private Integer turnIdx;
 	private MessageType type;
 	private int battingUnit;
+	private String mission;
 }

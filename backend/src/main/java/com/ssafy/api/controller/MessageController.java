@@ -66,6 +66,8 @@ public class MessageController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MissionRepository missionRepository;
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -101,9 +103,15 @@ public class MessageController {
 			}
 
 			// tb_game 생성 -> 공용카드 넣기
-			int gameId = gameService.createGame(roomId, groundCard1, groundCard2);
+			//미션도 찾아와서 게임에 같이 넣어줌
+			int missionId = r.nextInt(missionRepository.getMissionCnt())+1;
+			System.out.println("1111111||||||||  " + missionId);
+			Mission mission = missionRepository.findByMissionId(missionId);
+			int gameId = gameService.createGame(roomId, groundCard1, groundCard2, mission);
 			log.info(gameId);
 			message.setGameId(gameId);
+			//메세지에 미션도 추가해줌!
+			message.setMission(mission.getMission());
 
 			message.setMessage("공통카드 : " + groundCard1 + ", " + groundCard2);
 			message.setType(MessageType.GROUNDCARD);
@@ -174,7 +182,9 @@ public class MessageController {
 //			template.convertAndSend("/sub/game/room" + roomId, message);
 
 			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다.
-			message.setPlayerInfo(getClientPlayerInfoMsg(gpList, message));
+			List<PlayerInfo> piList =getClientPlayerInfoMsg(gpList, message) ;
+
+
 
 			//이 방에있는 플레이어들한테 각자 메시지 보내주자
 			int idx = 0;
@@ -186,7 +196,7 @@ public class MessageController {
 
 				//카드뭉치에서 자기것만 빼고 보내준다.
 				int myCard = cardSet.get(idx);
-				idx++;
+
 
 				message.setType(MessageType.GETMYCARD);
 
@@ -196,13 +206,35 @@ public class MessageController {
 				// 기본베팅한거 DB넣어주기!!
 				gameInfoService.unitBetting(gameId,gp.getUser().getUserId(),bettingUnit);
 
-				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에는 내 카드를 알려주면 안된다! 0~39 이니 40으로 잠시 설정해둠
-				message.getPlayerInfo().get(idx-1).setMyCard(40);
+				//나를 기준으로 0번부터 보내주기.
+				List<PlayerInfo> piList2 = new ArrayList<>();
+				for(int i = idx; i-idx< piList.size(); i++){
+					piList2.add(piList.get(i%piList.size()));
+				}
+
+
+				//메시지에 PlayerInfo를 담는다.
+				message.setPlayerInfo(piList2);
+
+
+				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에서 내카드, 내 족보는 알려주지 말자!!(카드:40으로 / 족보는 null로)
+				String myPair = message.getPlayerInfo().get(0).getMyPair();
+				message.getPlayerInfo().get(0).setMyCard(40);
+				message.getPlayerInfo().get(0).setMyPair(null);
+
+				//gp에 myTurn이 true인 아이로 turnIdx설정
+				if(gp.isMyTurn()){
+					message.setTurnIdx(idx);
+				}
+
 				//기본 데이터들 서버 데이터로 바꿔주기
 				settingBasicGameMessage(gp, message);
 				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
-				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
-				message.getPlayerInfo().get(idx-1).setMyCard(gp.getMyCard());
+//				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
+				message.getPlayerInfo().get(0).setMyCard(gp.getMyCard());
+				message.getPlayerInfo().get(0).setMyPair(myPair);
+
+				idx++;
 			}
 
 			// 10초 기다리기(자유롭게 대화)
@@ -495,6 +527,7 @@ public class MessageController {
 		//*******************게임 계속할거야. 다음사람한테 턴 넘겨!!*******************
 		else{
 			log.info("다음사람 ㄱㄱ");
+			log.info(message.getTurnIdx());
 			//이번 플레이어의 myTurn은 false로 바꿔주고 다음번 애 true로 바꿔준다.
 			int turn = message.getTurnIdx();
 			gpList.get(turn).setMyTurn(false);
@@ -519,13 +552,15 @@ public class MessageController {
 			int idx = 0;
 			for(GamePlayer gp : gpList){
 				message.setType(MessageType.NEXTTURN);
-				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에는 내 카드를 알려주면 안된다! 0~39 이니 40으로 잠시 설정해둠
+				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에서 내카드, 내 족보는 알려주지 말자!!(카드:40으로 / 족보는 null로)
 				message.getPlayerInfo().get(idx).setMyCard(40);
+				message.getPlayerInfo().get(idx).setMyPair(null);
 				//기본 데이터들 서버 데이터로 바꿔주기
 				settingBasicGameMessage(gp, message);
 				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
 				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
 				message.getPlayerInfo().get(idx).setMyCard(gp.getMyCard());
+				message.getPlayerInfo().get(idx).setMyCard(gp.getMyPair());
 				idx++;
 			}
 
@@ -710,5 +745,3 @@ public class MessageController {
 //
 //	}
 }
-
-// todo 나를 기준으로 0번부터 보내주기
