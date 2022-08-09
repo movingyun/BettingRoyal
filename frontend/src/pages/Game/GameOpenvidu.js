@@ -33,6 +33,14 @@ class Gameroom extends Component {
             chatList: [],
         };
 
+        this.test = [
+            styles.player1,
+            styles.player2,
+            styles.player3,
+            styles.player4,
+            styles.player5,
+        ];
+
         let roomid=props.mySessionId;
 
         this.joinSession = this.joinSession.bind(this);
@@ -338,12 +346,12 @@ class Gameroom extends Component {
 
                 <div className={styles.header}>
                     <h1>
-                    <ArrowForwardIosRoundedIcon className={styles.icon} />
-                    게임방 이름
+                        <ArrowForwardIosRoundedIcon className={styles.icon} />
+                        게임방 이름
                     </h1>
                     <h2>기본 베팅 10 루비</h2>
                     <div className={styles.buttonList}>
-                    <button className={styles.button}>나가기</button>
+                       <button className={styles.button}>나가기</button>
                     </div>
                 </div>
                 {this.state.session !== undefined ? (
@@ -355,7 +363,7 @@ class Gameroom extends Component {
                             </div>
                         ) : null}
                         {this.state.subscribers.map((sub, i) => (
-                            <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={styles.playerCam}>
+                            <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={this.test[i]}>
                                 <UserVideoComponent streamManager={sub}/>
                             </div>
                             
@@ -385,14 +393,12 @@ class Gameroom extends Component {
                         </div>
                         </div>
                         
-                        <div className={styles.rules}>
+                        <div className={styles.chat}>
                             <Chat sendChat={this.sendChat} chatList={chatList} />
                         </div>
                         <div className={styles.start}>
                             <button>게임시작</button>
                         </div>
-
-
                     </div>
                     ) : null}
             </div>
