@@ -26,8 +26,8 @@ export default function Player(props) {
             <div className={styles.camera}></div>
             <div className={styles.info}>
               <div className={styles.userInfo}>
-                <div className={styles.name}>{player.sessionId}</div>
-                <div className={styles.ruby}>{player.myRuby}</div>
+                <div className={styles.name}>{player.nickname}</div>
+                <div className={styles.ruby}>{player.myruby}</div>
               </div>
               {/* <hr className={styles.divider}/> */}
               <div className={styles.gameInfo}>
@@ -41,7 +41,7 @@ export default function Player(props) {
                     <img src={card_am_1} />
                   </div>
                 </div>
-                <div className={styles.status}>더블</div>
+                <div className={styles.status}>{player.myPair}</div>
                 <div className={styles.emotion}>감정상태</div>
               </div>
             </div>
@@ -67,8 +67,8 @@ export default function Player(props) {
             </div>
             <div className={styles.info}>
               <div className={styles.userInfo}>
-                  <div className={styles.name}>닉네임</div>
-                  <div className={styles.ruby}>100,000 루비</div>
+                  <div className={styles.name}></div>
+                  <div className={styles.ruby}></div>
               </div>
               {/* <hr className={styles.divider}/> */}
               <div className={styles.gameInfo}>
@@ -82,8 +82,8 @@ export default function Player(props) {
                         <img src={card_am_1} />
                     </div>
                 </div>
-                <div className={styles.status}>더블</div>
-                <div className={styles.emotion}>감정상태</div>
+                <div className={styles.status}></div>
+                <div className={styles.emotion}></div>
               </div>
             </div>
           </div>

@@ -55,28 +55,21 @@ export default function Game(props) {
       stomp.subscribe("/sub/game/room" + roomId, function (message) {
         //content.type, content.message등으로 사용 가능
         var content = JSON.parse(message.body);
-
-        // //참가 후 정보받기
-        // if (content.type == "PLAYERSINFO") {
-        //   //{players[], betUnit}
-        //   //받은 player[0]이 자신
-        //   console.log('플레이어들 정보 받기' +content.playersInfo)
-        //   setPlayers(content.playersInfo);
-        //   setPlayerOpenvidu(content.playerOpenvidu);
-        // }
+        // console.log("message recieved")
+        
 
         //사람이 들어왔을 때
         if (content.type == "ENTER") {
-          //nickname , ruby
-          console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
-          if (content.playerInfo) {
-            setPlayers(content.playerInfo);
-          }
-          setroomInfo(content);
-          setisEnter(true);
-          // if(content.turnIdx){
-          //   setstartDisabled(false)
+          // //nickname , ruby
+          // console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
+          // if (content.playerInfo) {
+          //   setPlayers(content.playerInfo);
           // }
+          // setroomInfo(content);
+          // setisEnter(true);
+          // // if(content.turnIdx){
+          // //   setstartDisabled(false)
+          // // }
         }
 
         //사람이 나갔을 때
@@ -96,7 +89,7 @@ export default function Game(props) {
         if (content.type == "START") {
           //ui 게임ui로 바뀜. 버튼생성
           setmainMessage("게임 시작!");
-
+          setIsStart(true);
           //카메라 체크
         }
 
@@ -109,33 +102,27 @@ export default function Game(props) {
           setGroundCard2(content.groundCardNum2);
         }
 
-        // 배팅 하자
-        if (content.type == "UNITBETTING") {
-          //서버에서 베팅 처리하고 프론트 효과만
-          //
-          setPlayers(
-            players.map((player) => {
-              player.myruby -= currentBetUnit;
-              player.mytotalBet += currentBetUnit;
-              return player;
-            })
-          );
-          setGameTotalBet(gameTotalBet + content.gameTotalBet);
-        }
+        // // 배팅 하자
+        // if (content.type == "UNITBETTING") {
+        //   //서버에서 베팅 처리하고 프론트 효과만
+        //   //
+          
+        //   // setGameTotalBet(gameTotalBet + content.gameTotalBet);
+        // }
 
-        //플레이어 카드 받기
-        if (content.type == "MAKECARDSET") {
-          //{players[]}
+        // //플레이어 카드 받기
+        // if (content.type == "MAKECARDSET") {
+        //   //{players[]}
 
-          setPlayers(content.playerInfo);
+        //   setPlayers(content.playerInfo);
 
-          //10초 대화
-          setmainMessage("10초 후 베팅이 시작됩니다");
-          setInterval(() => {
-            setSec(time.current);
-            time.current -= 1;
-          }, 1000);
-        }
+        //   //10초 대화
+        //   setmainMessage("10초 후 베팅이 시작됩니다");
+        //   setInterval(() => {
+        //     setSec(time.current);
+        //     time.current -= 1;
+        //   }, 1000);
+        // }
 
         //턴
         if (content.type == "TURN") {
@@ -169,6 +156,38 @@ export default function Game(props) {
           setPlayers(content.playersInfo);
           setCurrentBetUnit(content.betUnit);
         }
+      });
+
+
+      stomp.subscribe("/user/sub/game/room" + roomId, function (message) {
+        var content = JSON.parse(message.body);
+
+        //사람이 들어왔을 때
+        if (content.type == "ENTER") {
+          console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
+          if (content.playerInfo) {
+            setPlayers(content.playerInfo);
+          }
+          setroomInfo(content);
+          setisEnter(true);
+          if(content.turnIdx==0){
+            setstartDisabled(false)
+          }
+        }
+
+        //개인 카드 받기
+        if (content.type == "GETMYCARD") {
+          setPlayers(content.playerInfo)
+          if(content.turnIdx==0){
+            setbuttonDisable([false,true,false,false])
+          }
+          setCurrentBetUnit(content.battingUnit)
+
+
+        }
+
+
+
       });
     });
 
@@ -230,11 +249,12 @@ export default function Game(props) {
 
         break;
       case "레이즈":
-        console.log("raise " + myBet);
+        setMyBet(currentBetUnit);
+        console.log("raise " + currentBetUnit);
         stomp.send(
           "/pub/game/message",
           {},
-          JSON.stringify({ roomId: roomId, message: myBet, sender: "", type: "RAISE" })
+          JSON.stringify({ roomId: roomId, message: currentBetUnit, sender: "", type: "RAISE" })
         );
 
         break;
@@ -325,7 +345,7 @@ export default function Game(props) {
           </div>
         </div>
 
-        {/* <div className={styles.player1}>
+        <div className={styles.player1}>
           <Player player={players[1]} />
         </div>
         <div className={styles.player2}>
@@ -342,8 +362,9 @@ export default function Game(props) {
         </div>
         <div className={styles.playerMe}>
           <Player player={players[0]} />
-        </div>  */}
-        <GameOpenvidu isEnter={isEnter} roomInfo={roomInfo}/>
+        </div> 
+        {/* {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null}  */}
+        
         {isStart ? (
           <div className={styles.betting}>
             <button onClick={sendBet} disabled={buttonDisable[0]}>
