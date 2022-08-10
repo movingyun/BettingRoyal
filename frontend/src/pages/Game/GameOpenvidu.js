@@ -9,11 +9,12 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-
+import ReactDOM from "react-dom";
+import Popover from "react-popover";
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
-
 
 class Gameroom extends Component {  
     constructor(props) {
@@ -30,6 +31,8 @@ class Gameroom extends Component {
             setPlayers: [],
             number: 0,
             chatList: [],
+            isOpen: false,
+            seconds : 30,
         };
 
         this.test = [
@@ -52,8 +55,23 @@ class Gameroom extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.sendChat = this.sendChat.bind(this);
         // this.updateChat = this.updateChat.bind(this);
+        this.startClick = this.startClick.bind(this);
+
     }
 
+    startClick () {
+        console.log("겜시작");
+        this.timerId = setInterval( () => {
+            this.setState({
+                seconds: this.state.seconds-1
+            })
+        }, 1000)
+        
+    }
+
+    togglePopover = () => {
+        this.setState({ isOpen: !this.state.isOpen });
+    };
 
     increase = () => {
         this.setState({
@@ -293,17 +311,13 @@ class Gameroom extends Component {
           }
     }
 
-
-    startClick() {
-        console.log("겜시작");
-    }
-
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
         const players = this.state.players;
         const state = this.state;
         const chatList = this.state.chatList;        
+        const isStart = this.state.isStart;        
         return (
             <div className={styles.container}>
                 
@@ -373,23 +387,34 @@ class Gameroom extends Component {
                         <div className={styles.center}>
                         <div className={styles.qs}>누가 거짓말쟁이?</div>
                         <div className={styles.cards}>
-                            <div className={`${styles.cards_back}`}
+                            <div className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
                             >
                             <img src={card_back} />
                             <img src={card_back} />
                             </div>
-                            <div className={`${styles.cards_front}`}>
+                            <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
                             <img src={card_am_1} />
                             <img src={card_aq_1} />
                             </div>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.time}>
-                            {/* {sec}초 */}
+                            {this.state.seconds}초
                             </div>
                             <div className={styles.money}>돈돈돈돈</div>
                             <div className={styles.help}>
-                                <button>족보</button>
+                                <Popover
+                                isOpen={this.state.isOpen}
+                                body={
+                                    <div className={styles.popover}>
+                                        더블 &#60; 스트레이트 &#60; 트리플<br />
+                                        자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
+                                    </div>
+                                }
+                                onOuterAction={this.togglePopover}
+                                >
+                                    <HelpOutlineRoundedIcon className={styles.popoverBtn} onClick={this.togglePopover}/>
+                                </Popover>
                             </div>
                         </div>
                         </div>
