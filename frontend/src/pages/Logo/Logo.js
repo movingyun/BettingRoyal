@@ -9,10 +9,14 @@ import Lobby from '../../pages/Lobby/Lobby'
 import Room from '../../pages/Game/Game';
 import title from "../../images/logo_center.png";
 import betting from "../../images/logo_betting.png";
+import kakaologin from "../../images/kakao_login.png" 
 import royal from "../../images/logo_royal.png";
+import {KAKAO_AUTH_URL} from '../../pages/Login/OAuth';
+import { Button, Switch } from "@material-ui/core";
 
 export default function First(props) {
   useEffect(() => {}, []);
+
 
   let header = (
     <div className={styles.bg}>
@@ -23,6 +27,7 @@ export default function First(props) {
         <div className={styles.child_royal}><img src={royal}/></div>
         </div>
           <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
+          <Button href={KAKAO_AUTH_URL}><img src={kakaologin}/></Button><br></br>
           <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
           {/* <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link> */}
       </div>
