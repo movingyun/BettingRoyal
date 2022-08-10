@@ -24,7 +24,7 @@ public class RoomService {
     //방 전체조회
     @Transactional(readOnly = true) // select만 하는곳엔 readOnly속성 붙혀줌
     public List<Room> getRoomList() {
-        return roomRepository.findAll();
+        return roomRepository.findAllByRoomIsClose();
     }
 
     //방 1개조회

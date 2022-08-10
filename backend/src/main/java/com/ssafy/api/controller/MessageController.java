@@ -823,5 +823,3 @@ public class MessageController {
 	}//session나가기 함수
 
 }
-
-//todo 프론트로 게임방 db보내줄 때 roomIsClose, roomIsStart 생각해보기
