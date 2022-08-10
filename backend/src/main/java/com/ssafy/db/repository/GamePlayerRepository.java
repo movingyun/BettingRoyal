@@ -8,6 +8,7 @@ import com.ssafy.db.entity.GameMessage;
 import com.ssafy.db.entity.GamePlayer;
 
 import com.ssafy.db.entity.User;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Log4j2
 public class GamePlayerRepository {
 
 	private List<GamePlayer> gamePlayerMap;
@@ -63,7 +65,6 @@ public class GamePlayerRepository {
 			}
 		}
 		return roomid;
-
 	}
     
     public boolean deleteGamePlayer(int roomId, String sessionId) {
@@ -104,10 +105,10 @@ public class GamePlayerRepository {
 			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
+				log.info("현재까지 베팅 금액 : " + currentBetting);
 				//콜하려면 내야하는 금액
 				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
-				//베팅 Cnt만큼 바꿔주기
-				gamePlayerList.get(i).setMyBetting(currentBetting+callBettingCnt);
+				log.info("콜 하려면 내야하는 금액 : "+ callBettingCnt);
 			}
 		}
 		return callBettingCnt;
@@ -123,10 +124,13 @@ public class GamePlayerRepository {
 			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
+				log.info("현재까지 낸 돈 : "+currentBetting);
 				//콜하려면 내야하는 금액
 				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				log.info("콜 하려면 내야하는 금액 : "+callBettingCnt);
 				//(콜+레이즈)Cnt만큼 바꿔주기
 				gamePlayerList.get(i).setMyBetting(currentBetting+(callBettingCnt+raiseCnt));
+				log.info("레이즈 하면서 더 내야되는 금액 : "+ (callBettingCnt+raiseCnt));
 			}
 		}
 		return callBettingCnt+raiseCnt;
