@@ -63,7 +63,7 @@
 
             //사람이 들어왔을 때
             if (content.type == "ENTER") {
-              //console.log("사람들어왔다" + message.body)
+              console.log(content);
               gameBox.append("<li>" + content.message + "</li>");
             }
 
@@ -81,6 +81,12 @@
 
             //기본 배팅 하자
             if (content.type == "UNITBETTING") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
               console.log(content);
               gameBox.append("<li>" + content.message + "</li>");
             }
@@ -108,6 +114,18 @@
           client.subscribe("/user/sub/game/room" + roomId, function (message) {
             var content = JSON.parse(message.body);
 
+            //사람이 들어왔을 때
+            if (content.type == "ENTER") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
             //개인 카드 받기
             if (content.type == "GETMYCARD") {
               //무슨 카드를 받았나?
@@ -124,15 +142,6 @@
 
           });
         });
-        /*
-        client.disconnect({}, function() {
-            client.send("/pub/game/message", {}, JSON.stringify({
-                roomId : roomId,
-                sender : "",
-                type : "EXIT"
-            }));
-        });
-        */
 
         sendBtn.click(function () {
           console.log("보내기 눌렀다.--------");
@@ -229,3 +238,30 @@
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
