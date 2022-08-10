@@ -11,7 +11,6 @@ import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
 
 
-
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
@@ -55,7 +54,7 @@ class Gameroom extends Component {
         // this.updateChat = this.updateChat.bind(this);
     }
 
-    
+
     increase = () => {
         this.setState({
           number: this.state.number + 1,
@@ -295,13 +294,16 @@ class Gameroom extends Component {
     }
 
 
+    startClick() {
+        console.log("겜시작");
+    }
 
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
         const players = this.state.players;
         const state = this.state;
-        const chatList = this.state.chatList;
+        const chatList = this.state.chatList;        
         return (
             <div className={styles.container}>
                 
@@ -371,14 +373,12 @@ class Gameroom extends Component {
                         <div className={styles.center}>
                         <div className={styles.qs}>누가 거짓말쟁이?</div>
                         <div className={styles.cards}>
-                            <div
-                            id="card"
-                            className={`${styles.cards_back}`}
+                            <div className={`${styles.cards_back}`}
                             >
                             <img src={card_back} />
                             <img src={card_back} />
                             </div>
-                            <div className={`${styles.cards_front} `}>
+                            <div className={`${styles.cards_front}`}>
                             <img src={card_am_1} />
                             <img src={card_aq_1} />
                             </div>
@@ -386,23 +386,22 @@ class Gameroom extends Component {
                         <div className={styles.info}>
                             <div className={styles.time}>
                             {/* {sec}초 */}
-                            <div className={styles.timer_front}></div>
-                                        <div className={styles.timer_back}></div>
                             </div>
                             <div className={styles.money}>돈돈돈돈</div>
+                            <div className={styles.help}>
+                                <button>족보</button>
+                            </div>
                         </div>
                         </div>
-                        
                         <div className={styles.chat}>
                             <Chat sendChat={this.sendChat} chatList={chatList} />
                         </div>
                         <div className={styles.start}>
-                            <button>게임시작</button>
+                            <button onClick={this.startClick}>게임시작</button>
                         </div>
                     </div>
                     ) : null}
             </div>
-
         );
     }
 

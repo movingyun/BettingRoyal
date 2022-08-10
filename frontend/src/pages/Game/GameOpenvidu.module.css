@@ -264,13 +264,17 @@
     align-items: center;
 }
 
+.help {
+    background-color:aqua;
+    display: grid;
+    align-items: center;
+    height: 100%;
+}
+
 .chat {
     background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    align-items:center;
-    color: #2C3639;
+    /* border-radius: 20px; */
+    border-radius: 5px;
     grid-row: 5 / 6;
     grid-column: 3 / 4;
     margin-right: 10px;

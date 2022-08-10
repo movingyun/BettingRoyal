@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from './Chat.module.css';
+import React from "react";
 
 // export default function Chat(){
 export default function Chat(props){
@@ -12,10 +13,12 @@ export default function Chat(props){
     }
   }
 
-  function send(e) {
-      console.log ("aa")
+  function send() {
+      const msg = document.getElementById('chatTxt').value
+      console.log(msg);
+      props.sendChat(msg);
+      document.getElementById('chatTxt').value = ''
   }
-
 
   // const [chatList, setChat] = useState(props.chatList);
 
@@ -37,7 +40,7 @@ export default function Chat(props){
         ))}
       </div>
       <div className={styles.inputList}>
-          <input className={styles.input} type={"text"} id={"chatTxt"} onKeyPress={onKeyPress} placeholder='메세지'></input>
+          <input className={styles.input} type={"text"} id={"chatTxt"} onKeyPress={onKeyPress} placeholder='메시지 보내기'></input>
           <button className={styles.inputBtn} type={"button"} onClick={send}>전송</button>
       </div>
     </div>
