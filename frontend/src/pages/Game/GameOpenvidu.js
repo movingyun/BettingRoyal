@@ -1,15 +1,14 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
-import UserVideoComponent from '../../components/Openvidu/UserVideoComponent';
+import UserVideoComponent from '../../components/Openvidu/UserVideo';
 import Chat from '../../components/Openvidu/Chat'
-
+import styles from "./GameOpenvidu.module.css";
 import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-
 
 
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
@@ -31,7 +30,16 @@ class Gameroom extends Component {
             setPlayers: [],
             number: 0,
             chatList: [],
+            roomInfo:{}
         };
+
+        this.test = [
+            styles.player1,
+            styles.player2,
+            styles.player3,
+            styles.player4,
+            styles.player5,
+        ];
 
         let roomid=props.mySessionId;
 
@@ -47,7 +55,7 @@ class Gameroom extends Component {
         // this.updateChat = this.updateChat.bind(this);
     }
 
-    
+
     increase = () => {
         this.setState({
           number: this.state.number + 1,
@@ -168,7 +176,8 @@ class Gameroom extends Component {
                     mySession
                         .connect(
                             token,
-                            { clientData: this.state.myUserName },
+                            { clientData: this.props.roomInfo.playerInfo[0].nickname },
+                            // { clientData: this.state.myUserName },
                         )
                         .then(async () => {
                             var devices = await this.OV.getDevices();
@@ -287,22 +296,25 @@ class Gameroom extends Component {
     }
 
 
+    startClick() {
+        console.log("겜시작");
+    }
 
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
         const players = this.state.players;
         const state = this.state;
-        const chatList = this.state.chatList;
+        const chatList = this.state.chatList;        
         return (
-            <div>
+            <div className={styles.container}>
                 
                 {/* 입장 전 */}
                 {this.state.session === undefined ? (
                     <div id="join">
-                        <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p>
+                        {/* <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p> */}
                         <div id="join-dialog" className="jumbotron vertical-center">
-                            <h1> Join a video session </h1>
+                            {/* <h1> Join a video session </h1> */}
                             <form className="form-group" onSubmit={this.joinSession}>
                                 <p>
                                     <label>Participant: </label>
@@ -335,24 +347,62 @@ class Gameroom extends Component {
                     ) : null}
 
                 {/* 입장 후 */}
+
+                <div className={styles.header}>
+                    <h1>
+                        <ArrowForwardIosRoundedIcon className={styles.icon} />
+                        게임방 이름
+                    </h1>
+                    <h2>기본 베팅 10 루비</h2>
+                    <div className={styles.buttonList}>
+                       <button className={styles.button}>나가기</button>
+                    </div>
+                </div>
                 {this.state.session !== undefined ? (
-                    <div id="video-container" className="col-md-6">
+                    <div className={styles.grid}>
                         {this.state.publisher !== undefined ? (
-                            <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                            <div onClick={() => this.handleMainVideoStream(this.state.publisher)} className={styles.myCam}>
                                 <UserVideoComponent
-                                    streamManager={this.state.publisher} />
+                                    streamManager={this.state.publisher}/>
                             </div>
                         ) : null}
                         {this.state.subscribers.map((sub, i) => (
-                            <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                <UserVideoComponent streamManager={sub} />
+                            <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={this.test[i]}>
+                                <UserVideoComponent streamManager={sub}/>
                             </div>
+                            
                         ))}
+                        <div className={styles.center}>
+                        <div className={styles.qs}>누가 거짓말쟁이?</div>
+                        <div className={styles.cards}>
+                            <div className={`${styles.cards_back}`}
+                            >
+                            <img src={card_back} />
+                            <img src={card_back} />
+                            </div>
+                            <div className={`${styles.cards_front}`}>
+                            <img src={card_am_1} />
+                            <img src={card_aq_1} />
+                            </div>
+                        </div>
+                        <div className={styles.info}>
+                            <div className={styles.time}>
+                            {/* {sec}초 */}
+                            </div>
+                            <div className={styles.money}>돈돈돈돈</div>
+                            <div className={styles.help}>
+                                <button>족보</button>
+                            </div>
+                        </div>
+                        </div>
+                        <div className={styles.chat}>
+                            <Chat sendChat={this.sendChat} chatList={chatList} />
+                        </div>
+                        <div className={styles.start}>
+                            <button onClick={this.startClick}>게임시작</button>
+                        </div>
                     </div>
                     ) : null}
-                <div>
-                    <Chat sendChat={this.sendChat} chatList={chatList} />
-                </div>
             </div>
         );
     }
@@ -370,7 +420,7 @@ class Gameroom extends Component {
      */
 
     getToken() {
-        return this.createSession(this.state.mySessionId).then((sessionId) => this.createToken(sessionId));
+        return this.createSession("room"+this.props.roomInfo.roomId).then((sessionId) => this.createToken(sessionId));
     }
 
     createSession(sessionId) {

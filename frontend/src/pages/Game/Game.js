@@ -27,11 +27,13 @@ export default function Game(props) {
   const [myBet, setMyBet] = useState(0);
   const [myTotalBet, setMyTotalBet] = useState(0);
   const [mainMessage, setmainMessage] = useState("");
-  const [buttonDisable, setbuttonDisable] = useState([true,true,true,true]);
-  const [startDisabled, setstartDisabled] = useState(true)
+  const [buttonDisable, setbuttonDisable] = useState([true, true, true, true]);
+  const [startDisabled, setstartDisabled] = useState(true);
   const [gameTotalBet, setGameTotalBet] = useState(0);
   const [groundCard1, setGroundCard1] = useState(0);
   const [groundCard2, setGroundCard2] = useState(0);
+  const [roomInfo, setroomInfo] = useState();
+  const [isEnter,setisEnter]=useState(false);
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -70,6 +72,8 @@ export default function Game(props) {
           if (content.playerInfo) {
             setPlayers(content.playerInfo);
           }
+          setroomInfo(content);
+          setisEnter(true);
           // if(content.turnIdx){
           //   setstartDisabled(false)
           // }
@@ -90,9 +94,8 @@ export default function Game(props) {
 
         //게임이 시작됐을 때
         if (content.type == "START") {
-          
           //ui 게임ui로 바뀜. 버튼생성
-          setmainMessage("게임 시작!")
+          setmainMessage("게임 시작!");
 
           //카메라 체크
         }
@@ -138,30 +141,26 @@ export default function Game(props) {
         if (content.type == "TURN") {
           //내턴일때
           if (content.turnIdx == 0) {
-            setbuttonDisable([false,false,false,false]);
+            setbuttonDisable([false, false, false, false]);
             if (currentMaxBet > myTotalBet) {
               //콜 버튼 비활성화
-              setbuttonDisable([false,true,false,false]);
+              setbuttonDisable([false, true, false, false]);
             }
           }
           //다른사람 턴일때
           else {
-            setbuttonDisable([true,true,true,true]);
+            setbuttonDisable([true, true, true, true]);
           }
         }
 
         //게임 끝
         if (content.type == "GAMEEND") {
-          
-          setbuttonDisable([true,true,true,true])
+          setbuttonDisable([true, true, true, true]);
 
           //5초 기다림
-          setInterval(() => {
-            
-          }, 500);
-          
-          setIsStart(false);
+          setInterval(() => {}, 500);
 
+          setIsStart(false);
         }
 
         //수시로 서버와 동기화
@@ -219,7 +218,7 @@ export default function Game(props) {
   //콜 다이 레이즈 올인 클릭
   function sendBet(action) {
     //call die raise allin
-    console.log(action.target.textContent)
+    console.log(action.target.textContent);
     switch (action.target.textContent) {
       case "콜":
         console.log("z");
@@ -262,7 +261,6 @@ export default function Game(props) {
         break;
     }
   }
-
 
   //나가기
   function leaveGame() {
@@ -320,15 +318,14 @@ export default function Game(props) {
           </div>
           <div className={styles.info}>
             <div className={styles.time}>
-              {sec}초
-              {/* <div className={styles.timer_front}></div>
-                        <div className={styles.timer_back}></div> */}
+              {sec}초<div className={styles.timer_front}></div>
+              <div className={styles.timer_back}></div>
             </div>
             <div className={styles.money}>돈돈돈돈</div>
           </div>
         </div>
 
-        <div className={styles.player1}>
+        {/* <div className={styles.player1}>
           <Player player={players[1]} />
         </div>
         <div className={styles.player2}>
@@ -345,8 +342,8 @@ export default function Game(props) {
         </div>
         <div className={styles.playerMe}>
           <Player player={players[0]} />
-        </div>
-        <GameOpenvidu />
+        </div>  */}
+        <GameOpenvidu isEnter={isEnter} roomInfo={roomInfo}/>
         {isStart ? (
           <div className={styles.betting}>
             <button onClick={sendBet} disabled={buttonDisable[0]}>
@@ -364,7 +361,9 @@ export default function Game(props) {
           </div>
         ) : (
           <div className={styles.start}>
-            <button onClick={gameStart} disabled={startDisabled}>게임시작</button>
+            <button onClick={gameStart} disabled={startDisabled}>
+              게임시작
+            </button>
           </div>
         )}
 
