@@ -13,10 +13,8 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     Room findByRoomId(int roomId);
 
-
     @Query(value = "SELECT * FROM room WHERE room_is_close=false", nativeQuery = true)
     List<Room> findAllByRoomIsClose();
-
 
     Room findByRoomTitle(String roomTitle);
 
