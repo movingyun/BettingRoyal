@@ -74,6 +74,8 @@ public class MessageController {
 	// headerAccessor는 소켓서버의 주인ID를 확인하기 위해서 사용
 	public void message(GameMessage message, SimpMessageHeaderAccessor headerAccessor) throws InterruptedException {
 		log.info(message.getType());
+		//이 방에서 게임하고있는 플레이어들
+		List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
 
 		if (message.getType().equals(MessageType.ENTER)) {
 			log.info(headerAccessor.getUser().getName());
@@ -83,18 +85,73 @@ public class MessageController {
 			// gamePlayer에 넣어준다.
 			gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
 
-			message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
-			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+			gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
+
+			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다.
+			List<PlayerInfo> piList = new ArrayList<>();
+			//안에 정보들을 채워준다!
+			for(GamePlayer gp : gpList){
+				PlayerInfo info = new PlayerInfo();
+				info.setNickname(gp.getUser().getUserNickname());
+				info.setMyruby(gp.getUser().getUserRuby());
+				piList.add(info);
+			}
+
+			//player들어올때마다 모든 플레이어한테 모든 플레이어 정보 보내주기
+
+			//gp에 myTurn이 true인 아이로 turnIdx설정
+			//turnIdx 자기 기준으로 다시 보내주기위해서 gp기준 firstIdx찾기
+			int firstIdx = 0;
+			for(GamePlayer gp : gpList){
+				if(gp.isMyTurn()){
+					break;
+				}
+				firstIdx++;
+			}
+
+			//이 방에있는 플레이어들한테 각자 메시지 보내주자
+			int idx = 0;
+			for(GamePlayer gp : gpList){
+				message.setType(MessageType.ENTER);
+
+				//나를 기준으로 0번부터 보내주기.
+				List<PlayerInfo> piList2 = new ArrayList<>();
+				for(int i = idx; i-idx< piList.size(); i++){
+					piList2.add(piList.get(i%piList.size()));
+				}
+
+				//메시지에 PlayerInfo를 담는다.
+				message.setPlayerInfo(piList2);
+
+				//turnIdx를 사람마다 각각 넣어주기
+				int turnIdx = firstIdx-idx;
+				if(turnIdx<0)
+					turnIdx+=gpList.size();
+				message.setTurnIdx(turnIdx);
+
+				//기본 데이터들 서버 데이터로 바꿔주기
+				message.setRoomId(gp.getRoomId());
+				message.setBattingUnit(gp.getBattingUnit());
+				message.setMessage("새로운 플레이어가 게임에 입장하셨습니다. / name : " + headerAccessor.getUser().getName());
+				log.info(message.getPlayerInfo().get(0).getMyruby());
+				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
+
+				idx++;
+			}
 		}
 
 		// 게임이 시작버튼이 눌렸다.
 		if (message.getType().equals(MessageType.START)) {
+			int roomId = message.getRoomId();
+
 			// 게임이 시작되었습니다. 메시지 주기
 			message.setMessage("게임이 시작되었습니다.");
 			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
 
+			//tb_room roomIsStart true로 바꿔주기.
+			roomService.startByRoomId(roomId);
+
 			// 공용카드 뽑기
-			int roomId = message.getRoomId();
 			Random r = new Random();
 			int groundCard1 = r.nextInt(39);
 			int groundCard2 = r.nextInt(39);
@@ -121,8 +178,7 @@ public class MessageController {
 			Room room = roomService.getRoom(roomId);
 			int bettingUnit = room.getRoomBettingUnit();
 
-			//이 방에서 게임하고있는 플레이어들
-			List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
+
 
 			// 사람들한테 bettingUnit만큼 돈 내게하기
 			message.setMessage("기본 베팅금액을 베팅하십시오.");
@@ -176,15 +232,18 @@ public class MessageController {
 			// 게임의 개인 카드뭉치를 서버에서 갖고있는다.
 			playerCardSetInGameRepository.addPlayerCardSet(gameId, thisGameCardSet);
 
-//			// 끝났고 이제 카드달라고 각 요청하라함.
-//			message.setMessage("");
-//			message.setType(MessageType.MAKECARDSET);
-//			template.convertAndSend("/sub/game/room" + roomId, message);
-
 			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다.
 			List<PlayerInfo> piList =getClientPlayerInfoMsg(gpList, message) ;
 
-
+			//gp에 myTurn이 true인 아이로 turnIdx설정
+			//turnIdx 자기 기준으로 다시 보내주기위해서 gp기준 firstIdx찾기
+			int firstIdx = 0;
+			for(GamePlayer gp : gpList){
+				if(gp.isMyTurn()){
+					break;
+				}
+				firstIdx++;
+			}
 
 			//이 방에있는 플레이어들한테 각자 메시지 보내주자
 			int idx = 0;
@@ -197,8 +256,9 @@ public class MessageController {
 				//카드뭉치에서 자기것만 빼고 보내준다.
 				int myCard = cardSet.get(idx);
 
-
 				message.setType(MessageType.GETMYCARD);
+				//기본베팅한거 반영
+				message.setGameMaxBet(message.getGameMaxBet()+bettingUnit);
 
 				// tb_game_info생성 후 게임id, 플레이어, 개인카드 입력
 				gameInfoService.createGameInfo(gameId, gp.getUser(), myCard);
@@ -212,24 +272,24 @@ public class MessageController {
 					piList2.add(piList.get(i%piList.size()));
 				}
 
+				//turnIdx를 사람마다 각각 넣어주기
+				int turnIdx = firstIdx-idx;
+				if(turnIdx<0)
+					turnIdx+=gpList.size();
+				message.setTurnIdx(turnIdx);
 
 				//메시지에 PlayerInfo를 담는다.
 				message.setPlayerInfo(piList2);
-
 
 				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에서 내카드, 내 족보는 알려주지 말자!!(카드:40으로 / 족보는 null로)
 				String myPair = message.getPlayerInfo().get(0).getMyPair();
 				message.getPlayerInfo().get(0).setMyCard(40);
 				message.getPlayerInfo().get(0).setMyPair(null);
 
-				//gp에 myTurn이 true인 아이로 turnIdx설정
-				if(gp.isMyTurn()){
-					message.setTurnIdx(idx);
-				}
-
 				//기본 데이터들 서버 데이터로 바꿔주기
 				settingBasicGameMessage(gp, message);
 				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
+
 //				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
 				message.getPlayerInfo().get(0).setMyCard(gp.getMyCard());
 				message.getPlayerInfo().get(0).setMyPair(myPair);
@@ -241,17 +301,6 @@ public class MessageController {
 			Thread.sleep(10000);
 			log.info("10초끝");
 
-			// Turn부터 시작하기
-			// 마이턴 찾아서 너 해!!
-			for (GamePlayer pg : gpList) {
-				// 얘가 첨이다
-				if (pg.isMyTurn()) {
-					String firstUserId = pg.getSessionId();
-					message.setMessage("당신의 차례입니다. 배팅을 하세요");
-					message.setType(MessageType.FIRSTBETTING);
-					template.convertAndSendToUser(firstUserId, "sub/game/room" + message.getRoomId(), message);
-				}
-			}
 		}
 
 		//********************배팅관련 처리********************
@@ -262,7 +311,6 @@ public class MessageController {
 			User bettingUser = new User();
 			int roomId =  message.getRoomId();
 			int gameId = 0;
-			List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -302,7 +350,6 @@ public class MessageController {
 		// 다이가 들어왔을 때
 		if (message.getType().equals(MessageType.DIE)) {
 			int roomId =  message.getRoomId();
-			List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 			String userInfo = headerAccessor.getUser().getName();
 
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -325,7 +372,6 @@ public class MessageController {
 		if (message.getType().equals(MessageType.RAISE)) {
 			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
-			List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 			String userInfo = headerAccessor.getUser().getName();
 			int gameId = 0;
 			User bettingUser = new User();
@@ -359,6 +405,9 @@ public class MessageController {
 				}
 			}
 
+			// message에 maxBetting 올려주기
+			message.setGameMaxBet(message.getGameMaxBet()+raiseCnt);
+
 			//(DB) GameInfo에서 rubyGet minus해주기
 			gameInfoService.raiseBetting(gameId, bettingUser.getUserId(), raiseBetting);
 
@@ -373,7 +422,6 @@ public class MessageController {
 		// 올인이 들어왔을 때
 		if (message.getType().equals(MessageType.ALLIN)) {
 			int roomId =  message.getRoomId();
-			List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 			String userInfo = headerAccessor.getUser().getName();
 			int gameId = 0;
 			User bettingUser = new User();
@@ -410,6 +458,9 @@ public class MessageController {
 				gp.setMaxBetting(gp.getMaxBetting()+rubyForAllIn);
 			}
 
+			// message에 maxBetting 올려주기
+			message.setGameMaxBet(message.getGameMaxBet()+rubyForAllIn);
+
 			//(DB) GameInfo에서 allInBettingCnt만큼 rubyGet minus해주기
 			gameInfoService.allInBetting(gameId, bettingUser.getUserId(), allInBettingCnt);
 
@@ -424,31 +475,31 @@ public class MessageController {
 
 
 
-		//********************나갔을때 확인********************
-		// 나갔을때
-		if (message.getType().equals(MessageType.EXIT)) {
-			// 방에 나가면 player를 한명 내려준다.
-			roomSizeRepository.minusPlayerCnt(message.getRoomId());
-
-			// gamePlayer에서 빼준다.
-			//지운애가 방장이면 true 반환한다.
-			boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
-			//방장 지웠으면 그 다음애 true
-			if(flag) {
-				gamePlayerRepository.getGamePlayer(message.getRoomId()).get(0).setMyTurn(true);
-			}
-
-			message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
-			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
-		}
+//		//********************나갔을때 확인********************
+//		// 나갔을때
+//		if (message.getType().equals(MessageType.EXIT)) {
+//			// 방에 나가면 player를 한명 내려준다.
+//			roomSizeRepository.minusPlayerCnt(message.getRoomId());
+//
+//			// gamePlayer에서 빼준다.
+//			//지운애가 방장이면 true 반환한다.
+//			boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
+//			//방장 지웠으면 그 다음애 true
+//			if(flag) {
+//				gpList.get(0).setMyTurn(true);
+//			}
+//
+//			message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
+//			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+//		}
 
 	}
-
 
 	//다음 사람을 비교해서 게임 종료 여부와 다음 차례인 사람을 찾는 함수
 	public void checkFinish(GameMessage message, SimpMessageHeaderAccessor headerAccessor) {
 		//게임방에 참여중인 참가자들을 구한다
-		List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
+		int roomId = message.getRoomId();
+		List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
 		//finishCnt와 dieCnt를 활용해서 게임이 끝났는지 확인
 		//finishCnt = dieCnt + (userBetting==MaxBetting)Cnt
@@ -512,7 +563,6 @@ public class MessageController {
 				player.setMyBetting(0);
 				player.setDie(false);
 				player.setMyCard(null);
-				player.setBattingUnit(0);
 				player.setGroundCard1(null);
 				player.setGroundCard2(null);
 			}
@@ -520,21 +570,32 @@ public class MessageController {
 			//끝났다고 알려줘~~!!
 			message.setType(MessageType.GAMEEND);
 			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
+
+			//겜 끝났으니까 tb_room roomIsStart false로 바꿔주기
+			roomService.finishByRoomId(roomId);
 		}
 
 
 
 		//*******************게임 계속할거야. 다음사람한테 턴 넘겨!!*******************
 		else{
-			log.info("다음사람 ㄱㄱ");
-			log.info(message.getTurnIdx());
-			//이번 플레이어의 myTurn은 false로 바꿔주고 다음번 애 true로 바꿔준다.
-			int turn = message.getTurnIdx();
-			gpList.get(turn).setMyTurn(false);
-			gpList.get((turn+1)%gpList.size()).setMyTurn(true);
+			//gp에 myTurn이 true인 아이로 turnIdx설정
+			//turnIdx 자기 기준으로 다시 보내주기위해서 gp기준 firstIdx찾기
+			int currentTurn = 0;
+			for(GamePlayer gp : gpList){
+				if(gp.isMyTurn()){
+					break;
+				}
+				currentTurn++;
+			}
 
-			//turnIdx++ 해주기
-			message.setTurnIdx(message.getTurnIdx()+1);
+
+			log.info("다음사람 ㄱㄱ");
+
+			//이번 플레이어의 myTurn은 false로 바꿔주고 다음번 애 true로 바꿔준다.
+			gpList.get(currentTurn).setMyTurn(false);
+			gpList.get((currentTurn+1)%gpList.size()).setMyTurn(true);
+
 			//어떤 행동을 했는지 확인!
 			String bettingType = String.valueOf(message.getType());
 			//RAISE했으면 얼만큼 레이즈했는지 알려줘야함. ex)RAISE 5
@@ -542,6 +603,9 @@ public class MessageController {
 				bettingType+=(" " + message.getMessage());
 			}
 			message.setMessage(bettingType);
+
+			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다.
+			List<PlayerInfo> piList =getClientPlayerInfoMsg(gpList, message) ;
 
 			//각자한테 마스킹해서 보내주기.
 
@@ -552,15 +616,35 @@ public class MessageController {
 			int idx = 0;
 			for(GamePlayer gp : gpList){
 				message.setType(MessageType.NEXTTURN);
+
+				//나를 기준으로 0번부터 보내주기.
+				//piList2 = 각자 개인이 0번째인 piList
+				List<PlayerInfo> piList2 = new ArrayList<>();
+				for(int i = idx; i-idx< piList.size(); i++){
+					piList2.add(piList.get(i%piList.size()));
+				}
+
+				//메시지에 위에서 만든 PlayerInfo를 담는다.
+				message.setPlayerInfo(piList2);
+
+				//turnIdx를 사람마다 각각 넣어주기
+				int turnIdx = currentTurn-idx;
+				if(turnIdx<0)
+					turnIdx+=gpList.size();
+				message.setTurnIdx(turnIdx);
+
 				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에서 내카드, 내 족보는 알려주지 말자!!(카드:40으로 / 족보는 null로)
-				message.getPlayerInfo().get(idx).setMyCard(40);
-				message.getPlayerInfo().get(idx).setMyPair(null);
+				String myPair = message.getPlayerInfo().get(0).getMyPair();
+				message.getPlayerInfo().get(0).setMyCard(40);
+				message.getPlayerInfo().get(0).setMyPair(null);
+
 				//기본 데이터들 서버 데이터로 바꿔주기
 				settingBasicGameMessage(gp, message);
 				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
+
 				//위에서 바꾼 내 카드 정보를 다시 원래대로 돌린다.
-				message.getPlayerInfo().get(idx).setMyCard(gp.getMyCard());
-				message.getPlayerInfo().get(idx).setMyCard(gp.getMyPair());
+				message.getPlayerInfo().get(0).setMyCard(gp.getMyCard());
+				message.getPlayerInfo().get(0).setMyPair(myPair);
 				idx++;
 			}
 
@@ -571,13 +655,13 @@ public class MessageController {
 	/**
 	 * 클라이언트 들에게 뿌려줄 정보 리스트를 반환해줌
 	 */
-	public List<PlayerInfo> getClientPlayerInfoMsg(List<GamePlayer> thisGamePlayer, GameMessage message){
+	public List<PlayerInfo> getClientPlayerInfoMsg(List<GamePlayer> gpList, GameMessage message){
 		//리스트 하나 만들어서
 		List<PlayerInfo> infos = new ArrayList<>();
 		//총 배팅 금액도 더해서 메세지에 넣어주기.
 		int gameTotalBet = 0;
 		//안에 정보들을 채워준다!
-		for(GamePlayer gp : thisGamePlayer){
+		for(GamePlayer gp : gpList){
 			PlayerInfo info = new PlayerInfo();
 			info.setNickname(gp.getUser().getUserNickname());
 			info.setMyruby(gp.getUser().getUserRuby());
@@ -599,15 +683,11 @@ public class MessageController {
 					myPair = "탑";
 					break;
 			}
-			log.info("line 536 rank : " + rank);
-			log.info("myPair : " + myPair);
 			info.setMyPair((gp.getMyCard()/4 + 1) +" "+myPair);
 			infos.add(info);
 			gameTotalBet += gp.getMyBetting();
 		}
-
 		message.setGameTotalBet(gameTotalBet);
-
 		return infos;
 	}
 
@@ -631,19 +711,16 @@ public class MessageController {
 
 			// 트리플 확인
 			if (checkTriple(arr)){
-				log.info(gp.getUser().getUserId()+"번 사람 트리플 넣었습니다.");
 				gp.setMyPair(0);
 				continue;
 			}
 			// 스트레이트 확인
 			if (checkStraight(arr)){
-				log.info(gp.getUser().getUserId()+"번 사람 스트레이트 넣었습니다.");
 				gp.setMyPair(1);
 				continue;
 			}
 			// 더블 확인
 			if (checkDouble(arr)){
-				log.info(gp.getUser().getUserId()+"번 사람 더블 넣었습니다.");
 				gp.setMyPair(2);
 				continue;
 			}
@@ -709,39 +786,42 @@ public class MessageController {
 	}
 
 
-//	//소켓 끊김 감지
-//	//todo 플레이어 나가는거 확인하기!!
-//	@EventListener
-//	public void onDisconnectEvent(SessionDisconnectEvent event) {
-////		LOGGER.debug("Client with username {} disconnected", event.getUser());
-//		//System.out.println("user left : "+event.getUser().getName());
-//		String sessionid = event.getUser().getName();
-//		int roomid = gamePlayerRepository.findRoomBySesssionId(sessionid);
-//		boolean flag = gamePlayerRepository.deleteGamePlayer(roomid, sessionid);
-//
-//		if(roomid!=-1){
-//			roomSizeRepository.minusPlayerCnt(roomid);
-//
-//			//인원 0 되면 방 지우기
-//			if(roomSizeRepository.getRoomSize(roomid) <=0) {
-//				roomService.deleteByRoomId(roomid);
-//				System.out.println("room deleted : " + roomid);
-//			}else{
-//				// gamePlayer에서 빼준다.
-//				//지운애가 방장이면 true 반환한다.
-//				//방장 지웠으면 그 다음애 true
-//				if(flag) {
-//					gamePlayerRepository.getGamePlayer(roomid).get(0).setMyTurn(true);
-//				}
-//
-//				GameMessage message = new GameMessage();
-//				message.setPlayerInfo(gamePlayerRepository.getGamePlayer(roomid));
-//				message.setType(MessageType.EXIT);
-//				message.setMessage(sessionid+" 플레이어가 퇴장하셨습니다.");
-//				template.convertAndSend("/sub/game/room" + roomid, message);
-//
-//			}
-//		}
-//
-//	}
+	//소켓 끊김 감지
+	@EventListener
+	public void onDisconnectEvent(SessionDisconnectEvent event) {
+		log.info("Client with username {} disconnected", event.getUser());
+		log.info("line 793 ----------------------");
+
+		String sessionId = event.getUser().getName();
+		int roomId = gamePlayerRepository.findRoomBySesssionId(sessionId);
+
+		// 방에 나가면 player를 한명 내려준다.
+		roomSizeRepository.minusPlayerCnt(roomId);
+
+		// gamePlayer에서 빼준다.
+		//지운애가 방장이면 true 반환한다.
+		boolean flag = gamePlayerRepository.deleteGamePlayer(roomId, sessionId);
+
+		List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
+
+		//다 나갔으면 방 폭파
+		if(gpList.size()==0){
+			//tb_room의 isClose true로 바꿔주기.
+			roomService.closeByRoomId(roomId);
+		}else{
+			//방장이 나가면 그 안에서 idx가 빠른애가 방장이 된다.
+			if(flag) {
+				gpList.get(0).setMyTurn(true);
+			}
+			GameMessage message = new GameMessage();
+			message.setType(MessageType.EXIT);
+			message.setMessage(sessionId+"플레이어가 나가셨습니다.");
+			//todo 사람 나갔을 때 개인한테 playerInfo도 다시 보내주기
+			template.convertAndSend("/sub/game/room" + roomId, message);
+		}
+
+	}//session나가기 함수
+
 }
+
+//todo 프론트로 게임방 db보내줄 때 roomIsClose, roomIsStart 생각해보기
