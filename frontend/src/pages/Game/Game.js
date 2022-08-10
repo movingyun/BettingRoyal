@@ -21,13 +21,14 @@ export default function Game(props) {
   const [players, setPlayers] = useState([]);
   //player { socketId, nickname, ruby, bet, myCard, pair}
   //const [myCard, setMyCard] = useState([]);
+  const [turn, setTurn] = useState([]);
   const [currentBetUnit, setCurrentBetUnit] = useState(0);
   const [currentMaxBet, setCurrentMaxBet] = useState(0);
   const [myBet, setMyBet] = useState(0);
   const [myTotalBet, setMyTotalBet] = useState(0);
   const [mainMessage, setmainMessage] = useState("");
   const [buttonDisable, setbuttonDisable] = useState([true,true,true,true]);
- 
+  const [startDisabled, setstartDisabled] = useState(true)
   const [gameTotalBet, setGameTotalBet] = useState(0);
   const [groundCard1, setGroundCard1] = useState(0);
   const [groundCard2, setGroundCard2] = useState(0);
@@ -69,6 +70,9 @@ export default function Game(props) {
           if (content.playerInfo) {
             setPlayers(content.playerInfo);
           }
+          // if(content.turnIdx){
+          //   setstartDisabled(false)
+          // }
         }
 
         //사람이 나갔을 때
@@ -86,6 +90,7 @@ export default function Game(props) {
 
         //게임이 시작됐을 때
         if (content.type == "START") {
+          
           //ui 게임ui로 바뀜. 버튼생성
           setmainMessage("게임 시작!")
 
@@ -143,6 +148,20 @@ export default function Game(props) {
           else {
             setbuttonDisable([true,true,true,true]);
           }
+        }
+
+        //게임 끝
+        if (content.type == "GAMEEND") {
+          
+          setbuttonDisable([true,true,true,true])
+
+          //5초 기다림
+          setInterval(() => {
+            
+          }, 500);
+          
+          setIsStart(false);
+
         }
 
         //수시로 서버와 동기화
@@ -345,7 +364,7 @@ export default function Game(props) {
           </div>
         ) : (
           <div className={styles.start}>
-            <button onClick={gameStart}>게임시작</button>
+            <button onClick={gameStart} disabled={startDisabled}>게임시작</button>
           </div>
         )}
 
