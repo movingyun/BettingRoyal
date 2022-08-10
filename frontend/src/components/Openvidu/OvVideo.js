@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './OvVideo.module.css';
 
 export default class OpenViduVideoComponent extends Component {
 
@@ -20,7 +21,7 @@ export default class OpenViduVideoComponent extends Component {
     }
 
     render() {
-        return <video autoPlay={true} ref={this.videoRef} />;
+        return <video autoPlay={true} ref={this.videoRef} className={styles.camera}/>;
     }
 
 }

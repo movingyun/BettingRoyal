@@ -28,6 +28,9 @@ const Mypage = () => {
         });
     },[]); 
 
+    // function changeNickname() {
+    //     console.log("닉네임 변경", )
+    // }
 
     return (
         <div className={styles.container}>
