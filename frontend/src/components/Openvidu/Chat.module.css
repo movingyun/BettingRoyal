@@ -45,7 +45,7 @@
 }
 
 .input:focus-within {
-    outline: none;
+    /* outline: none; */
 }
 
 .inputBtn {

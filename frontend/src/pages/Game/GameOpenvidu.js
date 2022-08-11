@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
-import card_back from "../../images/cards/card_back.png";
 
+import card_back from "../../images/cards/card_back_logo.png";
+import ruby_win from "../../images/ruby_win.gif";
 import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
@@ -201,7 +202,7 @@ export default function Gameroom(props) {
 
   // 채팅 메세지 부분
   function sendMessage(type, data) {
-    const mySession = session;
+    const mySession = this.state.session;
 
     mySession.signal({
       data: data,
@@ -228,7 +229,7 @@ export default function Gameroom(props) {
 
       if (videoDevices && videoDevices.length > 1) {
         var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.currentVideoDevice.deviceId
+          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
         );
 
         if (newVideoDevice.length > 0) {
@@ -277,22 +278,24 @@ export default function Gameroom(props) {
             </div>
           ) : null}
           {subscribers.map((sub, i) => (
-            <div key={i} onClick={() => handleMainVideoStream(sub)} className={test[i]}>
+            <div key={i} onClick={() => handleMainVideoStream(sub)} className={this.test[i]}>
               <UserVideoComponent streamManager={sub} />
             </div>
           ))}
           <div className={styles.center}>
             <div className={styles.qs}>누가 거짓말쟁이?</div>
             <div className={styles.cards}>
-              <div className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}>
+              <div className={`${styles.cards_back} ${styles.flip_back}`}>
                 <img src={card_back} />
                 <img src={card_back} />
               </div>
-              <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
+              <div className={`${styles.cards_front} ${styles.flip_front}`}>
                 <img src={card_am_1} />
                 <img src={card_aq_1} />
               </div>
             </div>
+            {/* 게임 이길시 gif*/}
+            {/* <img src={ruby_win} className={styles.win}/> */}
             <div className={styles.info}>
               <div className={styles.time}>{seconds}초</div>
               <div className={styles.money}>돈돈돈돈</div>
@@ -316,13 +319,39 @@ export default function Gameroom(props) {
           <div className={styles.chat}>
             <Chat sendChat={sendChat} chatList={chatList} />
           </div>
-          <div className={styles.start}>
-            <button onClick={startClick}>게임시작</button>
+          {/* 게임시작버튼 */}
+          {/* <div className={styles.start}>
+                            <button onClick={startClick}>게임시작</button>
+                        </div> */}
+          {/* 베팅버튼 */}
+          <div className={styles.betting}>
+            <button>다이</button>
+            <button>콜</button>
+            <button>
+              레이즈
+              <div className={styles.betList}>
+                <input
+                  className={styles.betInput}
+                  type={"number"}
+                  step="10"
+                  placeholder="베팅 루비"
+                ></input>
+                <button className={styles.betBtn}>베팅</button>
+              </div>
+            </button>
+            <button>올인</button>
           </div>
         </div>
       ) : null}
     </div>
   );
+
+  // updateChat(chatList) {
+  //     this.state.chatList = chatList
+  //     console.log("채팅 update 완료")
+  //     console.log(chatList)
+  //     console.log(this.state.chatList)
+  // }
 
   /**
    * --------------------------
