@@ -45,16 +45,16 @@
 
 .button {
     margin-left: 10px;
-    font-size: 15px;
+    font-size: 18px;
     background-color: #2C3639;
     color: #DCD7C9;
     border: none;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
-    border-radius: 50px;
+    border-radius: 5px;
     width: 150px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 400;
@@ -245,7 +245,7 @@
 
 .time {
     /* align-items:center; */
-    background-color:aqua;
+    /* background-color:aqua; */
     display: grid;
     align-items: center;
     height: 100%;
@@ -262,13 +262,6 @@
     width: 100%;
     display: grid;
     align-items: center;
-}
-
-.help {
-    background-color:aqua;
-    display: grid;
-    align-items: center;
-    height: 100%;
 }
 
 .chat {
@@ -406,3 +399,31 @@
         opacity: 0;
     }
 }
+
+.help {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.popover{
+    background-color: rgba(0, 0, 0);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    padding: 10px 25px 10px 25px;
+    border-radius: 10px;
+    text-align: center;
+    color: #DCD7C9;
+  }
+
+.popoverBtn{
+    color: #2C3639;
+    font-size: large;
+    cursor: pointer;
+    /* background-color: aqua; */
+    margin-left: 8px;
+  }
+
+  .popoverBtn:hover{
+    color: #A27B5C;
+  }

@@ -10,8 +10,14 @@ import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
 
+
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+
+import ReactDOM from "react-dom";
+import Popover from "react-popover";
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+
 
 export default function Gameroom(props) {
   const [mySessionId, setmySessionId] = useState(props.roomId);
@@ -24,6 +30,8 @@ export default function Gameroom(props) {
   const [setPlayers, setsetPlayers] = useState();
   const [chatList, setchatList] = useState();
   const [OV, setOV] = useState();
+  const [isOpen, setIsOpen]=useState(false);
+  const [seconds, setseconds]=useState(30);
 
   let test = [styles.player1, styles.player2, styles.player3, styles.player4, styles.player5];
 
@@ -35,6 +43,7 @@ export default function Gameroom(props) {
       window.removeEventListener("beforeunload", onbeforeunload);
     };
   });
+
 
   function onbeforeunload(event) {
     leaveSession();
@@ -51,6 +60,7 @@ export default function Gameroom(props) {
   function handleMainVideoStream(stream) {
     if (mainStreamManager !== stream) {
       setmainStreamManager(stream);
+
     }
   }
 
@@ -61,6 +71,18 @@ export default function Gameroom(props) {
       setsubscribers(subscribers.splice(index, 1));
     }
   }
+    function startClick () {
+        console.log("겜시작");
+        timerId = setInterval( () => {
+          setseconds(seconds-1)
+            
+        }, 1000)
+        
+    }
+
+    function togglePopover () {
+      setIsOpen(!isOpen)
+    };
 
   function joinSession() {
     // --- 1) Get an OpenVidu object ---
@@ -240,67 +262,116 @@ export default function Gameroom(props) {
     }
   }
 
-  function startClick() {
-    console.log("겜시작");
-  }
-
   return (
     <div className={styles.container}>
-      {/* 입장 전 */}
+                
+    {/* 입장 전 */}
+    {this.state.session === undefined ? (
+        <div id="join">
+            {/* <p>게임방을 클릭하여 입장하는 단계, nickname, session(방만들때 생성되는 id로 설정??) 등 DB에서 가져오자</p> */}
+            <div id="join-dialog" className="jumbotron vertical-center">
+                {/* <h1> Join a video session </h1> */}
+                <form className="form-group" onSubmit={this.joinSession}>
+                    <p>
+                        <label>Participant: </label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="userName"
+                            value={myUserName}
+                            onChange={this.handleChangeUserName}
+                            required
+                        />
+                    </p>
+                    <p>
+                        <label> Session: </label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="sessionId"
+                            value={mySessionId}
+                            onChange={this.handleChangeSessionId}
+                            required
+                        />
+                    </p>
+                    <p className="text-center">
+                        <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
+                    </p>
+                </form>
+            </div>
+        </div>
+        ) : null}
 
-      {/* 입장 후 */}
+    {/* 입장 후 */}
 
-      <div className={styles.header}>
+    <div className={styles.header}>
         <h1>
-          <ArrowForwardIosRoundedIcon className={styles.icon} />
-          게임방 이름
+            <ArrowForwardIosRoundedIcon className={styles.icon} />
+            게임방 이름
         </h1>
         <h2>기본 베팅 10 루비</h2>
         <div className={styles.buttonList}>
-          <button className={styles.button}>나가기</button>
+           <button className={styles.button}>나가기</button>
         </div>
-      </div>
-      {session !== undefined ? (
+    </div>
+    {this.state.session !== undefined ? (
         <div className={styles.grid}>
-          {publisher !== undefined ? (
-            <div onClick={() => handleMainVideoStream(publisher)} className={styles.myCam}>
-              <UserVideoComponent streamManager={publisher} />
-            </div>
-          ) : null}
-          {subscribers.map((sub, i) => (
-            <div key={i} onClick={() => handleMainVideoStream(sub)} className={test[i]}>
-              <UserVideoComponent streamManager={sub} />
-            </div>
-          ))}
-          <div className={styles.center}>
+            {this.state.publisher !== undefined ? (
+                <div onClick={() => this.handleMainVideoStream(this.state.publisher)} className={styles.myCam}>
+                    <UserVideoComponent
+                        streamManager={this.state.publisher}/>
+                </div>
+            ) : null}
+            {this.state.subscribers.map((sub, i) => (
+                <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={this.test[i]}>
+                    <UserVideoComponent streamManager={sub}/>
+                </div>
+                
+            ))}
+            <div className={styles.center}>
             <div className={styles.qs}>누가 거짓말쟁이?</div>
             <div className={styles.cards}>
-              <div className={`${styles.cards_back}`}>
+                <div className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
+                >
                 <img src={card_back} />
                 <img src={card_back} />
-              </div>
-              <div className={`${styles.cards_front}`}>
+                </div>
+                <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
                 <img src={card_am_1} />
                 <img src={card_aq_1} />
-              </div>
+                </div>
             </div>
             <div className={styles.info}>
-              <div className={styles.time}>{/* {sec}초 */}</div>
-              <div className={styles.money}>돈돈돈돈</div>
-              <div className={styles.help}>
-                <button>족보</button>
-              </div>
+                <div className={styles.time}>
+                {this.state.seconds}초
+                </div>
+                <div className={styles.money}>돈돈돈돈</div>
+                <div className={styles.help}>
+                    <Popover
+                    isOpen={this.state.isOpen}
+                    body={
+                        <div className={styles.popover}>
+                            더블 &#60; 스트레이트 &#60; 트리플<br />
+                            자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
+                        </div>
+                    }
+                    onOuterAction={this.togglePopover}
+                    >
+                        <HelpOutlineRoundedIcon className={styles.popoverBtn} onClick={this.togglePopover}/>
+                    </Popover>
+                </div>
             </div>
-          </div>
-          <div className={styles.chat}>
-            <Chat sendChat={sendChat} chatList={chatList} />
-          </div>
-          <div className={styles.start}>
-            <button onClick={startClick}>게임시작</button>
-          </div>
+            </div>
+            <div className={styles.chat}>
+                <Chat sendChat={this.sendChat} chatList={chatList} />
+            </div>
+            <div className={styles.start}>
+                <button onClick={this.startClick}>게임시작</button>
+            </div>
         </div>
-      ) : null}
-    </div>
+        ) : null}
+</div>
+
   );
 
   /**
