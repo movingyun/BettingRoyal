@@ -12,15 +12,15 @@ import lombok.Setter;
 @ApiModel("RankResponse")
 public class RankingRes {
     @ApiModelProperty(name = "rank", example = "1")
-    private Integer rank;
+    private Integer id;
 
     @ApiModelProperty(name = "userNickname", example = "싸피")
-    private String userNickname;
+    private String nickname;
 
     @ApiModelProperty(name = "userRuby", example = "1000")
-    private Integer userRuby;
+    private Integer ruby;
 
     @ApiModelProperty(name = "userGuild", example = "길드명")
-    private String userGuild;
+    private String guild;
 
 }
