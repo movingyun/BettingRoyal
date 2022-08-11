@@ -14,7 +14,7 @@ import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-import GameOpenvidu from "./GameOpenvidu11";
+import GameOpenvidu from "./GameOpenvidu";
 
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
@@ -46,7 +46,7 @@ export default function Game(props) {
       stomp.send(
         "/pub/game/message",
         {},
-        JSON.stringify({ roomId: roomId, sender: "유동윤", type: "ENTER" })
+        JSON.stringify({ roomId: roomId, senderNickName: window.localStorage.getItem("accessToken"), type: "ENTER" })
       );
 
       //메시지를 받으면
@@ -306,7 +306,7 @@ export default function Game(props) {
           </div>
         </div>
 
-        {/* <div className={styles.player1}>
+        <div className={styles.player1}>
           <Player player={players[1]} />
         </div>
         <div className={styles.player2}>
@@ -323,9 +323,9 @@ export default function Game(props) {
         </div>
         <div className={styles.playerMe}>
           <Player player={players[0]} />
-        </div>  */}
-        {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null} 
-        
+        </div> 
+        {/* {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null} 
+         */}
         {isStart ? (
           <div className={styles.betting}>
             <button onClick={sendBet} disabled={buttonDisable[0]}>

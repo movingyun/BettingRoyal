@@ -366,7 +366,6 @@ public class MessageController {
 				log.info("너 차례 아니다.");
 				return;
 			}
-
 			bettingService.raise(roomId, userInfo, message);
 
 			// 끝났는지체크

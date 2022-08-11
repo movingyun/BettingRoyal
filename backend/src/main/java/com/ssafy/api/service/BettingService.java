@@ -70,10 +70,12 @@ public class BettingService {
         int raiseBetting = gamePlayerRepository.raiseBetting(roomId, userInfo, raiseCnt);
         int MaxBet = 0;
         for(GamePlayer gp : gpList){
+            log.info("여기 들어왔니 : " +userInfo + "  /  gpsession : "+gp.getSessionId());
             //모든 gp.MaxBetting 올려주기
             MaxBet = gp.getMaxBetting()+raiseCnt;
             gp.setMaxBetting(MaxBet);
             if(gp.getSessionId().equals(userInfo)){
+                log.info("여기는 ");
                 bettingUser = gp.getUser();
                 gameId = gp.getGameId();
                 //raise한 사람의 gp.myBet 올려주기
@@ -85,6 +87,10 @@ public class BettingService {
         message.setGameMaxBet(MaxBet);
 
         //(DB) GameInfo에서 rubyGet minus해주기
+//        log.info("raise service amount : " + bettingUser);
+        log.info(gameId);
+        log.info(bettingUser.getUserId());
+        log.info(raiseBetting);
         gameInfoService.raiseBetting(gameId, bettingUser.getUserId(), raiseBetting);
 
         // tb_User에서 ruby minus해주기

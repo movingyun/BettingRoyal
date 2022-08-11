@@ -44,13 +44,13 @@ public class GamePlayerRepository {
     		gamePlayer.setMyTurn(false);
     	}
 		// TODO: 진짜 돌릴땐 이거 켜줘서 access-token으로 정보 가져오게
-//		String token = message.getSenderNickName();
-//		JWTVerifier verifier = JwtTokenUtil.getVerifier();
-//		JwtTokenUtil.handleError(token);
-//		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
-//		String userEmail = decodedJWT.getSubject();
-//		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
-		gamePlayer.setUser(userRepository.findByUserId(roomSizeRepository.getRoomSize(message.getRoomId())));
+		String token = message.getSenderNickName();
+		JWTVerifier verifier = JwtTokenUtil.getVerifier();
+		JwtTokenUtil.handleError(token);
+		DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+		String userEmail = decodedJWT.getSubject();
+		gamePlayer.setUser(userService.getUserByUserEmail(userEmail));
+//		gamePlayer.setUser(userRepository.findByUserId(roomSizeRepository.getRoomSize(message.getRoomId())));
 		gamePlayerMap.add(gamePlayer);
 	}
 
