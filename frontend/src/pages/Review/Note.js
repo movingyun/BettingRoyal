@@ -33,8 +33,8 @@ class Note extends Component {
 
     componentWillMount() {
         this.style = {
-            right: this.randomBetween(0, window.innerWidth - 150, 'px'),
-            top: this.randomBetween(0, window.innerHeight - 150, 'px')
+            right: this.randomBetween(0, window.innerWidth - 400, 'px'),
+            top: this.randomBetween(0, window.innerHeight - 400, 'px')
         }
     }
 

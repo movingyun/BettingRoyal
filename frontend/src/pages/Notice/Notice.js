@@ -88,7 +88,7 @@ function createData(id, date, nickname, hit, title) {
     })
 
     return (
-        <div style={{marginLeft: '270px'}}>
+        <div >
       <React.Fragment>
         <Table size="small">
           <TableHead>

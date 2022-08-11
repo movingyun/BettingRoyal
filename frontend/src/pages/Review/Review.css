@@ -21,8 +21,8 @@ div.board {
 
 .board > button {
   position: fixed;
-  /* top: 10px; */
-  bottom: 10px;
+  top: 70px;
+  /* bottom: 10px; */
   border: 1px solid rgb(86, 89, 90);
   right: 10px;
   padding: 5px;

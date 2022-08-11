@@ -117,7 +117,7 @@ function Test() {
 	};
 
 	return (
-		<div className={styles.container} style={{marginLeft: '250px'}}>
+		<div className={styles.container} >
       <div className={styles.col}>
       <div className={styles.row}><MicRoundedIcon className={styles.icon}/><p className={styles.title}>마이크 테스트</p></div>
         <div className={styles.center}>

@@ -50,7 +50,7 @@ export default function Tutorial() {
 
   let [clicked, changeTab] = useState(0);
       return (
-        <div className={styles.container}>
+        <div >
           <Nav variant="tabs" defaultActiveKey="link-0" className={styles.nav}>
             <Nav.Item className={styles.navItem}>
               <Nav.Link eventKey="link-0" onClick={()=>{changeTab(0)}} className={styles.navLink}>게임룰</Nav.Link>

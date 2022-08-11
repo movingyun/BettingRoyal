@@ -214,9 +214,7 @@ function NavbarContent() {
                 flexGrow: 1,
                 height: '100vh',
                 overflow: 'auto',
-              }}
-              >
-
+              }}>
           <Toolbar />
           <Container sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={1}>
@@ -226,7 +224,7 @@ function NavbarContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 600,
+                    height: 800,
                   }}
                 >
                   <Routes>

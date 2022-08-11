@@ -33,7 +33,7 @@ const Mypage = () => {
     // }
 
     return (
-        <div className={styles.container}>
+        <div>
             <div>
             <h3>내 정보</h3>
             <div>

@@ -68,7 +68,7 @@ export default function Ranking(props) {
   ];
 
   let roomsdummy = (
-    <Grid className={styles.container}>
+    <Grid>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
