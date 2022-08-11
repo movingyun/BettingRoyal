@@ -13,6 +13,7 @@ import kakaologin from "../../images/kakao_login.png"
 import royal from "../../images/logo_royal.png";
 import {KAKAO_AUTH_URL} from '../../pages/Login/OAuth';
 import { Button, Switch } from "@material-ui/core";
+import LobbyApp from "../Lobby/LobbyApp";
 
 export default function First(props) {
   useEffect(() => {}, []);

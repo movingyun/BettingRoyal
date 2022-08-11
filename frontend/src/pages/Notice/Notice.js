@@ -1,4 +1,6 @@
 import React from "react"
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,17 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-// const Notice = () => {
-//     return (
-//         <div style={{marginLeft: '500px'}}>
-//         공지사항
-//         </div>
-//     )
-// }
-
-// export default Notice
-
-// Generate Order Data
 function createData(id, date, nickname, hit, title) {
     return { id, date, nickname, hit, title };
   }
@@ -62,6 +53,40 @@ function createData(id, date, nickname, hit, title) {
   }
   
   export default function Orders() {
+    const [nickname, setNickname] = useState();
+
+    useEffect(()=> {
+      axios
+      .get("/api/notice", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response)=> {
+        console.log("공지사항 : " + JSON.stringify(response.data[0]));
+      })
+      .catch((error)=> {
+        console.log(error);
+      });
+
+
+      axios
+    .get("/api/user", { 
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("nickname = " + JSON.stringify(response.data.userNickname));
+        setNickname(response.data.userNickname);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    })
+
     return (
         <div style={{marginLeft: '270px'}}>
       <React.Fragment>
@@ -89,7 +114,7 @@ function createData(id, date, nickname, hit, title) {
           </TableBody>
         </Table>
         <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-          더보기
+          글쓰기
         </Link>
       </React.Fragment>
       </div>

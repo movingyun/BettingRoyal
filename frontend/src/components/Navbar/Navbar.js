@@ -20,12 +20,22 @@ import { useEffect, useState } from "react";
 import ruby from "../../images/icon/ruby.png";
 import Vault from '../../pages/modal/Vault/Vault'
 import axios from "axios";
+import { mainListItems, secondaryListItems } from './consts/listItems';
+import { IconButton, Toolbar } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
+
+
 
 const Navbar = (title) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [nickname, setNickname] = useState("");
   const [myruby, setMyRuby] = useState();
   
+  const [open, setOpen] = useState(true);
+    const toggleDrawer = () => {
+      setOpen(!open);
+    };
 
   const openModal = () => {
     setModalOpen(true);

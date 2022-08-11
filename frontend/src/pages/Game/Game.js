@@ -283,33 +283,18 @@ export default function Game(props) {
       </div> */}
       {/* <div className={styles.grid}>
         <div className={styles.center}>
-<<<<<<< HEAD
           <div className={styles.qs}>누가 거짓말쟁이?</div>
           <div className={styles.cards}> */}
             {/* <div
-=======
-          <div className={styles.qs}>{mainMessage}</div>
-          <div className={styles.cards}>
-            {/* 카드뒷면 */}
-            <div
->>>>>>> e287f85111a98e14b5330e9e70fd809bd5808b75
               id="card"
               className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
             >
               <img src={card_back} />
               <img src={card_back} />
-<<<<<<< HEAD
             </div> */}
             {/* <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
               <img src={card_am_1} />
               <img src={card_aq_1} />
-=======
-            </div>
-            {/* 카드앞면오픈 */}
-            <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
-              <img src={groundCard1} />
-              <img src={groundCard2} />
->>>>>>> e287f85111a98e14b5330e9e70fd809bd5808b75
             </div>
           </div>
           <div className={styles.info}>
@@ -341,7 +326,6 @@ export default function Game(props) {
           <Player player={players[0]} />
         </div> */}
         <GameOpenvidu />
-<<<<<<< HEAD
         {/* 게임시작버튼
         <div className={styles.start}>
           <button onClick={gameStart}>게임시작</button>
@@ -354,30 +338,6 @@ export default function Game(props) {
                 <button>올인</button>
             </div> */}
         {/* <div className={styles.rules}>
-=======
-        {isStart ? (
-          <div className={styles.betting}>
-            <button onClick={sendBet} disabled={buttonDisable[0]}>
-              다이
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[1]}>
-              콜
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[2]}>
-              레이즈
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[3]}>
-              올인
-            </button>
-          </div>
-        ) : (
-          <div className={styles.start}>
-            <button onClick={gameStart}>게임시작</button>
-          </div>
-        )}
-
-        <div className={styles.rules}>
->>>>>>> e287f85111a98e14b5330e9e70fd809bd5808b75
           트리플 &#62; 스트레이트 &#62; 더블 <br />
           에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
         </div> */}

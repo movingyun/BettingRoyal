@@ -1,5 +1,5 @@
 import React from "react";
-import LobbyApp from "../../LobbyApp";
+import LobbyApp from "./LobbyApp";
 import { useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
