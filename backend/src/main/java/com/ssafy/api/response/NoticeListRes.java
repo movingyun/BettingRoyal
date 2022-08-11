@@ -16,9 +16,9 @@ public class NoticeListRes {
     Integer noticeId;
     @ApiModelProperty(name="공지사항 제목", example="this is notice title")
     String noticeTitle;
-    @ApiModelProperty(name="공지사항 생성 날짜", example="2022-02-04 14:07:48.206444")
+    @ApiModelProperty(name="공지사항 생성 날짜", example="2022-02-04")
     Date noticeDate;
-    @ApiModelProperty(name="공지사항 수정 날짜", example="2022-02-05 09:12:44.135632")
+    @ApiModelProperty(name="공지사항 조회수", example="20")
     Integer noticeHit;
 
     public NoticeListRes(Noticeboard entity) {
