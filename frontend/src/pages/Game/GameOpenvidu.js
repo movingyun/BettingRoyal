@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
-import card_back from "../../images/cards/card_back.png";
+import card_back from "../../images/cards/card_back_logo.png";
+import ruby_win from "../../images/ruby_win.gif";
 import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
@@ -384,45 +385,60 @@ class Gameroom extends Component {
                             </div>
                             
                         ))}
-                        <div className={styles.center}>
-                        <div className={styles.qs}>누가 거짓말쟁이?</div>
-                        <div className={styles.cards}>
-                            <div className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
-                            >
-                            <img src={card_back} />
-                            <img src={card_back} />
+                        <div className={styles.center}>                            
+                            <div className={styles.qs}>누가 거짓말쟁이?</div>
+                            <div className={styles.cards}>
+                                <div className={`${styles.cards_back} ${styles.flip_back}`}>
+                                <img src={card_back} />
+                                <img src={card_back} />
+                                </div>
+                                <div className={`${styles.cards_front} ${styles.flip_front}`}>
+                                <img src={card_am_1} />
+                                <img src={card_aq_1} />
+                                </div>
                             </div>
-                            <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
-                            <img src={card_am_1} />
-                            <img src={card_aq_1} />
+                            {/* 게임 이길시 gif*/}
+                            {/* <img src={ruby_win} className={styles.win}/> */}
+                            <div className={styles.info}>
+                                <div className={styles.time}>
+                                    {this.state.seconds}초
+                                </div>
+                                <div className={styles.money}>돈돈돈돈</div>
+                                <div className={styles.help}>
+                                    <Popover
+                                    isOpen={this.state.isOpen}
+                                    body={
+                                        <div className={styles.popover}>
+                                            더블 &#60; 스트레이트 &#60; 트리플<br />
+                                            자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
+                                        </div>
+                                    }
+                                    onOuterAction={this.togglePopover}
+                                    >
+                                        <HelpOutlineRoundedIcon className={styles.popoverBtn} onClick={this.togglePopover}/>
+                                    </Popover>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.info}>
-                            <div className={styles.time}>
-                            {this.state.seconds}초
-                            </div>
-                            <div className={styles.money}>돈돈돈돈</div>
-                            <div className={styles.help}>
-                                <Popover
-                                isOpen={this.state.isOpen}
-                                body={
-                                    <div className={styles.popover}>
-                                        더블 &#60; 스트레이트 &#60; 트리플<br />
-                                        자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
-                                    </div>
-                                }
-                                onOuterAction={this.togglePopover}
-                                >
-                                    <HelpOutlineRoundedIcon className={styles.popoverBtn} onClick={this.togglePopover}/>
-                                </Popover>
-                            </div>
-                        </div>
                         </div>
                         <div className={styles.chat}>
                             <Chat sendChat={this.sendChat} chatList={chatList} />
                         </div>
-                        <div className={styles.start}>
+                        {/* 게임시작버튼 */}
+                        {/* <div className={styles.start}>
                             <button onClick={this.startClick}>게임시작</button>
+                        </div> */}
+                        {/* 베팅버튼 */}
+                        <div className={styles.betting}>
+                            <button>다이</button>
+                            <button>콜</button>
+                            <button>
+                                레이즈
+                                <div className={styles.betList}>
+                                    <input className={styles.betInput} type={"number"} step="10" placeholder='베팅 루비'></input>
+                                    <button className={styles.betBtn}>베팅</button>
+                                </div>
+                            </button>
+                            <button>올인</button>
                         </div>
                     </div>
                     ) : null}
