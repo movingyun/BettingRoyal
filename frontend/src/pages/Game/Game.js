@@ -14,13 +14,11 @@ import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-import GameOpenvidu from "./GameOpenvidu";
+import GameOpenvidu from "./GameOpenvidu11";
 
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
   const [players, setPlayers] = useState([]);
-  //player { socketId, nickname, ruby, bet, myCard, pair}
-  //const [myCard, setMyCard] = useState([]);
   const [turn, setTurn] = useState([]);
   const [currentBetUnit, setCurrentBetUnit] = useState(0);
   const [currentMaxBet, setCurrentMaxBet] = useState(0);
@@ -53,24 +51,7 @@ export default function Game(props) {
 
       //메시지를 받으면
       stomp.subscribe("/sub/game/room" + roomId, function (message) {
-        //content.type, content.message등으로 사용 가능
         var content = JSON.parse(message.body);
-        // console.log("message recieved")
-        
-
-        //사람이 들어왔을 때
-        if (content.type == "ENTER") {
-          // //nickname , ruby
-          // console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
-          // if (content.playerInfo) {
-          //   setPlayers(content.playerInfo);
-          // }
-          // setroomInfo(content);
-          // setisEnter(true);
-          // // if(content.turnIdx){
-          // //   setstartDisabled(false)
-          // // }
-        }
 
         //사람이 나갔을 때
         if (content.type == "EXIT") {
@@ -87,7 +68,6 @@ export default function Game(props) {
 
         //게임이 시작됐을 때
         if (content.type == "START") {
-          //ui 게임ui로 바뀜. 버튼생성
           setmainMessage("게임 시작!");
           setIsStart(true);
           //카메라 체크
@@ -102,43 +82,8 @@ export default function Game(props) {
           setGroundCard2(content.groundCardNum2);
         }
 
-        // // 배팅 하자
-        // if (content.type == "UNITBETTING") {
-        //   //서버에서 베팅 처리하고 프론트 효과만
-        //   //
-          
-        //   // setGameTotalBet(gameTotalBet + content.gameTotalBet);
-        // }
 
-        // //플레이어 카드 받기
-        // if (content.type == "MAKECARDSET") {
-        //   //{players[]}
-
-        //   setPlayers(content.playerInfo);
-
-        //   //10초 대화
-        //   setmainMessage("10초 후 베팅이 시작됩니다");
-        //   setInterval(() => {
-        //     setSec(time.current);
-        //     time.current -= 1;
-        //   }, 1000);
-        // }
-
-        //턴
-        if (content.type == "TURN") {
-          //내턴일때
-          if (content.turnIdx == 0) {
-            setbuttonDisable([false, false, false, false]);
-            if (currentMaxBet > myTotalBet) {
-              //콜 버튼 비활성화
-              setbuttonDisable([false, true, false, false]);
-            }
-          }
-          //다른사람 턴일때
-          else {
-            setbuttonDisable([true, true, true, true]);
-          }
-        }
+        
 
         //게임 끝
         if (content.type == "GAMEEND") {
@@ -184,6 +129,22 @@ export default function Game(props) {
           setCurrentBetUnit(content.battingUnit)
 
 
+        }
+
+        //턴
+        if (content.type == "NEXTTURN") {
+          //내턴일때
+          if (content.turnIdx == 0) {
+            setbuttonDisable([false, false, false, false]);
+            if (currentMaxBet > myTotalBet) {
+              //콜 버튼 비활성화
+              setbuttonDisable([false, true, false, false]);
+            }
+          }
+          //다른사람 턴일때
+          else {
+            setbuttonDisable([true, true, true, true]);
+          }
         }
 
 
@@ -345,7 +306,7 @@ export default function Game(props) {
           </div>
         </div>
 
-        <div className={styles.player1}>
+        {/* <div className={styles.player1}>
           <Player player={players[1]} />
         </div>
         <div className={styles.player2}>
@@ -362,8 +323,8 @@ export default function Game(props) {
         </div>
         <div className={styles.playerMe}>
           <Player player={players[0]} />
-        </div> 
-        {/* {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null}  */}
+        </div>  */}
+        {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null} 
         
         {isStart ? (
           <div className={styles.betting}>
