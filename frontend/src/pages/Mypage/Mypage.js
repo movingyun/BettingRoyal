@@ -2,15 +2,29 @@ import React from 'react';
 import styles from "./Mypage.module.css";
 import axios from "axios";
 import {useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from 'bootstrap';
 
 const Mypage = () => {
+    const [modalOpen, setModalOpen] = useState(false);
     const [nickname, setNickname] = useState();
     const [email, setEmail] = useState();
     const [gender, setGender] = useState();
     const [changeNickname, setChangeNickname] = useState();
     const [changePw, setChangePw] = useState();
 
-    
+    const [open, setOpen] = useState(true);
+    const toggleDrawer = () => {
+      setOpen(!open);
+    };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
     useEffect(()=> {
         axios
         .get("/api/user", {
@@ -32,6 +46,14 @@ const Mypage = () => {
     //     console.log("닉네임 변경", )
     // }
 
+    const navigate = useNavigate();
+
+    function logout(){
+        window.localStorage.removeItem("accessToken");
+        alert("로그아웃 되었습니다.")
+        navigate("/");
+    }
+
     return (
         <div>
             <div>
@@ -41,8 +63,11 @@ const Mypage = () => {
                 <div>이메일 : {email}</div>
                 <div>성별 : {gender}</div>
             </div>
+            <button onClick={ openModal } >금고</button><br/>
+            
             <button>닉네임 변경</button><br/>
-            <button>비밀번호 변경</button>
+            <button>비밀번호 변경</button><br/>
+            <button onClick={ logout }  >로그아웃</button>
             </div>
             <div>
                 <h3>배지</h3>

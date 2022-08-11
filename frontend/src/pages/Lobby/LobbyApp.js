@@ -30,6 +30,7 @@ import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../Rooms/Rooms";
 import Test from "../Test/Test";
 import Review from "../Review/Review";
+import NotificationBell from '../../components/common/NotificationBell/NotificationBell';
 
 const drawerWidth = 240;
 
@@ -152,9 +153,10 @@ function NavbarContent() {
               Betting Royal
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <AccountCircleIcon />
-              </Badge>
+              {/* <Badge badgeContent={4} color="secondary"> */}
+                {/* <AccountCircleIcon /> */}
+                <NotificationBell />
+              {/* </Badge> */}
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -205,11 +207,11 @@ function NavbarContent() {
 
         </Drawer>
         <Box
-          component="main"
+          component="main" 
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
+                ? theme.palette.grey[300]
                 : theme.palette.grey[900],
                 flexGrow: 1,
                 height: '100vh',
@@ -225,8 +227,7 @@ function NavbarContent() {
                     display: 'flex',
                     flexDirection: 'column',
                     height: 800,
-                  }}
-                >
+                  }} >
                   <Routes>
                   <Route path="rooms" element={<Rooms />} />
                   <Route path="mypage" element={<Mypage />} />
@@ -239,21 +240,11 @@ function NavbarContent() {
                   <Route path="test" element={<Test />} />
                   <Route path="review" element={<Review />} />
                 </Routes>
-
-                
                 </Paper>
               </Grid>
             </Grid>
           </Container>
         </Box>
-
-        
-
-    {/* <Grid container>
-      <Navbar />
-      <Header title={title} />
-      <Outlet />
-    </Grid> */}
     </Box>
     </ThemeProvider>
   );
