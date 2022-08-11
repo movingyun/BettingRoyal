@@ -72,13 +72,13 @@ public class GameInfoService {
 
 
 	@Transactional
-	public void allInBetting(int gameId, int userId, int allInBettingCnt ) {
+	public void allInBetting(int gameId, int userId, int BettingCnt ) {
 		//지금 얘 gameInfo가져오기
 		GameInfo gameInfo = gameInfoRepository.findByGameIdAndUserId(gameId, userId);
 		//현재까지 베팅 금액(ex.5베팅했으면 -5로 나온다)
 		int currentBetting = gameInfo.getRubyGet();
 		//콜하려면 베팅해야하는 금액 빼준다.
-		gameInfo.setRubyGet(currentBetting-allInBettingCnt);
+		gameInfo.setRubyGet(currentBetting-BettingCnt);
 		gameInfoRepository.save(gameInfo);
 	}
 

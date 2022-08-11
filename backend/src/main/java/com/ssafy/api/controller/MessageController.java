@@ -308,7 +308,6 @@ public class MessageController {
 			// call한 사람 sessionId
 			String userInfo = headerAccessor.getUser().getName();
 			int roomId =  message.getRoomId();
-
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
 			boolean isMyTurn = bettingService.checkBettingTurn(gpList, userInfo);
@@ -316,18 +315,14 @@ public class MessageController {
 				log.info("너 차례 아니다.");
 				return;
 			}
-
 			//첫 사람은 call 못한다.
 			boolean isFirstBetting = bettingService.checkFirstBetting(gpList,userInfo);
 			if(isFirstBetting){
 				log.info("첫 사람은 콜을 할 수 없습니다.");
 				return;
 			}
-
-
 			// call 시작
 			bettingService.call(roomId, userInfo, message);
-
 			// 끝났는지체크
 			checkFinish(message, headerAccessor);
 		}
@@ -375,78 +370,23 @@ public class MessageController {
 
 		// 올인이 들어왔을 때
 		if (message.getType().equals(MessageType.ALLIN)) {
+			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
 			String userInfo = headerAccessor.getUser().getName();
-			int gameId = 0;
-			User bettingUser = new User();
 
+			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
-			for(GamePlayer gp : gpList){
-				if(gp.getSessionId().equals(userInfo)){
-					if(!gp.isMyTurn()){
-						log.info("너 차례 아니야");
-						return;
-					}
-				}
+			boolean flag = bettingService.checkBettingTurn(gpList, userInfo);
+			if(!flag){
+				log.info("너 차례 아니다.");
+				return;
 			}
 
-			//올인을 하기 위해서 내는 루비(내 돈 - 콜 비용)
-			int rubyForAllIn = 0;
-
-			//(Server) GamePlayer에서 myBetting plus 해주고 allInBettingCnt 돌려주기
-			int allInBettingCnt = gamePlayerRepository.allInBetting(roomId, userInfo);
-
-			// gp 돌면서 sessionId로 정보 가져오기
-			for(GamePlayer gp : gpList){
-				//모든 gp.MaxBetting 올려주기((Allin한 사람의 myRuby + Allin한 사람의 myBet)
-				if(gp.getSessionId().equals(userInfo)){
-					bettingUser = gp.getUser();
-					gameId = gp.getGameId();
-					rubyForAllIn = bettingUser.getUserRuby() - (gp.getMaxBetting()-gp.getMyBetting());
-					gp.setMyBetting(gp.getMyBetting()+bettingUser.getUserRuby());
-				}
-			}
-
-			//gp의 MaxBet 바꿔줌.
-			for(GamePlayer gp : gpList){
-				gp.setMaxBetting(gp.getMaxBetting()+rubyForAllIn);
-			}
-
-			// message에 maxBetting 올려주기
-			message.setGameMaxBet(message.getGameMaxBet()+rubyForAllIn);
-
-			//(DB) GameInfo에서 allInBettingCnt만큼 rubyGet minus해주기
-			gameInfoService.allInBetting(gameId, bettingUser.getUserId(), allInBettingCnt);
-
-			// tb_User에서 ruby minus해주기
-			bettingUser.setUserRuby(0);
-			userService.modifyUser(bettingUser);
+			bettingService.allIn(roomId, userInfo, message);
 
 			// 끝났는지체크
 			checkFinish(message, headerAccessor);
 		}
-		//***************************************************
-
-
-
-//		//********************나갔을때 확인********************
-//		// 나갔을때
-//		if (message.getType().equals(MessageType.EXIT)) {
-//			// 방에 나가면 player를 한명 내려준다.
-//			roomSizeRepository.minusPlayerCnt(message.getRoomId());
-//
-//			// gamePlayer에서 빼준다.
-//			//지운애가 방장이면 true 반환한다.
-//			boolean flag = gamePlayerRepository.deleteGamePlayer(message.getRoomId(), headerAccessor.getUser().getName());
-//			//방장 지웠으면 그 다음애 true
-//			if(flag) {
-//				gpList.get(0).setMyTurn(true);
-//			}
-//
-//			message.setMessage(message.getSenderNickName()+" 플레이어가 퇴장하셨습니다.");
-//			template.convertAndSend("/sub/game/room" + message.getRoomId(), message);
-//		}
-
 	}
 
 	//다음 사람을 비교해서 게임 종료 여부와 다음 차례인 사람을 찾는 함수
@@ -489,6 +429,8 @@ public class MessageController {
 
 			// 메세지(Message.setMessage)에 누가 이겼는지 알려줘야 함
 			message.setMessage(gpList.get(winnerIdx).getUser().getUserNickname());
+
+			//todo gp에 이긴사람 루비 플러스해주기
 
 			// tb_gameInfo에 이긴사람은 루비획득+해주고 승리여부 이긴거 기록해줘야함.
 			int gameId = gpList.get(winnerIdx).getGameId();
@@ -824,13 +766,19 @@ public class MessageController {
 				}
 				idx++;
 			}
-
 		}
-
 	}//session나가기 함수
 
 }
-// todo Die 확인
-// todo Turn 넘길때 죽은애는 패스
-// todo gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려
-// todo maxBet인애가 나가면 maxBet이 바뀌나?
+
+// todo 게임끝날때 그전에 사람이 누른거 메시지 보내주기
+// todo 게임끝났을때 unitBetting보다 돈 없는애 강퇴
+// todo GameEnd 메시지에도 정보 넣어주기
+// todo EXIT 메시지에 turnIdx 넣어주기
+// todo 게임방 6명이상이면 못들어가게
+
+// todo gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기)
+// todo playerInfo에 isDie 추가?
+// todo room에 현재인원 추가
+// todo mission null값으로 넘어가는것 알려주기
+// todo 돈 적은애가 콜 누르면 allIn으로 가게?
