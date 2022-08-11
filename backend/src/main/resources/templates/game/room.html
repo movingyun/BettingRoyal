@@ -63,7 +63,7 @@
 
             //사람이 들어왔을 때
             if (content.type == "ENTER") {
-              //console.log("사람들어왔다" + message.body)
+              console.log(content);
               gameBox.append("<li>" + content.message + "</li>");
             }
 
@@ -85,21 +85,18 @@
               gameBox.append("<li>" + content.message + "</li>");
             }
 
-            //카드 받자 player수만큼 요청하자
-            // if (content.type == "MAKECARDSET") {
-            //   //console.log("개인카드 달라고 요청했음")
-            //   //기본배팅 했으니까 GETCARD 요청
-            //   client.send(
-            //     "/pub/game/message",
-            //     {},
-            //     JSON.stringify({
-            //       roomId: roomId,
-            //       message: "",
-            //       sender: "",
-            //       type: "GETMYCARD",
-            //     })
-            //   );
-            // }
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "GAMEEND") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
 
 
           });
@@ -107,6 +104,18 @@
           //개인 메시지를 받으면
           client.subscribe("/user/sub/game/room" + roomId, function (message) {
             var content = JSON.parse(message.body);
+
+            //사람이 들어왔을 때
+            if (content.type == "ENTER") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
 
             //개인 카드 받기
             if (content.type == "GETMYCARD") {
@@ -124,15 +133,6 @@
 
           });
         });
-        /*
-        client.disconnect({}, function() {
-            client.send("/pub/game/message", {}, JSON.stringify({
-                roomId : roomId,
-                sender : "",
-                type : "EXIT"
-            }));
-        });
-        */
 
         sendBtn.click(function () {
           console.log("보내기 눌렀다.--------");
@@ -229,3 +229,30 @@
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

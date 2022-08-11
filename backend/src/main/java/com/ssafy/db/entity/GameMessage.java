@@ -26,4 +26,5 @@ public class GameMessage {
 	private MessageType type;
 	private int battingUnit;
 	private String mission;
+	private int gameMaxBet;
 }

@@ -1,7 +1,11 @@
 package com.ssafy.db.repository;
 
+import com.ssafy.db.entity.GameInfo;
 import com.ssafy.db.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 //Service(CRUD) 역할을 한다.
 //자동으로 bean등록이 된다.(=@Repositoy 생략 가능)
@@ -9,8 +13,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     Room findByRoomId(int roomId);
 
-
-
+    @Query(value = "SELECT * FROM room WHERE room_is_close=false", nativeQuery = true)
+    List<Room> findAllByRoomIsClose();
 
     Room findByRoomTitle(String roomTitle);
 
