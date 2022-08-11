@@ -152,7 +152,18 @@
     position:relative
 }
 
-.win{
+.rubyGet{
+    position: absolute;
+}
+
+.rubyBet{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.rubyWin{
     position: absolute;
     top: 20%;
     left: 50%;
