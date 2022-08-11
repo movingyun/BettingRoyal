@@ -36,7 +36,22 @@ export default class UserVideoComponent extends Component {
                                 </div>
                             </div>
                             <div className={styles.status}>더블</div>
-                            <div className={styles.emotion}>감정상태</div>
+                            <div className={styles.emotion}>
+                                <table>
+                                    <tr>
+                                        <td className={styles.td}>긴장</td>
+                                        <td>64%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.td}>분노</td>  
+                                        <td>37%</td>   
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.td}>행복</td>  
+                                        <td>12%</td>    
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
         

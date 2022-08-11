@@ -13,6 +13,7 @@ import ruby_win from "../../images/ruby_win.gif";
 import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import ruby from "../../images/icon/ruby.png";
 
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -403,7 +404,10 @@ class Gameroom extends Component {
                                 <div className={styles.time}>
                                     {this.state.seconds}초
                                 </div>
-                                <div className={styles.money}>돈돈돈돈</div>
+                                <div className={styles.ruby}>
+                                    <img src={ruby} className={styles.rubyImg}/>
+                                    <p className={styles.rubyNum}>1,000,000</p>
+                                    </div>
                                 <div className={styles.help}>
                                     <Popover
                                     isOpen={this.state.isOpen}
@@ -431,13 +435,11 @@ class Gameroom extends Component {
                         <div className={styles.betting}>
                             <button>다이</button>
                             <button>콜</button>
-                            <button>
-                                레이즈
-                                <div className={styles.betList}>
-                                    <input className={styles.betInput} type={"number"} step="10" placeholder='베팅 루비'></input>
-                                    <button className={styles.betBtn}>베팅</button>
-                                </div>
-                            </button>
+                            <div className={styles.betList}>
+                                <p>레이즈</p>
+                                <input className={styles.betInput} type={"number"} step="10" placeholder='베팅 루비 입력'></input>
+                                <button className={styles.betBtn}>확인</button>
+                            </div>
                             <button>올인</button>
                         </div>
                     </div>
