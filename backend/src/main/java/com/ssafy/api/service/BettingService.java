@@ -42,6 +42,9 @@ public class BettingService {
                 //gp.myBet 올려주기
                 gp.setMyBetting(gp.getMyBetting()+callBettingCnt);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 콜 배팅 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet()+callBettingCnt);
         }
 
         // message에 maxBetting 올려주기
@@ -79,6 +82,9 @@ public class BettingService {
                 //raise한 사람의 gp.myBet 올려주기
                 gp.setMyBetting(MaxBet);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + raiseBetting);
         }
 
         // message에 maxBetting 올려주기
@@ -114,6 +120,9 @@ public class BettingService {
                 gameId = gp.getGameId();
                 gp.setMyBetting(gp.getMyBetting()+bettingUser.getUserRuby());
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + allInBettingCnt);
         }
 
         //gp의 MaxBet 바꿔줌.

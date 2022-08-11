@@ -31,6 +31,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     void deleteByUserId(Integer userId);
 
     @Query(value = "select t.user_id, t.user_create, t.user_email, t.user_game_count, t.user_gender, t.user_guild, t.user_is_active, t.user_nickname, t.user_pw, t.user_recent, t.user_row, t.user_ruby, t.user_type, t.user_vault, t.user_win, t.tier_id\n" +
-            "FROM (SELECT *, user_ruby + user_vault total_ruby from user ORDER BY total_ruby LIMIT 20) t", nativeQuery = true)
+            "FROM (SELECT *, user_ruby + user_vault total_ruby from user ORDER BY total_ruby DESC LIMIT 20) t", nativeQuery = true)
     List<User> findTop20User();
 }
