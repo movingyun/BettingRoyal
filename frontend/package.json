@@ -16,12 +16,9 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "btoa": "^1.2.1",
-<<<<<<< HEAD
     "canvas": "^2.9.3",
     "face-api.js": "^0.22.2",
     "http-proxy-middleware": "^2.0.6",
-=======
->>>>>>> 24ef8085df0aa4f82e093e256339b68de155ed4d
     "material-ui-icons": "^1.0.0-beta.36",
     "net": "^1.0.2",
     "open-color": "^1.9.1",
