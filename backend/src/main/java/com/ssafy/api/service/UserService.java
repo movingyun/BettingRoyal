@@ -250,4 +250,16 @@ public class UserService {
 		}
 		return true;
 	}
+
+	@Transactional
+	public boolean rubyCharge(Integer userId){
+		try {
+			User user  = userRepository.findByUserId(userId);
+			user.setUserRuby(50);
+			userRepository.save(user);
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+	}
 }

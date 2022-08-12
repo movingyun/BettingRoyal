@@ -141,6 +141,13 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
+	//쫒겨난 user 돈 채워주기
+	@PutMapping("/charge")
+	public ResponseEntity<?> rubyCharge (@RequestParam Integer userId) {
+		userService.rubyCharge(userId);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
 
 //	@PostMapping("/{userId}")
 //	@ApiOperation(value = "회원 탈퇴", notes = "회원 정보는 저장하되 userIsActive=0 으로 변환한다.")
