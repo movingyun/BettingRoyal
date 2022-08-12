@@ -1,6 +1,8 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.*;
+import com.ssafy.api.response.BoardListRes;
+import com.ssafy.api.response.NoticeListRes;
 import com.ssafy.api.service.BoardService;
 import com.ssafy.api.service.NoticeService;
 import com.ssafy.api.service.UserService;
@@ -16,6 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Api(value = "유저 API", tags = {"Board"})
 @RestController
@@ -46,7 +52,7 @@ public class BoardController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("")
+    @GetMapping("{boardId}")
     @ApiOperation(value = "게시판 조회", notes = "게시판을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -58,6 +64,28 @@ public class BoardController {
             @ApiParam(value="게시판 조회") Integer boardId ,@ApiIgnore Authentication authentication) {
         Board board = boardService.findByBoardId(boardId);
         return new ResponseEntity<>(board, HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    @ApiOperation(value = "게시판 목록 조회", notes = "게시판을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity BoardList (
+            @ApiIgnore Authentication authentication) {
+
+        List<Board> list = boardService.boardList();
+        List<BoardListRes> boardList = new ArrayList<>();
+
+        Collections.reverse(list);
+
+        for(Board entity : list) {
+            boardList.add(new BoardListRes(entity));
+        }
+        return new ResponseEntity<>(boardList, HttpStatus.OK);
     }
 
     @PutMapping("")

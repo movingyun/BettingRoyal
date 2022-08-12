@@ -3,12 +3,15 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.BoardPostReq;
 import com.ssafy.api.request.BoardUpdateReq;
 import com.ssafy.db.entity.Board;
+import com.ssafy.db.entity.Noticeboard;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.BoardRepository;
 import com.ssafy.db.repository.BoardRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class BoardService {
@@ -47,6 +50,10 @@ public class BoardService {
     public Board findByBoardId ( Integer boardId ) {
         Board board = boardRepositorySupport.findByBoardId(boardId).get();
         return board;
+    }
+
+    public List<Board> boardList(){
+        return boardRepository.findAll();
     }
 
 }

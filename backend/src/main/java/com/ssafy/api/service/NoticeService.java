@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.NoticePostReq;
 import com.ssafy.api.request.NoticeUpdateReq;
+import com.ssafy.db.entity.Badge;
 import com.ssafy.db.entity.Noticeboard;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.NoticeRepository;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class NoticeService {
@@ -48,6 +51,10 @@ public class NoticeService {
     public Noticeboard findByNoticeId ( Integer noticeId ) {
         Noticeboard notice = noticeRepositorySupport.findByNoticeboardId(noticeId).get();
         return notice;
+    }
+
+    public List<Noticeboard> noticeList(){
+        return noticeRepository.findAll();
     }
 
 }
