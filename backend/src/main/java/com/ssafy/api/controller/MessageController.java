@@ -156,7 +156,8 @@ public class MessageController {
 			int roomId = message.getRoomId();
 
 			// 시작한 사람 sessionId
-			String userInfo = message.getSocketId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
 			boolean isMyTurn = bettingService.checkBettingTurn(gpList, userInfo);
@@ -331,7 +332,8 @@ public class MessageController {
 		// 콜이 들어왔을 때
 		if (message.getType().equals(MessageType.CALL)) {
 			// call한 사람 sessionId
-			String userInfo = message.getSocketId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
 			int roomId =  message.getRoomId();
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -355,7 +357,8 @@ public class MessageController {
 		// 다이가 들어왔을 때
 		if (message.getType().equals(MessageType.DIE)) {
 			int roomId =  message.getRoomId();
-			String userInfo = message.getSocketId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
 
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
 			for(GamePlayer gp : gpList){
@@ -377,7 +380,8 @@ public class MessageController {
 		if (message.getType().equals(MessageType.RAISE)) {
 			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
-			String userInfo = message.getSocketId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
 
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -387,7 +391,11 @@ public class MessageController {
 				return;
 			}
 
-			bettingService.raise(roomId, userInfo, message);
+			//자기돈 보다 많이 raise했으면 돌려보네
+			if(!bettingService.raise(roomId, userInfo, message)){
+				log.info("너 가진돈보다 너무 많이 레이즈 했어");
+				return;
+			}
 
 			// 끝났는지체크
 			checkFinish(message, headerAccessor);
@@ -397,7 +405,8 @@ public class MessageController {
 		if (message.getType().equals(MessageType.ALLIN)) {
 			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
-			String userInfo = message.getSocketId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
 
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -427,8 +436,8 @@ public class MessageController {
 		int winnerRuby = 0;
 		for(GamePlayer gp : gpList){
 			winnerRuby+=gp.getMyBetting();
-			//플레이어의 베팅이 기본베팅이 아니면서 maxBetting이랑 같으면 finishCnt올려준다.
-			if(gp.getMyBetting()!=gp.getBattingUnit()&&gp.getMyBetting()==gp.getMaxBetting()){
+			//플레이어의 베팅이 기본베팅이 아니면서 (maxBetting이랑 같으면 or 올인에 콜(내 돈이 0원) 했으면) finishCnt올려준다.
+			if(gp.getMyBetting()!=gp.getBattingUnit()&&(gp.getMyBetting()==gp.getMaxBetting()||gp.getUser().getUserRuby()==0)){
 				finishCnt++;
 				continue;
 			}
@@ -451,9 +460,11 @@ public class MessageController {
 			// 누가 이겼는지 확인해보자.
 			int winnerIdx = getWinner(gpList);
 
+
 			//이긴사람 루비 플러스해주기
 			User winner = gpList.get(winnerIdx).getUser();
 			winner.setUserRuby(winner.getUserRuby()+winnerRuby);
+			winner.setUserWin(winner.getUserWin()+1);
 
 			// tb_gameInfo에 이긴사람은 루비획득+해주고 승리여부 이긴거 기록해줘야함.
 			int gameId = gpList.get(winnerIdx).getGameId();
@@ -469,6 +480,7 @@ public class MessageController {
 			// tb_user의 승수,루비 수 올려주기
 			User user = userRepository.findByUserNickname(winnerNickname);
 			user.setUserRuby(user.getUserRuby()+winnerRuby);
+			log.info(user.getUserWin());
 			user.setUserWin(user.getUserWin()+1);
 			userService.modifyUser(user);
 
@@ -512,6 +524,7 @@ public class MessageController {
 				settingBasicGameMessage(gp, message);
 				template.convertAndSendToUser(gp.getSessionId(), "sub/game/room" + gp.getRoomId(), message);
 				idx++;
+
 			}
 
 			// gamePlayer의 요소들 초기화

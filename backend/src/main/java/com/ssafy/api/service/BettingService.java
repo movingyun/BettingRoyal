@@ -58,7 +58,7 @@ public class BettingService {
         userService.modifyUser(bettingUser);
     }
 
-    public void raise(int roomId, String userInfo, GameMessage message){
+    public boolean raise(int roomId, String userInfo, GameMessage message){
         List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
         User bettingUser = new User();
@@ -66,8 +66,20 @@ public class BettingService {
 
         //얼마나 raise?
         int raiseCnt = Integer.parseInt(message.getMessage());
+        int callBetting = 0;
         log.info(raiseCnt+"만큼 레이즈 ㄱㄱ");
+
         //todo : 자기가 가진 돈 보다 더 많이 raise할 수 없다.
+        for(GamePlayer gp : gpList){
+            if(gp.getSessionId().equals(userInfo)){
+                bettingUser = gp.getUser();
+                callBetting = gp.getMaxBetting()-gp.getMyBetting();
+            }
+        }
+
+        if(raiseCnt+callBetting>bettingUser.getUserRuby()){
+            return false;
+        }
 
         //(Server) GamePlayer에서 myBetting plus 해주고 raiseBetting(callBettingCnt+raiseCnt) 돌려주기
         int raiseBetting = gamePlayerRepository.raiseBetting(roomId, userInfo, raiseCnt);
@@ -77,7 +89,6 @@ public class BettingService {
             MaxBet = gp.getMaxBetting()+raiseCnt;
             gp.setMaxBetting(MaxBet);
             if(gp.getSessionId().equals(userInfo)){
-                bettingUser = gp.getUser();
                 gameId = gp.getGameId();
                 //raise한 사람의 gp.myBet 올려주기
                 gp.setMyBetting(MaxBet);
@@ -96,6 +107,8 @@ public class BettingService {
         // tb_User에서 ruby minus해주기
         bettingUser.setUserRuby(bettingUser.getUserRuby()-raiseBetting);
         userService.modifyUser(bettingUser);
+
+        return true;
     }
 
     public void allIn(int roomId, String userInfo, GameMessage message){
