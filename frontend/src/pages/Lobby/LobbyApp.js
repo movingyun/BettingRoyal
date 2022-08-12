@@ -31,7 +31,7 @@ import Rooms from "../Rooms/Rooms";
 import Test from "../Test/Test";
 import Review from "../Review/Review";
 import NotificationBell from '../../components/common/NotificationBell/NotificationBell';
-
+import rubyicon from "../../images/icon/ruby.png";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -176,7 +176,11 @@ function NavbarContent() {
             </IconButton>
           </Toolbar>
 
-            <ListSubheader inset sx={lobbyStyles.bottomText}>{nickname} 님 😊<br/>{ruby} 루비 </ListSubheader>
+            <ListSubheader inset sx={lobbyStyles.bottomText}>{nickname} 님 😊
+            <Box>
+            <img src={rubyicon} height="15" width="15"/>&nbsp;&nbsp;
+               {ruby} 루비
+            </Box></ListSubheader>
             
           <List component="nav">
             <Divider sx={{ my: 1 }} />    

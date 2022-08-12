@@ -10,6 +10,9 @@ const Mypage = () => {
     const [nickname, setNickname] = useState();
     const [email, setEmail] = useState();
     const [gender, setGender] = useState();
+    const [gameCnt, setGameCnt] = useState(0);
+    const [gameWin, setGameWin] = useState();
+    const [startDate, setStartDate] = useState();
     const [changeNickname, setChangeNickname] = useState();
     const [changePw, setChangePw] = useState();
 
@@ -38,7 +41,9 @@ const Mypage = () => {
             setNickname(response.data.userNickname);
             setEmail(response.data.userEmail);
             setGender(response.data.userGender);
-
+            setGameCnt(response.data.userGameCount);
+            setGameWin(response.data.userWin);
+            setStartDate(response.data.userRecent);
         });
     },[]); 
 
@@ -70,12 +75,24 @@ const Mypage = () => {
             <button onClick={ logout }  >로그아웃</button>
             </div>
             <div>
+                <br/>
                 <h3>배지</h3>
                 배지정보
+                <div>없뚬 </div>
             </div>
             <div>
+                <br/>
                 <h3>통계</h3>
+                <div>총게임 횟수 : {gameCnt}</div>
+                <div>이긴게임 횟수 : {gameWin}</div>
+                <br/>
                 승률정보
+                <div>승률 : { {gameCnt}===0 ? 0 : {gameWin}/{gameCnt} }</div>
+            </div>
+            <div>
+                <br></br>
+                <h3>Betting Royal과 함께한 시작일자</h3>
+                <div>{startDate}</div>
             </div>
         </div>
     )
