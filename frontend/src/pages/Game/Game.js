@@ -33,7 +33,7 @@ export default function Game(props) {
   const [roomInfo, setroomInfo] = useState();
   const [isEnter, setisEnter] = useState(false);
   const [sessionId, setsessionId] = useState(false);
-  const [win, setwin] = useState([false,false,false,false,false,false]);
+  const [win, setwin] = useState([false, false, false, false, false, false]);
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -74,7 +74,7 @@ export default function Game(props) {
         //게임이 시작됐을 때
         if (content.type == "START") {
           setmainMessage("게임 시작!");
-          
+
           setIsStart(true);
           //카메라 체크
         }
@@ -87,8 +87,6 @@ export default function Game(props) {
           setGroundCard1(content.groundCardNum1);
           setGroundCard2(content.groundCardNum2);
         }
-
-        
 
         //수시로 서버와 동기화
         if (content.type == "SYNC") {
@@ -123,16 +121,16 @@ export default function Game(props) {
             setbuttonDisable([false, true, false, false]);
           }
           setCurrentBetUnit(content.battingUnit);
-          setCurrentMaxBet(content.gameTotalBet)
-          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet)
+          setCurrentMaxBet(content.gameTotalBet);
+          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
         }
 
         //턴
         if (content.type == "NEXTTURN") {
           setTurn(content.turnIdx);
-          setCurrentMaxBet(content.gameTotalBet)
-          setPlayers(content.playerInfo)
-          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet)
+          setCurrentMaxBet(content.gameTotalBet);
+          setPlayers(content.playerInfo);
+          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
           //내턴일때
           if (content.turnIdx == 0) {
             setbuttonDisable([false, false, false, false]);
@@ -150,27 +148,22 @@ export default function Game(props) {
         //게임 끝
         if (content.type == "GAMEEND") {
           setbuttonDisable([true, true, true, true]);
-          setPlayers(content.playerInfo)
+          setPlayers(content.playerInfo);
           setTurn(content.turnIdx);
           //이긴사람 표시
-          setmainMessage(content.playerInfo[content.winnerIdx].nickname + " 승리!!")
-          
-          let tempwin = [false,false,false,false,false,false];
-          tempwin[content.winnerIdx]=true;
-          setwin(tempwin)
-         
+          setmainMessage(content.playerInfo[content.winnerIdx].nickname + " 승리!!");
+
+          let tempwin = [false, false, false, false, false, false];
+          tempwin[content.winnerIdx] = true;
+          setwin(tempwin);
 
           //2.5초간 효과재생 후 게임시작 활성화
           setTimeout(() => {
-            setwin([false,false,false,false,false,false])
+            setwin([false, false, false, false, false, false]);
             setIsStart(false);
-            console.log(win)
+            console.log(win);
           }, 2500);
-
-
-          
         }
-
       });
     });
     return () => {
@@ -367,29 +360,29 @@ export default function Game(props) {
           </div>
         </div>
 
-        <div className={styles.player1}>
-          {win[1] ? <img src={ruby_win} /> : null}
-          
+        <div className={`${styles.player1} ${turn == 1 ? styles.highlight : styles.none}`}>
+          {win[1] ? <img src={ruby_win} className={ruby_win}/> : null}
+
           <Player player={players[1]} />
         </div>
-        <div className={styles.player2}>
-        {win[2] ? <img src={ruby_win} /> : null}
+        <div className={`${styles.player2} ${turn == 2 ? styles.highlight : styles.none}`}>
+          {win[2] ? <img src={ruby_win} className={ruby_win}/> : null}
           <Player player={players[2]} />
         </div>
-        <div className={styles.player3}>
-        {win[3] ? <img src={ruby_win} /> : null}
+        <div className={`${styles.player3} ${turn == 3 ? styles.highlight : styles.none} `}>
+          {win[3] ? <img src={ruby_win} className={ruby_win}/> : null}
           <Player player={players[3]} />
         </div>
-        <div className={styles.player4}>
-        {win[4] ? <img src={ruby_win} /> : null}
+        <div className={`${styles.player4} ${turn == 4 ? styles.highlight : styles.none}`}>
+          {win[4] ? <img src={ruby_win} className={ruby_win}/> : null}
           <Player player={players[4]} />
         </div>
-        <div className={styles.player5}>
-        {win[5] ? <img src={ruby_win} /> : null}
+        <div className={`${styles.player5} ${turn == 5 ? styles.highlight : styles.none}`}>
+          {win[5] ? <img src={ruby_win} className={ruby_win}/> : null}
           <Player player={players[5]} />
         </div>
-        <div className={styles.playerMe}>
-        {win[0] ? <img src={ruby_win} /> : null}
+        <div className={`${styles.playerMe} ${turn == 0 ? styles.highlight : styles.none}`}>
+          {win[0] ? <img src={ruby_win} className={ruby_win}/> : null}
           <Player player={players[0]} />
         </div>
         {/* {isEnter ? <GameOpenvidu roomId = {roomId} roomInfo={roomInfo}/> : null}
