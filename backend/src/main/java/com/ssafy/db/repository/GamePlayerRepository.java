@@ -106,8 +106,14 @@ public class GamePlayerRepository {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
 				log.info("현재까지 베팅 금액 : " + currentBetting);
-				//콜하려면 내야하는 금액
-				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				//콜 하려면 내야하는 금액이 내 남은 돈보다 많으면
+				callBettingCnt = gamePlayerList.get(i).getMaxBetting()-currentBetting;
+				if(callBettingCnt >= gamePlayerList.get(i).getUser().getUserRuby()){
+					callBettingCnt = gamePlayerList.get(i).getUser().getUserRuby();
+				}else {
+					//콜하려면 내야하는 금액
+					callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				}
 				log.info("콜 하려면 내야하는 금액 : "+ callBettingCnt);
 			}
 		}
