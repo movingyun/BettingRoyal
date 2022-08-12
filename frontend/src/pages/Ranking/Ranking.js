@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -13,10 +13,21 @@ import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Ranking.module.css";
 
 export default function Ranking(props) {
-  useEffect(() => {
-    //fetch rank
-  }, []);
 
+  const [rows, setRows] = useState("");
+
+ 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/rank")
+      .then((response) => {
+        console.log(response);
+        setRows(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }, []);
 
   const columns = [
     {
@@ -24,24 +35,24 @@ export default function Ranking(props) {
       headerName: "순위",
       width: 90
     },
-    {
-        field: "tier",
-        headerName: "티어",
-        width: 30,
-        editable: false,
-      },
+    // {
+    //     field: "tier",
+    //     headerName: "티어",
+    //     width: 30,
+    //     editable: false,
+    //   },
     {
       field: "nickname",
       headerName: "닉네임",
       width: 150,
       editable: false,
     },
-    {
-        field: "badge",
-        headerName: "뱃지",
-        width: 30,
-        editable: false,
-      },
+    // {
+    //     field: "badge",
+    //     headerName: "뱃지",
+    //     width: 30,
+    //     editable: false,
+    //   },
     {
       field: "ruby",
       headerName: "보유 루비",
@@ -56,15 +67,8 @@ export default function Ranking(props) {
       }
   ];
 
-  const rows = [
-    { id: 1, tier: "금",nickname: "유저1", badge:"다이아",ruby: 100, guild:"길드1"},
-    { id: 2, tier: "은",nickname: "유저2",  badge:"다이아",ruby: 10, guild:"길드2"},
-    { id: 3, tier: "동",nickname: "유저3",  badge:"다이아",ruby: 1, guild:"길드2"},
-    
-  ];
-
   let roomsdummy = (
-    <Grid className={styles.container}>
+    <Grid>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

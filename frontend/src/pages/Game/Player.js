@@ -73,6 +73,7 @@ export default function Player(props) {
               {/* <hr className={styles.divider}/> */}
               <div className={styles.gameInfo}>
                 <div className={styles.card}>
+
                     {/* 카드뒷면 */} 
                     <div className={styles.card_back}>
                         <img src={card_back} />
@@ -80,6 +81,7 @@ export default function Player(props) {
                     {/* 카드앞면오픈 */}
                      <div className={styles.card_front}>
                         <img src={card_am_1} />
+
                     </div>
                 </div>
                 <div className={styles.status}></div>

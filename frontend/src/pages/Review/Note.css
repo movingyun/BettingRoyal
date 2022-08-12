@@ -1,0 +1,47 @@
+div.note {
+    height: 150px;
+    width: 150px;
+    background-color: #7e9b9d;
+    margin: 2px 0;
+    position: absolute;
+    cursor: -webkit-grab;
+    box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
+    overflow: hidden;
+  }
+  
+  div.note:active {
+    cursor: -webkit-grabbing;
+  }
+  
+  div.note p {
+    margin: 0;
+    font-size: 22px;
+    padding: 10px;
+    font-family: "Shadows Into Light", Arial, sans-serif;
+  }
+  
+  div.note:hover > span {
+    opacity: 1;
+  }
+  
+  div.note > span {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    opacity: 0;
+    transition: opacity .25s linear;
+  }
+  
+  div.note button {
+    margin: 2px;
+    border: 1px solid rgb(160, 163, 164);
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px #DCD7C9;
+    font-family:  sans-serif;
+  }
+  
+  div.note > textarea {
+    height: 75%;
+    background: rgba(255, 255, 255, .5);
+  }

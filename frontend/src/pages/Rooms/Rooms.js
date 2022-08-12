@@ -193,7 +193,7 @@ export default function Rooms(props) {
   // ];
 
   let roomsdummy = (
-    <Grid className={styles.container}>
+    <Grid >
       {roomcreate}
       <Link to="/room" state={{ roomid: 1 }}>
         게임방 테스트
