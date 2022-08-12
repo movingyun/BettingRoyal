@@ -9,10 +9,13 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back_logo.png";
-import ruby_win from "../../images/ruby_win.gif";
+import ruby_win from "../../images/ruby/ruby_win.gif";
+import ruby_bet from "../../images/ruby/ruby_bet.gif";
+import ruby_get from "../../images/ruby/ruby_get.gif";
 import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import ruby from "../../images/icon/ruby.png";
 
 const OPENVIDU_SERVER_URL = 'https://' + 'i7a404.p.ssafy.io' + ':8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -382,6 +385,8 @@ class Gameroom extends Component {
                         {this.state.subscribers.map((sub, i) => (
                             <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={this.test[i]}>
                                 <UserVideoComponent streamManager={sub}/>
+                                {/* 타 플레이어 게임 이길시*/}
+                                {/* <img src={ruby_get} className={styles.rubyGet}/> */}
                             </div>
                             
                         ))}
@@ -397,13 +402,18 @@ class Gameroom extends Component {
                                 <img src={card_aq_1} />
                                 </div>
                             </div>
-                            {/* 게임 이길시 gif*/}
-                            {/* <img src={ruby_win} className={styles.win}/> */}
+                            {/* 베팅시*/}
+                            {/* <img src={ruby_bet} className={styles.rubyBet}/> */}
+                            {/* 내가 게임 이길시*/}
+                            {/* <img src={ruby_win} className={styles.rubyWin}/> */}
                             <div className={styles.info}>
                                 <div className={styles.time}>
                                     {this.state.seconds}초
                                 </div>
-                                <div className={styles.money}>돈돈돈돈</div>
+                                <div className={styles.ruby}>
+                                    <img src={ruby} className={styles.rubyImg}/>
+                                    <p className={styles.rubyNum}>1,000,000</p>
+                                    </div>
                                 <div className={styles.help}>
                                     <Popover
                                     isOpen={this.state.isOpen}
@@ -431,13 +441,11 @@ class Gameroom extends Component {
                         <div className={styles.betting}>
                             <button>다이</button>
                             <button>콜</button>
-                            <button>
-                                레이즈
-                                <div className={styles.betList}>
-                                    <input className={styles.betInput} type={"number"} step="10" placeholder='베팅 루비'></input>
-                                    <button className={styles.betBtn}>베팅</button>
-                                </div>
-                            </button>
+                            <div className={styles.betList}>
+                                <p>레이즈</p>
+                                <input className={styles.betInput} type={"number"} step="10" placeholder='베팅 루비 입력'></input>
+                                <button className={styles.betBtn}>확인</button>
+                            </div>
                             <button>올인</button>
                         </div>
                     </div>

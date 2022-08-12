@@ -152,7 +152,18 @@
     position:relative
 }
 
-.win{
+.rubyGet{
+    position: absolute;
+}
+
+.rubyBet{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.rubyWin{
     position: absolute;
     top: 20%;
     left: 50%;
@@ -261,22 +272,35 @@
     color:#A27B5C;
 }
 
-.money {
+.ruby {
     background-color: #DCD7C9;
-    text-align: right;
-    font-family: 'Noto Sans KR', sans-serif;
+    color: #A27B5C;;
     padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 4px;
     border-radius: 5px;
-    font-weight: 400;
     height: 35px;
     width: 100%;
-    display: grid;
     align-items: center;
+}
+
+.rubyImg {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+
+}
+.rubyNum {
+    text-align: right;
+    float: right;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    font-size: large;
+    display: inline-block;
 }
 
 .chat {
     background-color: rgba(0, 0, 0, 0.1);
-    /* border-radius: 20px; */
     border-radius: 5px;
     grid-row: 5 / 6;
     grid-column: 3 / 4;
@@ -310,8 +334,7 @@
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
-    border-radius:5px;
-    padding: 0;
+    border-radius: 5px;
 }
 
 .betting > button:hover{
@@ -320,30 +343,46 @@
 }
 
 .betList{
-    padding-top: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    margin-right: 15px;
+    border-radius:5px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.betList > p{
+    height: 60%;
+    color: #DCD7C9;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
     margin: 0;
-    background-color: aqua;
+    padding-top: 8px;
 }
 
 .betInput {
-    /* margin-left: 50px; */
-    /* margin-right: 50px; */
-    margin-top: 0;
-    width: 40%;
-    font-size:medium;
-    border-radius:5px;
+    width: 70%;
+    height: 40%;
+    border-bottom-left-radius: 5px;
+    padding-left: 10px;
     border: none;
-    /* padding: 4px; */
+    font-size: 18px;
 }
+
 .betBtn{
-    font-size:medium;
-    border-radius:5px;
+    width: 30%;
+    height: 40%;
+    border-bottom-right-radius:5px;
     border: none;
+    background-color: #2C3639;
+    font-size: 18px;
+    color: #DCD7C9;
+}
+
+.betBtn:hover{
+    background-color: #A27B5C;
 }
 
 .start{
-    /* display: grid;
-    grid-template-columns: repeat(3, 1fr); */
     grid-row: 6 / 7;
     grid-column: 2 / 4;
     padding-bottom: 15px;
@@ -449,13 +488,13 @@
   }
 
 .popoverBtn{
-    color: #2C3639;
-    font-size: large;
+    color: #A27B5C;
     cursor: pointer;
-    /* background-color: aqua; */
-    margin-left: 8px;
-  }
+    margin-left: 10px;
+    height: 25px;
+    width: 25px;
+}
 
   .popoverBtn:hover{
-    color: #A27B5C;
+    color: #3F4E4F;
   }

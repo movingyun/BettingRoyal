@@ -103,7 +103,6 @@ export default class UserVideoComponent extends Component {
                                     </tr>
                                 </table>
                             </div>
-
                         </div>
                     </div>
         
