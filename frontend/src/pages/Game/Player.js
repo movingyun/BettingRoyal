@@ -27,7 +27,7 @@ export default function Player(props) {
             <div className={styles.info}>
               <div className={styles.userInfo}>
                 <div className={styles.name}>{player.nickname}</div>
-                <div className={styles.ruby}>{player.myruby}</div>
+                <div className={styles.ruby}>{player.myruby} 루비</div>
               </div>
               {/* <hr className={styles.divider}/> */}
               <div className={styles.gameInfo}>

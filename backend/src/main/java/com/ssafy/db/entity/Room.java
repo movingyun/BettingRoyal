@@ -39,4 +39,8 @@ public class Room {
     //roomIsClose의 default값은 false로 준다.
     private boolean roomIsClose = false;
 
+    //만들어지면 방장이 만들었지만 방장도 입장 이벤트를 하기 때문에 0으로 기본값 후 더해줌
+    @Column(name = "roomInCnt", columnDefinition = "INT(11) DEFAULT 0")
+    private int roomInCnt;
+
 }

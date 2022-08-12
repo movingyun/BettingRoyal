@@ -74,6 +74,7 @@ export default function Game(props) {
         //게임이 시작됐을 때
         if (content.type == "START") {
           setmainMessage("게임 시작!");
+          
           setIsStart(true);
           //카메라 체크
         }
@@ -87,24 +88,7 @@ export default function Game(props) {
           setGroundCard2(content.groundCardNum2);
         }
 
-        //게임 끝
-        if (content.type == "GAMEEND") {
-          setbuttonDisable([true, true, true, true]);
-          setTurn(content.turnIdx);
-          //이긴사람 표시
-          let tempwin = win;
-          tempwin[content.turnIdx]=true;
-          setwin(tempwin)
-
-          //2.5초간 효과재생 후 게임시작 활성화
-          setTimeout(() => {
-            setwin([false,false,false,false,false,false])
-            setIsStart(false);
-          }, 2500);
-
-
-          
-        }
+        
 
         //수시로 서버와 동기화
         if (content.type == "SYNC") {
@@ -139,24 +123,54 @@ export default function Game(props) {
             setbuttonDisable([false, true, false, false]);
           }
           setCurrentBetUnit(content.battingUnit);
+          setCurrentMaxBet(content.gameTotalBet)
+          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet)
         }
 
         //턴
         if (content.type == "NEXTTURN") {
           setTurn(content.turnIdx);
+          setCurrentMaxBet(content.gameTotalBet)
+          setPlayers(content.playerInfo)
+          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet)
           //내턴일때
           if (content.turnIdx == 0) {
             setbuttonDisable([false, false, false, false]);
-            if (currentMaxBet > myTotalBet) {
-              //콜 버튼 비활성화
-              setbuttonDisable([false, true, false, false]);
-            }
+            // if (currentMaxBet > myTotalBet) {
+            //   //콜 버튼 비활성화
+            //   setbuttonDisable([false, true, false, false]);
+            // }
           }
           //다른사람 턴일때
           else {
             setbuttonDisable([true, true, true, true]);
           }
         }
+
+        //게임 끝
+        if (content.type == "GAMEEND") {
+          setbuttonDisable([true, true, true, true]);
+          setPlayers(content.playerInfo)
+          setTurn(content.turnIdx);
+          //이긴사람 표시
+          setmainMessage(content.playerInfo[content.winnerIdx].nickname + " 승리!!")
+          
+          let tempwin = [false,false,false,false,false,false];
+          tempwin[content.winnerIdx]=true;
+          setwin(tempwin)
+         
+
+          //2.5초간 효과재생 후 게임시작 활성화
+          setTimeout(() => {
+            setwin([false,false,false,false,false,false])
+            setIsStart(false);
+            console.log(win)
+          }, 2500);
+
+
+          
+        }
+
       });
     });
     return () => {

@@ -159,14 +159,15 @@ public class GamePlayerRepository {
 			if(gamePlayerList.get(i).getSessionId().equals(sessionId)) {
 				//현재까지 베팅 금액
 				int currentBetting = gamePlayerList.get(i).getMyBetting();
+				log.info("현재까지 낸 금액 : " + currentBetting);
 				//콜하려면 내야하는 금액
 				callBettingCnt = gamePlayerList.get(i).getMaxBetting() - currentBetting;
+				log.info("콜 하려면 내야하는 금액 : " + callBettingCnt);
 				//올인하면 추가로 내는 금액
 				allInBettingCnt = gamePlayerList.get(i).getUser().getUserRuby()-callBettingCnt;
-				//(콜+올인)Cnt만큼 바꿔주기
-				gamePlayerList.get(i).setMyBetting(currentBetting+(allInBettingCnt+callBettingCnt));
+				log.info("올인하면 추가로 내는 금액 : "+ allInBettingCnt);
 			}
 		}
-		return allInBettingCnt+callBettingCnt;
+		return allInBettingCnt;
 	}
 }

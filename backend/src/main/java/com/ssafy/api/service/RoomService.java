@@ -68,4 +68,18 @@ public class RoomService {
         roomRepository.save(room);
     }
 
+    @Transactional
+    public void addRoomInCnt(int roomId){
+        Room room = roomRepository.findByRoomId(roomId);
+        room.setRoomInCnt(room.getRoomInCnt()+1);
+        roomRepository.save(room);
+    }
+
+    @Transactional
+    public void minusRoomInCnt(int roomId){
+        Room room = roomRepository.findByRoomId(roomId);
+        room.setRoomInCnt(room.getRoomInCnt()-1);
+        roomRepository.save(room);
+    }
+
 }

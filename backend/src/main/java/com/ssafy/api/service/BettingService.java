@@ -42,6 +42,9 @@ public class BettingService {
                 //gp.myBet 올려주기
                 gp.setMyBetting(gp.getMyBetting()+callBettingCnt);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 콜 배팅 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet()+callBettingCnt);
         }
 
         // message에 maxBetting 올려주기
@@ -81,6 +84,9 @@ public class BettingService {
                 //raise한 사람의 gp.myBet 올려주기
                 gp.setMyBetting(MaxBet);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + raiseBetting);
         }
 
         // message에 maxBetting 올려주기
@@ -98,6 +104,48 @@ public class BettingService {
         userService.modifyUser(bettingUser);
     }
 
+    public void allIn(int roomId, String userInfo, GameMessage message){
+        List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
+
+        User bettingUser = new User();
+        int gameId = 0;
+
+        //콜 비용
+        int callBettingcnt = 0;
+
+        //(Server) GamePlayer에서 myBetting plus 해주고 allInBettingCnt 돌려주기
+        int allInBettingCnt = gamePlayerRepository.allInBetting(roomId, userInfo);
+
+        // gp 돌면서 sessionId로 정보 가져오기
+        for(GamePlayer gp : gpList){
+            //모든 gp.MaxBetting 올려주기((Allin한 사람의 myRuby + Allin한 사람의 myBet)
+            if(gp.getSessionId().equals(userInfo)){
+                callBettingcnt = gp.getMaxBetting()-gp.getMyBetting();
+                bettingUser = gp.getUser();
+                gameId = gp.getGameId();
+                gp.setMyBetting(gp.getMyBetting()+bettingUser.getUserRuby());
+            }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + allInBettingCnt);
+        }
+
+        //gp의 MaxBet 바꿔줌.
+        for(GamePlayer gp : gpList){
+            gp.setMaxBetting(gp.getMaxBetting()+allInBettingCnt);
+        }
+
+        // message에 maxBetting 올려주기
+        message.setGameMaxBet(message.getGameMaxBet()+allInBettingCnt);
+
+        //(DB) GameInfo에서 allInBettingCnt만큼 rubyGet minus해주기
+        gameInfoService.allInBetting(gameId, bettingUser.getUserId(), allInBettingCnt+callBettingcnt);
+
+        // tb_User에서 ruby minus해주기
+        bettingUser.setUserRuby(0);
+        userService.modifyUser(bettingUser);
+    }
+
     //첫 턴에는 call 못하게 해야한다.
     public boolean checkFirstBetting(List<GamePlayer> gpList, String userInfo){
         boolean isFirstBetting = false;
@@ -111,11 +159,6 @@ public class BettingService {
         }
         return isFirstBetting;
     }
-
-
-
-
-
 
     public boolean checkBettingTurn(List<GamePlayer> gpList, String userInfo){
         boolean isMyTurn = true;
