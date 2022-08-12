@@ -173,10 +173,10 @@ function NavbarContent() {
           </Toolbar>
 
             <ListSubheader inset sx={lobbyStyles.topInfo}>
-              <Box sx={lobbyStyles.infoName}><b>수민</b> 님</Box>
+              <Box sx={lobbyStyles.infoName}><b>{nickname}</b>&nbsp;님</Box>
               <Box sx={lobbyStyles.infoRuby}>
                 <img src={rubyicon} height="15" width="15"/>
-                &nbsp;1000000 루비
+                &nbsp;{ruby}&nbsp;루비
               </Box>
             </ListSubheader>
             <Box>
