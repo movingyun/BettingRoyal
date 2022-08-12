@@ -31,4 +31,6 @@ public class GamePlayer {
 	private User user;
 	private Integer groundCard1;
 	private Integer groundCard2;
+	//게임 총 배팅금액
+	private Integer gameTotalBet;
 }

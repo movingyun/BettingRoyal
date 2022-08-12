@@ -81,6 +81,9 @@ public class MessageController {
 			// 방에 들어오면 player를 한명 올려준다.
 			roomSizeRepository.plusPlayerCnt(message.getRoomId());
 
+			//todo : room에 현재인원 추가 해결
+			roomService.addRoomInCnt(message.getRoomId());
+
 			// gamePlayer에 넣어준다.
 			gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
 
@@ -172,7 +175,7 @@ public class MessageController {
 			// tb_game 생성 -> 공용카드 넣기
 			//미션도 찾아와서 게임에 같이 넣어줌
 			int missionId = r.nextInt(missionRepository.getMissionCnt())+1;
-			System.out.println("1111111||||||||  " + missionId);
+
 			Mission mission = missionRepository.findByMissionId(missionId);
 			int gameId = gameService.createGame(roomId, groundCard1, groundCard2, mission);
 			log.info(gameId);
@@ -208,7 +211,9 @@ public class MessageController {
 				//게임 유저들 게임 배팅 정보 업데이트
 				gp.setMaxBetting(gp.getMaxBetting()+bettingUnit);
 				gp.setMyBetting(gp.getMyBetting()+bettingUnit);
-
+				//todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+				//유저들에 저장된 게임 총 배팅도 업데이트
+				gp.setGameTotalBet(message.getGameTotalBet());
 			}
 
 			// 카드뭉치에 개인 카드 넣기
@@ -609,8 +614,6 @@ public class MessageController {
 	public List<PlayerInfo> getClientPlayerInfoMsg(List<GamePlayer> gpList, GameMessage message){
 		//리스트 하나 만들어서
 		List<PlayerInfo> infos = new ArrayList<>();
-		//총 배팅 금액도 더해서 메세지에 넣어주기.
-		int gameTotalBet = 0;
 		//안에 정보들을 채워준다!
 		for(GamePlayer gp : gpList){
 			PlayerInfo info = new PlayerInfo();
@@ -640,9 +643,10 @@ public class MessageController {
 				info.setMyPair((gp.getMyCard()/4 + 1) +" "+myPair);
 			}
 			infos.add(info);
-			gameTotalBet += gp.getMyBetting();
 		}
-		message.setGameTotalBet(gameTotalBet);
+		//todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+		//게임의 총 배팅 금액은 모든 플레이어에 저장되어있으니 첫번째 플레이어의 값으로 채워줌
+		message.setGameTotalBet(gpList.get(0).getGameTotalBet());
 		return infos;
 	}
 
@@ -758,6 +762,8 @@ public class MessageController {
 
 		// 방에 나가면 player를 한명 내려준다.
 		roomSizeRepository.minusPlayerCnt(roomId);
+		//todo : room에 현재인원 감소 해결
+		roomService.minusRoomInCnt(roomId);
 
 		// gamePlayer에서 빼준다.
 		//지운애가 방장이면 true 반환한다.
@@ -843,7 +849,7 @@ public class MessageController {
 // todo EXIT 메시지에 turnIdx 넣어주기 -> 해결
 // todo 게임방 6명이상이면 못들어가게
 
-// todo gameTotalBet 구하는 방식 변경
-// todo room에 현재인원 추가
-// todo mission null값으로 넘어가는것 알려주기
-// todo 돈 적은애가 콜 누르면 allIn으로 가게?
+// todo gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) -> 해결
+// todo room에 현재인원 추가 -> 해결
+// todo mission null값으로 넘어가는것 알려주기 -> 해결
+// todo 돈 적은애가 콜 누르면 allIn으로 가게? 올인이 아직 완벽하지 않다..?
