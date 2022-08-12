@@ -13,11 +13,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Box, Container } from '@mui/system';
 import { mainListItems, secondaryListItems } from '../../components/Navbar/consts/listItems';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { lobbyStyles } from "../../styles";
+import { lobbyStyles } from "./styles";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
 import { Routes, Route} from "react-router-dom";
 import Mypage from "../Mypage/Mypage";
 import Friend from "../Friend/Friend";
@@ -32,7 +31,8 @@ import Test from "../Test/Test";
 import Review from "../Review/Review";
 import NotificationBell from '../../components/common/NotificationBell/NotificationBell';
 import rubyicon from "../../images/icon/ruby.png";
-
+import logo from "../../images/logo_horizontal.png";
+import bg from "../../images/bg.jpg";
 
 const drawerWidth = 240;
 
@@ -125,8 +125,6 @@ function NavbarContent() {
   return (
    <ThemeProvider >
     <Box sx={{ display: 'flex' }}>
-    <CssBaseline />
-
     <AppBar position="absolute" open={open} sx={lobbyStyles.abr}>
           <Toolbar
             sx={{
@@ -152,17 +150,13 @@ function NavbarContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Betting Royal
+              <img src={logo} height="30" />
             </Typography>
             <IconButton color="inherit">
-              {/* <Badge badgeContent={4} color="secondary"> */}
-                {/* <AccountCircleIcon /> */}
                 <NotificationBell />
-              {/* </Badge> */}
             </IconButton>
           </Toolbar>
         </AppBar>
-
 
         <Drawer variant="permanent" sx={lobbyStyles.drawer} open={open}>
           <Toolbar
@@ -178,17 +172,14 @@ function NavbarContent() {
             </IconButton>
           </Toolbar>
 
-            <ListSubheader inset sx={lobbyStyles.bottomText}>{nickname} 님 😊
+            <ListSubheader inset sx={lobbyStyles.topInfo}>
+              <Box sx={lobbyStyles.infoName}><b>{nickname}</b>&nbsp;님</Box>
+              <Box sx={lobbyStyles.infoRuby}>
+                <img src={rubyicon} height="15" width="15"/>
+                &nbsp;{ruby}&nbsp;루비
+              </Box>
+            </ListSubheader>
             <Box>
-            <img src={rubyicon} height="15" width="15"/>&nbsp;&nbsp;
-               {ruby} 루비
-            </Box></ListSubheader>
-            
-          <List component="nav">
-            <Divider sx={{ my: 1 }} />    
-            {/* <ListSubheader  inset sx={lobbyStyles.abr}>
-      ⬛◻⬛◻⬛◻⬛
-          </ListSubheader>      */}
             {mainListItems.map((item, index) => (
               <ListItem sx={lobbyStyles.center} button key={item.id} onClick={() => navigate(item.route)}>
                 <ListItemIcon sx={lobbyStyles.icons}>
@@ -197,45 +188,41 @@ function NavbarContent() {
                 <ListItemText primary={item.label}/>
               </ListItem>
             ))}
-            <ListSubheader component="div" inset sx={lobbyStyles.abr}>
-            ◻⬛◻⬛◻⬛◻
-          </ListSubheader>
-          <Divider sx={{ my: 1 }} />  
+            </Box>
+            <Divider sx={lobbyStyles.divider}/>
+            <Box sx={lobbyStyles.bottomList}>
+            <Divider sx={lobbyStyles.divider}/>
             {secondaryListItems.map((item, index) => (
-              <ListItem sx={lobbyStyles.center} button key={item.id} onClick={() => navigate(item.route)}>
+              <ListItem sx={lobbyStyles.bottom} button key={item.id} onClick={() => navigate(item.route)}>
                 <ListItemIcon sx={lobbyStyles.icons} >
                   {item.icon}  
                 </ListItemIcon> 
                 <ListItemText primary={item.label}/>
               </ListItem>
             ))}
-          </List>
+            </Box>
 
         </Drawer>
         <Box
           component="main" 
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[300]
-                : theme.palette.grey[900],
-                flexGrow: 1,
-                height: '100vh',
-                overflow: 'auto',
-              }}>
+            backgroundImage: `url(${bg})`,
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+            }}>
           <Toolbar />
           <Container sx={{ mt: 4, mb: 4 }}>
-                <Header title={title} />
+                {/* <Header title={title} /> */}
           <Grid container spacing={1}>
               <Grid item xs={12} md={12} lg={12}>
                 <Paper
                   sx={{
-                    p: 2,
+                    p: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 800,
                   }} >
-                    {/* ///////////////////////////////////////// */}
+
                   <Routes>
                   <Route path="rooms" element={<Rooms />} />
                   <Route path="mypage" element={<Mypage />} />

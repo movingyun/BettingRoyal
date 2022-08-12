@@ -45,12 +45,7 @@ export const mainNavbarItems = [
         label: '길드',
         route: 'guild',
     },
-    // {
-    //     id:5,
-    //     icon:<ReplayRoundedIcon/>,
-    //     label: '리플레이',
-    //     route: 'replay',
-    // }
+
 ]
 
 export const mainTutorialItems = [
@@ -65,11 +60,5 @@ export const mainTutorialItems = [
         icon:'',
         label: '도움말',
         route: 'tutorial',
-    },
-    {
-        id:2,
-        icon:'',
-        label: 'REVIEW',
-        route: 'review',
     },
 ]
