@@ -15,6 +15,7 @@ import java.util.List;
 public class GameMessage {
 	private int roomId;
 	private String senderNickName;
+	private String socketId;
 	private String message;
 	private List<PlayerInfo> playerInfo;
 	private int gameId;
@@ -27,4 +28,5 @@ public class GameMessage {
 	private int battingUnit;
 	private String mission;
 	private int gameMaxBet;
+	private Integer winnerIdx;
 }
