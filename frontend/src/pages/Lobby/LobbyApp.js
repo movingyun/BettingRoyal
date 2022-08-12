@@ -32,6 +32,8 @@ import Test from "../Test/Test";
 import Review from "../Review/Review";
 import NotificationBell from '../../components/common/NotificationBell/NotificationBell';
 import rubyicon from "../../images/icon/ruby.png";
+
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -223,6 +225,7 @@ function NavbarContent() {
               }}>
           <Toolbar />
           <Container sx={{ mt: 4, mb: 4 }}>
+                <Header title={title} />
           <Grid container spacing={1}>
               <Grid item xs={12} md={12} lg={12}>
                 <Paper
@@ -232,6 +235,7 @@ function NavbarContent() {
                     flexDirection: 'column',
                     height: 800,
                   }} >
+                    {/* ///////////////////////////////////////// */}
                   <Routes>
                   <Route path="rooms" element={<Rooms />} />
                   <Route path="mypage" element={<Mypage />} />

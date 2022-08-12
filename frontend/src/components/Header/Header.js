@@ -14,17 +14,17 @@ const Header = ({ title }) => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#202425', //'#2C3639',
+            backgroundColor: '#2C3639',//'#DCD7C9', //'#A27B5C',//'#2C3639',//'#202425',
             padding: '10px',
         },
         topRow: {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'end',
+            justifyContent: '',
             alignItems: 'center',
             marginBottom: '10px',
             '*': {
-                marginRight: '3px',
+                marginLeft: '10px',
             },
         },
     };
@@ -35,7 +35,7 @@ const Header = ({ title }) => {
                 <Typography
                     variant="h1"
                     color="white">
-                    {/* {title} */}
+                    {title}
                 </Typography>
                 {/* &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -48,9 +48,9 @@ const Header = ({ title }) => {
                         {/* <HelpIcon /> */}
                     </IconButton>
                 </Tooltip>
-                <NotificationBell
-                    iconColor="white"/>
-                <Avatar src="https://cdn.pixabay.com/photo/2016/11/21/17/41/star-trails-1846734_960_720.jpg" />
+                {/* <NotificationBell
+                    iconColor="white"/> */}
+                {/* <Avatar src="https://cdn.pixabay.com/photo/2016/11/21/17/41/star-trails-1846734_960_720.jpg" /> */}
             </Box>
         </Box>
     )

@@ -62,7 +62,6 @@ const Mypage = () => {
     return (
         <div>
             <div>
-            <h3>내 정보</h3>
             <div>
                 <div>닉네임 : {nickname}</div>
                 <div>이메일 : {email}</div>
@@ -87,7 +86,7 @@ const Mypage = () => {
                 <div>이긴게임 횟수 : {gameWin}</div>
                 <br/>
                 승률정보
-                <div>승률 : { {gameCnt}===0 ? 0 : {gameWin}/{gameCnt} }</div>
+                <div>승률 : { {gameCnt}===0 ? <div>0</div> : {gameWin}/{gameCnt} }</div>
             </div>
             <div>
                 <br></br>
