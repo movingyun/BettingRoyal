@@ -14,6 +14,38 @@ export default class OpenViduVideoComponent extends Component {
 
 
 
+
+      
+        //   setInterval(this.faceapiInterval, 5000);
+
+          //.then(()=>{console.log(this.state.expressions)});
+        //   this.props.updateExpressions(this.state.expressions)
+        }
+    
+    
+
+    async faceapiInterval() {
+        console.log('here2')
+        const detections = await faceapi
+
+        .detectSingleFace(
+            this.videoRef.current,
+            new faceapi.TinyFaceDetectorOptions()
+        )
+        // .withFaceLandmarks()
+        .withFaceExpressions() //.catch(() => {console.log("wait detection")});
+        console.log('here1')
+        // console.log(detections.expressions)
+        // this.setState({expressions:detections.expressions})
+        try {
+            this.props.updateExpressions(detections.expressions);            
+        } catch (e) {
+            console.log("얼굴 인식 중")
+        }
+      }
+    
+
+    componentWillMount() {
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
             // faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
@@ -21,29 +53,12 @@ export default class OpenViduVideoComponent extends Component {
             faceapi.nets.faceExpressionNet.loadFromUri("/models"),
           ]).then(() => {
             // console.log(faceapi.nets);
+            // setInterval(()=>{console.log("wait")}, 1000)
+            setInterval(this.faceapiInterval, 5000)
+          }).catch(() => {
+            console.log("wait detection")
           });
-      
-          setInterval(this.faceapiInterval, 5000);//.then(()=>{console.log(this.state.expressions)});
-        //   this.props.updateExpressions(this.state.expressions)
-        }
-    
-
-
-    async faceapiInterval() {
-        const detections = await faceapi
-        .detectSingleFace(
-            this.videoRef.current,
-            new faceapi.TinyFaceDetectorOptions()
-        )
-        // .withFaceLandmarks()
-        .withFaceExpressions();
-
-        // console.log(detections.expressions)
-        // this.setState({expressions:detections.expressions})
-        this.props.updateExpressions(detections.expressions);
-
-      }
-    
+    }
 
 
     componentDidUpdate(props) {

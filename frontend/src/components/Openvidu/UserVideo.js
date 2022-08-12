@@ -41,7 +41,7 @@ export default class UserVideoComponent extends Component {
         items.sort((first, second) => {return first[1] - second[1]});
         // var keys = items.map((e) => {return e[0]});
         // console.log(keys)
-        console.log(items)
+        // console.log(items)
 
         this.setState({
             expressions: items,

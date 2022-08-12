@@ -25,6 +25,7 @@ class Gameroom extends Component {
         super(props);
 
         this.state = {
+            // 방 입장 시 Game에서 닉네임이랑 방정보 받아와야 한다. ***********수정
             mySessionId: 'test_expression',
             myUserName: 'Participant' + Math.floor(Math.random() * 100),
             session: undefined,
@@ -140,7 +141,6 @@ class Gameroom extends Component {
             },
             () => {
                 var mySession = this.state.session;
-
                 // --- 3) Specify the actions when events take place in the session ---
 
                 // On every new Stream received...
@@ -235,6 +235,8 @@ class Gameroom extends Component {
                 });
             },
         );
+
+
     }
 
     leaveSession() {
@@ -262,7 +264,9 @@ class Gameroom extends Component {
     // 채팅 메세지 부분
     sendMessage(type, data) {
         const mySession = this.state.session;
-
+        console.log(this.state.mainStreamManager)
+        console.log(this.state.publisher)
+        console.log(this.state.subscribers)
         mySession.signal({
             data: data,
             to: [],
@@ -371,7 +375,7 @@ class Gameroom extends Component {
                     </h1>
                     <h2>기본 베팅 10 루비</h2>
                     <div className={styles.buttonList}>
-                       <button className={styles.button}>나가기</button>
+                       <button className={styles.button} onClick={this.leaveSession}>나가기</button>
                     </div>
                 </div>
                 {this.state.session !== undefined ? (
