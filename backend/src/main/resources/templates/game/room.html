@@ -121,13 +121,28 @@
             if (content.type == "GETMYCARD") {
               //무슨 카드를 받았나?
               gameBox.append("<li>" + content.message + "</li>");
+              if(content.turnIdx==0){
+                gameBox.append("<li>" + "당신이 베팅할 차례입니다." + "</li>");
+              }
               console.log(content);
             }
 
             //첫 배팅하기
             if (content.type == "NEXTTURN") {
               console.log(content);
-              gameBox.append("<li>" + content.message + "</li>");
+              gameBox.append("<li>" + content.playerInfo[(content.turnIdx+2)%3].nickname + " : " + content.message + "</li>");
+              if(content.turnIdx==0){
+                gameBox.append("<li>" + "당신이 베팅할 차례입니다. / 현재 총 베팅금액 : "+ content.gameTotalBet + " / 콜 비용 : " +
+                        (content.gameMaxBet - content.playerInfo[0].mytotalBet) + "</li>");
+              }
+            }
+
+            //게임이 끝났을 때
+            if (content.type == "GAMEEND") {
+              console.log(content);
+              gameBox.append("<li>" +  "플레이어 베팅 : " + content.message + "</li>");
+              gameBox.append("<li>" + "게임이 끝났습니다" + "</li>");
+              gameBox.append("<li>" + "승리 : " + content.playerInfo[content.winnerIdx].nickname + "/ 획득 루비 : " + (content.gameTotalBet-content.gameMaxBet) + "</li>");
             }
 
 

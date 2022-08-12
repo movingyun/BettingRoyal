@@ -99,7 +99,6 @@ public class BettingService {
     }
 
     public void allIn(int roomId, String userInfo, GameMessage message){
-        //todo allIn 만들어야댐
         List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
         User bettingUser = new User();
