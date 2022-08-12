@@ -104,7 +104,7 @@ const Navbar = (title) => {
           </Modal>
           </Box>
         </List>
-        <Divider sx={navbarStyles.divider}/>
+        {/* <Divider sx={navbarStyles.divider}/> */}
         <List sx={navbarStyles.centerList}>
            {mainNavbarItems.map((item, index) => (
               <ListItem sx={navbarStyles.center} button key={item.id} onClick={() => navigate(item.route)}>
@@ -113,7 +113,6 @@ const Navbar = (title) => {
                   </ListItemIcon>
                   <ListItemText
                     sx={navbarStyles.centerText} primary={item.label}/>
-
             </ListItem>
           ))}
         </List>
