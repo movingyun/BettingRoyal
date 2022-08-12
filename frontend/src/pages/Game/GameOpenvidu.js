@@ -22,7 +22,7 @@ class Gameroom extends Component {
         super(props);
 
         this.state = {
-            mySessionId: 'SessionA',
+            mySessionId: 'test_expression',
             myUserName: 'Participant' + Math.floor(Math.random() * 100),
             session: undefined,
             mainStreamManager: undefined,
