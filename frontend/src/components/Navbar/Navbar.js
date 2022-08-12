@@ -46,7 +46,7 @@ const Navbar = (title) => {
 
   useEffect(() => {
     axios
-    .get("http://localhost:8080/api/user", {
+    .get("/api/user", {
       headers : {
         Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",

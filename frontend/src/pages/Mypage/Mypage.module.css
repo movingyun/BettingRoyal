@@ -1,3 +1,32 @@
 .container {
   margin-left: 250px;
 }
+
+.btn {
+  margin-left: '5px';
+  margin-right: '5px';
+  margin-bottom: '10px';
+  font-family: 'Noto Sans KR';
+  color: '#DCD7C9';
+  background-color: '#2C3639';
+  border-radius: 0;
+  width: '44%';
+  font-size: '15px';
+
+  /* a:hover {
+      background-color: '#A27B5C';
+  };
+
+  a:focus {
+      background-color: '#A27B5C';
+  }; */
+
+}
+
+btn:hover {
+  background-color: '#A27B5C';
+};
+
+btn:focus {
+  background-color: '#A27B5C';
+};

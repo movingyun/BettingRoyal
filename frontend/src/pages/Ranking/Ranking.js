@@ -21,7 +21,8 @@ export default function Ranking(props) {
     axios
       .get("http://localhost:8080/api/rank")
       .then((response) => {
-        console.log(response);
+        console.log("OK"+response.data);
+        console.log(response.data);
         setRows(response.data);
       })
       .catch((error) => {
@@ -29,7 +30,7 @@ export default function Ranking(props) {
       })
   }, []);
 
-  const columns = [
+  const columns = [ 
     {
       field: "id",
       headerName: "순위",

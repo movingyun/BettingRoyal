@@ -54,6 +54,7 @@ function createData(id, date, nickname, hit, title) {
   
   export default function Orders() {
     const [nickname, setNickname] = useState();
+    
 
     useEffect(()=> {
       axios
@@ -62,11 +63,11 @@ function createData(id, date, nickname, hit, title) {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
         },
-      })
+      }) 
       .then((response)=> {
-        console.log("공지사항 : " + JSON.stringify(response.data[0]));
+        console.log("공지사항 : " + JSON.stringify(response.data));
       })
-      .catch((error)=> {
+      .catch((error)=> { 
         console.log(error);
       });
 
