@@ -67,6 +67,8 @@ public class MessageController {
 	private MissionRepository missionRepository;
 	@Autowired
 	private BettingService bettingService;
+	@Autowired
+	private RoomRepository roomRepository;
 
 	// 클라이언트에서 메세지가 날라왔다.
 	@MessageMapping(value = "/game/message")
@@ -77,17 +79,23 @@ public class MessageController {
 		List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
 
 		if (message.getType().equals(MessageType.ENTER)) {
+
+			int roomId = message.getRoomId();
+			Room currentRoom = roomRepository.findByRoomId(roomId);
+			if(currentRoom.isRoomIsClose()|| currentRoom.isRoomIsStart()||currentRoom.getRoomInCnt()==6)
+				return;
+
 			log.info(headerAccessor.getUser().getName());
 			// 방에 들어오면 player를 한명 올려준다.
-			roomSizeRepository.plusPlayerCnt(message.getRoomId());
+			roomSizeRepository.plusPlayerCnt(roomId);
 
 			//todo : room에 현재인원 추가 해결
-			roomService.addRoomInCnt(message.getRoomId());
+			roomService.addRoomInCnt(roomId);
 
 			// gamePlayer에 넣어준다.
 			gamePlayerRepository.addGamePlayer(message, headerAccessor.getUser().getName());
 
-			gpList = gamePlayerRepository.getGamePlayer(message.getRoomId());
+			gpList = gamePlayerRepository.getGamePlayer(roomId);
 
 			//게임 진행에 필요한 정보들은 모두 서버에 저장되었으니 클라이언트에게 뿌려줄 정보를 다듬는다.
 			List<PlayerInfo> piList = new ArrayList<>();
@@ -844,10 +852,10 @@ public class MessageController {
 }
 
 // todo 게임끝날때 그전에 사람이 누른거 메시지 보내주기 -> Message에 알려주고 승리자는 winnerIdx로 알려주기
-// todo 게임끝났을때 unitBetting보다 돈 없는애 강퇴
+// todo 게임끝났을때 unitBetting보다 돈 없는애 강퇴 -> 프론트에서 구현
 // todo GameEnd 메시지에도 정보 넣어주기 -> 해결
 // todo EXIT 메시지에 turnIdx 넣어주기 -> 해결
-// todo 게임방 6명이상이면 못들어가게
+// todo 게임방 6명이상이면 못들어가게 -> 해결
 
 // todo gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) -> 해결
 // todo room에 현재인원 추가 -> 해결
