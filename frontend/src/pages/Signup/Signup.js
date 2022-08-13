@@ -193,68 +193,7 @@ export default function SignUp() {
       // }
     }
   }
-  // async const onSubmitHandler = (event) => {
-  //   event.preventDefault();
 
-  //   const userInfo = {
-  //     NickName: NickName,
-  //     Email: Email,
-  //     Nation: Nation,
-  //     Password: Password,
-  //     ConfirmPassword: ConfirmPassword,
-  //   };
-
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-
-  //   var hasEmptyInfo = false;
-  //   for (var i in userInfo) {
-  //     if (!userInfo[i]) {
-  //       hasEmptyInfo = true;
-  //     }
-  //   }
-
-  //   if (hasEmptyInfo) {
-  //     alert("모든 항목을 다 입력하세요.");
-  //   } else {
-  //     const statusCode = await createUserFetch();
-
-  //     // alert("로그인 성공");
-  //     if (statusCode == "200") {
-  //       console.log("회원가입 성공");
-  //       navigate("/");
-  //     } else {
-  //       console.log(statusCode);
-  //       alert("ㄴㄴ");
-  //     }
-  //   }
-  //   //
-  // };
-/*
-  async function createUserFetch(userInfo) {
-    // var config = {
-    //   method: "post",
-    //   url: "",
-    // };
-    console.log(Email, Password);
-    await axios
-      .post("http://localhost:8080/api/v1/users", {
-        id: Email,
-        password: Password,
-      })
-      .then(function (response) {
-        console.log(JSON.stringify(response.data.statusCode));
-        return JSON.stringify(response.data.statusCode);
-      })
-      .catch(function (error) {
-        console.log(error);
-        return error;
-      });
-  }
-*/
   return (
     <div className={styles.bg}>
     <div className={styles.tb}>

@@ -5,7 +5,8 @@ import {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from 'bootstrap';
 import Modal from '../../components/Modal/Modal';
-import Vault from '../../pages/modal/Vault/Vault'
+import Vault from '../../pages/modal/Vault/Vault';
+import Nickname from '../../pages/modal/Nickname/Nickname';
 
 const Mypage = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -42,16 +43,16 @@ const Mypage = () => {
         setModalOpen(false);
     };
     const openModal1 = () => {
-        setModalOpen(true);
+        setModalOpen1(true);
     };
     const closeModal1 = () => {
-        setModalOpen(false);
+        setModalOpen1(false);
     };
     const openModal2 = () => {
-        setModalOpen(true);
+        setModalOpen2(true);
     };
     const closeModal2 = () => {
-        setModalOpen(false);
+        setModalOpen2(false);
     };
 
     useEffect(()=> {
@@ -103,6 +104,7 @@ const Mypage = () => {
             </div>
             <button onClick={ openModal1 } >닉네임 변경</button><br/>
             <Modal open={ modalOpen1 } close={ closeModal1 } header="닉네임 변경">
+                <Nickname />
             </Modal>
             <button onClick={ openModal2 } >비밀번호 변경</button><br/>
             <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
