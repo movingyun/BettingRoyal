@@ -68,21 +68,6 @@ import { DataGrid } from "@mui/x-data-grid";
       .catch((error)=> { 
         console.log(error); 
       });
-
-      axios
-    .get("/api/user", { 
-        headers: {
-          Authorization: window.localStorage.accessToken,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("nickname = " + JSON.stringify(response.data.userNickname));
-        setNickname(response.data.userNickname);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     },[])
 
     return (

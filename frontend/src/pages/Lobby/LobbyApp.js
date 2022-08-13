@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar/Navbar';
+// import Navbar from '../../components/Navbar/Navbar';
 import { Outlet } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import { useLocation } from 'react-router-dom'; 
@@ -21,6 +21,7 @@ import { Routes, Route} from "react-router-dom";
 import Mypage from "../Mypage/Mypage";
 import Friend from "../Friend/Friend";
 import Notice from "../Notice/Notice";
+import BoardList from "../Board/BoardList";
 import Ranking from "../Ranking/Ranking";
 import Guild from "../Guild/Guild";
 import Replay from "../Replay/Replay";
@@ -33,6 +34,7 @@ import NotificationBell from '../../components/common/NotificationBell/Notificat
 import rubyicon from "../../images/icon/ruby.png";
 import logo from "../../images/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
+import Board from '../Board/Board';
 
 const drawerWidth = 240;
 
@@ -105,7 +107,7 @@ function NavbarContent() {
       setTitle(parsedTitle);
 
       axios
-      .get("http://localhost:8080/api/user", {
+      .get("/api/user", {
         headers : {
           Authorization: window.localStorage.accessToken,
             "Content-Type": "application/json",
@@ -226,7 +228,8 @@ function NavbarContent() {
                   <Routes>
                   <Route path="rooms" element={<Rooms />} />
                   <Route path="mypage" element={<Mypage />} />
-                  <Route path="notice" element={<Notice />} />
+                  <Route path="notice/*" element={<Notice />} />
+                  <Route path="board/*" element={<Board />} />
                   <Route path="friend" element={<Friend />} />
                   <Route path="ranking" element={<Ranking />} />
                   <Route path="guild" element={<Guild />} />
