@@ -9,9 +9,12 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import card_am_1 from "../../images/cards/card_am_1.png";
 import card_aq_1 from "../../images/cards/card_aq_1.png";
 import card_back from "../../images/cards/card_back.png";
-
+import sockjs from "sockjs-client";
+import stompjs from "stompjs";
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+let sock = new sockjs("http://localhost:8080/stomp-game");
+let stomp = stompjs.over(sock);
 
 class Gameroom extends Component {
   constructor(props) {
@@ -55,7 +58,7 @@ class Gameroom extends Component {
   };
 
   componentDidMount() {
-     this.joinSession();
+    this.joinSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
   }
 
@@ -104,7 +107,7 @@ class Gameroom extends Component {
 
   joinSession() {
     // --- 1) Get an OpenVidu object ---
-    console.log('joinsession '+this.props.roomId)
+    console.log("joinsession " + this.props.roomId);
     this.OV = new OpenVidu();
 
     // --- 2) Init a session ---
@@ -176,7 +179,7 @@ class Gameroom extends Component {
             .then(async () => {
               var devices = await this.OV.getDevices();
               var videoDevices = devices.filter((device) => device.kind === "videoinput");
-                console.log('mysession connecting...')
+              console.log("mysession connecting...");
               // --- 5) Get your own camera stream ---
 
               // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
@@ -306,7 +309,6 @@ class Gameroom extends Component {
     return (
       <div className={styles.container}>
         {/* 입장 전 */}
-        
 
         {/* 입장 후 */}
 
@@ -320,6 +322,7 @@ class Gameroom extends Component {
             <button className={styles.button}>나가기</button>
           </div>
         </div>
+
         {this.state.session !== undefined ? (
           <div className={styles.grid}>
             {this.state.publisher !== undefined ? (
@@ -327,12 +330,15 @@ class Gameroom extends Component {
                 onClick={() => this.handleMainVideoStream(this.state.publisher)}
                 className={styles.myCam}
               >
-                <UserVideoComponent streamManager={this.state.publisher} />
+                <UserVideoComponent
+                  streamManager={this.state.publisher}
+                  player={this.props.player0}
+                />
               </div>
             ) : null}
             {this.state.subscribers.map((sub, i) => (
               <div key={i} onClick={() => this.handleMainVideoStream(sub)} className={this.test[i]}>
-                <UserVideoComponent streamManager={sub} />
+                <UserVideoComponent streamManager={sub} player={this.props.players[i]} />
               </div>
             ))}
             <div className={styles.center}>
@@ -380,7 +386,7 @@ class Gameroom extends Component {
    */
 
   getToken() {
-    return this.createSession("room"+this.props.roomId).then((sessionId) =>
+    return this.createSession("room" + this.props.roomId).then((sessionId) =>
       this.createToken(sessionId)
     );
   }

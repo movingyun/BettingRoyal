@@ -6,7 +6,7 @@ import styles from "./Logo.module.css";
 import Login from '../../pages/Login/Login';
 import Signup from '../../pages/Signup/Signup';
 import Lobby from '../../pages/Lobby/Lobby'
-import Room from '../../pages/Game/Game';
+import Room from '../../pages/Game/GameOpenvidufunc';
 import title from "../../images/logo_center.png";
 import betting from "../../images/logo_betting.png";
 import kakaologin from "../../images/kakao_login.png" 
