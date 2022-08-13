@@ -52,7 +52,7 @@
     width: 10%;
     bottom: 0;
     display: inline-block;
-    background-color: #2C3639;
+    background-color: #3F4E4F;
     color: #DCD7C9;
     border: none;
     text-decoration: none;
@@ -63,5 +63,5 @@
 }
 
 .inputBtn:hover {
-    background-color: #A27B5C;
+    background-color: #2C3639;
 }

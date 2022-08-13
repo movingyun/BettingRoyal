@@ -11,7 +11,7 @@ import card_aq_1 from "../../images/cards/card_aq_1.png";
 import sockjs from "sockjs-client";
 import stompjs from "stompjs";
 import card_back from "../../images/cards/card_back_logo.png";
-import ruby_win from "../../images/ruby_win.gif";
+import ruby_win from "../../images/ruby/ruby_win.gif";
 import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
@@ -21,7 +21,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
-export default function Gameroom(props) {
+export default function GameOpenvidufunc(props) {
   // const [mySessionId, setmySessionId] = useState(roomId);
   const [myUserName, setmyUserName] = useState("participant" + Math.floor(Math.random() * 100));
   const [session, setsession] = useState();
