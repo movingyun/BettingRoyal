@@ -1,0 +1,41 @@
+.container {
+  margin-left: 250px;
+}
+
+.nav {
+  padding-left: 10px;
+  /* background-color: #f7f3e9; */
+}
+
+.navLink{
+  margin-top: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #A27B5C;
+  font-weight: 500;
+  font-size: large;
+}
+
+.navLink:hover{
+  color: #A27B5C;
+}
+
+.contents {
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 20px;
+}
+
+.contents > h3{
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #FFFFFF;
+  font-size: large;
+  background-color: #A27B5C;
+  width: 120px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.navItem{
+  width: 30%;
+  text-align: center;
+}

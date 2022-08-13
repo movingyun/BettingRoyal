@@ -8,33 +8,32 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";import Box from '@mui/material/Box';
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Ranking.module.css";
 
 export default function Ranking(props) {
-
   const [rows, setRows] = useState("");
 
- 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/rank")
+      .get("/api/rank")
       .then((response) => {
-        console.log("OK"+response.data);
+        console.log("OK" + response.data);
         console.log(response.data);
         setRows(response.data);
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   }, []);
 
-  const columns = [ 
+  const columns = [
     {
       field: "id",
       headerName: "순위",
-      width: 90
+      width: 90,
     },
     // {
     //     field: "tier",
@@ -61,11 +60,11 @@ export default function Ranking(props) {
       editable: false,
     },
     {
-        field: "guild",
-        headerName: "길드명",
-        width: 150,
-        editable: false,
-      }
+      field: "guild",
+      headerName: "길드명",
+      width: 150,
+      editable: false,
+    },
   ];
 
   let roomsdummy = (
@@ -79,7 +78,6 @@ export default function Ranking(props) {
           disableSelectionOnClick
         />
       </Box>
-      
     </Grid>
   );
 
