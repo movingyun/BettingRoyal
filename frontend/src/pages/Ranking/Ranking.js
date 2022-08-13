@@ -17,7 +17,7 @@ export default function Ranking(props) {
   const [rows, setRows] = useState("");
 
  
-  useEffect(() => {
+  useEffect(() => { 
     axios
       .get("http://localhost:8080/api/rank")
       .then((response) => {

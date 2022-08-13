@@ -71,6 +71,12 @@ export const secondaryListItems =
     label: '도움말',
     route: 'tutorial',
 },
+// {
+//   id:2,
+//   icon:<HelpRoundedIcon />,
+//   label: '리뷰',
+//   route: 'review',
+// },
 
 
 ]
