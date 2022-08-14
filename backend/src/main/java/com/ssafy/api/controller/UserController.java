@@ -2,6 +2,8 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserActiveReq;
 import com.ssafy.api.request.UserModifyReq;
+import com.ssafy.api.response.FriendSearchRes;
+import com.ssafy.api.service.GetFriendService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -19,6 +21,7 @@ import com.ssafy.api.response.UserRes;
 import com.ssafy.db.entity.User;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 //import com.ssafy.db.repository.UserRepositorySupport;
@@ -37,6 +40,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	GetFriendService getFriendService;
 
 	@GetMapping("")
 	@ApiOperation(value = "내 정보 조회", notes = "아이디로 로그인한 회원 본인의 정보를 응답한다.")
@@ -56,7 +61,7 @@ public class UserController {
 //			return ResponseEntity.status(200).body(UserRes.of(user));
 //		}
 //		return null;
-
+		System.out.println("유저 컨트롤러" + authentication);
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		String userEmail = userDetails.getUsername();
 		User user = userService.getUserByUserEmail(userEmail);
@@ -163,4 +168,35 @@ public class UserController {
 //		return ResponseEntity.status(200).body("OK");
 //	}
 
+	@GetMapping("/search/{userNickname}")
+	@ApiOperation(value = "전체 회원 조회", notes = "전체 회원을 조회한다")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<FriendSearchRes>> searchLikeNickname(@PathVariable String userNickname, @ApiIgnore Authentication authentication){
+		//로그인 한 user 정보 찾아오는 code
+		//스켈레톤 코드 UserController 에서 가져옴
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserEmail(userId);
+		
+		List<User> users = userService.searchByLikeNickname(userNickname);
+		List<FriendSearchRes> resList = new ArrayList<>();
+		List<Integer> myFriends = getFriendService.searchMyFriends(user.getUserId());
+		for(User u : users){
+			if(u.getUserId() == user.getUserId() || myFriends.contains(u.getUserId())){ //나는 찾지말기 그리고 나와 이미 친구인 사람도 찾지 않기
+				continue;
+			}
+			FriendSearchRes res = new FriendSearchRes();
+			res.setId(u.getUserId());
+			res.setNickname(u.getUserNickname());
+			res.setRuby(u.getUserRuby());
+			res.setFriendId(u.getUserId());
+			resList.add(res);
+		}
+		return new ResponseEntity<>(resList, HttpStatus.OK);
+	}
 }
