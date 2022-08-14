@@ -7,8 +7,10 @@ import triple from "../../images/tutorial/tutorial_triple.png";
 import straight from "../../images/tutorial/tutorial_straight.png";
 import number from "../../images/tutorial/tutorial_number.png";
 import shape from "../../images/tutorial/tutorial_shape.png";
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 
 function TabContent(props){
+
   if(props.clicked === 0){
     return <div className={styles.contents}>
       <p>베팅로얄은 플레이어들에게 공유되는 2장의 공유 카드와 개인 카드 1장, 총 3장을 조합해서 누가 더 높은 족보인지를 겨루는 게임입니다.</p>
@@ -30,30 +32,40 @@ function TabContent(props){
       <p>공유 카드 2장과 자신의 카드 3장이 모두 같은 숫자인 경우</p>
       <img src={straight}/>
       <div className={styles.section}>
-        <p>공유 카드와 아무런 조합이 없으면 높은 숫자의 카드가 승리합니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>공유 카드와 아무런 조합이 없으면 높은 숫자의 카드가 승리합니다.</p>
         <img src={number} className={styles.imgNumber}/>
-        <p>숫자가 같을 경우 자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드 순으로 높습니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>숫자가 같을 경우 자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드 순으로 높습니다.</p>
         <img src={shape} className={styles.imgShape}/>
-        <p>카드는 매 판 리셋됩니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>카드는 매 판 리셋됩니다.</p>
       </div>
     </div>
   }else if(props.clicked === 2){
     return <div className={styles.contents}>
-      <p>모든 방에는 최소 베팅 루비가 있습니다.<br/>
-      플레이어가 가지는 루비에는 제한이 없습니다.
-      </p>
-      <h3>다이</h3>
-      <p>베팅한 루비를 포기하고 해당 판에서 기권</p>
-      <h3>콜</h3>
-      <p>앞사람이 베팅한 루비와 동일하게 베팅</p>
-      <h3>레이즈</h3>
-      <p>앞사람이 베팅한 루비보다 더 많은 루비를 베팅</p>
-      <h3>올인</h3>
-      <p>가지고 있는 루비를 전부 베팅</p>
+      <div className={styles.section}>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>모든 방에는 최소 베팅 루비가 있습니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>플레이어가 가지는 루비에는 제한이 없습니다.</p>
+      </div>
+      <div className={styles.bet}>
+        <h3>다이</h3>
+        <p>베팅한 루비를 포기하고 해당 판에서 기권</p>
+        <h3>콜</h3>
+        <p>앞사람이 베팅한 루비와 동일하게 베팅</p>
+        <h3>레이즈</h3>
+        <p>앞사람이 베팅한 루비보다 더 많은 루비를 베팅</p>
+        <h3>올인</h3>
+        <p>가지고 있는 루비를 전부 베팅</p>
+      </div>
     </div>
   }else if(props.clicked === 3){
     return <div className={styles.contents}>
-      <p>모든 플레이어는 카메라와 마이크를 켜고 플레이에 참여해야 합니다.</p>
+      <div className={styles.section}>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>모든 플레이어는 카메라와 마이크를 켜고 플레이에 참여해야 합니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>게임 도중에 나가면 기본 베팅금액을 포함한 모든 베팅금액을 잃습니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>공통 질문 시간에는 플레이어 간 활발한 대화를 권장합니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>플레이어는 자유롭게 게임과 콘텐츠를 이용할 수 있으나, 다른 사용자에게 피해를 주거나 게임 내 질서에 부정적인 영향을 주어서는 안 됩니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>플레이어 간 분쟁이 발생하였을 경우 운영자는 개입하지 않으며 플레이어 간의 원만한 해결을 원칙으로 합니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>기타 부정한 방법으로 타인의 시스템 및 클라이언트에 접근할 시 이용에 제한을 둘 수 있습니다.</p>
+      </div>
     </div>
   }
 }

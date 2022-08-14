@@ -119,8 +119,9 @@ function Test() {
 	return (
 	<div className={styles.container} >
       <div className={styles.col}>
-      <div className={styles.row}><p className={styles.title}><MicRoundedIcon sx={{ fontSize:20 }}/> 마이크 테스트</p></div>
-        <div className={styles.center}>
+      <div className={styles.row}><h3 className={styles.title}><MicRoundedIcon sx={{ fontSize:20 }}/> 마이크 테스트</h3></div>
+      <hr/>
+	    <div className={styles.center}>
 				{onRec ? (
 					<button onClick={onAudio} className={styles.button}>시작</button>
 				) : (
@@ -131,8 +132,9 @@ function Test() {
       </div>
 
 			<div className={styles.col}>
-      <div className={styles.row}><p className={styles.title}><VideocamRoundedIcon sx={{ fontSize:20 }}/> 카메라 테스트</p></div>
-        <div className={styles.center}>
+      <div className={styles.row}><h3 className={styles.title}><VideocamRoundedIcon sx={{ fontSize:20 }}/> 카메라 테스트</h3></div>
+	  <hr/>
+		<div className={styles.center}>
           <video
             muted
             autoPlay

@@ -6,17 +6,13 @@
 
 .col {
   background-color: #f7f3e9;
-  padding: 0px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border-radius: 10px;
   text-align: center;
-
 }
 
 .row{
   display: flex;
-  margin-top: 20px;
-  /* margin-bottom: 20px; */
-  /* background-color: aqua; */
 }
 
 .video {
@@ -33,7 +29,9 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
   color: #3F4E4F;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  
 }
 
 .center {
@@ -42,20 +40,24 @@
 
 .button {
   margin: 0px 5px 0px 5px;
-  background-color: #2C3639;
-  color: #DCD7C9;
+  font-family: 'Noto Sans KR', sans-serif;
+  border-radius: 5px;
   border: none;
-  padding: 8px;
+  padding: 3px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  border-radius: 50px;
-  width: 120px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 400;
+  background-color: #DCD7C9;
+  margin-right: 10px;
+  color: #A27B5C;
+  width: 100px;
 }
 
 .button:hover {
   background-color: #A27B5C;
+  color: #DCD7C9;
+}
+
+.button:focus {
+  background-color: #A27B5C;
+  color: #DCD7C9;
 }

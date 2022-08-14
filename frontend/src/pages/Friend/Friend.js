@@ -1,17 +1,40 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Grid, Box, Toolbar, Container, Paper } from "@mui/material";
-import Header from "../../components/Header/Header";
 import Nav from "react-bootstrap/Nav";
 import { useLocation, Routes, Route } from "react-router-dom";
 import FriendAccecp from "./FriendAccecp";
 import FriendRequest from "./FriendRequest";
 import FriendList from "./FriendList";
 import { Navigate, useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "./Friend.module.css";
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
 
 const Friend = () => {
+
+  const useStyles = makeStyles((theme) => createStyles({
+    navItem: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      width: '33.333%',
+      textAlign: 'center',
+    },
+    contents: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      marginTop: '20px',
+    },
+    navLink: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontWeight: '500',
+      fontSize: 'large',
+      color: '#A27B5C',
+      '&:hover': {
+        color: '#A27B5C',
+      },
+    },
+    
+  }));
+
+  const styles = useStyles();
   const navigate = useNavigate();
 
   useEffect(() => {

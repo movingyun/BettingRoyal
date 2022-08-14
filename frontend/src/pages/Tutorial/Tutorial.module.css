@@ -1,8 +1,3 @@
-.nav {
-  /* padding-left: 10px; */
-  /* background-color: #f7f3e9; */
-}
-
 .navLink{
   /* margin-top: 10px; */
   font-family: 'Noto Sans KR', sans-serif;
@@ -38,26 +33,47 @@
 
 .section {
   background-color: #f7f3e9;
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   border-radius: 10px;
   color: #A27B5C;
 }
 
 .imgNumber {
   height: 120px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .imgShape{
   height: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 p{
-  margin-bottom: 7px;
+  margin: 10px 0px 10px 0px ;
 }
 
 .navItem{
   width: 25%;
   text-align: center;
+}
+
+.bet {
+  margin-top: 25px;
+}
+
+.bet > h3{
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #FFFFFF;
+  font-size: large;
+  background-color: #A27B5C;
+  width: 120px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.bet > p{
+  margin: 10px 0px 20px 0px ;
 }

@@ -10,11 +10,74 @@ import IconButton from "@mui/material/IconButton";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';import { color } from "@mui/system";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
-import styles from "./Friend.module.css";
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
 
 export default function FriendRequest(props) {
+
+  const useStyles = makeStyles((theme) => createStyles({
+    grid: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontSize: '16px',
+      fontWeight: '400',
+    },
+    none: {
+      color: '#A27B5C',
+      fontSize: '70px',
+      marginBottom: '5px',
+    },
+    alert: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontSize: '20px',
+      color: '#A27B5C',
+      fontWeight: '400',
+    },
+    icon: {
+      fontSize: '20px',
+    },
+    add: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      border: 'none',
+      backgroundColor: 'transparent',
+      fontSize: '16px',
+      color: '#3F4E4F',
+      '&:hover': {
+        color: '#A27B5C',
+        backgroundColor: 'transparent',
+      },
+    },
+    searchIcon: {
+      fontSize: '34px',
+      color: '#A27B5C',
+    },
+    searchField: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      marginBottom: '15px',
+      marginRight: '10px',
+      marginLeft: '10px',
+    },
+    searchBtn: {
+      top:'-8px',
+      marginTop: '0',
+      fontFamily: "'Noto Sans KR', sans-serif",
+      width: '15%',
+      height: '55px',
+      backgroundColor: '#A27B5C',
+      borderRadius: '5px',
+      color: '#DCD7C9',
+      fontWeight: '400',
+      fontSize: 'large',
+      '&:hover': {
+        backgroundColor: '#3F4E4F',
+      },
+    },
+
+  }));
+
+  const styles = useStyles();
+
   const [rows, setRows] = useState("");
   const [nickname, setNickname] = useState("");
   const [nickcheck, setNickcheck] = useState("");
@@ -107,10 +170,10 @@ export default function FriendRequest(props) {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-        <strong>
+        <div>
           <img src={rubyicon} height="15" width="15" />
           &nbsp;{params.row.ruby}&nbsp;루비
-        </strong>
+        </div>
       ),
     },
     {
@@ -122,15 +185,13 @@ export default function FriendRequest(props) {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-        <strong>
-          <Button className={styles.add}
+          <button className={styles.add}
             onClick={() => {
               requestFriendBtn(params);
             }}
           >
             <PersonAddRoundedIcon className={styles.icon}/> 친구요청
-          </Button>
-        </strong>
+          </button>
       ),
     },
   ];

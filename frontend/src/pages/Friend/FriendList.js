@@ -7,11 +7,50 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
-import styles from "./Friend.module.css";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
+
 
 export default function Friends(props) {
+
+  const useStyles = makeStyles((theme) => createStyles({
+    grid: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontSize: '16px',
+      fontWeight: '400',
+    },
+    none: {
+      color: '#A27B5C',
+      fontSize: '70px',
+      marginBottom: '5px',
+    },
+    alert: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontSize: '20px',
+      color: '#A27B5C',
+      fontWeight: '400',
+    },
+    icon: {
+      fontSize: '20px',
+    },
+    remove: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      border: 'none',
+      backgroundColor: 'transparent',
+      fontSize: '16px',
+      color: '#cb295f',
+      '&:hover': {
+        color: '#9b214b',
+        backgroundColor: 'transparent',
+      },
+    },
+    
+  }));
+
+  const styles = useStyles();
+
   const [rows, setRows] = useState("");
 
   useEffect(() => {
@@ -77,10 +116,10 @@ export default function Friends(props) {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-        <strong>
+        <div>
           <img src={rubyicon} height="16" width="16" />
           &nbsp;{params.row.ruby}&nbsp;루비
-        </strong>
+        </div>
       ),
     },
     {
@@ -92,15 +131,13 @@ export default function Friends(props) {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-        <strong>
-          <Button className={styles.remove}
+          <button className={styles.remove}
             onClick={() => {
               deleteFriendBtn(params);
             }}
           >
           <DeleteRoundedIcon className={styles.icon}/> 친구삭제
-          </Button>
-        </strong>
+          </button>
       ),
     },
   ];
