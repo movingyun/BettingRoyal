@@ -1,14 +1,10 @@
-.container {
-  margin-left: 250px;
-}
-
 .nav {
-  padding-left: 10px;
+  /* padding-left: 10px; */
   /* background-color: #f7f3e9; */
 }
 
 .navLink{
-  margin-top: 10px;
+  /* margin-top: 10px; */
   font-family: 'Noto Sans KR', sans-serif;
   color: #A27B5C;
   font-weight: 500;
@@ -33,4 +29,30 @@
   padding: 5px;
   text-align: center;
   border-radius: 30px;
+}
+
+.contents > img{
+  height: 120px;
+  margin-bottom: 25px;
+}
+
+.section {
+  background-color: #f7f3e9;
+  padding: 20px;
+  border-radius: 10px;
+  color: #A27B5C;
+}
+
+.imgNumber {
+  height: 120px;
+  margin-bottom: 20px;
+}
+
+.imgShape{
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+p{
+  margin-bottom: 7px;
 }

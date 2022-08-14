@@ -56,7 +56,6 @@ const Friend = () => {
           overflow: "auto",
         }}
       >
-        <Toolbar />
         <Container sx={{ mt: 4, mb: 4 }}>
           {/* <Header title={title} /> */}
           <Grid container spacing={1}>

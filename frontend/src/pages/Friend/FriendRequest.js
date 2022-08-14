@@ -5,14 +5,24 @@ import axios, { Axios } from "axios";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import { color } from "@mui/system";
+import rubyicon from "../../images/icon/ruby.png";
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
   const [nickname, setNickname] = useState("");
+  const [nickcheck, setNickcheck] = useState("");
+
+  const onNickNameHandler = (event) => {
+    setNickname(event.currentTarget.value);
+  };
 
   useEffect(() => {
     axios
-      .get("/api/user/search/s", {
+      .get("/api/user/search/_", {
         headers: {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
@@ -52,6 +62,13 @@ export default function FriendRequest(props) {
   }
 
   async function searchUser() {
+    if (!nickname) {
+      setNickcheck(<p style={{ color: "red" }}>닉네임을 입력하세요.</p>);
+      return;
+    } else {
+      setNickcheck("");
+    }
+
     await axios
       .get("/api/user/search/" + nickname, {
         headers: {
@@ -72,20 +89,35 @@ export default function FriendRequest(props) {
     {
       field: "nickname",
       headerName: "닉네임",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "ruby",
       headerName: "보유 루비",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <strong>
+          <img src={rubyicon} height="15" width="15" />
+          &nbsp;{params.row.ruby}&nbsp;루비
+        </strong>
+      ),
     },
     {
       field: "friendId",
       headerName: "친구요청",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <strong>
           <Button
@@ -103,6 +135,29 @@ export default function FriendRequest(props) {
 
   let friendReqs = (
     <Grid>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <SearchIcon sx={{ color: "action.active", mr: 1, mb: 0 }} />
+        <TextField
+          color="action"
+          autoComplete="given-name"
+          name="nickName"
+          required
+          fullWidth
+          id="nickname"
+          label="닉네임"
+          onChange={onNickNameHandler}
+          autoFocus
+        />
+        <Button
+          color="inherit"
+          onClick={() => {
+            searchUser();
+          }}
+        >
+          검색
+        </Button>
+      </Box>
+      <p>{nickcheck}</p>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

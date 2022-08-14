@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Ranking.module.css";
+import rubyicon from "../../images/icon/ruby.png";
 
 export default function Ranking(props) {
   const [rows, setRows] = useState("");
@@ -33,7 +34,12 @@ export default function Ranking(props) {
     {
       field: "id",
       headerName: "순위",
-      width: 90,
+      minWidth: 50,
+      maxWidth: 85,
+      flex: 1,
+      editable: false,
+      headerAlign: "center",
+      align: "center",
     },
     // {
     //     field: "tier",
@@ -44,8 +50,11 @@ export default function Ranking(props) {
     {
       field: "nickname",
       headerName: "닉네임",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
     },
     // {
     //     field: "badge",
@@ -56,14 +65,26 @@ export default function Ranking(props) {
     {
       field: "ruby",
       headerName: "보유 루비",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <strong>
+          <img src={rubyicon} height="15" width="15" />
+          &nbsp;{params.row.ruby}&nbsp;루비
+        </strong>
+      ),
     },
     {
       field: "guild",
       headerName: "길드명",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
     },
   ];
 

@@ -45,7 +45,7 @@ import Test from "../Test/Test";
 import Review from "../Review/Review";
 import NotificationBell from "../../components/common/NotificationBell/NotificationBell";
 import rubyicon from "../../images/icon/ruby.png";
-import logo from "../../images/logo_horizontal.png";
+import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
 
@@ -132,6 +132,12 @@ function NavbarContent() {
       });
   }, [location]);
 
+  function logout(){
+      window.localStorage.removeItem("accessToken");
+      alert("로그아웃 되었습니다.")
+      navigate("/");
+  }
+
   return (
     <ThemeProvider>
       <Box sx={{ display: "flex" }}>
@@ -157,7 +163,9 @@ function NavbarContent() {
               <img src={logo} height="30" />
             </Typography>
             <IconButton color="inherit">
-              <NotificationBell />
+              {/* <NotificationBell /> */}
+              <button onClick={ logout } >로그아웃</button>
+
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -240,7 +248,7 @@ function NavbarContent() {
                     <Route path="mypage" element={<Mypage />} />
                     <Route path="notice/*" element={<Notice />} />
                     <Route path="board/*" element={<Board />} />
-                    <Route path="friend" element={<Friend />} />
+                    <Route path="friend/*" element={<Friend />} />
                     <Route path="ranking" element={<Ranking />} />
                     <Route path="guild" element={<Guild />} />
                     <Route path="replay" element={<Replay />} />
