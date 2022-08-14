@@ -18,7 +18,7 @@ public class BoardListRes {
     @ApiModelProperty(name="게시판 제목", example="this is board title")
     String boardTitle;
     @ApiModelProperty(name="게시판 생성 날짜", example="2022-02-04")
-    Date boardDate;
+    String boardDate;
     @ApiModelProperty(name="게시판 조회수", example="30")
     Integer boardHit;
     @ApiModelProperty(name="게시판 좋아요수", example="30")

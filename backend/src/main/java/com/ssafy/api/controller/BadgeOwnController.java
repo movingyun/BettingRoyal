@@ -7,6 +7,7 @@ import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.db.entity.Badge;
 import com.ssafy.db.entity.BadgeOwn;
+import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 @Api(value = "뱃지 보유 API", tags = {"BadgeOwn"})
 @RestController
@@ -40,31 +43,68 @@ public class BadgeOwnController {
         String userEmail = userDetails.getUsername();
         User user = userService.getUserByUserEmail(userEmail);
         BadgeOwn badgeOwn = null;
-        String gettingBadgeName = null;
-        /**
-         * todo
-         * 뱃지 새로 만들 때 마다 뱃지 얻는 방법에 맞춰 뱃지 얻는 경우를 user의 값을 이용해 업데이트 해주기
-         */
 
-        /**
-         * 예제 시작 : 뱃지 얻는 조건을 통해 뱃지 얻은것을 알려주고 DB에 저장
-         */
-        if(user.getUserRuby() + user.getUserVault() > 100){//유저 총 보유 금액이 얼마보다 많으면
-            badgeOwn = BadgeOwn.builder()
-                    .badge(badgeService.searchBadge(3)) //n번째 뱃지의 규칙의 if문임
-                    .user(user)
-                    .build();
-
-            badgeOwnService.createBadgeOwn(badgeOwn);
-            gettingBadgeName = badgeOwn.getBadge().getBadgeName(); // 얻은 뱃지의 이름을 넘겨줌
+        //저축왕(500원 이상 저금)
+        if(user.getUserVault() > 500){
+            //있는지 없는지 체크해봐
+            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            if(!haveBadge){
+                badgeOwn = BadgeOwn.builder()
+                        .badge(badgeService.searchBadge(1))
+                        .user(user)
+                        .build();
+                badgeOwnService.createBadgeOwn(badgeOwn);
+            }
         }
-        /**
-         * 예제 끝
-         */
 
-        //마지막 결과가 뱃지를 하나도 얻지 못했으면 함수가 잘 실행됐음을 알리는 "SUCCESS" 알려주고
-        // 뱃지를 얻은게 있다면 뱃지 이름을 알려준다. 만약 한번에 여러개 얻었다면 마지막에 얻은 뱃지 이름 출력
-        return new ResponseEntity<>(gettingBadgeName==null?"SUCCESS":gettingBadgeName, HttpStatus.OK);
+        //반백수(총 전적 100판 이상 달성)
+        if(user.getUserGameCount() >= 100){
+            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            if(!haveBadge){
+                badgeOwn = BadgeOwn.builder()
+                        .badge(badgeService.searchBadge(2))
+                        .user(user)
+                        .build();
+                badgeOwnService.createBadgeOwn(badgeOwn);
+            }
+        }
+
+        //갬블러(총 전적 300판 달성)
+        if(user.getUserGameCount() >= 300){
+            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            if(!haveBadge){
+                badgeOwn = BadgeOwn.builder()
+                        .badge(badgeService.searchBadge(3))
+                        .user(user)
+                        .build();
+                badgeOwnService.createBadgeOwn(badgeOwn);
+            }
+        }
+
+        //심리전문가(총 전적 50승 달성)
+        if(user.getUserWin() >= 50){
+            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            if(!haveBadge){
+                badgeOwn = BadgeOwn.builder()
+                        .badge(badgeService.searchBadge(3))
+                        .user(user)
+                        .build();
+                badgeOwnService.createBadgeOwn(badgeOwn);
+            }
+        }
+
+        //멘탈리스트(총 전적 100승 달성)
+        if(user.getUserWin() >= 100){
+            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            if(!haveBadge){
+                badgeOwn = BadgeOwn.builder()
+                        .badge(badgeService.searchBadge(3))
+                        .user(user)
+                        .build();
+                badgeOwnService.createBadgeOwn(badgeOwn);
+            }
+        }
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
     @ApiOperation(value = "뱃지 사용하기", notes = "사용하기가 잘 됐으면 성공 알려줌.")
@@ -88,6 +128,17 @@ public class BadgeOwnController {
         badgeOwn.setBadgeOwnIsUsing(true);
         badgeOwnService.modifyBadgeOwn(badgeOwn);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    //뱃지 전체 조회
+    @ApiOperation(value = "내가 가진 뱃지", notes = "내가 가지고있는 뱃지 List로 반환")
+    @GetMapping("")
+    public ResponseEntity<List<BadgeOwn>> getBadgeOwnList(@ApiIgnore Authentication authentication) {
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userEmail = userDetails.getUsername();
+        User user = userService.getUserByUserEmail(userEmail);
+        
+        return new ResponseEntity<>(badgeOwnService.findMyBadge(user), HttpStatus.OK);
     }
 
 }

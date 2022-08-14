@@ -4,6 +4,8 @@ import com.ssafy.db.entity.BadgeOwn;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface BadgeOwnRepository extends JpaRepository<BadgeOwn, Integer> {
 
     /**
@@ -14,4 +16,7 @@ public interface BadgeOwnRepository extends JpaRepository<BadgeOwn, Integer> {
 
     @Query(value = "SELECT * FROM badge_own WHERE badge_id=? AND user_id=?", nativeQuery = true)
     BadgeOwn findByBadgeIdAndUserId(int badgeId, int userId);
+
+    @Query(value = "SELECT * FROM badge_own WHERE user_id=?", nativeQuery = true)
+    List<BadgeOwn> findByuserId(int userId);
 }
