@@ -252,7 +252,18 @@ public class UserService {
 	}
 
 	@Transactional
-	public List<User> searchByLikeNickname(String userNickname){
+	public List<User> searchByLikeNickname(String userNickname) {
 		return userRepository.findByUserNicknameContaining(userNickname);
+	}
+	@Transactional
+	public boolean rubyCharge(Integer userId){
+		try {
+			User user  = userRepository.findByUserId(userId);
+			user.setUserRuby(50);
+			userRepository.save(user);
+		} catch (Exception e){
+			return false;
+		}
+		return true;
 	}
 }
