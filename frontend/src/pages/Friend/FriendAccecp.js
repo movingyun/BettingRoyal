@@ -7,6 +7,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
+import styles from "./Friend.module.css";
+import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
+import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
@@ -89,7 +92,7 @@ export default function FriendRequest(props) {
       align: "center",
       renderCell: (params) => (
         <strong>
-          <img src={rubyicon} height="15" width="15" />
+          <img src={rubyicon} height="16" width="16" />
           &nbsp;{params.row.ruby}&nbsp;루비
         </strong>
       ),
@@ -104,13 +107,12 @@ export default function FriendRequest(props) {
       align: "center",
       renderCell: (params) => (
         <strong>
-          <Button
-            startIcon={<PersonAddIcon />}
+          <Button className={styles.add}
             onClick={() => {
               acceptFriendBtn(params);
             }}
           >
-            친구수락
+            <PersonAddRoundedIcon className={styles.icon}/> 친구수락
           </Button>
         </strong>
       ),
@@ -121,6 +123,7 @@ export default function FriendRequest(props) {
     <Grid>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
+          className={styles.grid}
           rows={rows}
           columns={columns}
           pageSize={5}
@@ -130,7 +133,8 @@ export default function FriendRequest(props) {
             NoRowsOverlay: () => (
               <Box height="100%" textAlign="center" alignContent="center">
                 <Box sx={{ mt: "10%" }}>
-                  <Typography variant="h5">받은 요청이 없습니다.</Typography>
+                <NotListedLocationRoundedIcon className={styles.none}/>
+                <p className={styles.alert}>받은 요청이 없습니다.</p>
                 </Box>
               </Box>
             ),

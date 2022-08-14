@@ -7,6 +7,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
+import styles from "./Friend.module.css";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
 
 export default function Friends(props) {
   const [rows, setRows] = useState("");
@@ -75,7 +78,7 @@ export default function Friends(props) {
       align: "center",
       renderCell: (params) => (
         <strong>
-          <img src={rubyicon} height="15" width="15" />
+          <img src={rubyicon} height="16" width="16" />
           &nbsp;{params.row.ruby}&nbsp;루비
         </strong>
       ),
@@ -90,13 +93,12 @@ export default function Friends(props) {
       align: "center",
       renderCell: (params) => (
         <strong>
-          <Button
-            startIcon={<DeleteIcon />}
+          <Button className={styles.remove}
             onClick={() => {
               deleteFriendBtn(params);
             }}
           >
-            친구삭제
+          <DeleteRoundedIcon className={styles.icon}/> 친구삭제
           </Button>
         </strong>
       ),
@@ -107,6 +109,7 @@ export default function Friends(props) {
     <Grid>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
+          className={styles.grid}
           rows={rows}
           columns={columns}
           pageSize={5}
@@ -116,7 +119,8 @@ export default function Friends(props) {
             NoRowsOverlay: () => (
               <Box height="100%" textAlign="center" alignContent="center">
                 <Box sx={{ mt: "10%" }}>
-                  <Typography variant="h5">친구가 없습니다.</Typography>
+                  <NotListedLocationRoundedIcon className={styles.none}/>
+                  <p className={styles.alert}>친구가 없습니다.</p>
                 </Box>
               </Box>
             ),

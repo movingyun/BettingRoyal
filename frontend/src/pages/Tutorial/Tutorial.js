@@ -67,13 +67,13 @@ export default function Tutorial() {
             <Nav.Item className={styles.navItem}>
               <Nav.Link eventKey="link-0" onClick={()=>{changeTab(0)}} className={styles.navLink}>게임룰</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item className={styles.navItem}>
               <Nav.Link eventKey="link-1" onClick={()=>{changeTab(1)}} className={styles.navLink}>족보</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item className={styles.navItem}>
               <Nav.Link eventKey="link-2" onClick={()=>{changeTab(2)}} className={styles.navLink}>베팅방법</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item className={styles.navItem}>
               <Nav.Link eventKey="link-3" onClick={()=>{changeTab(3)}} className={styles.navLink}>주의사항</Nav.Link>
             </Nav.Item>
           </Nav>

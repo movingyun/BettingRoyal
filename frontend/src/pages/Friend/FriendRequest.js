@@ -7,10 +7,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import { color } from "@mui/system";
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';import { color } from "@mui/system";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
+import styles from "./Friend.module.css";
+import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
+import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
@@ -121,13 +123,12 @@ export default function FriendRequest(props) {
       align: "center",
       renderCell: (params) => (
         <strong>
-          <Button
-            startIcon={<PersonAddIcon />}
+          <Button className={styles.add}
             onClick={() => {
               requestFriendBtn(params);
             }}
           >
-            친구요청
+            <PersonAddRoundedIcon className={styles.icon}/> 친구요청
           </Button>
         </strong>
       ),
@@ -137,20 +138,20 @@ export default function FriendRequest(props) {
   let friendReqs = (
     <Grid>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <SearchIcon sx={{ color: "action.active", mr: 1, mb: 0 }} />
+        <SearchRoundedIcon className={styles.searchIcon} />
         <TextField
+          className={styles.searchField}
           color="action"
-          autoComplete="given-name"
           name="nickName"
-          required
+          // required
           fullWidth
           id="nickname"
-          label="닉네임"
+          label="닉네임 검색"
           onChange={onNickNameHandler}
           autoFocus
         />
         <Button
-          color="inherit"
+        className={styles.searchBtn}
           onClick={() => {
             searchUser();
           }}
@@ -161,6 +162,7 @@ export default function FriendRequest(props) {
       <p>{nickcheck}</p>
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
+          className={styles.grid}
           rows={rows}
           columns={columns}
           pageSize={5}
@@ -170,7 +172,8 @@ export default function FriendRequest(props) {
             NoRowsOverlay: () => (
               <Box height="100%" textAlign="center" alignContent="center">
                 <Box sx={{ mt: "10%" }}>
-                  <Typography variant="h5">검색 결과가 없습니다.</Typography>
+                <NotListedLocationRoundedIcon className={styles.none}/>
+                <p className={styles.alert}>검색 결과가 없습니다.</p>
                 </Box>
               </Box>
             ),

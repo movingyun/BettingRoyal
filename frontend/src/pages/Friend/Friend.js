@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { Grid, Box, Toolbar, Container, Paper } from "@mui/material";
 import Header from "../../components/Header/Header";
 import Nav from "react-bootstrap/Nav";
-import styles from "./Friend.module.css";
 import { useLocation, Routes, Route } from "react-router-dom";
 import FriendAccecp from "./FriendAccecp";
 import FriendRequest from "./FriendRequest";
 import FriendList from "./FriendList";
 import { Navigate, useNavigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from "./Friend.module.css";
 
 const Friend = () => {
   const navigate = useNavigate();
@@ -48,35 +49,27 @@ const Friend = () => {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <Box
+      {/* <Box
         component="main"
         sx={{
           flexGrow: 1,
           height: "100vh",
           overflow: "auto",
         }}
-      >
-        <Container sx={{ mt: 4, mb: 4 }}>
+      > */}
+        {/* <Container sx={{ mt: 4, mb: 4 }}> */}
           {/* <Header title={title} /> */}
-          <Grid container spacing={1}>
+          <Grid className={styles.contents}>
             <Grid item xs={12} md={12} lg={12}>
-              <Paper
-                sx={{
-                  p: 4,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
                 <Routes>
                   <Route path="friendList" element={<FriendList />} />
                   <Route path="friendAccecp" element={<FriendAccecp />} />
                   <Route path="friendRequest" element={<FriendRequest />} />
                 </Routes>
-              </Paper>
             </Grid>
           </Grid>
-        </Container>
-      </Box>
+        {/* </Container> */}
+      {/* </Box> */}
     </div>
   );
 };
