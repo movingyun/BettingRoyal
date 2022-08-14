@@ -7,6 +7,7 @@ import { Button } from 'bootstrap';
 import Modal from '../../components/Modal/Modal';
 import Vault from '../../pages/modal/Vault/Vault';
 import Nickname from '../../pages/modal/Nickname/Nickname';
+import Password from '../modal/Password/Password';
 
 const Mypage = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -75,9 +76,6 @@ const Mypage = () => {
         });
     },[]); 
 
-    // function changeNickname() {
-    //     console.log("닉네임 변경", )
-    // }
 
     // const dateSubstr = {startDate}.substr(0,9);
     const navigate = useNavigate();
@@ -108,6 +106,7 @@ const Mypage = () => {
             </Modal>
             <button onClick={ openModal2 } >비밀번호 변경</button><br/>
             <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
+                <Password />
             </Modal>
             <button onClick={ logout }  >로그아웃</button>
             </div>

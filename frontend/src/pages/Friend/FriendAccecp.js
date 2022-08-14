@@ -13,7 +13,7 @@ export default function FriendRequest(props) {
     axios
       .get("/api/friends/request", {
         headers: {
-          Authorization: window.localStorage.accessToken,
+          Authorization: window.localStorage.accessToken, 
           "Content-Type": "application/json",
         },
       })
