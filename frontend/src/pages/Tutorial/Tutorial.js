@@ -2,6 +2,11 @@ import Nav from 'react-bootstrap/Nav';
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./Tutorial.module.css";
+import double from "../../images/tutorial/tutorial_double.png";
+import triple from "../../images/tutorial/tutorial_triple.png";
+import straight from "../../images/tutorial/tutorial_straight.png";
+import number from "../../images/tutorial/tutorial_number.png";
+import shape from "../../images/tutorial/tutorial_shape.png";
 
 function TabContent(props){
   if(props.clicked === 0){
@@ -17,13 +22,20 @@ function TabContent(props){
     return <div className={styles.contents}>
       <h3>더블</h3>
       <p>자신의 카드와 공유 카드 중 1장이 같은 숫자일 경우</p>
+      <img src={double} />
       <h3>스트레이트</h3>
       <p>공유 카드 2장과 자신의 카드까지 3장이 연속되는 숫자를 이룰 경우</p>
+      <img src={triple}/>
       <h3>트리플</h3>
       <p>공유 카드 2장과 자신의 카드 3장이 모두 같은 숫자인 경우</p>
-      <p>공유 카드와 아무런 조합이 없으면 높은 숫자의 카드가 승리합니다.<br/>
-      숫자가 같을 경우 자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드 순으로 높습니다.<br/>
-      카드는 매 판 리셋됩니다.</p>
+      <img src={straight}/>
+      <div className={styles.section}>
+        <p>공유 카드와 아무런 조합이 없으면 높은 숫자의 카드가 승리합니다.</p>
+        <img src={number} className={styles.imgNumber}/>
+        <p>숫자가 같을 경우 자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드 순으로 높습니다.</p>
+        <img src={shape} className={styles.imgShape}/>
+        <p>카드는 매 판 리셋됩니다.</p>
+      </div>
     </div>
   }else if(props.clicked === 2){
     return <div className={styles.contents}>

@@ -7,7 +7,6 @@ import { Button } from 'bootstrap';
 import Modal from '../../components/Modal/Modal';
 import Vault from '../../pages/modal/Vault/Vault';
 import Nickname from '../../pages/modal/Nickname/Nickname';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
 const Mypage = () => {

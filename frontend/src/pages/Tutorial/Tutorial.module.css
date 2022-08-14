@@ -30,3 +30,29 @@
   text-align: center;
   border-radius: 30px;
 }
+
+.contents > img{
+  height: 120px;
+  margin-bottom: 25px;
+}
+
+.section {
+  background-color: #f7f3e9;
+  padding: 20px;
+  border-radius: 10px;
+  color: #A27B5C;
+}
+
+.imgNumber {
+  height: 120px;
+  margin-bottom: 20px;
+}
+
+.imgShape{
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+p{
+  margin-bottom: 7px;
+}
