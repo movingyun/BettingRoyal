@@ -6,25 +6,13 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import rubyicon from "../../images/icon/ruby.png";
+import Typography from "@mui/material/Typography";
 
 export default function Friends(props) {
   const [rows, setRows] = useState("");
 
   useEffect(() => {
-    axios
-      .get("/api/friends", {
-        headers: {
-          Authorization: window.localStorage.accessToken,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setRows(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    findFriend();
   }, []);
 
   async function deleteFriendBtn(params) {
@@ -124,6 +112,15 @@ export default function Friends(props) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
+          components={{
+            NoRowsOverlay: () => (
+              <Box height="100%" textAlign="center" alignContent="center">
+                <Box sx={{ mt: "10%" }}>
+                  <Typography variant="h5">친구가 없습니다.</Typography>
+                </Box>
+              </Box>
+            ),
+          }}
         />
       </Box>
     </Grid>

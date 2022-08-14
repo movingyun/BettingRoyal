@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from "@mui/system";
 import rubyicon from "../../images/icon/ruby.png";
+import Typography from "@mui/material/Typography";
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
@@ -62,7 +63,7 @@ export default function FriendRequest(props) {
   }
 
   async function searchUser() {
-    if (!nickname) {
+    if (nickname.trim() == "") {
       setNickcheck(<p style={{ color: "red" }}>닉네임을 입력하세요.</p>);
       return;
     } else {
@@ -165,6 +166,15 @@ export default function FriendRequest(props) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
+          components={{
+            NoRowsOverlay: () => (
+              <Box height="100%" textAlign="center" alignContent="center">
+                <Box sx={{ mt: "10%" }}>
+                  <Typography variant="h5">검색 결과가 없습니다.</Typography>
+                </Box>
+              </Box>
+            ),
+          }}
         />
       </Box>
     </Grid>
