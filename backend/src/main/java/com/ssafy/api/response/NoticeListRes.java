@@ -13,11 +13,11 @@ import java.util.Date;
 @ApiModel("NoticeListResponse")
 public class NoticeListRes {
     @ApiModelProperty(name="seq", example="1")
-    Integer Id;
+    Integer id;
     @ApiModelProperty(name="공지사항 제목", example="this is notice title")
     String noticeTitle;
     @ApiModelProperty(name="공지사항 생성 날짜", example="2022-02-04")
-    Date noticeDate;
+    String noticeDate;
     @ApiModelProperty(name="공지사항 조회수", example="20")
     Integer noticeHit;
     @ApiModelProperty(name="작성자", example="김싸피")

@@ -50,6 +50,8 @@ public class NoticeService {
     @Transactional // 공지사항 조회
     public Noticeboard findByNoticeId ( Integer noticeId ) {
         Noticeboard notice = noticeRepositorySupport.findByNoticeboardId(noticeId).get();
+        notice.setNoticeboardHit(notice.getNoticeboardHit() + 1);
+        noticeRepository.save(notice);
         return notice;
     }
 
