@@ -1,8 +1,7 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
-  padding: 20px 20px 20px 20px;
+  column-gap: 15px;
 }
 
 .col {
@@ -16,39 +15,36 @@
 .row{
   display: flex;
   margin-top: 20px;
-  margin-bottom: 20px;
-  color: #2C3639;
+  /* margin-bottom: 20px; */
+  /* background-color: aqua; */
 }
 
-/* .video {
-  width: 300px;
-  height: 300px;
+.video {
+  width: 90%;
+  height: 90%;
   object-fit: cover;
   border-radius: 10px;
-} */
+  margin-bottom: 15px;
+  background-color: black;
+}
 
 .title {
   font-size: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
-  text-align: left;
-  margin: 0px;
+  color: #3F4E4F;
 }
 
 .center {
   display:inline-block
 }
 
-.icon {
-  margin-right: 8px;
-}
-
 .button {
-  margin: 5px;
-  font-size: 15px;
+  margin: 0px 5px 0px 5px;
   background-color: #2C3639;
   color: #DCD7C9;
   border: none;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -61,5 +57,4 @@
 
 .button:hover {
   background-color: #A27B5C;
-  color: #DCD7C9;
 }

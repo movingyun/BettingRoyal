@@ -1,14 +1,10 @@
-.container {
-  margin-left: 250px;
-}
-
 .nav {
-  padding-left: 10px;
+  /* padding-left: 10px; */
   /* background-color: #f7f3e9; */
 }
 
 .navLink{
-  margin-top: 10px;
+  /* margin-top: 10px; */
   font-family: 'Noto Sans KR', sans-serif;
   color: #A27B5C;
   font-weight: 500;
