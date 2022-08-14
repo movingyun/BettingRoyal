@@ -26,7 +26,29 @@
   border-radius: 30px;
 }
 
-.contents > img{
+.imgRule1{
+  width: 68%;
+  display: block;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.imgRule2{
+  width: 68%;
+  display: block;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.imgRule3{
+  width: 100%;
+  display: block;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.img{
   height: 120px;
   margin-bottom: 25px;
 }
@@ -90,4 +112,17 @@ p{
   color: #3F4E4F;
   font-weight: 600;
   margin: 0px;
+}
+
+hr{
+  margin-top: 40px;
+  margin-bottom: 30px;
+  border-color: #A27B5C;
+}
+
+h1 {
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #A27B5C;
+  font-size: 60px;
+  font-weight: 200;
 }
