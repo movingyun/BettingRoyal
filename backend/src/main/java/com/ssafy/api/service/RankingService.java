@@ -44,7 +44,7 @@ public class RankingService {
                 ranking.setRankingUserRuby(users.get(i).getUserRuby()+users.get(i).getUserVault());
                 ranking.setRankingUserTotal(users.get(i).getUserGameCount() + "전 " + users.get(i).getUserWin() + "승 "
                 + (users.get(i).getUserGameCount()-users.get(i).getUserWin()) + "패 (" +
-                String.format("%.2f", users.get(i).getUserWin()/ (float)(users.get(i).getUserGameCount()==0?1: users.get(i).getUserGameCount()))
+                String.format("%.2f", (users.get(i).getUserWin()/ (float)(users.get(i).getUserGameCount()==0?1: users.get(i).getUserGameCount())*100))
                 + "%)");
             }else{
                 ranking.setRankingRank(i+1);
