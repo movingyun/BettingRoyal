@@ -42,6 +42,9 @@ public class BettingService {
                 //gp.myBet 올려주기
                 gp.setMyBetting(gp.getMyBetting()+callBettingCnt);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 콜 배팅 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet()+callBettingCnt);
         }
 
         // message에 maxBetting 올려주기
@@ -55,7 +58,7 @@ public class BettingService {
         userService.modifyUser(bettingUser);
     }
 
-    public void raise(int roomId, String userInfo, GameMessage message){
+    public boolean raise(int roomId, String userInfo, GameMessage message){
         List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
         User bettingUser = new User();
@@ -63,8 +66,20 @@ public class BettingService {
 
         //얼마나 raise?
         int raiseCnt = Integer.parseInt(message.getMessage());
+        int callBetting = 0;
         log.info(raiseCnt+"만큼 레이즈 ㄱㄱ");
+
         //todo : 자기가 가진 돈 보다 더 많이 raise할 수 없다.
+        for(GamePlayer gp : gpList){
+            if(gp.getSessionId().equals(userInfo)){
+                bettingUser = gp.getUser();
+                callBetting = gp.getMaxBetting()-gp.getMyBetting();
+            }
+        }
+
+        if(raiseCnt+callBetting>bettingUser.getUserRuby()){
+            return false;
+        }
 
         //(Server) GamePlayer에서 myBetting plus 해주고 raiseBetting(callBettingCnt+raiseCnt) 돌려주기
         int raiseBetting = gamePlayerRepository.raiseBetting(roomId, userInfo, raiseCnt);
@@ -74,11 +89,13 @@ public class BettingService {
             MaxBet = gp.getMaxBetting()+raiseCnt;
             gp.setMaxBetting(MaxBet);
             if(gp.getSessionId().equals(userInfo)){
-                bettingUser = gp.getUser();
                 gameId = gp.getGameId();
                 //raise한 사람의 gp.myBet 올려주기
                 gp.setMyBetting(MaxBet);
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + raiseBetting);
         }
 
         // message에 maxBetting 올려주기
@@ -90,10 +107,11 @@ public class BettingService {
         // tb_User에서 ruby minus해주기
         bettingUser.setUserRuby(bettingUser.getUserRuby()-raiseBetting);
         userService.modifyUser(bettingUser);
+
+        return true;
     }
 
     public void allIn(int roomId, String userInfo, GameMessage message){
-        //todo allIn 만들어야댐
         List<GamePlayer> gpList = gamePlayerRepository.getGamePlayer(roomId);
 
         User bettingUser = new User();
@@ -114,6 +132,9 @@ public class BettingService {
                 gameId = gp.getGameId();
                 gp.setMyBetting(gp.getMyBetting()+bettingUser.getUserRuby());
             }
+            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+            gp.setGameTotalBet(gp.getGameTotalBet() + allInBettingCnt);
         }
 
         //gp의 MaxBet 바꿔줌.

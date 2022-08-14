@@ -38,4 +38,10 @@ public interface GetFriendRepository extends JpaRepository<GetFriend, Integer> {
     @Query(value = "DELETE FROM get_friend WHERE user_id=? " +
             "AND get_friend_to_user_id=? AND get_friend_is_accept IS false", nativeQuery = true)
     void deleteByUserAndRqeUser(int userId, int getFriendToUserId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM get_friend WHERE user_id=? " +
+            "AND get_friend_to_user_id=? AND get_friend_is_accept IS true", nativeQuery = true)
+    void deleteByFriend(int userId, int getFriendToUserId);
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlayerInfo {
     private String nickname;
+    private String sessionId;
     private int myruby;
     private int mytotalBet;
     private int myCard;
