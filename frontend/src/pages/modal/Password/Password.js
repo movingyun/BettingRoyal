@@ -2,13 +2,13 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
-import styles from "./Nickname.module.css";
+import styles from "./Password.module.css";
 
-export default function Nickname() {
+export default function Password() {
 
-  const [nicknameStatus, setNicknameStatus] = useState("");
-  const [nickname, setNickname] = useState();
-  const [changeNickname, setChangeNickname] = useState();
+  const [passwordStatus, setPasswordStatus] = useState("");
+  const [password, setPassword] = useState();
+  const [changePassword, setChangePassword] = useState();
   
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function Nickname() {
       })
       .then((response) => {
         console.log("user Nickname = " + JSON.stringify(response.data.userNickname));
-        setNickname(response.data.userNickname);
+        setPassword(response.data.userPassword);
 
       })
       .catch((error) => {
@@ -30,10 +30,10 @@ export default function Nickname() {
       });
   }, []);
 
-  function ModifyNickname() {
-    console.log("확인", nickname)
+  function ModifyPassword() {
+    console.log("확인", password)
     axios
-      .put("/api/user/modify2", {modifyNickname:changeNickname}, {
+      .put("/api/user/modify", {userPw:changePassword}, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: window.localStorage.accessToken,
@@ -41,28 +41,28 @@ export default function Nickname() {
       })
       .then((response) => {
         console.log("Change Nickname : " + JSON.stringify(response.data.userNickname));
-        setChangeNickname(response.data.userNickname);
-        setNicknameStatus(changeNickname + "닉네임 변경 완료");
+        setChangePassword(response.data.userPw);
+        setPasswordStatus(changePassword + "닉네임 변경 완료");
       })
       .catch((error) => {
         if(error.response.data.error == 10) {
-          setNicknameStatus('닉네임을 입력하세요.')
+          setPasswordStatus('닉네임을 입력하세요.')
         }
       });
   }
 
   return (
     <div>
-      <p className={styles.bg}>닉네임 :  {nickname}</p>
+      <p className={styles.bg}>비번</p>
 
       <TextField
         onChange={(e) => {
-          setChangeNickname(e.target.value);
+          setChangePassword(e.target.value);
         }}
         autoFocus
       ></TextField>
-      <button onClick={ModifyNickname}>변경</button>
-      <p className={styles.read}>{nicknameStatus}</p>
+      <button onClick={ModifyPassword}>변경</button>
+      <p className={styles.read}>{passwordStatus}</p>
       
     </div>
   );

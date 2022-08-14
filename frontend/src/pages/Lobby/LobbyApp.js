@@ -132,6 +132,12 @@ function NavbarContent() {
       });
   }, [location]);
 
+  function logout(){
+      window.localStorage.removeItem("accessToken");
+      alert("로그아웃 되었습니다.")
+      navigate("/");
+  }
+
   return (
     <ThemeProvider>
       <Box sx={{ display: "flex" }}>
@@ -157,7 +163,9 @@ function NavbarContent() {
               <img src={logo} height="30" />
             </Typography>
             <IconButton color="inherit">
-              <NotificationBell />
+              {/* <NotificationBell /> */}
+              <button onClick={ logout } >로그아웃</button>
+
             </IconButton>
           </Toolbar>
         </AppBar>

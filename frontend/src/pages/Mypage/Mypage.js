@@ -7,7 +7,9 @@ import { Button } from 'bootstrap';
 import Modal from '../../components/Modal/Modal';
 import Vault from '../../pages/modal/Vault/Vault';
 import Nickname from '../../pages/modal/Nickname/Nickname';
+import Password from '../modal/Password/Password';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+
 
 const Mypage = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -76,18 +78,9 @@ const Mypage = () => {
         });
     },[]); 
 
-    // function changeNickname() {
-    //     console.log("닉네임 변경", )
-    // }
 
     // const dateSubstr = {startDate}.substr(0,9);
-    const navigate = useNavigate();
 
-    function logout(){
-        window.localStorage.removeItem("accessToken");
-        alert("로그아웃 되었습니다.")
-        navigate("/");
-    }
 
     return (
         <div>
@@ -110,7 +103,6 @@ const Mypage = () => {
                 <button onClick={ openModal2 }className={styles.btn}  >비밀번호 변경</button>
                 <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
                 </Modal>
-                <button onClick={ logout } >로그아웃 (위치 변경해야 함)</button>
                 </div>
             </div>
             <div className={styles.section}>
