@@ -156,8 +156,8 @@ public class MessageController {
 			int roomId = message.getRoomId();
 
 			// 시작한 사람 sessionId
-//			String userInfo = message.getSocketId();
-			String userInfo = headerAccessor.getUser().getName();
+			String userInfo = message.getSocketId();
+//			String userInfo = headerAccessor.getUser().getName();
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
 			boolean isMyTurn = bettingService.checkBettingTurn(gpList, userInfo);
@@ -332,8 +332,8 @@ public class MessageController {
 		// 콜이 들어왔을 때
 		if (message.getType().equals(MessageType.CALL)) {
 			// call한 사람 sessionId
-//			String userInfo = message.getSocketId();
-			String userInfo = headerAccessor.getUser().getName();
+			String userInfo = message.getSocketId();
+//			String userInfo = headerAccessor.getUser().getName();
 			int roomId =  message.getRoomId();
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -357,8 +357,8 @@ public class MessageController {
 		// 다이가 들어왔을 때
 		if (message.getType().equals(MessageType.DIE)) {
 			int roomId =  message.getRoomId();
-//			String userInfo = message.getSocketId();
-			String userInfo = headerAccessor.getUser().getName();
+			String userInfo = message.getSocketId();
+//			String userInfo = headerAccessor.getUser().getName();
 
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
 			for(GamePlayer gp : gpList){
@@ -380,8 +380,8 @@ public class MessageController {
 		if (message.getType().equals(MessageType.RAISE)) {
 			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
-//			String userInfo = message.getSocketId();
-			String userInfo = headerAccessor.getUser().getName();
+			String userInfo = message.getSocketId();
+//			String userInfo = headerAccessor.getUser().getName();
 
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -405,8 +405,8 @@ public class MessageController {
 		if (message.getType().equals(MessageType.ALLIN)) {
 			//roomId와 sessiond로 GamePlayer를 찾아서 걔의 myTurn이 true인지 확인
 			int roomId =  message.getRoomId();
-//			String userInfo = message.getSocketId();
-			String userInfo = headerAccessor.getUser().getName();
+			String userInfo = message.getSocketId();
+//			String userInfo = headerAccessor.getUser().getName();
 
 			//이거 요청이 맞는 순서인 유저한테 들어온건지 확인
 			//sessiond로 GamePlayer를 찾아서 걔의 턴이 아니면 그냥 return
@@ -420,6 +420,17 @@ public class MessageController {
 
 			// 끝났는지체크
 			checkFinish(message, headerAccessor);
+		}
+
+		// 나가기 들어왔을 때
+		if (message.getType().equals(MessageType.EXIT)) {
+			int roomId =  message.getRoomId();
+//			String userInfo = message.getSocketId();
+			String userInfo = headerAccessor.getUser().getName();
+
+			//이 소켓아이디 끊어주자.
+			//여기 해주자
+			onDisconnectEvent(userInfo);
 		}
 	}
 
@@ -773,17 +784,12 @@ public class MessageController {
 
 
 	//소켓 끊김 감지
-	@EventListener
-	public void onDisconnectEvent(SessionDisconnectEvent event) {
-		log.info("Client with username {} disconnected", event.getUser());
-		log.info("line 793 ----------------------");
-
-		String sessionId = event.getUser().getName();
+	public void onDisconnectEvent(String sessionId) {
 		int roomId = gamePlayerRepository.findRoomBySesssionId(sessionId);
 
 		// 방에 나가면 player를 한명 내려준다.
 		roomSizeRepository.minusPlayerCnt(roomId);
-		//todo : room에 현재인원 감소 해결
+		//room에 현재인원 감소 해결
 		roomService.minusRoomInCnt(roomId);
 
 		// gamePlayer에서 빼준다.
