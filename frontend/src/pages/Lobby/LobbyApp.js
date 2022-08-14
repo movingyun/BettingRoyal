@@ -240,7 +240,7 @@ function NavbarContent() {
                     <Route path="mypage" element={<Mypage />} />
                     <Route path="notice/*" element={<Notice />} />
                     <Route path="board/*" element={<Board />} />
-                    <Route path="friend" element={<Friend />} />
+                    <Route path="friend/*" element={<Friend />} />
                     <Route path="ranking" element={<Ranking />} />
                     <Route path="guild" element={<Guild />} />
                     <Route path="replay" element={<Replay />} />

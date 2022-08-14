@@ -5,6 +5,7 @@ import axios, { Axios } from "axios";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import rubyicon from "../../images/icon/ruby.png";
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
@@ -71,20 +72,35 @@ export default function FriendRequest(props) {
     {
       field: "nickname",
       headerName: "닉네임",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "ruby",
       headerName: "보유 루비",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <strong>
+          <img src={rubyicon} height="15" width="15" />
+          &nbsp;{params.row.ruby}&nbsp;루비
+        </strong>
+      ),
     },
     {
       field: "friendId",
       headerName: "친구수락",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: false,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <strong>
           <Button
