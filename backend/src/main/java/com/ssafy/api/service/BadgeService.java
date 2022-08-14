@@ -1,7 +1,9 @@
 package com.ssafy.api.service;
 
 import com.ssafy.db.entity.Badge;
+import com.ssafy.db.entity.BadgeOwn;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.BadgeOwnRepository;
 import com.ssafy.db.repository.BadgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ public class BadgeService {
 
     @Autowired
     private BadgeRepository badgeRepository;
+    @Autowired
+    private BadgeOwnRepository badgeOwnRepository;
 
     public void createBadge(Badge badge){
         badgeRepository.save(badge);
@@ -34,13 +38,6 @@ public class BadgeService {
         return badgeRepository.findByBadgeId(badgeId);
     }
 
-    public boolean chekBadge(int badgeId, User user){
-        boolean haveBadge=false;
-        User player = user;
 
-
-
-        return haveBadge;
-    }
 
 }
