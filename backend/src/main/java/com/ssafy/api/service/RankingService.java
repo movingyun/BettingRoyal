@@ -33,7 +33,7 @@ public class RankingService {
 
     //cron = "초 분 시 월 일 요일" 순서로 작성
     // 아래 적은것은 매일 0시 0분 0초에 실행
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void rankingUpdate(){
         List<User> users = userRepository.findTop20User();
         for(int i = 0; i < 20; i++){
