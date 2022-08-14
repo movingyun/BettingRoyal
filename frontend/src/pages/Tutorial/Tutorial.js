@@ -20,16 +20,16 @@ function TabContent(props){
       <h1>#1</h1>
       <p>베팅로얄은 플레이어들에게 공유되는 2장의 공유 카드와 개인 카드 1장, 총 3장을 조합해서 누가 더 높은 족보인지를 겨루는 게임입니다.</p>
       <img src={rule1} className={styles.imgRule1}/>
-      <hr/>
+      <hr className={styles.divider}/>
       <h1>#2</h1>
       <p>2장의 공유 카드는 게임에 참여한 모든 플레이어가 볼 수 있습니다.<br/>
       1장의 개인 카드는 나를 제외한 모든 플레이어가 볼 수 있지만, 나 자신은 내 카드가 무엇인지 볼 수 없습니다.</p>
       <img src={rule2} className={styles.imgRule2}/>
-      <hr/>
+      <hr className={styles.divider}/>
       <h1>#3</h1>
       <p>카드는 1부터 10까지의 자수정, 아쿠아마린, 다이아몬드, 에메랄드 네 가지 모양이 사용됩니다.</p>
       <img src={rule3} className={styles.imgRule3}/>
-      <hr/>
+      <hr className={styles.divider}/>
       <h1>#4</h1>
       <p>플레이어는 공유 카드 2장과 상대의 카드를 단서로 배팅을 할 수 있으며, 공통 질문 시간을 통해 서로 대화를 나눌 수 있습니다.<br/> 
       화면 속에서 보여지는 표정과 목소리로 상대의 심리를 읽어 베팅에 성공하면 승리합니다.</p>

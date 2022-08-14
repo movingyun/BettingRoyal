@@ -114,13 +114,13 @@ p{
   margin: 0px;
 }
 
-hr{
+.divider{
   margin-top: 40px;
   margin-bottom: 30px;
   border-color: #A27B5C;
 }
 
-h1 {
+.contents > h1 {
   font-family: 'Noto Sans KR', sans-serif;
   color: #A27B5C;
   font-size: 60px;
