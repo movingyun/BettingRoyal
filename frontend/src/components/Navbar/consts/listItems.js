@@ -41,14 +41,14 @@ export const mainListItems = [
   label: '친구목록',
   route: 'friend',
 },
+// {
+//   id:5,
+//   icon:<GroupsRoundedIcon/>,
+//   label: '길드',
+//   route: 'guild',
+// },
 {
   id:5,
-  icon:<GroupsRoundedIcon/>,
-  label: '길드',
-  route: 'guild',
-},
-{
-  id:6,
   icon:<ChatRoundedIcon />,
   label: '게시판',
   route: 'board',
