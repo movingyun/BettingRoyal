@@ -8,6 +8,7 @@ import straight from "../../images/tutorial/tutorial_straight.png";
 import number from "../../images/tutorial/tutorial_number.png";
 import shape from "../../images/tutorial/tutorial_shape.png";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import logo from "../../images/logo/logo_horizontal_green.png";
 
 function TabContent(props){
 
@@ -65,6 +66,10 @@ function TabContent(props){
         <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>플레이어는 자유롭게 게임과 콘텐츠를 이용할 수 있으나, 다른 사용자에게 피해를 주거나 게임 내 질서에 부정적인 영향을 주어서는 안 됩니다.</p>
         <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>플레이어 간 분쟁이 발생하였을 경우 운영자는 개입하지 않으며 플레이어 간의 원만한 해결을 원칙으로 합니다.</p>
         <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>기타 부정한 방법으로 타인의 시스템 및 클라이언트에 접근할 시 이용에 제한을 둘 수 있습니다.</p>
+      </div>
+      <div>
+        <p className={styles.copyright1}>Copyright 2022. <img src={logo} height="25" />. All rights reserved by SSAFY 7th A404</p>
+        <p className={styles.copyright2}>유동윤 박수민 성성민 이득교 이상택 지용현</p>
       </div>
     </div>
   }
