@@ -10,10 +10,14 @@ const Modal = (props) => {
         {open ? (
           <section>
             <header>
+              <div>
               {header}
+              </div>
+              <div>
               <button className="close" onClick={close}>
                 &times;
               </button>
+                </div>
             </header>
             <main>{props.children}</main>
             <footer>

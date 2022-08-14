@@ -53,17 +53,19 @@ export default function Nickname() {
 
   return (
     <div>
-      <p className={styles.bg}>닉네임 :  {nickname}</p>
-
+      <p className={styles.bg}>닉네임 : {nickname}</p>
+      <div className={styles.contents}>
       <TextField
+        className={styles.field}
         onChange={(e) => {
           setChangeNickname(e.target.value);
         }}
         autoFocus
+        placeholder="새로운 닉네임을 입력하세요."
       ></TextField>
-      <button onClick={ModifyNickname}>변경</button>
+      <button onClick={ModifyNickname} className={styles.btn}>변경</button>
       <p className={styles.read}>{nicknameStatus}</p>
-      
+      </div>
     </div>
   );
 }

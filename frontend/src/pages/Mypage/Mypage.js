@@ -93,7 +93,7 @@ const Mypage = () => {
                 <div>보유 루비 : {ruby} 루비</div>
                 <div className={styles.btnList}>
                 <button onClick={ openModal } className={styles.btn}>금고</button>
-                <Modal open={ modalOpen } close={ closeModal } header="루비금고">
+                <Modal open={ modalOpen } close={ closeModal } header="루비금고" >
                 <Vault />
                 </Modal>
                 <button onClick={ openModal1 } className={styles.btn} >닉네임 변경</button>
@@ -101,7 +101,7 @@ const Mypage = () => {
                     <Nickname />
                 </Modal>
                 <button onClick={ openModal2 }className={styles.btn}  >비밀번호 변경</button>
-                <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
+                <Modal open={ modalOpen2 } close={ closeModal2 } header="비밀번호 변경">
                 </Modal>
                 </div>
             </div>

@@ -48,6 +48,8 @@ import rubyicon from "../../images/icon/ruby.png";
 import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
+import Button from '@mui/material/Button';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 const drawerWidth = 240;
 
@@ -164,8 +166,7 @@ function NavbarContent() {
             </Typography>
             <IconButton color="inherit">
               {/* <NotificationBell /> */}
-              <button onClick={ logout } >로그아웃</button>
-
+              <Button onClick={ logout } sx={lobbyStyles.logout} ><LogoutRoundedIcon sx={lobbyStyles.icon}/>로그아웃</Button>
             </IconButton>
           </Toolbar>
         </AppBar>
