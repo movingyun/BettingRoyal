@@ -78,8 +78,8 @@ export default function Ranking(props) {
       ),
     },
     {
-      field: "guild",
-      headerName: "길드명",
+      field: "total",
+      headerName: "전적",
       minWidth: 150,
       flex: 1,
       editable: false,

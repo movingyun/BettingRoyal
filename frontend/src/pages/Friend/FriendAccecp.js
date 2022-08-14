@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import rubyicon from "../../images/icon/ruby.png";
+import Typography from "@mui/material/Typography";
 
 export default function FriendRequest(props) {
   const [rows, setRows] = useState("");
@@ -125,6 +126,15 @@ export default function FriendRequest(props) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
+          components={{
+            NoRowsOverlay: () => (
+              <Box height="100%" textAlign="center" alignContent="center">
+                <Box sx={{ mt: "10%" }}>
+                  <Typography variant="h5">받은 요청이 없습니다.</Typography>
+                </Box>
+              </Box>
+            ),
+          }}
         />
       </Box>
     </Grid>
