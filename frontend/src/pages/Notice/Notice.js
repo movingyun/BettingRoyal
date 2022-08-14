@@ -21,12 +21,12 @@ import { DataGrid } from "@mui/x-data-grid";
       {
         field: "id",
         headerName: "No.",
-        width: 90
+        width: 70
       },
       {
           field: "noticeTitle",
           headerName: "제목",
-          width: 150,
+          width: 350,
           editable: false,
       },
       {
@@ -44,7 +44,7 @@ import { DataGrid } from "@mui/x-data-grid";
       {
           field: "noticeHit",
           headerName: "조회수",
-          width: 50,
+          width: 70,
           editable: false,
       }
     ];
@@ -72,11 +72,11 @@ import { DataGrid } from "@mui/x-data-grid";
 
     return (
       <Grid>
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />

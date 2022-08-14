@@ -90,11 +90,11 @@ export default function Ranking(props) {
 
   let roomsdummy = (
     <Grid>
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />

@@ -17,18 +17,18 @@ import { Button } from "@mui/material";
       {
         field: "id",
         headerName: "No.", 
-        width: 90
+        width: 70
       },
       {
           field: "boardTitle", 
           headerName: "제목",
-          width: 150,
+          width: 350,
           editable: false,
       },
       {
         field: "userNickname",
         headerName: "닉네임",
-        width: 150, 
+        width: 100, 
         editable: false,
       },
       {
@@ -75,11 +75,11 @@ import { Button } from "@mui/material";
 
     return (
       <Grid>
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           rowsPerPageOptions={[6]}
           disableSelectionOnClick
         />
