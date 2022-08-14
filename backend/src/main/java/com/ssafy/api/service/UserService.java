@@ -97,7 +97,7 @@ public class UserService {
 		return userRepository.findByUserId(userId);
 	}
 
-//	@Transactional
+//	@Transaction	al
 //	public void deleteUser(Integer userId) {
 //		userRepository.deleteByUserId(userId);
 //	}
@@ -251,6 +251,10 @@ public class UserService {
 		return true;
 	}
 
+	@Transactional
+	public List<User> searchByLikeNickname(String userNickname) {
+		return userRepository.findByUserNicknameContaining(userNickname);
+	}
 	@Transactional
 	public boolean rubyCharge(Integer userId){
 		try {
