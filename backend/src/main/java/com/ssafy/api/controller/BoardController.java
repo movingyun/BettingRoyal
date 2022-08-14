@@ -74,18 +74,23 @@ public class BoardController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity BoardList (
+    public ResponseEntity<List<BoardListRes>> getBoardList (
             @ApiIgnore Authentication authentication) {
 
-        List<Board> list = boardService.boardList();
-        List<BoardListRes> boardList = new ArrayList<>();
+        List<Board> lists = boardService.boardList();
+        List<BoardListRes> boardListRes = new ArrayList<>();
+        Collections.reverse(lists);
 
-        Collections.reverse(list);
-
-        for(Board entity : list) {
-            boardList.add(new BoardListRes(entity));
+        for(Board list : lists) {
+            BoardListRes res = new BoardListRes();
+            res.setId(list.getBoardId());
+            res.setBoardTitle(list.getBoardTitle());
+            res.setUserNickname(list.getUser().getUserNickname());
+            res.setBoardDate(list.getBoardDate());
+            res.setBoardHit(list.getBoardHit());
+            boardListRes.add(res);
         }
-        return new ResponseEntity<>(boardList, HttpStatus.OK);
+        return new ResponseEntity<>(boardListRes, HttpStatus.OK);
     }
 
     @PutMapping("")

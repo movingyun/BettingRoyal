@@ -74,18 +74,24 @@ public class NoticeController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity NoticeList (
+    public ResponseEntity<List<NoticeListRes>>  getNoticeList (
             @ApiIgnore Authentication authentication) {
 
-        List<Noticeboard> list = noticeService.noticeList();
-        List<NoticeListRes> noticeList = new ArrayList<>();
+        List<Noticeboard> lists = noticeService.noticeList();
+        List<NoticeListRes> noticeListRes = new ArrayList<>();
+        Collections.reverse(lists);
 
-        Collections.reverse(list);
-
-        for(Noticeboard entity : list) {
-            noticeList.add(new NoticeListRes(entity));
+        for(Noticeboard list : lists) {
+//            noticeList.add(new NoticeListRes(entity));
+            NoticeListRes res = new NoticeListRes();
+            res.setId(list.getNoticeboardId());
+            res.setNoticeTitle(list.getNoticeboardTitle());
+            res.setUserNickname(list.getUser().getUserNickname());
+            res.setNoticeDate(list.getNoticeboardDate());
+            res.setNoticeHit(list.getNoticeboardHit());
+            noticeListRes.add(res);
         }
-        return new ResponseEntity<>(noticeList, HttpStatus.OK);
+        return new ResponseEntity<>(noticeListRes, HttpStatus.OK);
     }
 
     @PutMapping("")
