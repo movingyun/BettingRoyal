@@ -20,7 +20,7 @@ public class RankingRes {
     @ApiModelProperty(name = "ruby", example = "1000")
     private Integer ruby;
 
-    @ApiModelProperty(name = "guild", example = "길드명")
-    private String guild;
+    @ApiModelProperty(name = "total", example = "전적")
+    private String total;
 
 }
