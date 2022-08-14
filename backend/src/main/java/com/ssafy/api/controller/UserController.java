@@ -19,6 +19,7 @@ import com.ssafy.api.response.UserRes;
 import com.ssafy.db.entity.User;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //import com.ssafy.db.repository.UserRepositorySupport;
@@ -88,7 +89,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	}) //시작
-	public ResponseEntity<String> modifyNickname (
+	public ResponseEntity<Map<String, String>> modifyNickname (
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserModifyReq modifyInfo,  @ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
@@ -96,23 +97,28 @@ public class UserController {
 		 */
 		//로그인 한 user 정보 찾아오는 code
 		//스켈레톤 코드 UserController 에서 가져옴
+		// 시작
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserEmail(userId);
 
-		String nick = new String();
+//		String nick = new String();
+		Map<String, String> map = new HashMap<>();
 		String nickname = modifyInfo.getModifyNickname();
 		if(nickname==null) {
-			return new ResponseEntity<>(nick, HttpStatus.BAD_REQUEST);
+			map.put("error", "NUll");
+			return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
 		}
 		user.setUserNickname(modifyInfo.getModifyNickname());
 		userService.modifyUser(user);
+		map.put("userNickname", user.getUserNickname());
 
 //		if(modifyInfo.getModifyPw() != null) {
 //			user.setUserPw(passwordEncoder.encode(modifyInfo.getModifyPw()));
 //		}
-		User us = userService.modifyUser(user);
-		return new ResponseEntity<String>(nick, HttpStatus.OK);
+//		User us = userService.modifyUser(user);
+//		nick = user.getUserNickname();
+		return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 	}
 
 
