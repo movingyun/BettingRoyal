@@ -1,8 +1,10 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.*;
+import com.ssafy.api.response.BoardFindIdRes;
 import com.ssafy.api.response.BoardListRes;
 import com.ssafy.api.response.NoticeListRes;
+import com.ssafy.api.service.BoardLikeService;
 import com.ssafy.api.service.BoardService;
 import com.ssafy.api.service.NoticeService;
 import com.ssafy.api.service.UserService;
@@ -19,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +34,8 @@ public class BoardController {
     BoardService boardService;
     @Autowired
     UserService userService;
+    @Autowired
+    BoardLikeService boardLikeService;
 
     @PostMapping("")
     @ApiOperation(value = "게시판 작성", notes = "게시판을 작성한다")
@@ -60,10 +65,23 @@ public class BoardController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Board> findBoardId (
+    public ResponseEntity<BoardFindIdRes> findBoardId (
             @ApiParam(value="게시판 조회") Integer boardId ,@ApiIgnore Authentication authentication) {
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+        User user = userService.getUserByUserEmail(userId);
+
         Board board = boardService.findByBoardId(boardId);
-        return new ResponseEntity<>(board, HttpStatus.OK);
+        BoardFindIdRes res = new BoardFindIdRes();
+        res.setBoardId(board.getBoardId());
+        res.setBoardTitle(board.getBoardTitle());
+        res.setBoardContent(board.getBoardContent());
+        res.setBoardHit(board.getBoardHit());
+        res.setBoardDate(board.getBoardDate());
+        res.setBoardLike(board.getBoardLike());
+        res.setUserNickname(board.getUser().getUserNickname());
+        res.setLike(boardLikeService.checkIsLike(board.getBoardId(), user.getUserId()));
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("")
@@ -80,13 +98,14 @@ public class BoardController {
         List<Board> lists = boardService.boardList();
         List<BoardListRes> boardListRes = new ArrayList<>();
         Collections.reverse(lists);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
         for(Board list : lists) {
             BoardListRes res = new BoardListRes();
             res.setId(list.getBoardId());
             res.setBoardTitle(list.getBoardTitle());
             res.setUserNickname(list.getUser().getUserNickname());
-            res.setBoardDate(list.getBoardDate());
+            res.setBoardDate(simpleDateFormat.format(list.getBoardDate()));
             res.setBoardHit(list.getBoardHit());
             boardListRes.add(res);
         }

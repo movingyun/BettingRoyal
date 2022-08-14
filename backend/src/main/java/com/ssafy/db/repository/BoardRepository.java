@@ -12,12 +12,12 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
-    // 공지 ID로 공지 조회
-    Optional<Board> findByBoardId(Integer boardId);
-    // 유저 ID로 공지 조회
+    // 게시판 ID로 게시판 조회
+    Board findByBoardId(Integer boardId);
+    // 유저 ID로 게시판 조회
     @Query(value = "select * from user where user_id=?",nativeQuery = true)
     List<Board> findByUserId(@Param("userId") Integer userId);
-    // 공지 삭제
+    // 게시판 삭제
     @Modifying
     @Transactional
     @Query(value = "delete from Board where board_id=?",nativeQuery = true)
