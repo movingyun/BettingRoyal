@@ -7,6 +7,7 @@ import { Button } from 'bootstrap';
 import Modal from '../../components/Modal/Modal';
 import Vault from '../../pages/modal/Vault/Vault';
 import Nickname from '../../pages/modal/Nickname/Nickname';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
 const Mypage = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -90,45 +91,39 @@ const Mypage = () => {
 
     return (
         <div>
-            <div>
-            <div>
+            <div className={styles.section}>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 내 정보</h3>
+                <hr />
                 <div>닉네임 : {nickname}</div>
                 <div>이메일 : {email}</div>
                 <div>성별 : {gender}</div>
+                <div>보유 루비 : {ruby} 루비</div>
+                <div className={styles.btnList}>
+                <button onClick={ openModal } className={styles.btn}>금고</button>
+                <Modal open={ modalOpen } close={ closeModal } header="루비금고">
+                <Vault />
+                </Modal>
+                <button onClick={ openModal1 } className={styles.btn} >닉네임 변경</button>
+                <Modal open={ modalOpen1 } close={ closeModal1 } header="닉네임 변경">
+                    <Nickname />
+                </Modal>
+                <button onClick={ openModal2 }className={styles.btn}  >비밀번호 변경</button>
+                <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
+                </Modal>
+                <button onClick={ logout } >로그아웃 (위치 변경해야 함)</button>
+                </div>
             </div>
-            <div>
-            <button onClick={ openModal } sx={styles.btn}>금고</button><br/>
-            <Modal open={ modalOpen } close={ closeModal } header="루비금고">
-            <Vault />
-            </Modal>
+            <div className={styles.section}>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 배지</h3>
+                <hr/>
+                <div>없뚬</div>
             </div>
-            <button onClick={ openModal1 } >닉네임 변경</button><br/>
-            <Modal open={ modalOpen1 } close={ closeModal1 } header="닉네임 변경">
-                <Nickname />
-            </Modal>
-            <button onClick={ openModal2 } >비밀번호 변경</button><br/>
-            <Modal open={ modalOpen2 } close={ closeModal2 } header="닉네임 변경">
-            </Modal>
-            <button onClick={ logout }  >로그아웃</button>
-            </div>
-            <div>
-                <br/>
-                <h3>배지</h3>
-                배지정보
-                <div>없뚬 </div>
-            </div>
-            <div>
-                <br/>
-                <h3>통계</h3>
-                <div>총 전적 : {gameCnt} 전 {gameWin} 승 {gameCnt-gameWin} 패&nbsp;
-                  (승률 {`${(gameWin/gameCnt*100).toFixed(2)}`} %)</div>
-                <div>총 보유 루비 : {ruby} 루비</div>
-            </div>
-            <div>
-                <br></br>
-                <h3>Betting Royal과 함께한 시작일자</h3>
-                {/* <div>{startDate.substr(0,10)}</div> */}
-                <div>{startDate}</div>
+            <div className={styles.sectionBottom}>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 통계</h3>
+                <hr/>
+                <div>전적 : {gameCnt} 전 {gameWin} 승 {gameCnt-gameWin} 패</div>
+                <div>승률 : {`${(gameWin/gameCnt*100).toFixed(2)}`} %</div>
+                <div>가입일 : {startDate}</div>
             </div>
         </div>
     )

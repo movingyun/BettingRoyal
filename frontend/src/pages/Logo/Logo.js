@@ -7,10 +7,9 @@ import Login from '../../pages/Login/Login';
 import Signup from '../../pages/Signup/Signup';
 import Lobby from '../../pages/Lobby/Lobby'
 import Room from '../../pages/Game/Game';
-import title from "../../images/logo_center.png";
-import betting from "../../images/logo_betting.png";
+import betting from "../../images/logo/logo_betting.png";
 import kakaologin from "../../images/kakao_login.png" 
-import royal from "../../images/logo_royal.png";
+import royal from "../../images/logo/logo_royal.png";
 import {KAKAO_AUTH_URL} from '../../pages/Login/OAuth';
 import { Button, Switch } from "@material-ui/core";
 import LobbyApp from "../Lobby/LobbyApp";

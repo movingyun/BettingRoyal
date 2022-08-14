@@ -45,7 +45,7 @@ import Test from "../Test/Test";
 import Review from "../Review/Review";
 import NotificationBell from "../../components/common/NotificationBell/NotificationBell";
 import rubyicon from "../../images/icon/ruby.png";
-import logo from "../../images/logo_horizontal.png";
+import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
 
