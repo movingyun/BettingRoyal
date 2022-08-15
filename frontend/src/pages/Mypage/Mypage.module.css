@@ -51,3 +51,11 @@ hr {
   background-color: #A27B5C;
   color: #DCD7C9;
 };
+
+.myUsingBadge{
+  background-color: white;
+}
+
+.myUnUsingBadge{
+  background-color: darkgray;
+}

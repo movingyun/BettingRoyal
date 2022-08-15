@@ -48,8 +48,8 @@ import rubyicon from "../../images/icon/ruby.png";
 import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
-import Button from '@mui/material/Button';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import Button from "@mui/material/Button";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const drawerWidth = 240;
 
@@ -134,10 +134,10 @@ function NavbarContent() {
       });
   }, [location]);
 
-  function logout(){
-      window.localStorage.removeItem("accessToken");
-      alert("로그아웃 되었습니다.")
-      navigate("/");
+  function logout() {
+    window.localStorage.removeItem("accessToken");
+    alert("로그아웃 되었습니다.");
+    navigate("/");
   }
 
   return (
@@ -166,7 +166,10 @@ function NavbarContent() {
             </Typography>
             <IconButton color="inherit">
               {/* <NotificationBell /> */}
-              <Button onClick={ logout } sx={lobbyStyles.logout} ><LogoutRoundedIcon sx={lobbyStyles.icon}/>로그아웃</Button>
+              <Button onClick={logout} sx={lobbyStyles.logout}>
+                <LogoutRoundedIcon sx={lobbyStyles.icon} />
+                로그아웃
+              </Button>
             </IconButton>
           </Toolbar>
         </AppBar>
