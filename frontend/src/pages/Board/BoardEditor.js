@@ -138,7 +138,6 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
       })
       .then((response) => {
         console.log(response.data);
-        alert("게시물이 작성되었습니다.");
         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
       })
       .catch((error) => {
