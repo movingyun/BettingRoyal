@@ -40,9 +40,7 @@ public class TierController {
     @ApiOperation(value = "티어 수정", notes = "티어 수정 성공 여부를 보여준다.")
     @PutMapping("")
     public ResponseEntity<String> modifyTier(@RequestBody Tier tier){
-
         tierService.modifyTier(tier);
-
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
@@ -53,4 +51,6 @@ public class TierController {
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
+
+
 }

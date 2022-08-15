@@ -59,7 +59,7 @@ public class BadgeOwnController {
 
         //반백수(총 전적 100판 이상 달성)
         if(user.getUserGameCount() >= 100){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(2, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
                         .badge(badgeService.searchBadge(2))
@@ -71,7 +71,7 @@ public class BadgeOwnController {
 
         //갬블러(총 전적 300판 달성)
         if(user.getUserGameCount() >= 300){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(3, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
                         .badge(badgeService.searchBadge(3))
@@ -83,10 +83,10 @@ public class BadgeOwnController {
 
         //심리전문가(총 전적 50승 달성)
         if(user.getUserWin() >= 50){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(4, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
-                        .badge(badgeService.searchBadge(3))
+                        .badge(badgeService.searchBadge(4))
                         .user(user)
                         .build();
                 badgeOwnService.createBadgeOwn(badgeOwn);
@@ -95,10 +95,10 @@ public class BadgeOwnController {
 
         //멘탈리스트(총 전적 100승 달성)
         if(user.getUserWin() >= 100){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(5, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
-                        .badge(badgeService.searchBadge(3))
+                        .badge(badgeService.searchBadge(5))
                         .user(user)
                         .build();
                 badgeOwnService.createBadgeOwn(badgeOwn);
