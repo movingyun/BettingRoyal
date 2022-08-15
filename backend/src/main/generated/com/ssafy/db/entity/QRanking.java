@@ -25,11 +25,11 @@ public class QRanking extends EntityPathBase<Ranking> {
 
     public final NumberPath<Integer> rankingRank = createNumber("rankingRank", Integer.class);
 
-    public final StringPath rankingUserGuild = createString("rankingUserGuild");
-
     public final StringPath rankingUserNickname = createString("rankingUserNickname");
 
     public final NumberPath<Integer> rankingUserRuby = createNumber("rankingUserRuby", Integer.class);
+
+    public final StringPath rankingUserTotal = createString("rankingUserTotal");
 
     public QRanking(String variable) {
         super(Ranking.class, forVariable(variable));

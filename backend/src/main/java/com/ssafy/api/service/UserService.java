@@ -5,15 +5,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssafy.api.request.UserSignUpReq;
 import com.ssafy.db.entity.Board;
-import com.ssafy.db.repository.BoardRepository;
-import com.ssafy.db.repository.ReplyRepository;
-import com.ssafy.db.repository.UserRepositorySupport;
+import com.ssafy.db.entity.Tier;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
@@ -33,6 +31,8 @@ public class UserService {
 	UserRepositorySupport userRepositorySupport;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	TierRepository tierRepository;
 
 	@Transactional // 회원가입
 	public User signUp(UserSignUpReq userSignUpReq) {
@@ -97,7 +97,7 @@ public class UserService {
 		return userRepository.findByUserId(userId);
 	}
 
-//	@Transactional
+//	@Transaction	al
 //	public void deleteUser(Integer userId) {
 //		userRepository.deleteByUserId(userId);
 //	}
@@ -249,5 +249,45 @@ public class UserService {
 			return false;
 		}
 		return true;
+	}
+
+	@Transactional
+	public List<User> searchByLikeNickname(String userNickname) {
+		return userRepository.findByUserNicknameContaining(userNickname);
+	}
+	@Transactional
+	public boolean rubyCharge(Integer userId){
+		try {
+			User user  = userRepository.findByUserId(userId);
+			user.setUserRuby(50);
+			userRepository.save(user);
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+	}
+
+	@Transactional
+	public Tier getUserTier(Integer userId){
+		//티어 판단하기
+		User player = userRepository.findByUserId(userId);
+		//3만 루비 넘으면 에메랄드
+		if(player.getUserRuby()>=30000){
+			player.setTier(tierRepository.findByTierId(4));
+		}
+		//1만 루비 넘으면 다이아몬드
+		else if(player.getUserRuby()>=10000){
+			player.setTier(tierRepository.findByTierId(3));
+		}
+		//1천루비 넘으면 아쿠아마린
+		else if(player.getUserRuby()>=1000){
+			player.setTier(tierRepository.findByTierId(2));
+		}
+		//아니면 다 자수정
+		else{
+			player.setTier(tierRepository.findByTierId(1));
+		}
+		Tier myTier = player.getTier();
+		return myTier;
 	}
 }

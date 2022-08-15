@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.NoticeDeleteReq;
 import com.ssafy.api.request.NoticePostReq;
 import com.ssafy.api.request.NoticeUpdateReq;
+import com.ssafy.api.response.NoticeFindIdRes;
 import com.ssafy.api.response.NoticeListRes;
 import com.ssafy.api.service.NoticeService;
 import com.ssafy.api.service.UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,7 +54,7 @@ public class NoticeController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("{boardId}")
+    @GetMapping("/{boardId}")
     @ApiOperation(value = "공지사항 조회", notes = "공지사항을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -60,10 +62,17 @@ public class NoticeController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Noticeboard> findNoticeId (
+    public ResponseEntity<NoticeFindIdRes> findNoticeId (
             @ApiParam(value="공지사항 조회") Integer noticeId ,@ApiIgnore Authentication authentication) {
         Noticeboard noticeboard = noticeService.findByNoticeId(noticeId);
-        return new ResponseEntity<>(noticeboard, HttpStatus.OK);
+        NoticeFindIdRes res = new NoticeFindIdRes();
+        res.setNoticeId(noticeboard.getNoticeboardId());
+        res.setNoticeTitle(noticeboard.getNoticeboardTitle());
+        res.setNoticeContent(noticeboard.getNoticeboardContent());
+        res.setNoticeHit(noticeboard.getNoticeboardHit());
+        res.setUserNickname(noticeboard.getUser().getUserNickname());
+        res.setNoticeDate(noticeboard.getNoticeboardDate());
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("")
@@ -74,18 +83,25 @@ public class NoticeController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity NoticeList (
+    public ResponseEntity<List<NoticeListRes>>  getNoticeList (
             @ApiIgnore Authentication authentication) {
 
-        List<Noticeboard> list = noticeService.noticeList();
-        List<NoticeListRes> noticeList = new ArrayList<>();
+        List<Noticeboard> lists = noticeService.noticeList();
+        List<NoticeListRes> noticeListRes = new ArrayList<>();
+        Collections.reverse(lists);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
-        Collections.reverse(list);
-
-        for(Noticeboard entity : list) {
-            noticeList.add(new NoticeListRes(entity));
+        for(Noticeboard list : lists) {
+//            noticeList.add(new NoticeListRes(entity));
+            NoticeListRes res = new NoticeListRes();
+            res.setId(list.getNoticeboardId());
+            res.setNoticeTitle(list.getNoticeboardTitle());
+            res.setUserNickname(list.getUser().getUserNickname());
+            res.setNoticeDate(simpleDateFormat.format(list.getNoticeboardDate()));
+            res.setNoticeHit(list.getNoticeboardHit());
+            noticeListRes.add(res);
         }
-        return new ResponseEntity<>(noticeList, HttpStatus.OK);
+        return new ResponseEntity<>(noticeListRes, HttpStatus.OK);
     }
 
     @PutMapping("")

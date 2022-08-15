@@ -41,7 +41,7 @@ public class RankingController {
             res.setId(ranking.getRankingRank());
             res.setNickname(ranking.getRankingUserNickname());
             res.setRuby(ranking.getRankingUserRuby());
-            res.setGuild(ranking.getRankingUserGuild());
+            res.setTotal(ranking.getRankingUserTotal());
             rankingRes.add(res);
         }
         return new ResponseEntity<>(rankingRes, HttpStatus.OK);

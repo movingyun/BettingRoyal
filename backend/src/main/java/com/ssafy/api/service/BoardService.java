@@ -49,6 +49,8 @@ public class BoardService {
     @Transactional // 게시판 조회
     public Board findByBoardId ( Integer boardId ) {
         Board board = boardRepositorySupport.findByBoardId(boardId).get();
+        board.setBoardHit(board.getBoardHit()+1);
+        boardRepository.save(board);
         return board;
     }
 

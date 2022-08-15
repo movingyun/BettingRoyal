@@ -67,4 +67,9 @@ public class GetFriendService {
         getFriendRepository.deleteByUserAndRqeUser(getFriendToUserId, userId);
     }
 
+    @Transactional
+    public void deleteFriend(int userId, int getFriendToUserId){
+        getFriendRepository.deleteByFriend(userId,getFriendToUserId);
+        getFriendRepository.deleteByFriend(getFriendToUserId, userId);
+    }
 }

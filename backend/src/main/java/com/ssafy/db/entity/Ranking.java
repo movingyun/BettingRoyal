@@ -35,8 +35,8 @@ public class Ranking {
     @Column(name = "rankingUserRuby", columnDefinition = "INT(11)")
     private Integer rankingUserRuby;
 
-    @Column(name = "rankingUserGuild", length = 100)
-    private String rankingUserGuild;
+    @Column(name = "rankingUserTotal", length = 100)
+    private String rankingUserTotal;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
