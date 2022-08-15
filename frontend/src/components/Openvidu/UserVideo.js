@@ -15,6 +15,7 @@ export default class UserVideoComponent extends Component {
             top2Value: 0,
             top3Emotion: 'Top3',
             top3Value: 0
+            
         };
     }
 
@@ -74,8 +75,8 @@ export default class UserVideoComponent extends Component {
                 </div>
                     <div className={styles.info}>
                         <div className={styles.userInfo}>
-                            <div className={styles.name}>{this.getNicknameTag()}</div>
-                            <div className={styles.ruby}>100,000 루비</div>
+                            <div className={styles.name}>{this.props.player.nickname}</div>
+                            <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
                         </div>
                         <div className={styles.gameInfo}>
                             <div className={styles.card}>
@@ -86,7 +87,7 @@ export default class UserVideoComponent extends Component {
                                     <img src={card_am_1} />
                                 </div>
                             </div>
-                            <div className={styles.status}>더블</div>
+                            <div className={styles.status}>{this.props.player.myPair}</div>
                             <div className={styles.emotion}>
                                 <table>
                                     <tr>

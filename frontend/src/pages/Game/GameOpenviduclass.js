@@ -107,7 +107,6 @@ class Gameroom extends Component {
 
   joinSession() {
     // --- 1) Get an OpenVidu object ---
-    console.log("joinsession " + this.props.roomId);
     this.OV = new OpenVidu();
 
     // --- 2) Init a session ---

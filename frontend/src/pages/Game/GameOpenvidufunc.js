@@ -17,6 +17,7 @@ import Popover from "react-popover";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import { OpenViduLoggerConfiguration } from "openvidu-browser/lib/OpenViduInternal/Logger/OpenViduLoggerConfiguration";
 
+import Player from "./Player";
 import { useNavigate, useLocation } from "react-router-dom";
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -64,21 +65,13 @@ export default function GameOpenvidufunc(props) {
   var sock = new sockjs("http://localhost:8080/stomp-game");
   let stomp = stompjs.over(sock);
 
-  // let OV;
   let test = [styles.player1, styles.player2, styles.player3, styles.player4, styles.player5];
-  // let OV= new OpenVidu();
-  // let session=OV.initSession();
-  // useEffect(() => {
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", onbeforeunload);
-  //   };
-  // }, []);
-  useEffect(() => {
-    if (subscribers.length > 0) {
-      console.log(subscribers);
-    }
-  }, [subscribers]);
+  // useEffect(() => {
+  //   if (subscribers.length > 0) {
+  //     console.log(subscribers);
+  //   }
+  // }, [subscribers]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", onbeforeunload);
@@ -143,7 +136,7 @@ export default function GameOpenvidufunc(props) {
 
         //사람이 들어왔을 때
         if (content.type == "ENTER") {
-          console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
+          // console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
           setTurn(content.turnIdx);
           if (content.playerInfo) {
             setPlayers(content.playerInfo);
@@ -208,6 +201,8 @@ export default function GameOpenvidufunc(props) {
         }
       });
     });
+
+    joinSession();
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
       //컴포넌트 unmount 시
@@ -255,9 +250,9 @@ export default function GameOpenvidufunc(props) {
     // return () => clearInterval(timerId.current);
   }
 
-  useEffect(()=>{
-    joinSession();
-  },[roomInfo])
+  // useEffect(()=>{
+  //   joinSession();
+  // },[roomInfo])
 
   function settimer(amount) {}
 
@@ -348,6 +343,7 @@ export default function GameOpenvidufunc(props) {
           socketId: sessionId,
         })
       );
+      leaveSession();
       navigate("../lobby");
     } else {
     }
@@ -375,7 +371,9 @@ export default function GameOpenvidufunc(props) {
     let subscribers = subscribers;
     let index = subscribers.indexOf(streamManager, 0);
     if (index > -1) {
-      setsubscribers(subscribers.splice(index, 1));
+      let subscriberss = subscribers;
+      subscriberss.splice(index, 1);
+      setsubscribers(subscriberss);
     }
   }
   function startClick() {
@@ -391,24 +389,20 @@ export default function GameOpenvidufunc(props) {
 
   async function joinSession() {
     // // --- 1) Get an OpenVidu object ---
-    // console.log("joinsession " + props.roomId);
-    setOV(new OpenVidu());
-    // OV = new OpenVidu();
-
-    // setsession(OV.initSession())
-    // // // --- 2) Init a session ---
-    // setsession(session=>session=OV.initSession());
+    let ov = new OpenVidu();
+    setOV(ov);
+    setsession(ov.initSession());
   }
-  useEffect(() => {
-    if (OV) {
-      console.log(typeof OV);
-      setsession(OV.initSession());
-    }
-  }, [OV]);
+  // useEffect(() => {
+  //   if (OV) {
+  //     console.log(typeof OV);
+  //     setsession(OV.initSession());
+  //   }
+  // }, [OV]);
 
   useEffect(() => {
-    if (session) {
-      console.log(typeof session);
+    if (session !== undefined && OV !== undefined && roomInfo !== undefined) {
+      // console.log(typeof session);
       var mySession = session;
       console.log(JSON.stringify(roomInfo));
       // --- 3) Specify the actions when events take place in the session ---
@@ -476,7 +470,7 @@ export default function GameOpenvidufunc(props) {
 
             let publisher = OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
-              videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
+              videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
               resolution: "640x480", // The resolution of your video
@@ -484,11 +478,11 @@ export default function GameOpenvidufunc(props) {
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
             });
+            mySession.publish(publisher);
+
             setpublisher(publisher);
             setmainStreamManager(publisher);
             // --- 6) Publish your stream ---
-
-            mySession.publish(publisher);
 
             // Set the main video in the page to display our webcam and store our Publisher
 
@@ -504,7 +498,7 @@ export default function GameOpenvidufunc(props) {
           });
       });
     }
-  }, [session]);
+  }, [session, roomInfo, OV]);
 
   function leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
@@ -516,10 +510,10 @@ export default function GameOpenvidufunc(props) {
     }
 
     // Empty all properties...
-    // setOV(null)
-    OV = null;
-    // setsession(undefined);
-    session = undefined;
+    setOV(null);
+    // OV = null;
+    setsession(undefined);
+    // session = undefined;
     setsubscribers([]);
     // setmySessionId("SessionA");
     // setmyUserName("participant" + Math.floor(Math.random() * 100));
@@ -599,7 +593,7 @@ export default function GameOpenvidufunc(props) {
         </h1>
         <h2>기본 베팅 10 루비</h2>
         <div className={styles.buttonList}>
-        <button className={styles.button} onClick={leaveGame}>
+          <button className={styles.button} onClick={leaveGame}>
             나가기
           </button>
         </div>
@@ -633,12 +627,22 @@ export default function GameOpenvidufunc(props) {
         <div className={styles.grid}>
           {publisher !== undefined ? (
             <div onClick={() => handleMainVideoStream(publisher)} className={styles.myCam}>
-              <UserVideoComponent streamManager={publisher} />
+              
+              
+              <div className={`${styles.player0} ${turn == 0 ? styles.highlight : styles.none}`}>
+                {win[0] ? <img src={ruby_win} className={ruby_win} /> : null}
+                <Player player={players[0]} /><UserVideoComponent streamManager={publisher} />
+              </div>
             </div>
           ) : null}
+          
           {subscribers.map((sub, i) => (
             <div key={i} onClick={() => handleMainVideoStream(sub)} className={test[i]}>
               <UserVideoComponent streamManager={sub} />
+              <div className={`${styles.player0} ${turn == i ? styles.highlight : styles.none}`}>
+                {win[i] ? <img src={ruby_win} className={ruby_win} /> : null}
+                <Player player={players[i]} /><UserVideoComponent streamManager={publisher} />
+              </div>
             </div>
           ))}
           <div className={styles.center}>
