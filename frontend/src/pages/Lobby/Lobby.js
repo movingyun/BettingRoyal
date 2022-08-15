@@ -5,8 +5,6 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Mypage from "../../pages/Mypage/Mypage";
 import Friend from "../../pages/Friend/Friend";
-import Notice from "../../pages/Notice/Notice";
-import BoardList from "../Board/BoardList";
 import Ranking from "../../pages/Ranking/Ranking";
 import Guild from "../../pages/Guild/Guild";
 import Replay from "../../pages/Replay/Replay";
@@ -15,6 +13,7 @@ import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../../pages/Rooms/Rooms";
 import Test from "../../pages/Test/Test";
 import Board from "../Board/Board";
+import Notice from "../Notice/Notice";
 
 export default function Lobby(props) {
   // useEffect(() => {
@@ -31,7 +30,7 @@ export default function Lobby(props) {
       <Routes>
         <Route path="rooms" element={<Rooms />} />
         <Route path="mypage" element={<Mypage />} />
-        <Route path="notice" element={<Notice />} />
+        <Route path="notice/*" element={<Notice />} />
         <Route path="board/*" element={<Board />} />
         <Route path="friend" element={<Friend />} />
         <Route path="ranking" element={<Ranking />} />

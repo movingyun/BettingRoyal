@@ -33,7 +33,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Routes, Route } from "react-router-dom";
 import Mypage from "../Mypage/Mypage";
 import Friend from "../Friend/Friend";
-import Notice from "../Notice/Notice";
+import NoticeList from "../Notice/NoticeList";
 import BoardList from "../Board/BoardList";
 import Ranking from "../Ranking/Ranking";
 import Guild from "../Guild/Guild";
@@ -48,6 +48,7 @@ import rubyicon from "../../images/icon/ruby.png";
 import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
+import Notice from "../Notice/Notice";
 import Button from '@mui/material/Button';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 

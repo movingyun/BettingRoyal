@@ -112,11 +112,6 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
   []);
 
   function onPublish() {
-    console.log("확인 : "+boardContent);
-    console.log("2222 :  "+boardTitle);
-    console.log("Content  :"+quillInstance.current.getContents());
-    console.log("tet :"+quillInstance.current.getText());
-    
     axios
       .post("/api/board", 
       {
@@ -137,8 +132,7 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
       })
       .then((response) => {
         console.log(response.data);
-        // setBoardContent(boardContent);
-        // setBoardTitle(boardTitle);
+        alert("게시물이 작성되었습니다.");
         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
       })
       .catch((error) => {
@@ -163,7 +157,7 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
 
       <WriteActionButtonsBlock>
       <StyledButton cyan onClick={onPublish}>
-        {isEdit ? '수정' : '등록'}
+        {'등록'}
       </StyledButton>
       <StyledButton onClick={onCancel}>취소</StyledButton>
     </WriteActionButtonsBlock>

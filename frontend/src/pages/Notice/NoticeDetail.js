@@ -45,23 +45,21 @@ const StyledButton = styled(Button)`
 `;
 
 const BoardDetail =({isEdit}) => {
-    const [nickname, setNickname] = useState();
-    const [boardTitle, setBoardTitle] = useState();
-    const [boardContent, setBoardContent] = useState();
-    const [boardHit, setBoardHit] = useState();
-    const [boardDate, setBoardDate] = useState();
-    const [boardLike, setBoardLike] = useState();
+    const [noticeTitle, setNoticeTitle] = useState();
+    const [noticeContent, setNoticeContent] = useState();
+    const [noticeHit, setNoticeHit] = useState();
+    const [noticeDate, setNoticeDate] = useState();
     const [id, setId] = useState();
 
     let navigate = useNavigate();
     let location = useLocation();
-    let boardId = location.state.boardId;
+    let noticeId = location.state.noticeId;
 
 
     console.log()
     useEffect(()=> {
         axios
-        .get("/api/board/"+boardId, {
+        .get("/api/notice/"+noticeId, {
             headers: {
                 Authorization: window.localStorage.accessToken,
                 "Content-Type": "application/json",
@@ -69,13 +67,11 @@ const BoardDetail =({isEdit}) => {
         })
         .then((response)=>{
             console.log("board" + JSON.stringify(response.data));
-            setBoardTitle(response.data.boardTitle);
-            setBoardContent(response.data.boardContent);
-            setNickname(response.data.userNickname);
-            setBoardDate(response.data.boardDate);
-            setBoardHit(response.data.boardHit);
-            setBoardLike(response.data.boardLike);
-            setId(response.data.boardId);
+            setNoticeTitle(response.data.noticeTitle);
+            setNoticeContent(response.data.noticeContent);
+            setNoticeDate(response.data.noticeDate);
+            setNoticeHit(response.data.noticeHit);
+            setId(response.data.noticeId);
         })
         .catch((error)=> {
             console.log(error);
@@ -83,31 +79,27 @@ const BoardDetail =({isEdit}) => {
     },[])
 
     function onCancel() {
-        navigate("/lobby/board")
+        navigate("/lobby/notice")
     }
 
     function onModify(){
-        navigate("/lobby/board")
+        navigate("/lobby/notice")
     }
     
     return (
         <PostViewerBlock>
         <PostHead>
-            <p>{id}번 째 게시물</p>
-            <h1>{boardTitle}</h1>
-            <p>작성자 : {nickname}</p>
-            <p>조회수 : {boardHit}</p>
-            <p>좋아요 수 : {boardLike}</p>
-            <span>{new  Date(boardDate).toLocaleDateString()}</span>
+            <p>{id}번 째 공지사항</p>
+            <h1>{noticeTitle}</h1>
+            <p>작성자 : 관리자</p>
+            <p>조회수 : {noticeHit}</p>
+            <span>{new  Date(noticeDate).toLocaleDateString()}</span>
         </PostHead>
         <PostContent>
-            <p>{boardContent}</p>
+            <p>{noticeContent}</p>
         </PostContent>
         <br/>
         <WriteActionButtonsBlock>
-            <StyledButton cyan onClick={onModify}>
-                {'수정'}
-            </StyledButton>
             <StyledButton onClick={onCancel}>뒤로가기</StyledButton>
         </WriteActionButtonsBlock>
         </PostViewerBlock>
