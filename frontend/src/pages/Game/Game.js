@@ -391,6 +391,10 @@ export default function Game(props) {
           stomp={stomp}
           sessionId={sessionId}
           turn={turn}
+          isStart={isStart}
+          buttonDisable={buttonDisable}
+          startDisabled={startDisabled}
+          myBet={myBet}
         />
       ) : null}
 

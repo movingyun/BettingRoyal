@@ -38,11 +38,7 @@ class Gameroom extends Component {
       chatList: [],
       isOpen: false,
       seconds: 30,
-      myBet:0,
-      currentBetUnit:0,
-      buttonDisable: [true,true,true,true],
-      startDisabled:false,
-      isStart:false,
+      currentBetUnit: 0,
     };
 
     this.test = [styles.player1, styles.player2, styles.player3, styles.player4, styles.player5];
@@ -58,20 +54,16 @@ class Gameroom extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.sendChat = this.sendChat.bind(this);
-    this.sendBet = this.sendBet.bind(this)
-    this.gameStart = this.gameStart.bind(this)
-    // this.updateChat = this.updateChat.bind(this);
-    this.startClick = this.startClick.bind(this);
   }
 
-  startClick() {
-    console.log("겜시작");
-    this.timerId = setInterval(() => {
-      this.setState({
-        seconds: this.state.seconds - 1,
-      });
-    }, 1000);
-  }
+  // startClick() {
+  //   console.log("겜시작");
+  //   this.timerId = setInterval(() => {
+  //     this.setState({
+  //       seconds: this.state.seconds - 1,
+  //     });
+  //   }, 1000);
+  // }
 
   togglePopover = () => {
     this.setState({ isOpen: !this.state.isOpen });
@@ -288,30 +280,7 @@ class Gameroom extends Component {
     }
   }
 
-  gameStart(e) {
-    if (this.props.turn == 0) {
-      console.log("겜시작");
-      this.setState({
-        isStart:true
-      })
-
-      this.props.stomp.send(
-        "/pub/game/message",
-        {},
-        JSON.stringify({ roomId: this.props.roomId, message: "", sender: "", type: "START" })
-      );
-    } else {
-      console.log("방장만 시작 가능");
-    }
-
-    // // 타이머 시작
-    // timerId.current = setInterval(() => {
-    //   setSec(time.current-1);
-    //   time.current -= 1;
-    // }, 1000);
-
-    // return () => clearInterval(timerId.current);
-  }
+  
 
   // 채팅 메세지 부분
   sendMessage(type, data) {
@@ -330,84 +299,6 @@ class Gameroom extends Component {
     this.sendMessage("my-chat", chatMsg);
   }
 
-  sendBet(action) {
-    //call die raise allin
-    console.log(action.target.textContent);
-    switch (action.target.textContent) {
-      case "콜":
-        console.log("z");
-        this.props.stomp.send(
-          "/pub/game/message",
-          {},
-          JSON.stringify({
-            roomId: this.props.roomId,
-            message: "",
-            sender: "",
-            type: "CALL",
-            socketId: this.props.sessionId,
-          })
-        );
-
-        break;
-      case "레이즈":
-        this.setState({
-          myBet:this.state.currentBetUnit
-        })
-        console.log("raise " + this.state.currentBetUnit);
-        this.props.stomp.send(
-          "/pub/game/message",
-          {},
-          JSON.stringify({
-            roomId: this.props.roomId,
-            message: this.state.currentBetUnit,
-            sender: "",
-            type: "RAISE",
-            socketId: this.props.sessionId,
-          })
-        );
-
-        break;
-      case "올인":
-        console.log("allin ");
-        this.props.stomp.send(
-          "/pub/game/message",
-          {},
-          JSON.stringify({
-            roomId: this.props.roomId,
-            message: "",
-            sender: "",
-            type: "ALLIN",
-            socketId: this.props.sessionId,
-          })
-        );
-
-        break;
-      case "다이":
-        console.log("die");
-        this.props.stomp.send(
-          "/pub/game/message",
-          {},
-          JSON.stringify({
-            roomId: this.props.roomId,
-            message: "",
-            sender: "",
-            type: "DIE",
-            socketId: this.props.sessionId,
-          })
-        );
-        //나가기 버튼 활성화
-
-        break;
-      default:
-        break;
-    }
-  }
-  // updateChat(chatList) {
-  //     this.state.chatList = chatList
-  //     console.log("채팅 update 완료")
-  //     console.log(chatList)
-  //     console.log(this.state.chatList)
-  // }
 
   async switchCamera() {
     try {
@@ -446,12 +337,7 @@ class Gameroom extends Component {
   }
 
   render() {
-    const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
-    const players = this.state.players;
-    const state = this.state;
     const chatList = this.state.chatList;
-    const isStart = this.state.isStart;
     return (
       <div className={styles.container}>
         {/* 입장 전 */}
@@ -475,7 +361,7 @@ class Gameroom extends Component {
             {this.state.publisher && this.props.roomInfo && this.props.players[0] ? (
               <div
                 onClick={() => this.handleMainVideoStream(this.state.publisher)}
-                className={styles.myCam}
+                className={`${styles.myCam} ${this.props.turn == 0 ? styles.highlight : styles.none}`}
               >
                 <UserVideoComponent
                   streamManager={this.state.publisher}
@@ -486,7 +372,7 @@ class Gameroom extends Component {
             ) : null}
 
             {this.props.players[1] && this.state.subscribers[0] ? (
-              <div key={0} className={this.test[0]}>
+              <div key={0} className={`${this.test[0]} ${this.props.turn == 1 ? styles.highlight : styles.none}`}>
                 <UserVideoComponent
                   streamManager={this.state.subscribers[0]}
                   player={this.props.players[1]}
@@ -495,7 +381,7 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[2] && this.state.subscribers[1] ? (
-              <div key={1} className={this.test[1]}>
+              <div key={1} className={`${this.test[1]} ${this.props.turn == 2 ? styles.highlight : styles.none}`}>
                 <UserVideoComponent
                   streamManager={this.state.subscribers[1]}
                   player={this.props.players[2]}
@@ -504,7 +390,7 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[3] && this.state.subscribers[2] ? (
-              <div key={2} className={this.test[2]}>
+              <div key={2} className={`${this.test[2]} ${this.props.turn == 3 ? styles.highlight : styles.none}`}>
                 <UserVideoComponent
                   streamManager={this.state.subscribers[2]}
                   player={this.props.players[3]}
@@ -513,7 +399,7 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[4] && this.state.subscribers[3] ? (
-              <div key={3} className={this.test[3]}>
+              <div key={3} className={`${this.test[3]} ${this.props.turn == 4 ? styles.highlight : styles.none}`}>
                 <UserVideoComponent
                   streamManager={this.state.subscribers[3]}
                   player={this.props.players[4]}
@@ -522,7 +408,7 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[5] && this.state.subscribers[4] ? (
-              <div key={4} className={this.test[4]}>
+              <div key={4} className={`${this.test[4]} ${this.props.turn == 5 ? styles.highlight : styles.none}`}>
                 <UserVideoComponent
                   streamManager={this.state.subscribers[4]}
                   player={this.props.players[5]}
@@ -530,79 +416,81 @@ class Gameroom extends Component {
                 {this.props.win[5] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
               </div>
             ) : null}
-          </div>
-        ) : null}
 
-        <div className={styles.center}>
-          <div className={styles.qs}>누가 거짓말쟁이?</div>
-          <div className={styles.cards}>
-            <div className={`${styles.cards_back} ${styles.flip_back}`}>
-              <img src={card_back} />
-              <img src={card_back} />
+            <div className={styles.center}>
+              <div className={styles.qs}>누가 거짓말쟁이?</div>
+              <div className={styles.cards}>
+                <div className={`${styles.cards_back} ${styles.flip_back}`}>
+                  <img src={card_back} />
+                  <img src={card_back} />
+                </div>
+                <div className={`${styles.cards_front} ${styles.flip_front}`}>
+                  <img src={card_am_1} />
+                  <img src={card_aq_1} />
+                </div>
+              </div>
+              {/* 베팅시*/}
+              {/* <img src={ruby_bet} className={styles.rubyBet}/> */}
+              {/* 내가 게임 이길시*/}
+              {/* <img src={ruby_win} className={styles.rubyWin}/> */}
+              <div className={styles.info}>
+                <div className={styles.time}>{this.state.seconds}초</div>
+                <div className={styles.ruby}>
+                  <img src={ruby} className={styles.rubyImg} />
+                  <p className={styles.rubyNum}>1,000,000</p>
+                </div>
+                <div className={styles.help}>
+                  <Popover
+                    isOpen={this.state.isOpen}
+                    body={
+                      <div className={styles.popover}>
+                        더블 &#60; 스트레이트 &#60; 트리플
+                        <br />
+                        자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
+                      </div>
+                    }
+                    onOuterAction={this.togglePopover}
+                  >
+                    <HelpOutlineRoundedIcon
+                      className={styles.popoverBtn}
+                      onClick={this.togglePopover}
+                    />
+                  </Popover>
+                </div>
+              </div>
             </div>
-            <div className={`${styles.cards_front} ${styles.flip_front}`}>
-              <img src={card_am_1} />
-              <img src={card_aq_1} />
-            </div>
-          </div>
-          {/* 베팅시*/}
-          {/* <img src={ruby_bet} className={styles.rubyBet}/> */}
-          {/* 내가 게임 이길시*/}
-          {/* <img src={ruby_win} className={styles.rubyWin}/> */}
-          <div className={styles.info}>
-            <div className={styles.time}>{this.state.seconds}초</div>
-            <div className={styles.ruby}>
-              <img src={ruby} className={styles.rubyImg} />
-              <p className={styles.rubyNum}>1,000,000</p>
-            </div>
-            <div className={styles.help}>
-              <Popover
-                isOpen={this.state.isOpen}
-                body={
-                  <div className={styles.popover}>
-                    더블 &#60; 스트레이트 &#60; 트리플
-                    <br />
-                    자수정 &#60; 아쿠아마린 &#60; 다이아몬드 &#60; 에메랄드
-                  </div>
-                }
-                onOuterAction={this.togglePopover}
-              >
-                <HelpOutlineRoundedIcon
-                  className={styles.popoverBtn}
-                  onClick={this.togglePopover}
-                />
-              </Popover>
-            </div>
-          </div>
-        </div>
-        <div className={styles.chat}>
+            <div className={styles.chat}>
           <Chat sendChat={this.sendChat} chatList={chatList} />
         </div>
         {/* 게임시작버튼 */}
-        {isStart ? (
+        {this.props.isStart ? (
           <div className={styles.betting}>
-            <button onClick={this.sendBet} disabled={this.state.buttonDisable[0]}>
+            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
               다이
             </button>
-            <button onClick={this.sendBet} disabled={this.state.buttonDisable[1]}>
+            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
               콜
             </button>
-            <button onClick={this.sendBet} disabled={this.state.buttonDisable[2]}>
+            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
               레이즈
             </button>
-            <button onClick={this.sendBet} disabled={this.state.buttonDisable[3]}>
+            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
               올인
             </button>
           </div>
         ) : (
           <div className={styles.start}>
-            <button onClick={this.gameStart} disabled={this.state.startDisabled}>
+            <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
               게임시작
             </button>
           </div>
         )}
+          </div>
+        ) : null}
+
+       
         {/* 베팅버튼 */}
-        <div className={styles.betting}>
+        {/* <div className={styles.betting}>
           <button>다이</button>
           <button>콜</button>
           <div className={styles.betList}>
@@ -616,7 +504,7 @@ class Gameroom extends Component {
             <button className={styles.betBtn}>확인</button>
           </div>
           <button>올인</button>
-        </div>
+        </div> */}
       </div>
     );
   }

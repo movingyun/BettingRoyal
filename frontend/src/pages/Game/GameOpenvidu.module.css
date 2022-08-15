@@ -1,4 +1,4 @@
-.container{
+.container {
     position: relative;
     height: 100vh;
     width: 100vw;
@@ -18,24 +18,24 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 2.5px;
-    color:#A27B5C;
+    color: #A27B5C;
 }
 
-.header > h1 {
+.header>h1 {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
     display: inline-block;
     font-weight: 500;
-    color:#DCD7C9;
+    color: #DCD7C9;
 }
 
-.header > h2 {
+.header>h2 {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     display: inline-block;
     margin-left: 10px;
     font-weight: 400;
-    color:#A27B5C;
+    color: #A27B5C;
 }
 
 .buttonList {
@@ -124,7 +124,7 @@
     margin-right: 10px;
 }
 
-.myCam{
+.myCam {
     grid-row: 5 / 7;
     grid-column: 1 / 2;
     background-color: #3F4E4F;
@@ -138,7 +138,7 @@
 }
 
 .center {
-    grid-row:  3 / 6;
+    grid-row: 3 / 6;
     grid-column: 2 / 3;
     margin-left: 10px;
     margin-right: 10px;
@@ -146,24 +146,24 @@
     margin-top: 5px;
     border-radius: 20px;
     display: grid;
-    align-items:center;
+    align-items: center;
     grid-template-rows: 20% 60% 20%;
     padding: 10px;
-    position:relative
+    position: relative
 }
 
-.rubyGet{
+.rubyGet {
     position: absolute;
 }
 
-.rubyBet{
+.rubyBet {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, 0%);
 }
 
-.rubyWin{
+.rubyWin {
     position: absolute;
     top: 20%;
     left: 50%;
@@ -174,7 +174,7 @@
     grid-row: 1 / 2;
     background-color: #3F4E4F;
     display: grid;
-    align-items:center;
+    align-items: center;
     height: 35px;
     margin: 0 30px 0 30px;
     border-radius: 25px;
@@ -182,7 +182,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     color: #DCD7C9;
     font-weight: 500;
-    
+
 }
 
 .cards {
@@ -205,10 +205,10 @@
     opacity: 0;
 }
 
-.cards_back > img {
+.cards_back>img {
     display: block;
-	width: 100%;
-	height: auto;
+    width: 100%;
+    height: auto;
     padding: 0 5px 0 5px;
 }
 
@@ -223,20 +223,18 @@
     opacity: 0;
 }
 
-.cards_front > img {
+.cards_front>img {
     /* position: absolute; */
     display: block;
-	width: 100%;
-	height: auto;
+    width: 100%;
+    height: auto;
     padding: 0 5px 0 5px;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.1));
 }
 
-.none{
+.none {}
 
-}
-
-.flip_back{
+.flip_back {
     opacity: 1;
     backface-visibility: hidden;
     animation-name: backInUp, flipOutBack;
@@ -244,7 +242,7 @@
     animation-duration: 1.5s, 1s;
 }
 
-.flip_front{
+.flip_front {
     opacity: 1;
     backface-visibility: hidden;
     animation-name: opacity, flipOutFront;
@@ -269,12 +267,13 @@
     align-items: center;
     text-align: center;
     height: 100%;
-    color:#A27B5C;
+    color: #A27B5C;
 }
 
 .ruby {
     background-color: #DCD7C9;
-    color: #A27B5C;;
+    color: #A27B5C;
+    ;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 4px;
@@ -290,6 +289,7 @@
     display: inline-block;
 
 }
+
 .rubyNum {
     text-align: right;
     float: right;
@@ -309,7 +309,7 @@
     margin-top: 5px;
 }
 
-.betting{
+.betting {
     /* display: grid;
     grid-template-columns: repeat(3, 1fr); */
     grid-row: 6 / 7;
@@ -322,7 +322,7 @@
     grid-template-columns: repeat(4, 1fr);
 }
 
-.betting > button{
+.betting>button {
     margin-right: 15px;
     font-size: 25px;
     background-color: #2C3639;
@@ -337,19 +337,19 @@
     border-radius: 5px;
 }
 
-.betting > button:hover{
+.betting>button:hover {
     background-color: #A27B5C;
     color: #DCD7C9;
 }
 
-.betList{
+.betList {
     background-color: rgba(0, 0, 0, 0.15);
     margin-right: 15px;
-    border-radius:5px;
+    border-radius: 5px;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.betList > p{
+.betList>p {
     height: 60%;
     color: #DCD7C9;
     text-align: center;
@@ -368,21 +368,21 @@
     font-size: 18px;
 }
 
-.betBtn{
+.betBtn {
     width: 30%;
     height: 40%;
-    border-bottom-right-radius:5px;
+    border-bottom-right-radius: 5px;
     border: none;
     background-color: #2C3639;
     font-size: 18px;
     color: #DCD7C9;
 }
 
-.betBtn:hover{
+.betBtn:hover {
     background-color: #A27B5C;
 }
 
-.start{
+.start {
     grid-row: 6 / 7;
     grid-column: 2 / 4;
     padding-bottom: 15px;
@@ -393,7 +393,7 @@
     grid-template-columns: repeat(1, 1fr);
 }
 
-.start > button{
+.start>button {
     margin-right: 15px;
     font-size: 25px;
     background-color: #2C3639;
@@ -405,10 +405,10 @@
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
-    border-radius:5px;
+    border-radius: 5px;
 }
 
-.start > button:hover{
+.start>button:hover {
     background-color: #A27B5C;
     color: #DCD7C9;
 }
@@ -416,48 +416,48 @@
 
 @keyframes backInUp {
     0% {
-      -webkit-transform: translateY(100px) scale(0.8);
-      transform: translateY(100px) scale(0.8);
-      opacity: 0;
+        -webkit-transform: translateY(100px) scale(0.8);
+        transform: translateY(100px) scale(0.8);
+        opacity: 0;
     }
-  
+
     50% {
-      -webkit-transform: translateY(0px) scale(0.8);
-      transform: translateY(0px) scale(0.8);
-      opacity: 1;
+        -webkit-transform: translateY(0px) scale(0.8);
+        transform: translateY(0px) scale(0.8);
+        opacity: 1;
     }
-  
+
     100% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
-  @keyframes flipOutBack {
+@keyframes flipOutBack {
     from {
-      -webkit-transform: perspective(500px);
-      transform: perspective(500px);
+        -webkit-transform: perspective(500px);
+        transform: perspective(500px);
     }
 
     to {
-      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
-      transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
+        -webkit-transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
+        transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
     }
 }
 
 
 @keyframes flipOutFront {
     from {
-      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
-      transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
-      /* opacity: 0; */
+        -webkit-transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
+        transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
+        /* opacity: 0; */
     }
 
     to {
-      -webkit-transform: perspective(500px);
-      transform: perspective(500px);
-      /* opacity: 1; */
+        -webkit-transform: perspective(500px);
+        transform: perspective(500px);
+        /* opacity: 1; */
     }
 }
 
@@ -477,7 +477,7 @@
     align-items: center;
 }
 
-.popover{
+.popover {
     background-color: rgba(0, 0, 0);
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 300;
@@ -485,9 +485,9 @@
     border-radius: 10px;
     text-align: center;
     color: #DCD7C9;
-  }
+}
 
-.popoverBtn{
+.popoverBtn {
     color: #A27B5C;
     cursor: pointer;
     margin-left: 10px;
@@ -495,6 +495,10 @@
     width: 25px;
 }
 
-  .popoverBtn:hover{
+.popoverBtn:hover {
     color: #3F4E4F;
-  }
+}
+
+.highlight{
+    background-color:darkorange;
+}

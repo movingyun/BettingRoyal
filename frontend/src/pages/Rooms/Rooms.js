@@ -116,14 +116,14 @@ export default function Rooms(props) {
               onChange={onRoomTitleHandler}
               className={styles.modalField}
             />
-            <TextField
+            {/* <TextField
               color="action"
               id="standard-basic"
               label="비밀번호"
               variant="standard"
               onChange={onRoomPwHandler}
               className={styles.modalField}
-            />
+            /> */}
             <TextField
               color="action"
               id="standard-basic"

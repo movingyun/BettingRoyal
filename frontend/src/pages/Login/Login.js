@@ -64,7 +64,7 @@ export default function SignInSide() {
         window.localStorage.setItem("accessToken", response.data.accessToken);
 
         //로비/공지사항 로 이동
-        navigate("/lobby/notice");
+        navigate("/lobby/rooms");
       })
       .catch(function (error) {
         if (error.response.status == 401) {
