@@ -146,7 +146,6 @@ export default function FriendRequest(props) {
           <button className={styles.add}
             onClick={() => {
               acceptFriendBtn(params);
-              alert("친구 수락을 완료했습니다.")
             }}
           >
             <PersonAddRoundedIcon className={styles.icon}/> 친구수락
