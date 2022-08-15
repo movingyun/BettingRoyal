@@ -20,7 +20,7 @@ const EditorBlock = styled(Responsive)`
 `;
 
 const TitleInput = styled.input`
-  font-size: 22px;
+  font-size: 20px;
   padding: 10px;
   padding-left: 15px;
   margin-top: 10px;
@@ -41,17 +41,17 @@ const QuillWrapper = styled.div`
     max-height: 500px;
     font-size: medium;
   }
-  .ql-editor::-webkit-scrollbar {
-    width: 10px;
-}
-  .ql-editor::-webkit-scrollbar-track {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-  }
-  .ql-editor::-webkit-scrollbar-thumb {
-      background-color: #A27B5C;
-      border-radius: 10px;
-  }
+//   .ql-editor::-webkit-scrollbar {
+//     width: 10px;
+// }
+//   .ql-editor::-webkit-scrollbar-track {
+//       background-color: rgba(0, 0, 0, 0.1);
+//       border-radius: 10px;
+//   }
+//   .ql-editor::-webkit-scrollbar-thumb {
+//       background-color: #A27B5C;
+//       border-radius: 10px;
+//   }
   // .ql-editor.ql-blank::before {
   //   left: 0px;
   // }
