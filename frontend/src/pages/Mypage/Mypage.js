@@ -85,7 +85,7 @@ const Mypage = () => {
     return (
         <div>
             <div className={styles.section}>
-                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 내 정보</h3>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20, mr:0.5, mb:0.4}}/>내 정보</h3>
                 <hr />
                 <div>닉네임 : {nickname}</div>
                 <div>이메일 : {email}</div>
@@ -106,12 +106,12 @@ const Mypage = () => {
                 </div>
             </div>
             <div className={styles.section}>
-                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 배지</h3>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20, mr:0.5, mb:0.4 }}/>배지</h3>
                 <hr/>
                 <div>없뚬</div>
             </div>
             <div className={styles.sectionBottom}>
-                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20 }}/> 통계</h3>
+                <h3 className={styles.title}><ArrowForwardIosRoundedIcon sx={{ fontSize:20, mr:0.5, mb:0.4 }}/>통계</h3>
                 <hr/>
                 <div>전적 : {gameCnt} 전 {gameWin} 승 {gameCnt-gameWin} 패</div>
                 <div>승률 : {`${(gameWin/gameCnt*100).toFixed(2)}`} %</div>
