@@ -118,11 +118,6 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
   []);
 
   function onPublish() {
-    console.log("확인 : "+boardContent);
-    console.log("2222 :  "+boardTitle);
-    console.log("Content  :"+quillInstance.current.getContents());
-    console.log("tet :"+quillInstance.current.getText());
-    
     axios
       .post("/api/board", 
       {
@@ -143,8 +138,6 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
       })
       .then((response) => {
         console.log(response.data);
-        // setBoardContent(boardContent);
-        // setBoardTitle(boardTitle);
         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
       })
       .catch((error) => {
