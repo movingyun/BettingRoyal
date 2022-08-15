@@ -134,6 +134,7 @@ export default function Friends(props) {
           <button className={styles.remove}
             onClick={() => {
               deleteFriendBtn(params);
+              alert("친구를 삭제했습니다.");
             }}
           >
           <DeleteRoundedIcon className={styles.icon}/> 친구삭제
