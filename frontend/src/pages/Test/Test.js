@@ -119,7 +119,7 @@ function Test() {
 	return (
 	<div className={styles.container} >
       <div className={styles.col}>
-      <div className={styles.row}><h3 className={styles.title}><MicRoundedIcon sx={{ fontSize:20 }}/> 마이크 테스트</h3></div>
+      <div className={styles.row}><h3 className={styles.title}><MicRoundedIcon sx={{ fontSize:20, mr:0.5, mb:0.4 }}/>마이크 테스트</h3></div>
       <hr/>
 	    <div className={styles.center}>
 				{onRec ? (
@@ -132,7 +132,7 @@ function Test() {
       </div>
 
 			<div className={styles.col}>
-      <div className={styles.row}><h3 className={styles.title}><VideocamRoundedIcon sx={{ fontSize:20 }}/> 카메라 테스트</h3></div>
+      <div className={styles.row}><h3 className={styles.title}><VideocamRoundedIcon sx={{ fontSize:20, mr:0.5, mb:0.4 }}/>카메라 테스트</h3></div>
 	  <hr/>
 		<div className={styles.center}>
           <video

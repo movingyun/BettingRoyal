@@ -5,7 +5,7 @@ import { Box, Grid } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-
+import styles from "./Board.module.css";
   
   function preventDefault(event) {
     event.preventDefault();
@@ -79,6 +79,7 @@ import { Button } from "@mui/material";
 
     return (
       <Grid>
+        <Link to="boardwrite"><button className={styles.createBtn}>글작성</button></Link>
         <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
           onRowClick={enterBoard}
@@ -89,7 +90,6 @@ import { Button } from "@mui/material";
           disableSelectionOnClick
         />
         </Box>
-         <Button><Link to="boardwrite">글쓰기</Link></Button>
       </Grid>
   );
 }
