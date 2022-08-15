@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.BadgeRegistReq;
+import com.ssafy.api.response.BadgeOwnRes;
 import com.ssafy.api.service.BadgeOwnService;
 import com.ssafy.api.service.BadgeService;
 import com.ssafy.api.service.UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(value = "뱃지 보유 API", tags = {"BadgeOwn"})
@@ -59,7 +61,7 @@ public class BadgeOwnController {
 
         //반백수(총 전적 100판 이상 달성)
         if(user.getUserGameCount() >= 100){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(2, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
                         .badge(badgeService.searchBadge(2))
@@ -71,7 +73,7 @@ public class BadgeOwnController {
 
         //갬블러(총 전적 300판 달성)
         if(user.getUserGameCount() >= 300){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(3, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
                         .badge(badgeService.searchBadge(3))
@@ -83,10 +85,10 @@ public class BadgeOwnController {
 
         //심리전문가(총 전적 50승 달성)
         if(user.getUserWin() >= 50){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(4, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
-                        .badge(badgeService.searchBadge(3))
+                        .badge(badgeService.searchBadge(4))
                         .user(user)
                         .build();
                 badgeOwnService.createBadgeOwn(badgeOwn);
@@ -95,10 +97,10 @@ public class BadgeOwnController {
 
         //멘탈리스트(총 전적 100승 달성)
         if(user.getUserWin() >= 100){
-            boolean haveBadge = badgeOwnService.chekBadge(1, user);
+            boolean haveBadge = badgeOwnService.chekBadge(5, user);
             if(!haveBadge){
                 badgeOwn = BadgeOwn.builder()
-                        .badge(badgeService.searchBadge(3))
+                        .badge(badgeService.searchBadge(5))
                         .user(user)
                         .build();
                 badgeOwnService.createBadgeOwn(badgeOwn);
@@ -133,12 +135,33 @@ public class BadgeOwnController {
     //뱃지 전체 조회
     @ApiOperation(value = "내가 가진 뱃지", notes = "내가 가지고있는 뱃지 List로 반환")
     @GetMapping("")
-    public ResponseEntity<List<BadgeOwn>> getBadgeOwnList(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<List<BadgeOwnRes>> getBadgeOwnList(@ApiIgnore Authentication authentication) {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userEmail = userDetails.getUsername();
         User user = userService.getUserByUserEmail(userEmail);
-        
-        return new ResponseEntity<>(badgeOwnService.findMyBadge(user), HttpStatus.OK);
+
+        List<BadgeOwn> badgeOwns = badgeOwnService.findMyBadge(user);
+        List<BadgeOwnRes> resList = new ArrayList<>();
+        for(BadgeOwn badgeOwn : badgeOwns){
+            BadgeOwnRes res = new BadgeOwnRes();
+            res.setBadgeOwnId(badgeOwn.getBadgeOwnId());
+            res.setBadge(badgeOwn.getBadge());
+            res.setBadgeOwnIsUsing(badgeOwn.getBadgeOwnIsUsing());
+            resList.add(res);
+        }
+
+        return new ResponseEntity<>(resList, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "내가 가진 뱃지", notes = "내가 가지고있는 뱃지 List로 반환")
+    @GetMapping("/my")
+    public ResponseEntity<BadgeOwn> getMyBadge(@ApiIgnore Authentication authentication) {
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userEmail = userDetails.getUsername();
+        User user = userService.getUserByUserEmail(userEmail);
+
+        BadgeOwn usingBadge = badgeOwnService.searchMyUsing(user.getUserId());
+
+        return new ResponseEntity<>(usingBadge, HttpStatus.OK);
+    }
 }

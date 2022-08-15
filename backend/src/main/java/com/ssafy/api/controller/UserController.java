@@ -8,6 +8,7 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Reply;
+import com.ssafy.db.entity.Tier;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -211,5 +212,17 @@ public class UserController {
 			resList.add(res);
 		}
 		return new ResponseEntity<>(resList, HttpStatus.OK);
+	}
+
+	//티어 가져오기
+	@GetMapping("/tier")
+	public ResponseEntity<Tier> getUserTier (@ApiIgnore Authentication authentication) {
+		//로그인 한 user 정보 찾아오는 code
+		//스켈레톤 코드 UserController 에서 가져옴
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserEmail(userId);
+		Tier myTier = userService.getUserTier(user.getUserId());
+		return new ResponseEntity<>(myTier, HttpStatus.OK);
 	}
 }

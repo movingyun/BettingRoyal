@@ -19,4 +19,6 @@ public interface BadgeOwnRepository extends JpaRepository<BadgeOwn, Integer> {
 
     @Query(value = "SELECT * FROM badge_own WHERE user_id=?", nativeQuery = true)
     List<BadgeOwn> findByuserId(int userId);
+
+
 }
