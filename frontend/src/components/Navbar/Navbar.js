@@ -46,7 +46,7 @@ const Navbar = (title) => {
 
   useEffect(() => {
     axios
-    .get("http://localhost:8080/api/user", {
+    .get("/api/user", {
       headers : {
         Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const Navbar = (title) => {
           </Modal>
           </Box>
         </List>
-        <Divider sx={navbarStyles.divider}/>
+        {/* <Divider sx={navbarStyles.divider}/> */}
         <List sx={navbarStyles.centerList}>
            {mainNavbarItems.map((item, index) => (
               <ListItem sx={navbarStyles.center} button key={item.id} onClick={() => navigate(item.route)}>
@@ -113,7 +113,6 @@ const Navbar = (title) => {
                   </ListItemIcon>
                   <ListItemText
                     sx={navbarStyles.centerText} primary={item.label}/>
-
             </ListItem>
           ))}
         </List>

@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import DialogTitle from "@mui/material/DialogTitle"; 
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
@@ -91,44 +91,50 @@ export default function Rooms(props) {
 
   let roomcreate = (
     <Grid item xs={12}>
-      <Button variant="primary" onClick={handlemakeroom}>
-        방만들기
-      </Button>
+      <button className={styles.createBtn} onClick={handlemakeroom}>
+        방 만들기
+      </button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
-          <div>
+        <DialogContent className={styles.createModal}>
+          <div className={styles.modalTitle}>
+            방 만들기
+          </div>
+          <div className={styles.modalExplain}>
+            방장이 되어 게임에 참여하세요!
+          </div>
+          <div className={styles.modalInput}>
             <TextField
+              color="action"
               id="standard-basic"
-              label="방제목"
+              label="방 제목"
               variant="standard"
               onChange={onRoomTitleHandler}
+              className={styles.modalField}
             />
-          </div>
-          <div>
             <TextField
+              color="action"
               id="standard-basic"
               label="비밀번호"
               variant="standard"
               onChange={onRoomPwHandler}
+              className={styles.modalField}
             />
-          </div>
-          <div>
             <TextField
+              color="action"
               id="standard-basic"
-              label="베팅 단위"
+              label="루비 베팅 단위"
               variant="standard"
               onChange={onRoomBettingunitHandler}
+              className={styles.modalField}
             />
           </div>
+          <button className={styles.createBtn} onClick={makeRoom}>확인</button>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={makeRoom}>만들기</Button>
-        </DialogActions>
       </Dialog>
     </Grid>
   );

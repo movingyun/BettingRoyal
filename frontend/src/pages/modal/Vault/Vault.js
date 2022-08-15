@@ -97,22 +97,29 @@ export default function Vault() {
     <div>
       <p className={styles.bg}> <div className={styles.tite}>현재 보유 루비 : {ruby}</div></p>
       <p className={styles.bg}>현재 금고 잔액 : {vaultmoney}</p>
-
-      <TextField
-        onChange={(e) => {
-          setDeposit(e.target.value);
-        }}
-        autoFocus
-      ></TextField>
-      <button onClick={Deposit}>입금</button>
-      <p className={styles.read}>{depositstatus}</p>
-      <TextField
-        onChange={(e) => {
-          setWithdrawamount(e.target.value);
-        }}
-      ></TextField>
-      <button onClick={Withdraw}>출금</button>
-      <p className={styles.read}>{withdrawstatus}</p>
+      <div className={styles.contents}>
+        <TextField
+          className={styles.field}
+          color="action"
+          onChange={(e) => {
+            setDeposit(e.target.value);
+          }}
+          autoFocus
+          placeholder="입금할 금액을 입력하세요."
+        ></TextField>
+        <button onClick={Deposit} className={styles.btn}>입금</button>
+        <p className={styles.read}>{depositstatus}</p>
+        <TextField
+          className={styles.field}
+          color="action"
+          onChange={(e) => {
+            setWithdrawamount(e.target.value);
+          }}
+          placeholder="출금할 금액을 입력하세요."
+        ></TextField>
+        <button onClick={Withdraw} className={styles.btn}>출금</button>
+        <p className={styles.read}>{withdrawstatus}</p>
+      </div>
     </div>
   );
 }

@@ -17,46 +17,47 @@
     width: 90%;
     max-width: 450px;
     margin: 0 auto;
-    border-radius: 0.3rem;
-    background-color: #fff;
+    border-radius: 10px;
+    background-color: #FFF;
     animation: modal-show 0.3s;
     overflow: hidden;
   }
   .modal > section > header {
     position: relative;
-    padding: 16px 64px 16px 16px;
-    background-color: #f1f1f1;
-    font-weight: 700;
-    color: rgb(68, 60, 96);
+    padding: 10px;
+    padding-left: 15px;
+    background-color: #DCD7C9;
+    font-weight: 600;
     font-size: 20px;
+    color: #A27B5C;
   }
   .modal > section > header button {
     position: absolute;
-    top: 15px;
+    top: 9px;
     right: 15px;
-    width: 30px;
-    font-size: 21px;
+    /* width: 30px; */
+    font-size: 20px;
     font-weight: 700;
     text-align: center;
-    color: #999;
+    color: #A27B5C;
     background-color: transparent;
   }
   .modal > section > main {
-    padding: 16px;
-    border-bottom: 1px solid #dee2e6;
+    padding: 15px;
+    /* border-bottom: 1px solid #dee2e6; */
     border-top: 1px solid #dee2e6;
   }
-  .modal > section > footer {
+  /* .modal > section > footer {
     padding: 12px 16px;
     text-align: right;
-  }
-  .modal > section > footer button {
+  } */
+  /* .modal > section > footer button {
     padding: 6px 12px;
     color: #fff;
     background-color: #6c757d;
     border-radius: 5px;
     font-size: 13px;
-  }
+  } */
   .modal.openModal {
     display: flex;
     align-items: center;
