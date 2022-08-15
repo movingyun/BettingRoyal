@@ -21,7 +21,7 @@ export default function First(props) {
   let header = (
     <div className={styles.bg}>
       <div className={styles.mainframe}>
-      <div className={styles.explan}>WebRTC 기반 심리 카드게임</div>
+      <div className={styles.explan}>온라인 화상 심리 카드게임 서비스</div>
       <div className={styles.parent}>
         <div className={styles.child_betting}><img src={betting}/></div>
         <div className={styles.child_royal}><img src={royal}/></div>
