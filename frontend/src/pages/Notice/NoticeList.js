@@ -3,9 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import styles from "./Board.module.css";
+import { Link, useNavigate } from "react-router-dom";
+
   
   function preventDefault(event) {
     event.preventDefault();
@@ -16,37 +15,31 @@ import styles from "./Board.module.css";
     const columns = [ 
       {
         field: "id",
-        headerName: "No.", 
+        headerName: "No.",
         width: 70
       },
       {
-          field: "boardTitle", 
+          field: "noticeTitle",
           headerName: "제목",
           width: 350,
           editable: false,
       },
       {
-        field: "userNickname",
+        field: "userNickname", 
         headerName: "닉네임",
-        width: 100, 
+        width: 150, 
         editable: false,
       },
       {
-        field: "boardDate",
+        field: "noticeDate",
         headerName: "작성 일자",
         width: 150,
         editable: false,
       },
       {
-        field: "boardLike",
-        headerName: "좋아요수",
-        width: 50,
-        editable: false,
-      },
-      {
-          field: "boardHit",
+          field: "noticeHit",
           headerName: "조회수",
-          width: 50,
+          width: 70,
           editable: false,
       }
     ];
@@ -54,17 +47,18 @@ import styles from "./Board.module.css";
     const [nickname, setNickname] = useState();
     const [rows, setRows] = useState("");
     let navigate = useNavigate();
+  
 
     useEffect(()=> {
       axios
-      .get("/api/board", {
+      .get("/api/notice", {
         headers: {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
         },
       }) 
       .then((response)=> {
-        // console.log("게시판 : " + JSON.stringify(response.data));
+        console.log("공지사항 : " + JSON.stringify(response.data));
         setRows(response.data); 
       })
       .catch((error)=> { 
@@ -72,21 +66,20 @@ import styles from "./Board.module.css";
       });
     },[])
 
-    function enterBoard(e){
-      navigate("detail", { state: { boardId:e.id } })
+    function enterNotice(e){
+      navigate("detail", { state: { noticeId:e.id } })
       //console.log(e.id);
-  }
+    }
 
     return (
       <Grid>
-        <Link to="boardwrite"><button className={styles.createBtn}>글작성</button></Link>
         <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
-          onRowClick={enterBoard}
+          onRowClick={enterNotice}
           rows={rows}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[6]}
+          rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />
         </Box>
