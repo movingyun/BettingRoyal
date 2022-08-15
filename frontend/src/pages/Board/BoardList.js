@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
   
@@ -53,7 +53,7 @@ import { Button } from "@mui/material";
 
     const [nickname, setNickname] = useState();
     const [rows, setRows] = useState("");
-    
+    let navigate = useNavigate();
 
     useEffect(()=> {
       axios
@@ -72,11 +72,16 @@ import { Button } from "@mui/material";
       });
     },[])
 
+    function enterBoard(e){
+      navigate("/lobby/board/"+e.id, { state: { boardId:e.id } })
+      //console.log(e.id);
+  }
 
     return (
       <Grid>
         <Box sx={{ height: 631, width: "100%" }}>
         <DataGrid
+          onRowClick={enterBoard}
           rows={rows}
           columns={columns}
           pageSize={10}
@@ -85,7 +90,6 @@ import { Button } from "@mui/material";
         />
         </Box>
          <Button><Link to="boardwrite">글쓰기</Link></Button>
-         <Button><Link to="{boardId}">테스트</Link></Button>
       </Grid>
 
       
