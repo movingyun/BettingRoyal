@@ -163,12 +163,12 @@ function NavbarContent() {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              <img src={logo} height="30" />
+              <img src={logo} height="28" />
             </Typography>
             <IconButton color="inherit">
               {/* <NotificationBell /> */}
               <Button onClick={logout} sx={lobbyStyles.logout}>
-                <LogoutRoundedIcon sx={lobbyStyles.icon} />
+                <LogoutRoundedIcon sx={{ fontSize: 20, mr:0.5}} />
                 로그아웃
               </Button>
             </IconButton>

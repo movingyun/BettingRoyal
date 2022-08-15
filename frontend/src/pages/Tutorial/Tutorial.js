@@ -36,7 +36,7 @@ function TabContent(props){
       <div className={styles.section}>
         <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>공통 질문 시간을 적극적으로 활용하여 상대방의 심리를 파악해 보세요.</p>
         <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>상대방의 심리가 헷갈릴 때는 감정분석의 도움을 받아보세요.</p>
-        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>감정분석을 통해 평온, ㅇㅇ, ㅇㅇ, ㅇㅇ, 총 n개의 감정을 수치가 높은 순서로 확인할 수 있습니다.</p>
+        <p><TaskAltRoundedIcon sx={{ fontSize:20, mr:1 }}/>감정분석을 통해 평온, 기쁨, 슬픔, 화남, 놀람, 공포, 역함 총 7개의 감정을 수치가 높은 순서로 확인할 수 있습니다.</p>
       </div>
     </div>
   }else if(props.clicked === 1) {

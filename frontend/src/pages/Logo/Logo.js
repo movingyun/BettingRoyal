@@ -27,7 +27,7 @@ export default function First(props) {
         <div className={styles.child_royal}><img src={royal}/></div>
         </div>
           <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
-          <Button href={KAKAO_AUTH_URL}><img src={kakaologin}/></Button><br></br>
+          {/* <Button href={KAKAO_AUTH_URL}><img src={kakaologin}/></Button><br></br> */}
           <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
           {/* <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link> */}
       </div>

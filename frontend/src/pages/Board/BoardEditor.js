@@ -23,7 +23,7 @@ const TitleInput = styled.input`
   font-size: 20px;
   padding: 10px;
   padding-left: 15px;
-  margin-top: 10px;
+  margin-top: 20px;
   border-radius: 10px;
   border: 1px solid ${palette.gray[4]};
   width: 100%;
@@ -138,6 +138,8 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
       })
       .then((response) => {
         console.log(response.data);
+        // setBoardContent(boardContent);
+        // setBoardTitle(boardTitle);
         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
       })
       .catch((error) => {
