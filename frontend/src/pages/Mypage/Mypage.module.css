@@ -47,10 +47,16 @@
   color: #DCD7C9;
 };
 
-.myUsingBadge{
-  background-color: white;
+.myUsingBadge {
 }
 
 .myUnUsingBadge{
-  background-color: darkgray;
+  border-radius: 10px;
+  opacity: 40%;
+}
+
+.imgBadge{
+  background-color: #DCD7C9;
+  border-radius: 10px;
+  padding: 10px;
 }

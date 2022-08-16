@@ -178,13 +178,14 @@ const Mypage = () => {
         <Box sx={{ display: "flex" }}>
           {myBadge.map((item, index) => (
             <Box
-              sx={{ m: 1, border: 1, p: 0.5 }}
+              sx={{ mr: '15px'}}
               className={item.badgeOwnIsUsing ? styles.myUsingBadge : styles.myUnUsingBadge}
             >
               <img
                 src={"/images/badge/" + item.badge.badgeImg}
-                height="50"
-                width="50"
+                height="100"
+                width="100"
+                className={styles.imgBadge}
                 onClick={() => {
                   changeMyBadge(item.badge.badgeId);
                   console.log(item.badge);
