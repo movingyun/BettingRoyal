@@ -124,11 +124,13 @@ export default function Rooms(props) {
           })
           .then(function (roomresponse) {
             console.log(userresponse.data.userRuby);
-            console.log(roomresponse.data.roomBettingUnit);
+            console.log(roomresponse);
             if (userresponse.data.userRuby <= roomresponse.data.roomBettingUnit) {
               alert("보유 루비가 최소 베팅 금액보다 적습니다");
             } else if (roomresponse.data.current_count >= 6) {
               alert("정원이 가득찼습니다.");
+            } else if (roomresponse.data.roomIsStart) {
+              alert("게임이 진행중입니다");
             } else {
               navigate("/room", {
                 state: { roomId: e.id, roomBetUnit: roomresponse.data.roomBettingUnit },
@@ -209,16 +211,20 @@ export default function Rooms(props) {
 
   function makeRoomList(roomsdata) {
     let list = [];
+    console.log(roomsdata);
+
     for (let i = 0; i < roomsdata.length; i++) {
       let room = new Object();
       room.id = roomsdata[i].roomId;
       room.roomTitle = roomsdata[i].roomTitle;
       room.roomBettingUnit = roomsdata[i].roomBettingUnit;
       room.isPw = roomsdata[i].roomPw;
-      room.current_count = 1;
-      room.max_count = 1;
-      console.log(JSON.stringify(room));
-      list.push(room);
+      room.current_count = roomsdata[i].roomInCnt;
+      room.max_count = 6;
+      room.isStart = roomsdata[i].roomIsStart;
+      if (!room.isStart) {
+        list.push(room);
+      }
     }
     return list;
   }
