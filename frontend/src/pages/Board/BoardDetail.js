@@ -110,6 +110,17 @@ const BoardDetail =({isEdit}) => {
         <PostContent>
             <p>{boardContent}</p>
         </PostContent>
+        <br/>
+        <WriteActionButtonsBlock>
+            {/* <StyledButton cyan onClick={onModify}>
+                {'수정'}
+            </StyledButton>
+            <StyledButton onClick={onCancel}>뒤로가기</StyledButton> */}
+        </WriteActionButtonsBlock>
+        <>------------------------------</>
+        <PostHead>
+          댓글 쓸부분
+        </PostHead>
         </PostViewerBlock>
     )
 };
