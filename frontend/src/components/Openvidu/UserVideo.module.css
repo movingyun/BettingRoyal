@@ -1,9 +1,10 @@
-.container{
+.container {
     width: 100%;
     /* position: relative; */
     height: 100%;
     /* width: 100vw; */
-    
+    position: relative;
+
 }
 
 .cam {
@@ -15,7 +16,7 @@
     float: left;
 }
 
-.openvidu{
+.openvidu {
     width: 100%;
     height: 100%;
 }
@@ -29,20 +30,20 @@
     padding-right: 10px;
 }
 
-.userInfo{ 
+.userInfo {
     height: 30%;
     padding-top: 10px;
 }
 
-.name{
+.name {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 1.1em;
     font-weight: 600;
     text-align: left;
-    
+
 }
 
-.ruby{ 
+.ruby {
 
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 1em;
@@ -51,7 +52,11 @@
 }
 
 
-.gameInfo{
+.rubyGet {
+    position: absolute;
+}
+
+.gameInfo {
     height: 70%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -74,14 +79,14 @@
     /* animation-delay: 2.5s; */
     animation-duration: 1s;
     width: 100%;
-	height: 100%;
+    height: 100%;
 }
 
-.card_back > img{
+.card_back>img {
     object-fit: contain;
-	width: 100%;
-	height: 100%;
-    
+    width: 100%;
+    height: 100%;
+
 }
 
 .card_front {
@@ -92,14 +97,14 @@
     backface-visibility: hidden;
     animation-name: flipOutFront;
     width: 100%;
-	height: 100%;
+    height: 100%;
 }
 
-.card_front > img{
+.card_front>img {
     object-fit: contain;
-	width: 100%;
-	height: 100%;
-    
+    width: 100%;
+    height: 100%;
+
 }
 
 .status {
@@ -109,7 +114,7 @@
     font-weight: 600;
     color: #A27B5C;
     display: grid;
-    align-items:center;
+    align-items: center;
     text-align: center;
 }
 
@@ -126,32 +131,32 @@
     font-size: 15px;
 }
 
-.td{
+.td {
     font-weight: 600;
 }
 
 
 @keyframes flipOutBack {
     from {
-      -webkit-transform: perspective(500px);
-      transform: perspective(500px);
+        -webkit-transform: perspective(500px);
+        transform: perspective(500px);
     }
 
     to {
-      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
-      transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
+        -webkit-transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
+        transform: perspective(500px) rotate3d(1, 0, 0, 180deg);
     }
 }
 
 @keyframes flipOutFront {
     from {
-      -webkit-transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
-      transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
+        -webkit-transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
+        transform: perspective(500px) rotate3d(1, 0, 0, -180deg);
     }
 
     to {
-      -webkit-transform: perspective(500px);
-      transform: perspective(500px);
+        -webkit-transform: perspective(500px);
+        transform: perspective(500px);
     }
 }
 
@@ -163,4 +168,25 @@
     to {
         opacity: 0;
     }
+}
+
+.speech-bubble {
+    position: relative;
+    background: #3f4e4f;
+    border-radius: .4em;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 35px solid transparent;
+    border-top-color: #3f4e4f;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -17.5px;
+    margin-bottom: -35px;
 }

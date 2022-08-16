@@ -101,19 +101,6 @@ export default function Rooms(props) {
         headers: {
           Authorization: window.localStorage.accessToken,
         },
-<<<<<<< HEAD
-=======
-        {
-          headers: {
-            Authorization: window.localStorage.accessToken,
-          },
-        }
-      )
-      .then(function (response) {
-        //console.log(JSON.stringify(response))
-        setOpen(false);
-        navigate("/room", { state: { roomId: response.data.roomId } });
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       })
       .then(function (response) {
         if (isNaN(makeRoomBettingunit) || makeRoomBettingunit <= 0) {
@@ -150,7 +137,6 @@ export default function Rooms(props) {
   }
 
   function enterRoom(e) {
-<<<<<<< HEAD
     axios
       .get("/api/user", {
         headers: {
@@ -180,20 +166,13 @@ export default function Rooms(props) {
             }
           })
           .catch(function (error) {
+            console.log(error)
             alert("방 정보 가져오기 실패");
           });
-        //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
-        //console.log(JSON.stringify(response.data));
-        // return JSON.stringify(response.data.statusCode);
       })
       .catch(function (error) {
         alert("내 루비 조회 실패");
       });
-
-=======
-    navigate("/room", { state: { roomId: e.id } });
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
-    //console.log(e.id);
   }
 
   const onRoomTitleHandler = (event) => {
@@ -246,11 +225,7 @@ export default function Rooms(props) {
               className={styles.modalField}
             />
           </div>
-<<<<<<< HEAD
-          <button className={styles.createBtn} onClick={makeRoom}>
-=======
           <button className={styles.okBtn} onClick={makeRoom}>
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
             확인
           </button>
         </DialogContent>
@@ -259,151 +234,28 @@ export default function Rooms(props) {
   );
 
   function makeRoomList(roomsdata, value) {
+    console.log(page + "여기ㅣㅣㅣㅣㅣㅣㅣ");
     let list = [];
-<<<<<<< HEAD
-    console.log(roomsdata);
-
-    for (let i = 0; i < roomsdata.length; i++) {
-=======
-    for (let i = 8 * (value - 1); i < 8 * value; i++) {
+    for (let i = 8 * (value - 1); i < roomsdata.length; i++) {
       if (i >= roomCnt) {
         continue;
       }
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       let room = new Object();
-      room.id = roomsdata[i].id;
+      room.id = roomsdata[i].roomId;
       room.roomTitle = roomsdata[i].roomTitle;
       room.roomBettingUnit = roomsdata[i].roomBettingUnit;
       room.isPw = roomsdata[i].roomPw;
       room.current_count = roomsdata[i].roomInCnt;
       room.max_count = 6;
-<<<<<<< HEAD
-      if (roomsdata[i].roomIsStart) room.roomIsStart = "진행중";
-      else room.roomIsStart = "";
-      if (!room.roomIsStart) {
-        list.push(room);
-      }
-    }
-    return list;
-  }
-  //[{roomId, user, roomTitle, roomBettingUnit, roomPw}, ... ]
-  const columns = [
-    {
-      field: "id",
-      headerName: "방 번호",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "roomTitle",
-      headerName: "방 제목",
-      flex: 4,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "roomIsStart",
-      headerName: "상태",
-      flex: 1,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "roomBettingUnit",
-      headerName: "루비 베팅 단위",
-      flex: 1.5,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "current_count",
-      headerName: "현재인원",
-      flex: 1,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "max_count",
-      headerName: "정원",
-      type: "number",
-      flex: 1,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "isPw",
-      headerName: "비밀",
-      sortable: false,
-      flex: 1,
-      editable: false,
-      align: "center",
-      headerAlign: "center",
-    },
-  ];
-=======
       console.log(JSON.stringify(roomsdata[i]));
       list.push(room);
     }
     return list;
   }
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
 
   let roomsdummy = (
     <Grid>
       {roomcreate}
-<<<<<<< HEAD
-      <Box sx={{ height: 500, width: "100%" }}>
-        <DataGrid
-          className={style.grid}
-          onRowClick={enterRoom}
-          rows={rooms}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-        />
-      </Box>
-      <Grid container rowSpacing={'10px'} columnSpacing={'10px'}>
-        <Grid item xs={6}>
-          <Item>
-            <div className={styles.roomNo}>No. 1111</div>
-            <div className={styles.roomName}>방제목</div>
-            <ArrowForwardIosRoundedIcon className={styles.roomIcon} />
-            <hr className={styles.roomDiv}/>
-            <div className={styles.roomBot}>
-              <div className={styles.betRuby}>최소 배팅 10 루비</div>
-              <div className={styles.peopleNum}><PersonRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }}/>3/6</div>
-            </div>
-          </Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>2</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>3</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>4</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>5</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>6</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>7</Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item>8</Item>
-        </Grid>
-=======
       <Grid container rowSpacing={"10px"} columnSpacing={"10px"}>
         {rooms.map((item, index) => (
           <Grid item xs={6}>
@@ -426,7 +278,6 @@ export default function Rooms(props) {
             </Item>
           </Grid>
         ))}
->>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       </Grid>
       <div className={styles.pageDiv}>
         <Pagination

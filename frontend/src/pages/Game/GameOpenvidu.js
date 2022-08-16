@@ -242,7 +242,7 @@ class Gameroom extends Component {
     });
   }
   sendChat(msg) {
-    var chatMsg = this.state.myUserName + " : " + msg;
+    var chatMsg = this.props.players[0].nickname + " : " + msg;
     this.sendMessage("my-chat", chatMsg);
   }
 
@@ -322,9 +322,9 @@ class Gameroom extends Component {
                 <UserVideoComponent
                   streamManager={this.state.subscribers[0]}
                   player={this.props.players[1]}
+                  win={this.props.win[1]}
                 />
-                {this.props.win[1] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
-              </div>
+                 </div>
             ) : null}
             {this.props.players[2] && this.state.subscribers[1] ? (
               <div
@@ -336,9 +336,9 @@ class Gameroom extends Component {
                 <UserVideoComponent
                   streamManager={this.state.subscribers[1]}
                   player={this.props.players[2]}
+                  win={this.props.win[2]}
                 />
-                {this.props.win[2] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
-              </div>
+                  </div>
             ) : null}
             {this.props.players[3] && this.state.subscribers[2] ? (
               <div
@@ -350,9 +350,9 @@ class Gameroom extends Component {
                 <UserVideoComponent
                   streamManager={this.state.subscribers[2]}
                   player={this.props.players[3]}
+                  win={this.props.win[3]}
                 />
-                {this.props.win[3] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
-              </div>
+                </div>
             ) : null}
             {this.props.players[4] && this.state.subscribers[3] ? (
               <div
@@ -364,9 +364,9 @@ class Gameroom extends Component {
                 <UserVideoComponent
                   streamManager={this.state.subscribers[3]}
                   player={this.props.players[4]}
+                  win={this.props.win[4]}
                 />
-                {this.props.win[4] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
-              </div>
+               </div>
             ) : null}
             {this.props.players[5] && this.state.subscribers[4] ? (
               <div
@@ -378,8 +378,8 @@ class Gameroom extends Component {
                 <UserVideoComponent
                   streamManager={this.state.subscribers[4]}
                   player={this.props.players[5]}
+                  win={this.props.win[5]}
                 />
-                {this.props.win[5] ? <img src={ruby_get} className={styles.rubyGet} /> : null}
               </div>
             ) : null}
 
@@ -403,6 +403,7 @@ class Gameroom extends Component {
                 <div className={styles.time}>{this.props.sec}초</div>
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
+                  {this.props.win[0] ? <img src={ruby_win} className={styles.rubyWin} /> : null}
                   <p className={styles.rubyNum}>1,000,000</p>
                 </div>
                 <div className={styles.help}>

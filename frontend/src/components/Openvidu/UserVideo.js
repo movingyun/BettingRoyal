@@ -4,6 +4,7 @@ import styles from "./UserVideo.module.css";
 import card_back from "../../images/cards/card_back.png";
 import card_am_1 from "../../images/cards/card_am_1.png";
 
+import ruby_get from "../../images/ruby/ruby_get.gif";
 export default class UserVideoComponent extends Component {
   constructor(props) {
     super(props);
@@ -75,6 +76,8 @@ export default class UserVideoComponent extends Component {
   render() {
     return (
       <div className={styles.container}>
+        {this.props.win ? <img src={ruby_get} className={styles.rubyGet} /> : null}
+
         <div className={styles.cam}>
           {this.props.streamManager !== undefined ? (
             <div className={styles.openvidu}>
@@ -117,7 +120,6 @@ export default class UserVideoComponent extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 }
