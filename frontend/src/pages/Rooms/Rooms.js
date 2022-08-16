@@ -69,11 +69,13 @@ export default function Rooms(props) {
         //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
         //console.log(JSON.stringify(response.data));
         // return JSON.stringify(response.data.statusCode);
+        console.log(response.data)
         setAllRooms(response.data);
         setRoomCnt(response.data.length);
         setRooms(makeRoomList(response.data, 1));
       })
       .catch(function (error) {
+        console.log(error)
         alert("방 정보 가져오기 실패");
       });
   }, []);
@@ -132,6 +134,7 @@ export default function Rooms(props) {
         }
       })
       .catch(function (error) {
+        console.log(error)
         alert("내 루비 조회 실패");
       });
   }
@@ -145,32 +148,33 @@ export default function Rooms(props) {
       })
       .then(function (userresponse) {
         axios
-          .get("/api/room/" + e.row.id, {
+          .get("/api/room/" + e, {
             headers: {
               Authorization: window.localStorage.accessToken,
             },
           })
           .then(function (roomresponse) {
-            console.log(userresponse.data.userRuby);
-            console.log(roomresponse);
             if (userresponse.data.userRuby <= roomresponse.data.roomBettingUnit) {
               alert("보유 루비가 최소 베팅 금액보다 적습니다");
             } else if (roomresponse.data.current_count >= 6) {
               alert("정원이 가득찼습니다.");
             } else if (roomresponse.data.roomIsStart) {
               alert("게임이 진행중입니다");
+            } else if (roomresponse.data.roomIsClose) {
+              alert("방이 닫혔습니다");
             } else {
               navigate("/room", {
-                state: { roomId: e.id, roomBetUnit: roomresponse.data.roomBettingUnit },
+                state: { roomId: e, roomBetUnit: roomresponse.data.roomBettingUnit },
               });
             }
           })
           .catch(function (error) {
-            console.log(error)
+            console.log(error);
             alert("방 정보 가져오기 실패");
           });
       })
       .catch(function (error) {
+        console.log(error)
         alert("내 루비 조회 실패");
       });
   }
@@ -236,12 +240,12 @@ export default function Rooms(props) {
   function makeRoomList(roomsdata, value) {
     console.log(page + "여기ㅣㅣㅣㅣㅣㅣㅣ");
     let list = [];
-    for (let i = 8 * (value - 1); i < roomsdata.length; i++) {
-      if (i >= roomCnt) {
+    for (let i = 8 * (value - 1); i < 8*value; i++) {
+      if (i >= roomsdata.length) {
         continue;
       }
       let room = new Object();
-      room.id = roomsdata[i].roomId;
+      room.id = roomsdata[i].id;
       room.roomTitle = roomsdata[i].roomTitle;
       room.roomBettingUnit = roomsdata[i].roomBettingUnit;
       room.isPw = roomsdata[i].roomPw;

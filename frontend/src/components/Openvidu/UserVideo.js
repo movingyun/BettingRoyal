@@ -92,6 +92,7 @@ export default class UserVideoComponent extends Component {
           <div className={styles.userInfo}>
             <div className={styles.name}>{this.props.player.nickname}</div>
             <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
+            
           </div>
           <div className={styles.gameInfo}>
             <div className={styles.card}>
