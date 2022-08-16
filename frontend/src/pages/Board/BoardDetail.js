@@ -83,13 +83,15 @@ const BoardDetail =({isEdit}) => {
         });
     },[])
 
-    function onCancel(params) {
+    function onCancel() {
         axios
         .delete("/api/board", {
-        params: { boardId: params.body },
         headers: {
             Authorization: window.localStorage.accessToken,
             "Content-Type": "application/json",
+        },
+        data: {
+            boardId : id,
         },
         })
         .then((request) => {
@@ -98,6 +100,7 @@ const BoardDetail =({isEdit}) => {
         .catch((error) => {
             console.log(error);
         });
+        navigate("/lobby/board");
     }
 
     function goBack(){
@@ -112,8 +115,8 @@ const BoardDetail =({isEdit}) => {
         <PostViewerBlock>
         <PostHead>
             <div className={styles.back} onClick={goBack}><ArrowBackIosNewRoundedIcon sx={{ fontSize: 18, mr:0.5, mb:0.4 }} />뒤로가기</div>
-            <button onClick={onCancel}>테스트</button>
-            <button className={styles.smallBtn}>
+            {/* <button onClick={onCancel}>테스트</button> */}
+            <button className={styles.smallBtn} onClick={onCancel}>
                 {'삭제'}
             </button>
             <button className={styles.smallBtn} cyan onClick={onModify}>
@@ -135,7 +138,6 @@ const BoardDetail =({isEdit}) => {
             </StyledButton>
             <StyledButton onClick={onCancel}>뒤로가기</StyledButton> */}
         </WriteActionButtonsBlock>
-        <>------------------------------</>
         <PostHead>
           댓글 쓸부분
         </PostHead>
