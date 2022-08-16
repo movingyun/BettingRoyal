@@ -33,7 +33,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Routes, Route } from "react-router-dom";
 import Mypage from "../Mypage/Mypage";
 import Friend from "../Friend/Friend";
-import Notice from "../Notice/Notice";
+import NoticeList from "../Notice/NoticeList";
 import BoardList from "../Board/BoardList";
 import Ranking from "../Ranking/Ranking";
 import Guild from "../Guild/Guild";
@@ -48,8 +48,9 @@ import rubyicon from "../../images/icon/ruby.png";
 import logo from "../../images/logo/logo_horizontal.png";
 import bg from "../../images/bg.jpg";
 import Board from "../Board/Board";
-import Button from '@mui/material/Button';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import Notice from "../Notice/Notice";
+import Button from "@mui/material/Button";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const drawerWidth = 240;
 
@@ -134,10 +135,10 @@ function NavbarContent() {
       });
   }, [location]);
 
-  function logout(){
-      window.localStorage.removeItem("accessToken");
-      alert("로그아웃 되었습니다.")
-      navigate("/");
+  function logout() {
+    window.localStorage.removeItem("accessToken");
+    alert("로그아웃 되었습니다.");
+    navigate("/");
   }
 
   return (
@@ -162,11 +163,14 @@ function NavbarContent() {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              <img src={logo} height="30" />
+              <img src={logo} height="28" />
             </Typography>
             <IconButton color="inherit">
               {/* <NotificationBell /> */}
-              <Button onClick={ logout } sx={lobbyStyles.logout} ><LogoutRoundedIcon sx={lobbyStyles.icon}/>로그아웃</Button>
+              <Button onClick={logout} sx={lobbyStyles.logout}>
+                <LogoutRoundedIcon sx={{ fontSize: 20, mr:0.5}} />
+                로그아웃
+              </Button>
             </IconButton>
           </Toolbar>
         </AppBar>

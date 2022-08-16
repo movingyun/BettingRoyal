@@ -35,27 +35,6 @@ const gender = [
   },
 ];
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link
-        color="inherit"
-        href="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Fe7fac6ba-f892-47f4-9d4c-61a0d49c2699%2Fme.jpg?table=space&id=1454beab-817a-4a98-981c-cf89764cb3c7&width=60&userId=d83ef3f2-95c8-4a05-9da4-95cb8a2abdbc&cache=v2"
-      >
-        Sungmini
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-      <br />
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -133,18 +112,18 @@ export default function SignUp() {
     let nicknameRegex= new RegExp("^[0-9a-zA-Z가-힣]*$")
     let checkcount=0;
     if(!emailRegex.test(Email)) {
-      setEmailcheck(<p className={styles.read}>이메일 형식이 아닙니다. </p>)
+      setEmailcheck("이메일 형식이 아닙니다.")
       
     }else checkcount++;
     if(!pwRegex.test(Password)) {
-      setPwcheck(<p className={styles.read}>비밀번호는 영문/숫자/특수문자 각 1자 이상 포함하여 최소 8자여야 합니다.</p>)
+      setPwcheck("비밀번호는 영문/숫자/특수문자를 모두 포함하여 최소 8자여야 합니다.")
       
     }else checkcount++;
     if(!nicknameRegex.test(NickName)) {
-      setNickcheck(<p className={styles.read}>닉네임은 한글/숫자/영어만 가능합니다.</p>)
+      setNickcheck("닉네임은 한글/숫자/영어만 가능합니다.")
       
     }else if(NickName<2 || NickName >8) {
-      setNickcheck( <p className={styles.read}>닉네임은 2자 이상 8자 이하만 가능합니다.</p>)
+      setNickcheck("닉네임은 2자 이상 8자 이하만 가능합니다.")
     
     }else checkcount++;
     if(checkcount!=3) return;
@@ -182,15 +161,6 @@ export default function SignUp() {
         return error;
       });
 
-
-      // // alert("로그인 성공");
-      // if (statusCode == "200") {
-      //   console.log("회원가입 성공");
-      //   navigate("/");
-      // } else {
-      //   console.log(statusCode);
-      //   alert("ㄴㄴ");
-      // }
     }
   }
 
@@ -199,11 +169,9 @@ export default function SignUp() {
     <div className={styles.tb}>
     <div className={styles.borderBox}>
       <Container component="main" maxWidth="xs">
-        <Box>
-          <div><Link href="/" variant="body2">
+        <Link href="/" variant="body2">
           <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
-        </Link></div>
-        </Box>
+        </Link>
         <Box
           sx={{ 
             display: 'flex',
@@ -235,7 +203,7 @@ export default function SignUp() {
                   label="이메일 아이디"
                   onChange={onEmailHandler}
                 />
-                <p>{emailcheck}</p>
+                <p className={styles.read}>{emailcheck}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -262,7 +230,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                   onChange={onConfirmPasswordHandler}
                 />
-                <p>{pwcheck}</p>
+                <p className={styles.read}>{pwcheck}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -276,7 +244,7 @@ export default function SignUp() {
                   onChange={onNickNameHandler}
                   autoFocus
                 />
-                <p>{nickcheck}</p>
+                <p className={styles.read}>{nickcheck}</p>
               </Grid>
 
               <Grid item xs={12}>
@@ -297,16 +265,6 @@ export default function SignUp() {
                   ))}
                 </TextField>
               </Grid>
-
-
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="마케팅 동의"
-                />
-              </Grid> */}
             </Grid>
             <Box sx={{
             display: 'flex',
@@ -317,7 +275,7 @@ export default function SignUp() {
               회원가입
               </button>
             </Box>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="flex-end" className={styles.botGrid}>
               <Grid item>
                 <a href="login" variant="body2" className={styles.link}>
                   로그인
@@ -326,7 +284,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
       </div>
       </div>

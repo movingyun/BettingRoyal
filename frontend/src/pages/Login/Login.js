@@ -16,21 +16,6 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {"Copyright © "}
-      <Link
-        color="inherit"
-        href="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Fe7fac6ba-f892-47f4-9d4c-61a0d49c2699%2Fme.jpg?table=space&id=1454beab-817a-4a98-981c-cf89764cb3c7&width=60&userId=d83ef3f2-95c8-4a05-9da4-95cb8a2abdbc&cache=v2"
-      >
-        SungMini
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -68,7 +53,7 @@ export default function SignInSide() {
       })
       .catch(function (error) {
         if (error.response.status == 401) {
-          setLoginResult(<p className={styles.read}>아이디 혹은 비밀번호를 확인하세요.</p>)
+          setLoginResult("아이디 혹은 비밀번호를 확인하세요.")
         }
         console.log(error);
       });
@@ -79,13 +64,9 @@ export default function SignInSide() {
       <div className={styles.tb}>
         <div className={styles.borderBox}>
           <Container component="main" maxWidth="xs">
-            <Box>
-              <div>
-                <Link href="/" variant="body2">
-                  <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
-                </Link>
-              </div>
-            </Box>
+              <Link href="/" variant="body2">
+                <ArrowBackRoundedIcon fontSize="large" className={styles.ico} />
+              </Link>
             <Box
               sx={{
                 display: "flex",
@@ -93,7 +74,7 @@ export default function SignInSide() {
                 alignItems: "center",
               }}
             >
-              <Avatar sx={{ mt: 5, bgcolor: "#2C3639", color: "#FFFFFF" }}>
+              <Avatar sx={{ mt: 4, bgcolor: "#2C3639", color: "#FFFFFF" }}>
                 <PersonRoundedIcon />
               </Avatar>
               <p className={styles.title}>Login</p>
@@ -134,6 +115,7 @@ export default function SignInSide() {
               /> */}
                   </Grid>
                 </Grid>
+                <p className={styles.read}>{loginResult}</p>
                 <Box
                   sx={{
                     display: "flex",
@@ -141,12 +123,11 @@ export default function SignInSide() {
                     alignItems: "center",
                   }}
                 >
-                  <p>{loginResult}</p>
                   <button type="submit" className={styles.button}>
                     로그인
                   </button>
                 </Box>
-                <Grid container>
+                <Grid container className={styles.botGrid}>
                   <Grid item xs>
                     <a href="#" variant="body2" className={styles.link}>
                       아이디·비밀번호 찾기
@@ -160,7 +141,6 @@ export default function SignInSide() {
                 </Grid>
               </Box>
             </Box>
-            {/* <Copyright sx={{ mt: 5 }} /> */}
           </Container>
         </div>
       </div>
