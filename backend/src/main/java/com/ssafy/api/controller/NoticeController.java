@@ -54,7 +54,7 @@ public class NoticeController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/{boardId}")
+    @GetMapping("/{noticeId}")
     @ApiOperation(value = "공지사항 조회", notes = "공지사항을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -63,7 +63,7 @@ public class NoticeController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<NoticeFindIdRes> findNoticeId (
-            @ApiParam(value="공지사항 조회") Integer noticeId ,@ApiIgnore Authentication authentication) {
+            @ApiParam(value="공지사항 조회")  @PathVariable Integer noticeId ,@ApiIgnore Authentication authentication) {
         Noticeboard noticeboard = noticeService.findByNoticeId(noticeId);
         NoticeFindIdRes res = new NoticeFindIdRes();
         res.setNoticeId(noticeboard.getNoticeboardId());

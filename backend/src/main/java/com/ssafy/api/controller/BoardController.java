@@ -66,7 +66,7 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<BoardFindIdRes> findBoardId (
-            @ApiParam(value="게시판 조회") Integer boardId ,@ApiIgnore Authentication authentication) {
+            @ApiParam(value="게시판 조회") @PathVariable Integer boardId ,@ApiIgnore Authentication authentication) {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
         User user = userService.getUserByUserEmail(userId);
