@@ -20,11 +20,6 @@
   color: #3F4E4F;
 }
 
-hr {
-  /* margin: 1; */
-  color: #3F4E4F;
-}
-
 .btn {
   margin-top: 10px;
 }
@@ -33,13 +28,13 @@ hr {
   font-family: 'Noto Sans KR', sans-serif;
   border-radius: 5px;
   border: none;
-  padding: 3px;
   text-align: center;
   text-decoration: none;
   background-color: #DCD7C9;
   margin-right: 10px;
   color: #A27B5C;
-  width: 100px;
+  /* width: 100px; */
+  padding: 3px 15px 3px 15px;
 }
 
 .btn:hover {
@@ -52,10 +47,16 @@ hr {
   color: #DCD7C9;
 };
 
-.myUsingBadge{
-  background-color: white;
+.myUsingBadge {
 }
 
 .myUnUsingBadge{
-  background-color: darkgray;
+  border-radius: 10px;
+  opacity: 40%;
+}
+
+.imgBadge{
+  background-color: #DCD7C9;
+  border-radius: 10px;
+  padding: 10px;
 }

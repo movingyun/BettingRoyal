@@ -8,7 +8,6 @@
     animation-duration: 1.5s; */
 }
   
-
 .mainframe {
     width:100vh;
     margin: 0 auto;
@@ -60,7 +59,7 @@
 }
 
 .button {
-    font-size: 15px;
+    font-size: medium;
     background-color: #2C3639;
     color: #DCD7C9;
     border: none;
@@ -68,7 +67,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin: 4px auto;
+    margin: 5px;
     cursor: pointer;
     border-radius: 50px;
     width: 250px;
@@ -78,7 +77,6 @@
 
 .button:hover{
     background-color: #A27B5C;
-    color: #DCD7C9;
 }
 
 

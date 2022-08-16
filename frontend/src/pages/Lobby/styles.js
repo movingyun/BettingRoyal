@@ -106,24 +106,16 @@ export const lobbyStyles = {
         color: '#DCD7C9',
         // backgroundColor: '#FFF',
         fontFamily: 'Noto Sans KR',
-        borderRadius: '5px',
-        width: '120px',
         fontSize: 'medium',
-        fontWeight: '400',
+        fontWeight: '500',
 
         '&:hover': {
-            backgroundColor: '#A27B5C',
+            backgroundColor: 'transparent',
+            color: '#A27B5C',
         },
         '&:focus': {
-            backgroundColor: '#A27B5C',
+            backgroundColor: 'transparent',
+            color: '#A27B5C',
         },
     },
-
-    icon: {
-        fontSize: '20px',
-        marginRight: '5px',
-    }
-
-
-
 };

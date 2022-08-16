@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
-
+import styles from "./Notice.module.css";
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
   
   function preventDefault(event) {
     event.preventDefault();
@@ -12,35 +14,55 @@ import { Link, useNavigate } from "react-router-dom";
   
   export default function Orders() {
 
+    const useStyles = makeStyles((theme) => createStyles({
+      grid: {
+        fontFamily: "'Noto Sans KR', sans-serif",
+        fontSize: '16px',
+        fontWeight: '400',
+      },    
+    }));
+
+    const styles = useStyles();
+
     const columns = [ 
       {
         field: "id",
-        headerName: "No.",
-        width: 70
+        headerName: "글번호",
+        flex: 1,
+        align: "center",
+        headerAlign: "center",
       },
       {
           field: "noticeTitle",
           headerName: "제목",
-          width: 350,
+          flex: 5,
           editable: false,
+          align: "center",
+          headerAlign: "center",
       },
       {
         field: "userNickname", 
         headerName: "닉네임",
-        width: 150, 
+        flex: 2,
         editable: false,
+        align: "center",
+        headerAlign: "center",
       },
       {
         field: "noticeDate",
         headerName: "작성 일자",
-        width: 150,
+        flex: 2,
         editable: false,
+        align: "center",
+        headerAlign: "center",
       },
       {
           field: "noticeHit",
           headerName: "조회수",
-          width: 70,
+          wflex: 1,
           editable: false,
+          align: "center",
+          headerAlign: "center",
       }
     ];
 
@@ -73,8 +95,9 @@ import { Link, useNavigate } from "react-router-dom";
 
     return (
       <Grid>
-        <Box sx={{ height: 631, width: "100%" }}>
+        <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
+          className={styles.grid}
           onRowClick={enterNotice}
           rows={rows}
           columns={columns}
