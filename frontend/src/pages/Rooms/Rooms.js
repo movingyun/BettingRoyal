@@ -219,7 +219,8 @@ export default function Rooms(props) {
       headerAlign: "center",
     },
     {
-      field: "최대인원",
+      field: "max_count",
+      headerName: "정원",
       type: "number",
       flex: 1,
       editable: false,
