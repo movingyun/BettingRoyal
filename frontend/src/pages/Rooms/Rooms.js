@@ -85,7 +85,6 @@ export default function Rooms(props) {
   const handleChange = (event, value) => {
     setPage(value);
     setRooms(makeRoomList(allRooms, value));
-    console.log(rooms);
   };
 
   const handlemakeroom = () => {
@@ -182,7 +181,6 @@ export default function Rooms(props) {
   );
 
   function makeRoomList(roomsdata, value) {
-    console.log(page + "여기ㅣㅣㅣㅣㅣㅣㅣ");
     let list = [];
     for (let i = 8 * (value - 1); i < 8 * value; i++) {
       if (i >= roomCnt) {
