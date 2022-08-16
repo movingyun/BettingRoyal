@@ -15,6 +15,24 @@ import styles from "./Rooms.module.css";
 import {makeStyles} from "@material-ui/core/styles";
 import {createStyles} from "@material-ui/core";
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#DCD7C9',
+  padding: '10px 15px 10px 15px',
+  height: '105px',
+  borderRadius: '5px',
+  boxShadow: 'none',
+  fontFamily: "'Noto Sans KR', sans-serif",
+  '&:hover': {
+    backgroundColor: '#A27B5C',
+  },
+}));
 
 export default function Rooms(props) {
   const useStyles = makeStyles((theme) => createStyles({
@@ -220,19 +238,9 @@ export default function Rooms(props) {
     },
   ];
 
-  // const rows = [
-  //   { roomId: 1, roomTitle: "방1",roomBettingUnit:1, current_count: 1, max_count: 6 , roomPw: "" },
-  //   { roomId: 2, roomTitle: "방2", current_count: 1, max_count: 6 , roomPw: "" },
-  //   { roomId: 3, roomTitle: "방3", current_count: 1, max_count: 6 , roomPw: "ㅇ" },
-
-  // ];
-
   let roomsdummy = (
     <Grid >
       {roomcreate}
-      {/* <Link to="/room" state={{ roomid: 1 }}>
-        게임방 테스트
-      </Link> */}
       <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
         className={style.grid}
@@ -244,6 +252,42 @@ export default function Rooms(props) {
           disableSelectionOnClick
         />
       </Box>
+      <Grid container rowSpacing={'10px'} columnSpacing={'10px'}>
+        <Grid item xs={6}>
+          <Item>
+            <div className={styles.roomNo}>No. 1111</div>
+            <div className={styles.roomName}>방제목</div>
+            <ArrowForwardIosRoundedIcon className={styles.roomIcon} />
+            <hr className={styles.roomDiv}/>
+            <div className={styles.roomBot}>
+              <div className={styles.betRuby}>최소 배팅 10 루비</div>
+              <div className={styles.peopleNum}><PersonRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }}/>3/6</div>
+            </div>
+          </Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>2</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>3</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>4</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>5</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>6</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>7</Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>8</Item>
+        </Grid>
+      </Grid>
+      <div className={styles.pageDiv}><Pagination className={styles.page} count={10} /></div>
     </Grid>
   );
 
