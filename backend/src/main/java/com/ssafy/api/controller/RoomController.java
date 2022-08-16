@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.response.RoomRes;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -14,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController //RESTFull Controller 개발
@@ -47,8 +50,22 @@ public class RoomController {
 
     //방 전체조회
     @GetMapping("/api/room")
-    public ResponseEntity<List<Room>> getRoomList() {
-        return new ResponseEntity<List<Room>>(roomService.getRoomList(), HttpStatus.OK);
+    public ResponseEntity<List<RoomRes>> getRoomList() {
+        List<Room> rooms = roomService.getRoomList();
+        List<RoomRes> resList = new ArrayList<>();
+        for(Room room : rooms){
+            RoomRes res = new RoomRes();
+            res.setId(room.getRoomId());
+            res.setRoomTitle(room.getRoomTitle());
+            res.setRoomPw(room.getRoomPw());
+            res.setRoomInCnt(room.getRoomInCnt());
+            res.setRoomIsStart(room.isRoomIsStart());
+            res.setRoomIsClose(room.isRoomIsClose());
+            res.setRoomBettingUnit(room.getRoomBettingUnit());
+            resList.add(res);
+        }
+
+        return new ResponseEntity<List<RoomRes>>(resList, HttpStatus.OK);
     }
 
     //방 1개 조회
