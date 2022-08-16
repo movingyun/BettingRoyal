@@ -12,25 +12,25 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Rooms.module.css";
-import {makeStyles} from "@material-ui/core/styles";
-import {createStyles} from "@material-ui/core";
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { makeStyles } from "@material-ui/core/styles";
+import { createStyles } from "@material-ui/core";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#DCD7C9',
-  padding: '10px 15px 10px 15px',
-  height: '105px',
-  borderRadius: '5px',
-  boxShadow: 'none',
+  backgroundColor: "#DCD7C9",
+  padding: "10px 15px 10px 15px",
+  height: "105px",
+  borderRadius: "5px",
+  boxShadow: "none",
   fontFamily: "'Noto Sans KR', sans-serif",
-  '&:hover': {
-    backgroundColor: '#A27B5C',
+  "&:hover": {
+    backgroundColor: "#A27B5C",
   },
 }));
 
@@ -47,10 +47,14 @@ export default function Rooms(props) {
 
   const style = useStyles();
 
+  const [allRooms, setAllRooms] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [makeRoomTitle, setMakeRoomTitle] = useState("");
   const [makeRoomBettingunit, setMakeRoomBettingunit] = useState();
+  const [roomCnt, setRoomCnt] = useState();
   const [makeRoomPw, setMakeRoomPw] = useState("");
+  const [page, setPage] = useState(1);
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -65,8 +69,9 @@ export default function Rooms(props) {
         //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
         //console.log(JSON.stringify(response.data));
         // return JSON.stringify(response.data.statusCode);
-
-        setRooms(makeRoomList(response.data));
+        setAllRooms(response.data);
+        setRoomCnt(response.data.length);
+        setRooms(makeRoomList(response.data, 1));
       })
       .catch(function (error) {
         alert("방 정보 가져오기 실패");
@@ -76,6 +81,12 @@ export default function Rooms(props) {
   let fetchedRooms = <Grid container></Grid>;
 
   const [open, setOpen] = useState(false);
+
+  const handleChange = (event, value) => {
+    setPage(value);
+    setRooms(makeRoomList(allRooms, value));
+    console.log(rooms);
+  };
 
   const handlemakeroom = () => {
     setOpen(true);
@@ -91,6 +102,19 @@ export default function Rooms(props) {
         headers: {
           Authorization: window.localStorage.accessToken,
         },
+<<<<<<< HEAD
+=======
+        {
+          headers: {
+            Authorization: window.localStorage.accessToken,
+          },
+        }
+      )
+      .then(function (response) {
+        //console.log(JSON.stringify(response))
+        setOpen(false);
+        navigate("/room", { state: { roomId: response.data.roomId } });
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       })
       .then(function (response) {
         if (isNaN(makeRoomBettingunit) || makeRoomBettingunit <= 0) {
@@ -127,6 +151,7 @@ export default function Rooms(props) {
   }
 
   function enterRoom(e) {
+<<<<<<< HEAD
     axios
       .get("/api/user", {
         headers: {
@@ -166,6 +191,9 @@ export default function Rooms(props) {
         alert("내 루비 조회 실패");
       });
 
+=======
+    navigate("/room", { state: { roomId: e.id } });
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
     //console.log(e.id);
   }
 
@@ -219,7 +247,11 @@ export default function Rooms(props) {
               className={styles.modalField}
             />
           </div>
+<<<<<<< HEAD
           <button className={styles.createBtn} onClick={makeRoom}>
+=======
+          <button className={styles.okBtn} onClick={makeRoom}>
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
             확인
           </button>
         </DialogContent>
@@ -227,18 +259,27 @@ export default function Rooms(props) {
     </Grid>
   );
 
-  function makeRoomList(roomsdata) {
+  function makeRoomList(roomsdata, value) {
+    console.log(page + "여기ㅣㅣㅣㅣㅣㅣㅣ");
     let list = [];
+<<<<<<< HEAD
     console.log(roomsdata);
 
     for (let i = 0; i < roomsdata.length; i++) {
+=======
+    for (let i = 8 * (value - 1); i < 8 * value; i++) {
+      if (i >= roomCnt) {
+        continue;
+      }
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       let room = new Object();
-      room.id = roomsdata[i].roomId;
+      room.id = roomsdata[i].id;
       room.roomTitle = roomsdata[i].roomTitle;
       room.roomBettingUnit = roomsdata[i].roomBettingUnit;
       room.isPw = roomsdata[i].roomPw;
       room.current_count = roomsdata[i].roomInCnt;
       room.max_count = 6;
+<<<<<<< HEAD
       if (roomsdata[i].roomIsStart) room.roomIsStart = "진행중";
       else room.roomIsStart = "";
       if (!room.roomIsStart) {
@@ -307,10 +348,18 @@ export default function Rooms(props) {
       headerAlign: "center",
     },
   ];
+=======
+      console.log(JSON.stringify(roomsdata[i]));
+      list.push(room);
+    }
+    return list;
+  }
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
 
   let roomsdummy = (
     <Grid>
       {roomcreate}
+<<<<<<< HEAD
       <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
           className={style.grid}
@@ -356,8 +405,39 @@ export default function Rooms(props) {
         <Grid item xs={6}>
           <Item>8</Item>
         </Grid>
+=======
+      <Grid container rowSpacing={"10px"} columnSpacing={"10px"}>
+        {rooms.map((item, index) => (
+          <Grid item xs={6}>
+            <Item
+              onClick={() => {
+                enterRoom(item.id);
+              }}
+            >
+              <div className={styles.roomNo}>{item.id}</div>
+              <div className={styles.roomName}>{item.roomTitle}</div>
+              <ArrowForwardIosRoundedIcon className={styles.roomIcon} />
+              <hr className={styles.roomDiv} />
+              <div className={styles.roomBot}>
+                <div className={styles.betRuby}>최소 배팅 {item.roomBettingUnit} 루비</div>
+                <div className={styles.peopleNum}>
+                  <PersonRoundedIcon sx={{ fontSize: 20, mr: 0.5, mb: 0.4 }} />
+                  {item.current_count}/6
+                </div>
+              </div>
+            </Item>
+          </Grid>
+        ))}
+>>>>>>> 4de03e044112d6416e8e008205c1da4bd65fb7bb
       </Grid>
-      <div className={styles.pageDiv}><Pagination className={styles.page} count={10} /></div>
+      <div className={styles.pageDiv}>
+        <Pagination
+          className={styles.page}
+          count={roomCnt % 8 == 0 ? parseInt(roomCnt / 8) : parseInt(roomCnt / 8 + 1)}
+          onChange={handleChange}
+          page={page}
+        />
+      </div>
     </Grid>
   );
 

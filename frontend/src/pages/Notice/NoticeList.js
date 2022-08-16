@@ -40,14 +40,14 @@ import {createStyles} from "@material-ui/core";
           align: "center",
           headerAlign: "center",
       },
-      {
-        field: "userNickname", 
-        headerName: "닉네임",
-        flex: 2,
-        editable: false,
-        align: "center",
-        headerAlign: "center",
-      },
+      // {
+      //   field: "userNickname", 
+      //   headerName: "닉네임",
+      //   flex: 2,
+      //   editable: false,
+      //   align: "center",
+      //   headerAlign: "center",
+      // },
       {
         field: "noticeDate",
         headerName: "작성 일자",
