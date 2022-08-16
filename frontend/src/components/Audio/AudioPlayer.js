@@ -2,26 +2,16 @@ import React, { useState, useEffect } from "react";
 
 const useAudio = (url, starting, loopping) => {
   const [audio] = useState(new Audio(url));
-  const [playing, setPlaying] = useState(true);
-  // const [loop, setLoop] = useState(loopping);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setPlaying(true);
-  //   }, 2000);
-  //   // clearTimeout(a);
-  // }, []);
+  const [playing, setPlaying] = useState(false);
+
   const toggle = () => {
     setPlaying(!playing);
-    // setLoop(!loop);
   }
   useEffect(() => {
     // audio.muted = true
     // audio.muted = false
-    audio.volume = 0.5;
+    audio.volume = 0.1;
     playing ? audio.play() : audio.pause();
-    // if(loop===true){
-      // setPlaying(true)
-    // }
     audio.loop = true
   },[playing]);
 
@@ -31,12 +21,6 @@ const useAudio = (url, starting, loopping) => {
       audio.removeEventListener('ended', () => setPlaying(false));
     };
   }, []);
-
-  // setInterval(() => {
-  //   console.log('here')
-  //   setPlaying(true)
-  // }, 1000);
-  
 
   return [playing, toggle];
 };

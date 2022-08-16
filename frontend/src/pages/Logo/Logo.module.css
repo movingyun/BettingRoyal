@@ -81,6 +81,12 @@
     color: #DCD7C9;
 }
 
+.BGMbutton {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
 
 @keyframes grow {
     0% {

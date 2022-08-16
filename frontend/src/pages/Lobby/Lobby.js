@@ -13,6 +13,10 @@ import Tutorial from "../../pages/Tutorial/Tutorial";
 import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../../pages/Rooms/Rooms";
 import Test from "../../pages/Test/Test";
+import styles from "../Logo/Logo.module.css";
+
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
 export default function Lobby(props) {
   // useEffect(() => {
@@ -21,6 +25,8 @@ export default function Lobby(props) {
   //     navigate("/login");
   //   }
   // }, []);
+
+
   const navigate = useNavigate();
   let sidemenu = (
     <ThemeProvider theme={dashboardTheme}>
