@@ -213,7 +213,8 @@ export default function Game(props) {
         JSON.stringify({ roomId: roomId, message: "", sender: "", type: "START" })
       );
     } else {
-      console.log("방장만 시작 가능");
+      if(!players[1]) console.log("플레이어가 부족합니다")
+      if(turn!=0)console.log("방장만 시작 가능");
     }
   }
 
