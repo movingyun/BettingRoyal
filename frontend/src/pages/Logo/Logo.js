@@ -14,6 +14,8 @@ import royal from "../../images/logo_royal.png";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
+import TEST from "../../components/Audio/Test"
+
 const useAudio = url => {
   const [audio] = useState(new Audio(url));
   const [playing, setPlaying] = useState(false);
@@ -59,6 +61,7 @@ export default function First(props) {
         <Link to="/signup"><button onClick={playingBGM} className={styles.button}>회원가입</button></Link><br/>
         <Link to="/lobby" toggle={toggle} playing={playing}><button onClick={playingBGM} className={styles.button}>로비 바로가기</button></Link>
         <button className={styles.BGMbutton} onClick={toggle}>{playing ? <VolumeUpIcon/> : <VolumeOffIcon/>}</button>
+        <TEST/>
       </div>
     </div>
     
