@@ -37,7 +37,6 @@ class Gameroom extends Component {
       number: 0,
       chatList: [],
       isOpen: false,
-      seconds: 30,
       currentBetUnit: 0,
     };
 
@@ -262,7 +261,7 @@ class Gameroom extends Component {
     if (window.confirm("나가시겠습니까?") == true) {
       console.log("나가기 누름");
       const mySession = this.state.session;
-      this.props.leavegame();
+      
       if (mySession) {
         mySession.disconnect();
       }
@@ -272,11 +271,10 @@ class Gameroom extends Component {
       this.setState({
         session: undefined,
         subscribers: [],
-        mySessionId: "SessionA",
-        myUserName: "Participant" + Math.floor(Math.random() * 100),
         mainStreamManager: undefined,
         publisher: undefined,
       });
+      this.props.leavegame();
     }
   }
 
@@ -349,7 +347,7 @@ class Gameroom extends Component {
             <ArrowForwardIosRoundedIcon className={styles.icon} />
             게임방 이름
           </h1>
-          <h2>기본 베팅 10 루비</h2>
+          <h2>기본 베팅 {this.props.currentBetUnit} 루비</h2>
           <div className={styles.buttonList}>
             <button className={styles.button} onClick={this.leaveSession}>
               나가기
@@ -434,7 +432,7 @@ class Gameroom extends Component {
               {/* 내가 게임 이길시*/}
               {/* <img src={ruby_win} className={styles.rubyWin}/> */}
               <div className={styles.info}>
-                <div className={styles.time}>{this.state.seconds}초</div>
+                <div className={styles.time}>{this.props.sec}초</div>
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
                   <p className={styles.rubyNum}>1,000,000</p>

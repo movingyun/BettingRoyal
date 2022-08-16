@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import styles from "./Game.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import sockjs from "sockjs-client";
-import stompjs from "stompjs";
+import stompjs, { setInterval } from "stompjs";
 import axios from "axios";
 import { listClasses } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -38,11 +38,13 @@ export default function Game(props) {
   let navigate = useNavigate();
   let location = useLocation();
   let roomId = location.state.roomId; //방 컴포넌트에 roomid 포함
+  let roomBetUnit = location.state.roomBetUnit;
   var sock = new sockjs("http://localhost:8080/stomp-game");
   let stomp = stompjs.over(sock);
 
   useEffect(() => {
     console.log(roomId + "번 방 참가");
+    setCurrentBetUnit(roomBetUnit);
     stomp.connect({}, () => {
       stomp.send(
         "/pub/game/message",
@@ -92,7 +94,7 @@ export default function Game(props) {
         if (content.type == "SYNC") {
           //{betUnit, players[], }
           setPlayers(content.playersInfo);
-          setCurrentBetUnit(content.betUnit);
+          //setCurrentBetUnit(content.betUnit);
         }
       });
 
@@ -120,7 +122,7 @@ export default function Game(props) {
           if (content.turnIdx == 0) {
             setbuttonDisable([false, true, false, false]);
           }
-          setCurrentBetUnit(content.battingUnit);
+          //setCurrentBetUnit(content.battingUnit);
           setCurrentMaxBet(content.gameTotalBet);
           setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
         }
@@ -131,9 +133,14 @@ export default function Game(props) {
           setCurrentMaxBet(content.gameTotalBet);
           setPlayers(content.playerInfo);
           setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+          //전사람 행동
+
           //내턴일때
           if (content.turnIdx == 0) {
             setbuttonDisable([false, false, false, false]);
+            let action = new Object();
+            action.target.textContent="다이"
+            settimer(5,sendBet(action));
             // if (currentMaxBet > myTotalBet) {
             //   //콜 버튼 비활성화
             //   setbuttonDisable([false, true, false, false]);
@@ -159,6 +166,9 @@ export default function Game(props) {
 
           //2.5초간 효과재생 후 게임시작 활성화
           setTimeout(() => {
+            if (content.playerInfo[0].myruby <= currentBetUnit) {
+              leaveGame();
+            }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);
             console.log(win);
@@ -187,12 +197,12 @@ export default function Game(props) {
   const timerId = useRef(null);
   const [isStart, setIsStart] = React.useState(false);
 
-  useEffect(() => {
-    if (time.current <= 0) {
-      console.log("끝");
-      clearInterval(timerId.current);
-    }
-  }, [sec]);
+  // useEffect(() => {
+  //   if (time.current <= 0) {
+  //     console.log("끝");
+  //     clearInterval(timerId.current);
+  //   }
+  // }, [sec]);
 
   function gameStart(e) {
     if (turn == 0) {
@@ -207,17 +217,20 @@ export default function Game(props) {
     } else {
       console.log("방장만 시작 가능");
     }
-
-    // // 타이머 시작
-    // timerId.current = setInterval(() => {
-    //   setSec(time.current-1);
-    //   time.current -= 1;
-    // }, 1000);
-
-    // return () => clearInterval(timerId.current);
   }
 
-  function settimer(amount) {}
+
+  //amount 초 이후 callback 실행
+  function settimer(amount,callback) {
+    setSec(amount);
+    let counter = setInterval(() => {
+      setSec(sec-1)
+      if (sec <= 0) {
+        clearInterval(counter);
+      }
+    }, 1000);
+    callback();
+  }
 
   //콜 다이 레이즈 올인 클릭
   function sendBet(action) {
@@ -304,7 +317,7 @@ export default function Game(props) {
         socketId: sessionId,
       })
     );
-    navigate("../lobby");
+    navigate("../lobby/rooms");
   }
 
   //클라이언트 webrtc socket on:
@@ -395,6 +408,7 @@ export default function Game(props) {
           buttonDisable={buttonDisable}
           startDisabled={startDisabled}
           myBet={myBet}
+          currentBetUnit={roomBetUnit}
         />
       ) : null}
 

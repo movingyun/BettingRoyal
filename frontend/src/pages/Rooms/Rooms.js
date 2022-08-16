@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle"; 
+import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
@@ -54,28 +54,81 @@ export default function Rooms(props) {
 
   function makeRoom() {
     axios
-      .post(
-        "/api/room",
-        {
-          roomTitle: makeRoomTitle,
-          roomBettingUnit: makeRoomBettingunit,
+      .get("/api/user", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
         },
-        {
-          headers: {
-            Authorization: window.localStorage.accessToken,
-          },
-        }
-      )
-      .then(function (response) {
-        //console.log(JSON.stringify(response))
-        setOpen(false);
-        navigate("/room", { state: { roomId:response.data.roomId } });
       })
-      .catch(function (error) {});
+      .then(function (response) {
+        if (isNaN(makeRoomBettingunit) || makeRoomBettingunit <= 0) {
+          alert("최소 베팅단위는 1보다 커야 합니다");
+        } else if (response.data.userRuby <= makeRoomBettingunit) {
+          alert("보유 루비가 베팅 단위보다 적습니다");
+        } else {
+          axios
+            .post(
+              "/api/room",
+              {
+                roomTitle: makeRoomTitle,
+                roomBettingUnit: makeRoomBettingunit,
+              },
+              {
+                headers: {
+                  Authorization: window.localStorage.accessToken,
+                },
+              }
+            )
+            .then(function (response2) {
+              //console.log(JSON.stringify(response))
+              setOpen(false);
+              navigate("/room", {
+                state: { roomId: response2.data.roomId, roomBetUnit: makeRoomBettingunit },
+              });
+            })
+            .catch(function (error) {});
+        }
+      })
+      .catch(function (error) {
+        alert("내 루비 조회 실패");
+      });
   }
 
-  function enterRoom(e){
-    navigate("/room", { state: { roomId:e.id } })
+  function enterRoom(e) {
+    axios
+      .get("/api/user", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+        },
+      })
+      .then(function (userresponse) {
+        axios
+          .get("/api/room/" + e.row.id, {
+            headers: {
+              Authorization: window.localStorage.accessToken,
+            },
+          })
+          .then(function (roomresponse) {
+            console.log(userresponse.data.userRuby);
+            console.log(roomresponse.data.roomBettingUnit);
+            if (userresponse.data.userRuby <= roomresponse.data.roomBettingUnit) {
+              alert("보유 루비가 최소 베팅 금액보다 적습니다");
+            } else if (roomresponse.data.current_count >= 6) {
+              alert("정원이 가득찼습니다.");
+            } else {
+              navigate("/room", { state: { roomId: e.id, roomBetUnit: roomresponse.data.roomBettingUnit } });
+            }
+          })
+          .catch(function (error) {
+            alert("방 정보 가져오기 실패");
+          });
+        //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
+        //console.log(JSON.stringify(response.data));
+        // return JSON.stringify(response.data.statusCode);
+      })
+      .catch(function (error) {
+        alert("내 루비 조회 실패");
+      });
+
     //console.log(e.id);
   }
 
@@ -101,12 +154,8 @@ export default function Rooms(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogContent className={styles.createModal}>
-          <div className={styles.modalTitle}>
-            방 만들기
-          </div>
-          <div className={styles.modalExplain}>
-            방장이 되어 게임에 참여하세요!
-          </div>
+          <div className={styles.modalTitle}>방 만들기</div>
+          <div className={styles.modalExplain}>방장이 되어 게임에 참여하세요!</div>
           <div className={styles.modalInput}>
             <TextField
               color="action"
@@ -133,7 +182,9 @@ export default function Rooms(props) {
               className={styles.modalField}
             />
           </div>
-          <button className={styles.createBtn} onClick={makeRoom}>확인</button>
+          <button className={styles.createBtn} onClick={makeRoom}>
+            확인
+          </button>
         </DialogContent>
       </Dialog>
     </Grid>
@@ -199,7 +250,7 @@ export default function Rooms(props) {
   // ];
 
   let roomsdummy = (
-    <Grid >
+    <Grid>
       {roomcreate}
       <Link to="/room" state={{ roomid: 1 }}>
         게임방 테스트
