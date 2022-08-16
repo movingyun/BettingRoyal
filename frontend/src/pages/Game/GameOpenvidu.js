@@ -6,9 +6,47 @@ import Chat from "../../components/Openvidu/Chat";
 import styles from "./GameOpenvidu.module.css";
 import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import card_am_1 from "../../images/cards/card_am_1.png";
-import card_aq_1 from "../../images/cards/card_aq_1.png";
-import card_back from "../../images/cards/card_back_logo.png";
+
+import card1 from "../../images/cards/1.png";
+import card2 from "../../images/cards/2.png";
+import card3 from "../../images/cards/3.png";
+import card4 from "../../images/cards/4.png";
+import card5 from "../../images/cards/5.png";
+import card6 from "../../images/cards/6.png";
+import card7 from "../../images/cards/7.png";
+import card8 from "../../images/cards/8.png";
+import card9 from "../../images/cards/9.png";
+import card10 from "../../images/cards/10.png";
+import card11 from "../../images/cards/11.png";
+import card12 from "../../images/cards/12.png";
+import card13 from "../../images/cards/13.png";
+import card14 from "../../images/cards/14.png";
+import card15 from "../../images/cards/15.png";
+import card16 from "../../images/cards/16.png";
+import card17 from "../../images/cards/17.png";
+import card18 from "../../images/cards/18.png";
+import card19 from "../../images/cards/19.png";
+import card20 from "../../images/cards/20.png";
+import card21 from "../../images/cards/21.png";
+import card22 from "../../images/cards/22.png";
+import card23 from "../../images/cards/23.png";
+import card24 from "../../images/cards/24.png";
+import card25 from "../../images/cards/25.png";
+import card26 from "../../images/cards/26.png";
+import card27 from "../../images/cards/27.png";
+import card28 from "../../images/cards/28.png";
+import card29 from "../../images/cards/29.png";
+import card30 from "../../images/cards/30.png";
+import card31 from "../../images/cards/31.png";
+import card32 from "../../images/cards/32.png";
+import card33 from "../../images/cards/33.png";
+import card34 from "../../images/cards/34.png";
+import card35 from "../../images/cards/35.png";
+import card36 from "../../images/cards/36.png";
+import card37 from "../../images/cards/37.png";
+import card38 from "../../images/cards/38.png";
+import card39 from "../../images/cards/39.png";
+import card40 from "../../images/cards/40.png";
 import ruby_win from "../../images/ruby/ruby_win.gif";
 import ruby_bet from "../../images/ruby/ruby_bet.gif";
 import ruby_get from "../../images/ruby/ruby_get.gif";
@@ -286,7 +324,7 @@ class Gameroom extends Component {
         <div className={styles.header}>
           <h1>
             <ArrowForwardIosRoundedIcon className={styles.icon} />
-            게임방 이름
+            {this.props.roomTitle}
           </h1>
           <h2>기본 베팅 {this.props.currentBetUnit} 루비</h2>
           <div className={styles.buttonList}>
@@ -308,6 +346,7 @@ class Gameroom extends Component {
                   streamManager={this.state.publisher}
                   player={this.props.players[0]}
                   number={0}
+                  preaction={this.props.preaction[0]}
                 />
               </div>
             ) : null}
@@ -323,8 +362,9 @@ class Gameroom extends Component {
                   streamManager={this.state.subscribers[0]}
                   player={this.props.players[1]}
                   win={this.props.win[1]}
+                  preaction={this.props.preaction[1]}
                 />
-                 </div>
+              </div>
             ) : null}
             {this.props.players[2] && this.state.subscribers[1] ? (
               <div
@@ -337,8 +377,9 @@ class Gameroom extends Component {
                   streamManager={this.state.subscribers[1]}
                   player={this.props.players[2]}
                   win={this.props.win[2]}
+                  preaction={this.props.preaction[2]}
                 />
-                  </div>
+              </div>
             ) : null}
             {this.props.players[3] && this.state.subscribers[2] ? (
               <div
@@ -351,8 +392,9 @@ class Gameroom extends Component {
                   streamManager={this.state.subscribers[2]}
                   player={this.props.players[3]}
                   win={this.props.win[3]}
+                  preaction={this.props.preaction[3]}
                 />
-                </div>
+              </div>
             ) : null}
             {this.props.players[4] && this.state.subscribers[3] ? (
               <div
@@ -365,8 +407,9 @@ class Gameroom extends Component {
                   streamManager={this.state.subscribers[3]}
                   player={this.props.players[4]}
                   win={this.props.win[4]}
+                  preaction={this.props.preaction[4]}
                 />
-               </div>
+              </div>
             ) : null}
             {this.props.players[5] && this.state.subscribers[4] ? (
               <div
@@ -379,6 +422,7 @@ class Gameroom extends Component {
                   streamManager={this.state.subscribers[4]}
                   player={this.props.players[5]}
                   win={this.props.win[5]}
+                  preaction={this.props.preaction[5]}
                 />
               </div>
             ) : null}
@@ -387,12 +431,12 @@ class Gameroom extends Component {
               <div className={styles.qs}>누가 거짓말쟁이?</div>
               <div className={styles.cards}>
                 <div className={`${styles.cards_back} ${styles.flip_back}`}>
-                  <img src={card_back} />
-                  <img src={card_back} />
+                  <img src={card40} />
+                  <img src={card40} />
                 </div>
                 <div className={`${styles.cards_front} ${styles.flip_front}`}>
-                  <img src={card_am_1} />
-                  <img src={card_aq_1} />
+                  <img src={this.props.groundCard1} />
+                  <img src={this.props.groundCard2} />
                 </div>
               </div>
               {/* 베팅시*/}
@@ -404,7 +448,7 @@ class Gameroom extends Component {
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
                   {this.props.win[0] ? <img src={ruby_win} className={styles.rubyWin} /> : null}
-                  <p className={styles.rubyNum}>1,000,000</p>
+                  <p className={styles.rubyNum}>{this.props.gameTotalBet}</p>
                 </div>
                 <div className={styles.help}>
                   <Popover
@@ -438,6 +482,20 @@ class Gameroom extends Component {
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
                   콜
                 </button>
+                <div className={styles.raiseAmountArea}>
+                  {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                    <button id="up" onClick={this.props.setMyBetAmount}>
+                      ^
+                    </button>
+                  ) : null}
+
+                  {this.props.myBet}
+                  {this.props.currentMaxBet >= this.props.myBet/2 ? (
+                    <button id="down" onClick={this.props.setMyBetAmount}>
+                      v
+                    </button>
+                  ) : null}
+                </div>
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
                   레이즈
                 </button>

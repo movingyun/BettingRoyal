@@ -1,5 +1,4 @@
 import * as React from "react";
-import Player from "./Player";
 import { useEffect, useState, useRef } from "react";
 import styles from "./Game.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -11,15 +10,54 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ruby_win from "../../images/ruby/ruby_win.gif";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import card_am_1 from "../../images/cards/card_am_1.png";
-import card_aq_1 from "../../images/cards/card_aq_1.png";
-import card_back from "../../images/cards/card_back.png";
+
+import card1 from "../../images/cards/1.png";
+import card2 from "../../images/cards/2.png";
+import card3 from "../../images/cards/3.png";
+import card4 from "../../images/cards/4.png";
+import card5 from "../../images/cards/5.png";
+import card6 from "../../images/cards/6.png";
+import card7 from "../../images/cards/7.png";
+import card8 from "../../images/cards/8.png";
+import card9 from "../../images/cards/9.png";
+import card10 from "../../images/cards/10.png";
+import card11 from "../../images/cards/11.png";
+import card12 from "../../images/cards/12.png";
+import card13 from "../../images/cards/13.png";
+import card14 from "../../images/cards/14.png";
+import card15 from "../../images/cards/15.png";
+import card16 from "../../images/cards/16.png";
+import card17 from "../../images/cards/17.png";
+import card18 from "../../images/cards/18.png";
+import card19 from "../../images/cards/19.png";
+import card20 from "../../images/cards/20.png";
+import card21 from "../../images/cards/21.png";
+import card22 from "../../images/cards/22.png";
+import card23 from "../../images/cards/23.png";
+import card24 from "../../images/cards/24.png";
+import card25 from "../../images/cards/25.png";
+import card26 from "../../images/cards/26.png";
+import card27 from "../../images/cards/27.png";
+import card28 from "../../images/cards/28.png";
+import card29 from "../../images/cards/29.png";
+import card30 from "../../images/cards/30.png";
+import card31 from "../../images/cards/31.png";
+import card32 from "../../images/cards/32.png";
+import card33 from "../../images/cards/33.png";
+import card34 from "../../images/cards/34.png";
+import card35 from "../../images/cards/35.png";
+import card36 from "../../images/cards/36.png";
+import card37 from "../../images/cards/37.png";
+import card38 from "../../images/cards/38.png";
+import card39 from "../../images/cards/39.png";
+import card40 from "../../images/cards/40.png";
 import GameOpenvidu from "./GameOpenvidu";
+
 
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
   const [players, setPlayers] = useState([]);
-  const [turn, setTurn] = useState([]);
+  const [turn, setTurn] = useState();
   const [currentBetUnit, setCurrentBetUnit] = useState(0);
   const [currentMaxBet, setCurrentMaxBet] = useState(0);
   const [myBet, setMyBet] = useState(0);
@@ -34,12 +72,13 @@ export default function Game(props) {
   const [isEnter, setisEnter] = useState(false);
   const [sessionId, setsessionId] = useState(false);
   const [win, setwin] = useState([false, false, false, false, false, false]);
-  const [preaction,setpreaction]=useState([{},{},{},{},{},{}]);
+  const [preaction, setpreaction] = useState([{}, {}, {}, {}, {}, {}]);
 
   let navigate = useNavigate();
   let location = useLocation();
   let roomId = location.state.roomId; //방 컴포넌트에 roomid 포함
   let roomBetUnit = location.state.roomBetUnit;
+  let roomTitle = location.state.roomTitle;
   var sock = new sockjs("http://localhost:8080/stomp-game");
   let stomp = stompjs.over(sock);
 
@@ -77,8 +116,14 @@ export default function Game(props) {
         //게임이 시작됐을 때
         if (content.type == "START") {
           setmainMessage("게임 시작!");
+          setpreaction([{}, {}, {}, {}, {}, {}]);
 
           setIsStart(true);
+          // let action = new Object();
+          // action.target = new Object();
+          // action.target.textContent = "다이";
+          // settimer(5, sendBet(action));
+          // setSec(5);
           //카메라 체크
         }
 
@@ -124,25 +169,44 @@ export default function Game(props) {
             setbuttonDisable([false, true, false, false]);
           }
           //setCurrentBetUnit(content.battingUnit);
-          setCurrentMaxBet(content.gameTotalBet);
-          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+          // setCurrentMaxBet(content.gameTotalBet);
+          setGameTotalBet(content.gameTotalBet);
+          setMyBet(roomBetUnit)
+          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+
+          setTurn(content.turnIdx);
         }
 
         //턴
         if (content.type == "NEXTTURN") {
-          setTurn(content.turnIdx);
-          setCurrentMaxBet(content.gameTotalBet);
-          setPlayers(content.playerInfo);
-          setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
           //전사람 행동
+          // console.log(preaction);
+          let preturn = content.preTurnIdx;
+          let temppreaction = preaction;
+          let act = content.message.split(" ",1);
+          console.log(act)
+          temppreaction[preturn] = new Object();
+          temppreaction[preturn].action = act[0];
+          // if (act === "RAISE") {
+          //   temppreaction[preturn].amount = content.message.split(" ")[1];
+          // }
+          setMyBet(content.gameMaxBet)
+          setCurrentBetUnit(content.gameMaxBet);
+          setpreaction(temppreaction);
+          setGameTotalBet(content.gameTotalBet);
+          setTurn(content.turnIdx);
+          // setCurrentMaxBet(content.gameTotalBet);
+          setPlayers(content.playerInfo);
+          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
 
           //내턴일때
           if (content.turnIdx == 0) {
             setbuttonDisable([false, false, false, false]);
-            let action = new Object();
-            action.target.textContent="다이"
-            settimer(5,sendBet(action));
-    
+            // let action = new Object();
+            // action.target = new Object();
+            // action.target.textContent = "다이";
+            // settimer(5, sendBet(action));
+            // setSec(5);
           }
           //다른사람 턴일때
           else {
@@ -152,23 +216,39 @@ export default function Game(props) {
 
         //게임 끝
         if (content.type == "GAMEEND") {
+          // let turn = content.preTurnIdx;
+          let temppreaction = preaction;
+          let act = content.message.split(" ",1);
+          console.log(act)
+          console.log(turn)
+          temppreaction[turn] = new Object();
+          temppreaction[turn].action = act[0];
+          // if (act === "RAISE") {
+          //   temppreaction[preturn].amount = content.message.split(" ")[1];
+          // }
+          setpreaction(temppreaction);
+
           setbuttonDisable([true, true, true, true]);
           setPlayers(content.playerInfo);
           setTurn(content.turnIdx);
           //이긴사람 표시
           setmainMessage(content.playerInfo[content.winnerIdx].nickname + " 승리!!");
-
+          setCurrentBetUnit(roomBetUnit);
           let tempwin = [false, false, false, false, false, false];
           tempwin[content.winnerIdx] = true;
           setwin(tempwin);
-
+          
           //2.5초간 효과재생 후 게임시작 활성화
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
+              charge();
               leaveGame();
             }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);
+            setMyBet(roomBetUnit)
+            setGameTotalBet(0);
+            setpreaction([{},{},{},{},{},{}])
             console.log(win);
           }, 2500);
         }
@@ -213,18 +293,82 @@ export default function Game(props) {
         JSON.stringify({ roomId: roomId, message: "", sender: "", type: "START" })
       );
     } else {
-      if(!players[1]) console.log("플레이어가 부족합니다")
-      if(turn!=0)console.log("방장만 시작 가능");
+      if (!players[1]) console.log("플레이어가 부족합니다");
+      if (turn != 0) console.log("방장만 시작 가능");
     }
   }
 
+  async function charge() {
+    let userId;
+    await axios
+      .get("/api/user", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data.userEmail));
+        userId = response.data.userId;
+      });
+
+    await axios
+      .put(
+        "/api/user/charge",
+        { userId: userId },
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: window.localStorage.accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("50루비 충전");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    console.log(preaction);
+    // setCurrentMaxBet(preaction)
+  }, [preaction]);
+
+  useEffect(() => {
+    // let second = amount;
+    //setSec(amount);
+    console.log(sec);
+    setTimeout(() => {
+      if (turn == 0) {
+        if (sec <= 0) {
+          let action = new Object();
+          action.target = new Object();
+          action.target.textContent = "다이";
+          sendBet(action);
+        } else {
+          setSec(sec - 1);
+        }
+      }
+    }, 1000);
+  }, [sec]);
+
+  //타이머를 위한
+  useEffect(() => {
+    // console.log(turn);
+    // if (turn == 0 && isStart) {
+    //   setSec(5);
+    // }
+  }, [turn]);
 
   //amount 초 이후 callback 실행
-  function settimer(amount,callback) {
-    setSec(amount);
+  function settimer(amount, callback) {
+    let second = amount;
+    //setSec(amount);
     let counter = setInterval(() => {
-      setSec(sec-1)
-      if (sec <= 0) {
+      second--;
+      if (second <= 0) {
         clearInterval(counter);
       }
     }, 1000);
@@ -252,14 +396,14 @@ export default function Game(props) {
 
         break;
       case "레이즈":
-        setMyBet(currentBetUnit);
-        console.log("raise " + currentBetUnit);
+        // setMyBet(currentBetUnit);
+        console.log("raise " + myBet);
         stomp.send(
           "/pub/game/message",
           {},
           JSON.stringify({
             roomId: roomId,
-            message: currentBetUnit,
+            message: myBet,
             sender: "",
             type: "RAISE",
             socketId: sessionId,
@@ -319,14 +463,23 @@ export default function Game(props) {
     navigate("../lobby/rooms");
   }
 
-
+  function setMyBetAmount(e) {
+    console.log(myBet)
+    if (e.target.id == "up") {
+      console.log("x2 mybet")
+      setMyBet(myBet*2);
+    } else {
+      console.log("/2 mybet")
+      setMyBet(myBet/2)
+    }
+  }
   return (
     <div className={styles.container}>
-      
       {isEnter && roomInfo && players[0] ? (
         <GameOpenvidu
           roomId={roomId}
           roomInfo={roomInfo}
+          roomTitle={roomTitle}
           players={players}
           leavegame={leaveGame}
           win={win}
@@ -340,11 +493,15 @@ export default function Game(props) {
           startDisabled={startDisabled}
           myBet={myBet}
           currentBetUnit={roomBetUnit}
+          currentMaxBet={currentMaxBet}
           preaction={preaction}
+          sec={sec}
+          gameTotalBet={gameTotalBet}
+          setMyBetAmount={setMyBetAmount}
+          groundCard1={groundCard1}
+          groundCard2={groundCard2}
         />
       ) : null}
-
-      
     </div>
   );
 }

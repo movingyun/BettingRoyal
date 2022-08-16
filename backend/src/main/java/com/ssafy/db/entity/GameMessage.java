@@ -24,6 +24,7 @@ public class GameMessage {
 	private int groundCardNum2;
 	//초기값 null을 위해 Integer로 함
 	private Integer turnIdx;
+	private Integer preTurnIdx;
 	private MessageType type;
 	private int battingUnit;
 	private String mission;

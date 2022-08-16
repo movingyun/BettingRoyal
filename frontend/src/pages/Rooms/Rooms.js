@@ -127,7 +127,7 @@ export default function Rooms(props) {
               //console.log(JSON.stringify(response))
               setOpen(false);
               navigate("/room", {
-                state: { roomId: response2.data.roomId, roomBetUnit: makeRoomBettingunit },
+                state: { roomId: response2.data.roomId, roomBetUnit: makeRoomBettingunit,roomTitle:response2.data.roomTitle },
               });
             })
             .catch(function (error) {});
@@ -164,7 +164,7 @@ export default function Rooms(props) {
               alert("방이 닫혔습니다");
             } else {
               navigate("/room", {
-                state: { roomId: e, roomBetUnit: roomresponse.data.roomBettingUnit },
+                state: { roomId: e, roomBetUnit: roomresponse.data.roomBettingUnit, roomTitle:roomresponse.data.roomTitle },
               });
             }
           })

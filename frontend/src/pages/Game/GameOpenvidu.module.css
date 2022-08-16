@@ -339,6 +339,17 @@
     color: #DCD7C9;
 }
 
+.raiseAmountArea {
+    grid-row: 6 / 7;
+    grid-column: 1 / 4;
+    padding-bottom: 15px;
+    margin-top: 5px;
+    padding-top: 15px;
+    background-color: #3F4E4F;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
 .betList {
     background-color: rgba(0, 0, 0, 0.15);
     margin-right: 15px;
@@ -496,6 +507,6 @@
     color: #3F4E4F;
 }
 
-.highlight{
-    background-color:darkorange;
+.highlight {
+    background-color: darkorange;
 }

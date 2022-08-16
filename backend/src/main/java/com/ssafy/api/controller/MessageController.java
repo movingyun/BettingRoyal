@@ -616,10 +616,14 @@ public class MessageController {
 				message.setPlayerInfo(piList2);
 
 				//turnIdx를 사람마다 각각 넣어주기
+				int preTurnIdx =currentTurn-idx;
 				int turnIdx = (currentTurn+cnt)-idx;
 				if(turnIdx<0)
 					turnIdx+=gpList.size();
+				if(preTurnIdx<0)
+					preTurnIdx+=gpList.size();
 				message.setTurnIdx(turnIdx%piList.size());
+				message.setPreTurnIdx(preTurnIdx%piList.size());
 
 				//클라이언트에 보내주는 메세지 중 playerInfo에 내 정보에서 내카드, 내 족보는 알려주지 말자!!(카드:40으로 / 족보는 null로)
 				String myPair = message.getPlayerInfo().get(0).getMyPair();

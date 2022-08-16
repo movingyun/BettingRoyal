@@ -1,9 +1,46 @@
 import React, { Component } from "react";
 import OpenViduVideoComponent from "./OvVideo";
 import styles from "./UserVideo.module.css";
-import card_back from "../../images/cards/card_back.png";
-import card_am_1 from "../../images/cards/card_am_1.png";
-
+import card1 from "../../images/cards/1.png";
+import card2 from "../../images/cards/2.png";
+import card3 from "../../images/cards/3.png";
+import card4 from "../../images/cards/4.png";
+import card5 from "../../images/cards/5.png";
+import card6 from "../../images/cards/6.png";
+import card7 from "../../images/cards/7.png";
+import card8 from "../../images/cards/8.png";
+import card9 from "../../images/cards/9.png";
+import card10 from "../../images/cards/10.png";
+import card11 from "../../images/cards/11.png";
+import card12 from "../../images/cards/12.png";
+import card13 from "../../images/cards/13.png";
+import card14 from "../../images/cards/14.png";
+import card15 from "../../images/cards/15.png";
+import card16 from "../../images/cards/16.png";
+import card17 from "../../images/cards/17.png";
+import card18 from "../../images/cards/18.png";
+import card19 from "../../images/cards/19.png";
+import card20 from "../../images/cards/20.png";
+import card21 from "../../images/cards/21.png";
+import card22 from "../../images/cards/22.png";
+import card23 from "../../images/cards/23.png";
+import card24 from "../../images/cards/24.png";
+import card25 from "../../images/cards/25.png";
+import card26 from "../../images/cards/26.png";
+import card27 from "../../images/cards/27.png";
+import card28 from "../../images/cards/28.png";
+import card29 from "../../images/cards/29.png";
+import card30 from "../../images/cards/30.png";
+import card31 from "../../images/cards/31.png";
+import card32 from "../../images/cards/32.png";
+import card33 from "../../images/cards/33.png";
+import card34 from "../../images/cards/34.png";
+import card35 from "../../images/cards/35.png";
+import card36 from "../../images/cards/36.png";
+import card37 from "../../images/cards/37.png";
+import card38 from "../../images/cards/38.png";
+import card39 from "../../images/cards/39.png";
+import card40 from "../../images/cards/40.png";
 import ruby_get from "../../images/ruby/ruby_get.gif";
 export default class UserVideoComponent extends Component {
   constructor(props) {
@@ -92,13 +129,19 @@ export default class UserVideoComponent extends Component {
           <div className={styles.userInfo}>
             <div className={styles.name}>{this.props.player.nickname}</div>
             <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
-            
+            {this.props.preaction.action ? (
+              <div className={styles.speech_bubble}>
+                {" "}
+                {this.props.preaction.action}
+                {this.props.player.mytotalBet}
+              </div>
+            ) : null}
           </div>
           <div className={styles.gameInfo}>
             <div className={styles.card}>
               {/* 플레이어 카드 */}
               <div className={styles.card_front}>
-                <img src={card_am_1} />
+                <img src={`card${this.props.player.myCard}`} />
               </div>
             </div>
             <div className={styles.status}>{this.props.player.myPair}</div>
