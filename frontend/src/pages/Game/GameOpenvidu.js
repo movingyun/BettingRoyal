@@ -200,8 +200,15 @@ class Gameroom extends Component {
                             { clientData: this.state.myUserName },
                         )
                         .then(async () => {
-                            var devices = await this.OV.getDevices();
-                            var videoDevices = devices.filter(device => device.kind === 'videoinput');
+                            // var a = this.OV.getUserMedia({
+                            //     audio: true,
+                            //     video: true
+                            // })
+                            var devices = await this.OV.getUserMedia({
+                                audio: true,
+                                video: true
+                            })
+                            // var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
                             // --- 5) Get your own camera stream ---
 
@@ -209,7 +216,7 @@ class Gameroom extends Component {
                             // element: we will manage it on our own) and with the desired properties
                             let publisher = this.OV.initPublisher(undefined, {
                                 audioSource: undefined, // The source of audio. If undefined default microphone
-                                videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
+                                videoSource: undefined, // The source of video. If undefined default webcam
                                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
                                 resolution: '640x480', // The resolution of your video
@@ -224,7 +231,7 @@ class Gameroom extends Component {
 
                             // Set the main video in the page to display our webcam and store our Publisher
                             this.setState({
-                                currentVideoDevice: videoDevices[0],
+                                // currentVideoDevice: videoDevices[0],
                                 mainStreamManager: publisher,
                                 publisher: publisher,
                             });

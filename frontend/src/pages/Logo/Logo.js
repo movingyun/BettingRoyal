@@ -10,23 +10,28 @@ import Game from '../../pages/Game/Game';
 import title from "../../images/logo_center.png";
 import betting from "../../images/logo_betting.png";
 import royal from "../../images/logo_royal.png";
+import AudioPlayer from "../../components/Audio/AudioPlayer"
 
 export default function First(props) {
-  useEffect(() => {}, []);
+  const [starting, setStarting] = useState(false);
+  const [loopping, setLoopping] = useState(true);
+
 
   let header = (
     <div className={styles.bg}>
       <div className={styles.mainframe}>
-      <div className={styles.explan}>WebRTC 기반 심리 카드게임</div>
-      <div className={styles.parent}>
-        <div className={styles.child_betting}><img src={betting}/></div>
-        <div className={styles.child_royal}><img src={royal}/></div>
+        <div className={styles.explan}>WebRTC 기반 심리 카드게임</div>
+        <div className={styles.parent}>
+          <div className={styles.child_betting}><img src={betting}/></div>
+          <div className={styles.child_royal}><img src={royal}/></div>
         </div>
-          <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
-          <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
-          <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
+        <Link to="/login"><button className={styles.button}>로그인</button></Link><br/>
+        <Link to="/signup"><button className={styles.button}>회원가입</button></Link><br/>
+        <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link>
+        <AudioPlayer url={'./Audio/BGM.mp3'} starting={starting} loopping={loopping}/>
       </div>
     </div>
+    
   );
 
   return (
