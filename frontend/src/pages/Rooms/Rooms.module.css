@@ -86,6 +86,8 @@ background-color: #A27B5C;
   padding: 4px 8px 4px 8px;
   margin-right: 10px;
   border-radius: 5px;
+  min-width: 50px;
+  text-align: center;
 }
 
 .roomName{
