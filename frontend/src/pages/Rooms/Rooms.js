@@ -221,8 +221,9 @@ export default function Rooms(props) {
       room.isPw = roomsdata[i].roomPw;
       room.current_count = roomsdata[i].roomInCnt;
       room.max_count = 6;
-      room.isStart = roomsdata[i].roomIsStart;
-      if (!room.isStart) {
+      if (roomsdata[i].roomIsStart) room.roomIsStart = "진행중";
+      else room.roomIsStart = "";
+      if (!room.roomIsStart) {
         list.push(room);
       }
     }
@@ -241,6 +242,14 @@ export default function Rooms(props) {
       field: "roomTitle",
       headerName: "방 제목",
       flex: 4,
+      editable: false,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "roomIsStart",
+      headerName: "상태",
+      flex: 1,
       editable: false,
       align: "center",
       headerAlign: "center",
