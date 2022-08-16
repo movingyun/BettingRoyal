@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from './Chat.module.css';
 import React from "react";
+import ReactScrollableFeed from "react-scrollable-feed"
 
 // export default function Chat(){
 export default function Chat(props){
@@ -33,11 +34,13 @@ export default function Chat(props){
   return (
     <div className={styles.chat}>
       <div className={styles.chatList}>
+        <ReactScrollableFeed >
         {props.chatList.map((data, idx) => (
           <p className={styles.chatLine} >
             {data.name} : {data.msg}
           </p>
         ))}
+        </ReactScrollableFeed>
       </div>
       <div className={styles.inputList}>
           <input className={styles.input} type={"text"} id={"chatTxt"} onKeyPress={onKeyPress} placeholder='메시지 보내기'></input>
