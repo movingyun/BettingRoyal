@@ -69,13 +69,13 @@ export default function Rooms(props) {
         //[{roomId, userm, roomTitle, roomBettingUnit, roomPw}, ... ]
         //console.log(JSON.stringify(response.data));
         // return JSON.stringify(response.data.statusCode);
-        console.log(response.data)
+        console.log(response.data);
         setAllRooms(response.data);
         setRoomCnt(response.data.length);
         setRooms(makeRoomList(response.data, 1));
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         alert("방 정보 가져오기 실패");
       });
   }, []);
@@ -134,7 +134,7 @@ export default function Rooms(props) {
         }
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         alert("내 루비 조회 실패");
       });
   }
@@ -174,7 +174,7 @@ export default function Rooms(props) {
           });
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         alert("내 루비 조회 실패");
       });
   }
@@ -240,7 +240,7 @@ export default function Rooms(props) {
   function makeRoomList(roomsdata, value) {
     console.log(page + "여기ㅣㅣㅣㅣㅣㅣㅣ");
     let list = [];
-    for (let i = 8 * (value - 1); i < 8*value; i++) {
+    for (let i = 8 * (value - 1); i < 8 * value; i++) {
       if (i >= roomsdata.length) {
         continue;
       }
