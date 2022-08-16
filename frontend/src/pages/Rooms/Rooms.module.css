@@ -74,3 +74,60 @@ background-color: #A27B5C;
   margin-bottom: 10px;
   /* background-color: #2C3639; */
 }
+
+.roomNo{
+  /* font-size: small; */
+  /* margin: 0;
+  padding: 0; */
+  display: inline-block;
+  background-color: #2C3639;
+  color: #DCD7C9;
+  font-weight: 400;
+  padding: 4px 8px 4px 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.roomName{
+  font-size: 25px;
+  font-weight: 600;
+  padding: 0;
+  display: inline-block;
+  color: #2C3639;
+}
+
+.roomIcon{
+  font-size: 25px;
+  float: right;
+  display: inline-block;
+  margin-top: 5px;
+  color: #2C3639;
+}
+
+.roomDiv{
+  margin: 13px 0px 6px 0px;;
+}
+.roomBot{
+  color: #2C3639;
+}
+
+.betRuby{
+  display: inline-block;
+  
+}
+
+.peopleNum{
+  display: inline-block;
+  float: right;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.page {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.pageDiv {
+  text-align: center;
+}
