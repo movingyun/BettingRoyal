@@ -45,6 +45,12 @@ export const mainNavbarItems = [
         label: '길드',
         route: 'guild',
     },
+    {
+        id:5,
+        icon:'',
+        label: 'sss',
+        route: 'review',
+    },
 
 ]
 

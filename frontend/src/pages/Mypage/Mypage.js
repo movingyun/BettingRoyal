@@ -7,6 +7,7 @@ import { Button } from "bootstrap";
 import Modal from "../../components/Modal/Modal";
 import Vault from "../../pages/modal/Vault/Vault";
 import Nickname from "../../pages/modal/Nickname/Nickname";
+import MyInfoDelete from "../../pages/modal/MyInfoDelete/MyInfoDelete";
 import Password from "../modal/Password/Password";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { Box, ListItem, ListItemText } from "@mui/material";
@@ -16,6 +17,7 @@ const Mypage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
   const [modalOpen2, setModalOpen2] = useState(false);
+  const [modalOpen3, setModalOpen3] = useState(false);
   const [nickname, setNickname] = useState();
   const [email, setEmail] = useState();
   const [gender, setGender] = useState();
@@ -30,6 +32,7 @@ const Mypage = () => {
   const [open, setOpen] = useState(true);
   const [open1, setOpen1] = useState(true);
   const [open2, setOpen2] = useState(true);
+  const [open3, setOpen3] = useState(true);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -39,6 +42,9 @@ const Mypage = () => {
   };
   const toggleDrawer2 = () => {
     setOpen2(!open2);
+  };
+  const toggleDrawer3 = () => {
+    setOpen3(!open3);
   };
 
   const openModal = () => {
@@ -58,6 +64,12 @@ const Mypage = () => {
   };
   const closeModal2 = () => {
     setModalOpen2(false);
+  };
+  const openModal3 = () => {
+    setModalOpen3(true);
+  };
+  const closeModal3 = () => {
+    setModalOpen3(false);
   };
 
   useEffect(() => {
@@ -205,6 +217,12 @@ const Mypage = () => {
         <div>승률 : {`${((gameWin / gameCnt) * 100).toFixed(2)}`} %</div>
         <div>가입일 : {startDate}</div>
       </div>
+      <button onClick={openModal3} className={styles.btn}>
+            회원탈퇴
+      </button>
+      <Modal open={modalOpen3} close={closeModal3} header="회원 탈퇴">
+        <MyInfoDelete />
+      </Modal>
     </div>
   );
 };
