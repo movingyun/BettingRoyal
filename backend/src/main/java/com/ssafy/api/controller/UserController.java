@@ -148,8 +148,20 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<?> delete (@RequestParam Integer userId) {
-		userService.deleteUser(userId);
+	public ResponseEntity<?> delete (@ApiIgnore Authentication authentication ) {
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserEmail(userId);
+
+		user.setUserNickname("deleteUser"+user.getUserId());
+		user.setUserEmail("deleteUser"+user.getUserId());
+		user.setUserPw("1");
+		user.setUserRuby(0);
+		user.setUserVault(0);
+		user.setUserIsActive(0);
+
+
+		userService.modifyUser(user);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
