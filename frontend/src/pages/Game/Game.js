@@ -34,6 +34,7 @@ export default function Game(props) {
   const [isEnter, setisEnter] = useState(false);
   const [sessionId, setsessionId] = useState(false);
   const [win, setwin] = useState([false, false, false, false, false, false]);
+  const [preaction,setpreaction]=useState([{},{},{},{},{},{}]);
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -141,10 +142,7 @@ export default function Game(props) {
             let action = new Object();
             action.target.textContent="다이"
             settimer(5,sendBet(action));
-            // if (currentMaxBet > myTotalBet) {
-            //   //콜 버튼 비활성화
-            //   setbuttonDisable([false, true, false, false]);
-            // }
+    
           }
           //다른사람 턴일때
           else {
@@ -205,7 +203,7 @@ export default function Game(props) {
   // }, [sec]);
 
   function gameStart(e) {
-    if (turn == 0) {
+    if (turn == 0 && players[1]) {
       console.log("겜시작");
       setIsStart(true);
 
@@ -320,78 +318,10 @@ export default function Game(props) {
     navigate("../lobby/rooms");
   }
 
-  //클라이언트 webrtc socket on:
-  //클라이언트 game socket emit : bet, call, raise, die , 나가기, 참가,
-  //클라이언트 game socket on : 내 카드 받기, 공통카드 받기, 차례 받기,
-  //클라이언트 api 요청:
-  //새로고침시 로비로
-  //주기적으로 동기화
 
   return (
     <div className={styles.container}>
-      {/* <div className={styles.header}>
-        <h1>
-          <ArrowForwardIosRoundedIcon className={styles.icon} />
-          게임방 이름
-        </h1>
-        <h2>기본 베팅 10 루비</h2>
-        <div className={styles.buttonList}>
-          <button className={styles.button}>관전자모드</button>
-          <button className={styles.button} onClick={leaveGame}>
-            나가기
-          </button>
-        </div>
-      </div>
-      <div className={styles.grid}>
-        <div className={styles.center}>
-          <div className={styles.qs}>{mainMessage}</div>
-          <div className={styles.cards}>
-            <div
-              id="card"
-              className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
-            >
-              <img src={card_back} />
-              <img src={card_back} />
-            </div>
-            <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
-              <img src={groundCard1} />
-              <img src={groundCard2} />
-            </div>
-          </div>
-          <div className={styles.info}>
-            <div className={styles.time}>
-              {sec}초<div className={styles.timer_front}></div>
-              <div className={styles.timer_back}></div>
-            </div>
-            <div className={styles.money}>돈돈돈돈</div>
-          </div>
-        </div> */}
-
-      {/* <div className={`${styles.player1} ${turn == 1 ? styles.highlight : styles.none}`}>
-          {win[1] ? <img src={ruby_win} className={ruby_win}/> : null}
-
-          <Player player={players[1]} />
-        </div>
-        <div className={`${styles.player2} ${turn == 2 ? styles.highlight : styles.none}`}>
-          {win[2] ? <img src={ruby_win} className={ruby_win}/> : null}
-          <Player player={players[2]} />
-        </div>
-        <div className={`${styles.player3} ${turn == 3 ? styles.highlight : styles.none} `}>
-          {win[3] ? <img src={ruby_win} className={ruby_win}/> : null}
-          <Player player={players[3]} />
-        </div>
-        <div className={`${styles.player4} ${turn == 4 ? styles.highlight : styles.none}`}>
-          {win[4] ? <img src={ruby_win} className={ruby_win}/> : null}
-          <Player player={players[4]} />
-        </div>
-        <div className={`${styles.player5} ${turn == 5 ? styles.highlight : styles.none}`}>
-          {win[5] ? <img src={ruby_win} className={ruby_win}/> : null}
-          <Player player={players[5]} />
-        </div>
-        <div className={`${styles.playerMe} ${turn == 0 ? styles.highlight : styles.none}`}>
-          {win[0] ? <img src={ruby_win} className={ruby_win}/> : null}
-          <Player player={players[0]} />
-        </div> */}
+      
       {isEnter && roomInfo && players[0] ? (
         <GameOpenvidu
           roomId={roomId}
@@ -409,37 +339,11 @@ export default function Game(props) {
           startDisabled={startDisabled}
           myBet={myBet}
           currentBetUnit={roomBetUnit}
+          preaction={preaction}
         />
       ) : null}
 
-      {/* {isStart ? (
-          <div className={styles.betting}>
-            <button onClick={sendBet} disabled={buttonDisable[0]}>
-              다이
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[1]}>
-              콜
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[2]}>
-              레이즈
-            </button>
-            <button onClick={sendBet} disabled={buttonDisable[3]}>
-              올인
-            </button>
-          </div>
-        ) : (
-          <div className={styles.start}>
-            <button onClick={gameStart} disabled={startDisabled}>
-              게임시작
-            </button>
-          </div>
-        )}
-
-        <div className={styles.rules}>
-          트리플 &#62; 스트레이트 &#62; 더블 <br />
-          에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
-        </div> 
-       </div> */}
+      
     </div>
   );
 }

@@ -55,15 +55,6 @@ class Gameroom extends Component {
     this.sendChat = this.sendChat.bind(this);
   }
 
-  // startClick() {
-  //   console.log("겜시작");
-  //   this.timerId = setInterval(() => {
-  //     this.setState({
-  //       seconds: this.state.seconds - 1,
-  //     });
-  //   }, 1000);
-  // }
-
   togglePopover = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -120,11 +111,7 @@ class Gameroom extends Component {
   }
 
   joinSession() {
-    // --- 1) Get an OpenVidu object ---
-
     this.OV = new OpenVidu();
-
-    // --- 2) Init a session ---
 
     this.setState(
       {
@@ -132,12 +119,7 @@ class Gameroom extends Component {
       },
       () => {
         var mySession = this.state.session;
-        // --- 3) Specify the actions when events take place in the session ---
-
-        // On every new Stream received...
         mySession.on("streamCreated", (event) => {
-          // Subscribe to the Stream to receive it. Second parameter is undefined
-          // so OpenVidu doesn't create an HTML video by its own
           var subscriber = mySession.subscribe(event.stream, undefined);
           var subscribers = this.state.subscribers;
           subscribers.push(subscriber);
@@ -159,19 +141,7 @@ class Gameroom extends Component {
           console.log(subscribers);
           console.log(this.props.players);
           console.log(this.props.win);
-          //   console.log(JSON.stringify(this.props.players))
 
-          //   let subarr = [];
-          //   let playerarr=[];
-          //   for (let i = 0; i < this.state.subscribers.length; i++) {
-          //     subarr.push(JSON.stringify(this.state.subscribers[i]))
-          //     playerarr.push(this.props.player[i+1].nickname)
-          //   }
-          //   console.log(subarr)
-          //   console.log(playerarr)
-          // const message = event
-
-          // Update the state with the new subscribers
           this.setState({
             subscribers: tempsubarr,
           });
@@ -186,40 +156,26 @@ class Gameroom extends Component {
           var chatList = this.state.chatList.concat(chatmsg);
           console.log("chatlist print: " + this.state.chatList);
           console.log(this.state.chatList);
-          // this.updateChat(chatList)
           this.setState({
             chatList: chatList,
           });
         });
 
-        // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
-          // Remove the stream from 'subscribers' array
           this.deleteSubscriber(event.stream.streamManager);
         });
 
-        // On every asynchronous exception...
         mySession.on("exception", (exception) => {
           console.warn(exception);
         });
 
-        // --- 4) Connect to the session with a valid user token ---
-
-        // 'getToken' method is simulating what your server-side should do.
-        // 'token' parameter should be retrieved and returned by your own backend
         this.getToken().then((token) => {
-          // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
-          // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
             .connect(token, { clientData: this.props.players[0].nickname })
             .then(async () => {
               var devices = await this.OV.getDevices();
               var videoDevices = devices.filter((device) => device.kind === "videoinput");
 
-              // --- 5) Get your own camera stream ---
-
-              // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-              // element: we will manage it on our own) and with the desired properties
               let publisher = this.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
@@ -232,11 +188,8 @@ class Gameroom extends Component {
                 nickname: this.props.players[0].nickname,
               });
 
-              // --- 6) Publish your stream ---
-
               mySession.publish(publisher);
 
-              // Set the main video in the page to display our webcam and store our Publisher
               this.setState({
                 currentVideoDevice: videoDevices[0],
                 mainStreamManager: publisher,
@@ -256,17 +209,14 @@ class Gameroom extends Component {
   }
 
   leaveSession() {
-    // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
     if (window.confirm("나가시겠습니까?") == true) {
       console.log("나가기 누름");
       const mySession = this.state.session;
-      
+
       if (mySession) {
         mySession.disconnect();
       }
 
-      // Empty all properties...
       this.OV = null;
       this.setState({
         session: undefined,
@@ -277,8 +227,6 @@ class Gameroom extends Component {
       this.props.leavegame();
     }
   }
-
-  
 
   // 채팅 메세지 부분
   sendMessage(type, data) {
@@ -297,7 +245,6 @@ class Gameroom extends Component {
     this.sendMessage("my-chat", chatMsg);
   }
 
-
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices();
@@ -309,8 +256,6 @@ class Gameroom extends Component {
         );
 
         if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
           var newPublisher = this.OV.initPublisher(undefined, {
             videoSource: newVideoDevice[0].deviceId,
             publishAudio: true,
@@ -318,7 +263,6 @@ class Gameroom extends Component {
             mirror: true,
           });
 
-          //newPublisher.once("accessAllowed", () => {
           await this.state.session.unpublish(this.state.mainStreamManager);
 
           await this.state.session.publish(newPublisher);
@@ -338,10 +282,6 @@ class Gameroom extends Component {
     const chatList = this.state.chatList;
     return (
       <div className={styles.container}>
-        {/* 입장 전 */}
-
-        {/* 입장 후 */}
-
         <div className={styles.header}>
           <h1>
             <ArrowForwardIosRoundedIcon className={styles.icon} />
@@ -359,7 +299,9 @@ class Gameroom extends Component {
             {this.state.publisher && this.props.roomInfo && this.props.players[0] ? (
               <div
                 onClick={() => this.handleMainVideoStream(this.state.publisher)}
-                className={`${styles.myCam} ${this.props.turn == 0 ? styles.highlight : styles.none}`}
+                className={`${styles.myCam} ${
+                  this.props.turn == 0 ? styles.highlight : styles.none
+                }`}
               >
                 <UserVideoComponent
                   streamManager={this.state.publisher}
@@ -370,7 +312,12 @@ class Gameroom extends Component {
             ) : null}
 
             {this.props.players[1] && this.state.subscribers[0] ? (
-              <div key={0} className={`${this.test[0]} ${this.props.turn == 1 ? styles.highlight : styles.none}`}>
+              <div
+                key={0}
+                className={`${this.test[0]} ${
+                  this.props.turn == 1 ? styles.highlight : styles.none
+                }`}
+              >
                 <UserVideoComponent
                   streamManager={this.state.subscribers[0]}
                   player={this.props.players[1]}
@@ -379,7 +326,12 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[2] && this.state.subscribers[1] ? (
-              <div key={1} className={`${this.test[1]} ${this.props.turn == 2 ? styles.highlight : styles.none}`}>
+              <div
+                key={1}
+                className={`${this.test[1]} ${
+                  this.props.turn == 2 ? styles.highlight : styles.none
+                }`}
+              >
                 <UserVideoComponent
                   streamManager={this.state.subscribers[1]}
                   player={this.props.players[2]}
@@ -388,7 +340,12 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[3] && this.state.subscribers[2] ? (
-              <div key={2} className={`${this.test[2]} ${this.props.turn == 3 ? styles.highlight : styles.none}`}>
+              <div
+                key={2}
+                className={`${this.test[2]} ${
+                  this.props.turn == 3 ? styles.highlight : styles.none
+                }`}
+              >
                 <UserVideoComponent
                   streamManager={this.state.subscribers[2]}
                   player={this.props.players[3]}
@@ -397,7 +354,12 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[4] && this.state.subscribers[3] ? (
-              <div key={3} className={`${this.test[3]} ${this.props.turn == 4 ? styles.highlight : styles.none}`}>
+              <div
+                key={3}
+                className={`${this.test[3]} ${
+                  this.props.turn == 4 ? styles.highlight : styles.none
+                }`}
+              >
                 <UserVideoComponent
                   streamManager={this.state.subscribers[3]}
                   player={this.props.players[4]}
@@ -406,7 +368,12 @@ class Gameroom extends Component {
               </div>
             ) : null}
             {this.props.players[5] && this.state.subscribers[4] ? (
-              <div key={4} className={`${this.test[4]} ${this.props.turn == 5 ? styles.highlight : styles.none}`}>
+              <div
+                key={4}
+                className={`${this.test[4]} ${
+                  this.props.turn == 5 ? styles.highlight : styles.none
+                }`}
+              >
                 <UserVideoComponent
                   streamManager={this.state.subscribers[4]}
                   player={this.props.players[5]}
@@ -458,66 +425,36 @@ class Gameroom extends Component {
               </div>
             </div>
             <div className={styles.chat}>
-          <Chat sendChat={this.sendChat} chatList={chatList} />
-        </div>
-        {/* 게임시작버튼 */}
-        {this.props.isStart ? (
-          <div className={styles.betting}>
-            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
-              다이
-            </button>
-            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
-              콜
-            </button>
-            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
-              레이즈
-            </button>
-            <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
-              올인
-            </button>
-          </div>
-        ) : (
-          <div className={styles.start}>
-            <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
-              게임시작
-            </button>
-          </div>
-        )}
+              <Chat sendChat={this.sendChat} chatList={chatList} />
+            </div>
+            {/* 게임시작버튼 */}
+            {this.props.isStart ? (
+              <div className={styles.betting}>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                  다이
+                </button>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                  콜
+                </button>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
+                  레이즈
+                </button>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                  올인
+                </button>
+              </div>
+            ) : (
+              <div className={styles.start}>
+                <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
+                  게임시작
+                </button>
+              </div>
+            )}
           </div>
         ) : null}
-
-       
-        {/* 베팅버튼 */}
-        {/* <div className={styles.betting}>
-          <button>다이</button>
-          <button>콜</button>
-          <div className={styles.betList}>
-            <p>레이즈</p>
-            <input
-              className={styles.betInput}
-              type={"number"}
-              step="10"
-              placeholder="베팅 루비 입력"
-            ></input>
-            <button className={styles.betBtn}>확인</button>
-          </div>
-          <button>올인</button>
-        </div> */}
       </div>
     );
   }
-
-  /**
-   * --------------------------
-   * SERVER-SIDE RESPONSIBILITY
-   * --------------------------
-   * These methods retrieve the mandatory user token from OpenVidu Server.
-   * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-   * the API REST, openvidu-java-client or openvidu-node-client):
-   *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-   *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-   *   3) The Connection.token must be consumed in Session.connect() method
-   */
 
   getToken() {
     return this.createSession("room" + this.props.roomId).then((sessionId) =>

@@ -58,10 +58,10 @@ public class RoomController {
     }
 
     //방이름으로 조회
-    @GetMapping("/api/room/{roomName}")
-    public ResponseEntity<Room> getRoomByName(@PathVariable String roomName) {
-        return new ResponseEntity<Room>(roomService.getRoomByName(roomName), HttpStatus.OK);
-    }
+//    @GetMapping("/api/room/{roomName}")
+//    public ResponseEntity<Room> getRoomByName(@PathVariable String roomName) {
+//        return new ResponseEntity<Room>(roomService.getRoomByName(roomName), HttpStatus.OK);
+//    }
 
     //방 제거하기
     @DeleteMapping("/api/room/{roomId}")
