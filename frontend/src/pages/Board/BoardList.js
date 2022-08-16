@@ -6,48 +6,94 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import styles from "./Board.module.css";
-  
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+
   function preventDefault(event) {
     event.preventDefault();
   }
   
   export default function Orders() {
 
+    const useStyles = makeStyles((theme) => createStyles({
+      grid: {
+        fontFamily: "'Noto Sans KR', sans-serif",
+        fontSize: '16px',
+        fontWeight: '400',
+      },
+      createBtn:{
+        fontSize: 'large',
+        backgroundColor: '#f7f3e9',
+        color: '#A27B5C',
+        border: 'none',
+        padding: '6px',
+        textAlign: 'center',
+        textDecoration: 'none',
+        display: 'inline-block',
+        cursor: 'pointer',
+        borderRadius: '5px',
+        width: '150px',
+        fontFamily: "'Noto Sans KR', sans-serif",
+        fontWeight: '500',
+        marginBottom: '10px',
+        '&:hover': {
+          backgroundColor: '#DCD7C9',
+          color: '#A27B5C',
+        },
+      }
+      
+    }));
+
+    const styles = useStyles();
+
     const columns = [ 
       {
         field: "id",
-        headerName: "No.", 
-        width: 70
+        headerName: "글번호", 
+        flex: 1,
+        align: "center",
+        headerAlign: "center",
       },
       {
           field: "boardTitle", 
           headerName: "제목",
-          width: 350,
+          flex: 5,
           editable: false,
+          align: "center",
+          headerAlign: "center",
       },
       {
         field: "userNickname",
         headerName: "닉네임",
-        width: 100, 
+        flex: 2,
         editable: false,
+        align: "center",
+        headerAlign: "center",
       },
       {
         field: "boardDate",
         headerName: "작성 일자",
-        width: 150,
+        flex: 2,
         editable: false,
+        align: "center",
+        headerAlign: "center",
       },
       {
         field: "boardLike",
-        headerName: "좋아요수",
-        width: 50,
+        headerName: "좋아요",
+        flex: 1,
         editable: false,
+        align: "center",
+        headerAlign: "center",
       },
       {
           field: "boardHit",
           headerName: "조회수",
-          width: 50,
+          flex: 1,
           editable: false,
+          align: "center",
+          headerAlign: "center",
       }
     ];
 
@@ -79,14 +125,15 @@ import styles from "./Board.module.css";
 
     return (
       <Grid>
-        <Link to="boardwrite"><button className={styles.createBtn}>글작성</button></Link>
-        <Box sx={{ height: 631, width: "100%" }}>
+        <Link to="boardwrite"><button className={styles.createBtn}><AddCircleOutlineRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }} />글작성</button></Link>
+        <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
+        className={styles.grid}
           onRowClick={enterBoard}
           rows={rows}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[6]}
+          rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />
         </Box>

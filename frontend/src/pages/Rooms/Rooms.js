@@ -12,8 +12,21 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import styles from "./Rooms.module.css";
+import {makeStyles} from "@material-ui/core/styles";
+import {createStyles} from "@material-ui/core";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
 export default function Rooms(props) {
+  const useStyles = makeStyles((theme) => createStyles({
+    grid: {
+      fontFamily: "'Noto Sans KR', sans-serif",
+      fontSize: '16px',
+      fontWeight: '400',
+    },    
+  }));
+
+  const style = useStyles();
+
   const [rooms, setRooms] = useState([]);
   const [makeRoomTitle, setMakeRoomTitle] = useState("");
   const [makeRoomBettingunit, setMakeRoomBettingunit] = useState();
@@ -92,7 +105,7 @@ export default function Rooms(props) {
   let roomcreate = (
     <Grid item xs={12}>
       <button className={styles.createBtn} onClick={handlemakeroom}>
-        방 만들기
+      <AddCircleOutlineRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }} />방 만들기
       </button>
       <Dialog
         open={open}
@@ -133,7 +146,7 @@ export default function Rooms(props) {
               className={styles.modalField}
             />
           </div>
-          <button className={styles.createBtn} onClick={makeRoom}>확인</button>
+          <button className={styles.okBtn} onClick={makeRoom}>확인</button>
         </DialogContent>
       </Dialog>
     </Grid>
@@ -156,38 +169,54 @@ export default function Rooms(props) {
   }
   //[{roomId, user, roomTitle, roomBettingUnit, roomPw}, ... ]
   const columns = [
-    { field: "id", headerName: "방 번호", width: 90 },
+    {
+      field: "id",
+      headerName: "방 번호",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "roomTitle",
       headerName: "방 제목",
-      width: 150,
+      flex: 4,
       editable: false,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "roomBettingUnit",
-      headerName: "베팅 단위",
-      width: 50,
+      headerName: "루비 베팅 단위",
+      flex: 1.5,
       editable: false,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "current_count",
       headerName: "현재인원",
-      width: 50,
+      flex: 1,
       editable: false,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "max_count",
       headerName: "정원",
       type: "number",
-      width: 110,
+      flex: 1,
       editable: false,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "isPw",
-      headerName: "비밀 방",
+      headerName: "비밀",
       sortable: false,
-      width: 160,
+      flex: 1,
       editable: false,
+      align: "center",
+      headerAlign: "center",
     },
   ];
 
@@ -201,15 +230,16 @@ export default function Rooms(props) {
   let roomsdummy = (
     <Grid >
       {roomcreate}
-      <Link to="/room" state={{ roomid: 1 }}>
+      {/* <Link to="/room" state={{ roomid: 1 }}>
         게임방 테스트
-      </Link>
-      <Box sx={{ height: 400, width: "100%" }}>
+      </Link> */}
+      <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
+        className={style.grid}
           onRowClick={enterRoom}
           rows={rooms}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
         />

@@ -20,10 +20,10 @@ const EditorBlock = styled(Responsive)`
 `;
 
 const TitleInput = styled.input`
-  font-size: 22px;
+  font-size: 20px;
   padding: 10px;
   padding-left: 15px;
-  margin-top: 10px;
+  margin-top: 20px;
   border-radius: 10px;
   border: 1px solid ${palette.gray[4]};
   width: 100%;
@@ -41,17 +41,17 @@ const QuillWrapper = styled.div`
     max-height: 500px;
     font-size: medium;
   }
-  .ql-editor::-webkit-scrollbar {
-    width: 10px;
-}
-  .ql-editor::-webkit-scrollbar-track {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-  }
-  .ql-editor::-webkit-scrollbar-thumb {
-      background-color: #A27B5C;
-      border-radius: 10px;
-  }
+//   .ql-editor::-webkit-scrollbar {
+//     width: 10px;
+// }
+//   .ql-editor::-webkit-scrollbar-track {
+//       background-color: rgba(0, 0, 0, 0.1);
+//       border-radius: 10px;
+//   }
+//   .ql-editor::-webkit-scrollbar-thumb {
+//       background-color: #A27B5C;
+//       border-radius: 10px;
+//   }
   // .ql-editor.ql-blank::before {
   //   left: 0px;
   // }
@@ -138,7 +138,8 @@ const Editor = ({ onCancel, onPublish, isEdit }) => {
       })
       .then((response) => {
         console.log(response.data);
-        alert("게시물이 작성되었습니다.");
+        // setBoardContent(boardContent);
+        // setBoardTitle(boardTitle);
         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
       })
       .catch((error) => {
