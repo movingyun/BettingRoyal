@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
 import styles from "./MyInfoDelete.module.css";
+import { useNavigate  } from "react-router-dom";
 
 export default function Nickname() {
 
@@ -31,6 +32,8 @@ export default function Nickname() {
       });
   }, []);
 
+  let navigate = useNavigate();
+
   function myInfoDelete() {
     console.log("탈퇴"+ userId);
     axios
@@ -47,6 +50,7 @@ export default function Nickname() {
       .catch((error) => {
         console.log(error);
       });
+      navigate("/")
     }
 
   return (
