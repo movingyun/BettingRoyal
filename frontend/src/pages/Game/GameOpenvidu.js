@@ -445,8 +445,8 @@ class Gameroom extends Component {
                   <img src={card40} />
                 </div>
                 <div className={`${styles.cards_front} ${styles.flip_front}`}>
-                  <img src={this.props.groundCard1} />
-                  <img src={this.props.groundCard2} />
+                  <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
+                  <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
                 </div>
               </div>
               {/* 베팅시*/}
