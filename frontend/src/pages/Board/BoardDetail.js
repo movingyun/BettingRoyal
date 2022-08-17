@@ -166,8 +166,8 @@ const BoardDetail = ({ isEdit }) => {
     navigate("/lobby/board");
   }
 
-  function onModify(e) {
-    navigate("/lobby/board/modify", { state: { boardId: e.id } });
+  function onModify() {
+    navigate("/lobby/board/modify", { state: { boardId: boardId } });
   }
 
   return (

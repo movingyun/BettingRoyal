@@ -82,7 +82,7 @@ const BoardModify = ({ onCancel, onPublish, isEdit }) => {
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       theme: 'bubble',
-      placeholder: '내용을 작성 후 드래그시 다양한 수정이 가능합니다.' ,
+    //   placeholder: '내용을 작성 후 드래그시 다양한 수정이 가능합니다.' ,
       modules: {
         toolbar: [
           [{ header: '1' }, { header: '2' }],
@@ -107,21 +107,9 @@ const BoardModify = ({ onCancel, onPublish, isEdit }) => {
         console.log(error);
       })
 
-    // axios
-    //   .get("/api/board", {
-    //     headers: {
-    //       Authorization: window.localStorage.accessToken,
-    //     },
-    //   })
-    //   .then(function (response) {
-    //     // setBoards(makeBoardList(response.data));
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-
     axios
       .get("/api/board/" + boardId, {
+        
         headers: {
           Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
@@ -132,6 +120,7 @@ const BoardModify = ({ onCancel, onPublish, isEdit }) => {
         setBoardTitle(response.data.boardTitle);
         setBoardContent(response.data.boardContent);
         setId(response.data.boardId);
+        quillInstance.current.setText(response.data.boardContent)
       })
       .catch((error) => {
         console.log(error);
@@ -140,29 +129,28 @@ const BoardModify = ({ onCancel, onPublish, isEdit }) => {
    
   []);
 
-//   function onPublish() {
-//     axios
-//       .post("/api/board", 
-//       {
-//         boardContent : quillInstance.current.getText(),
-//         boardTitle : boardTitle,
-//       },
-//       {
-//         headers: {
-//           Authorization: window.localStorage.accessToken,
-//           "Content-Type": "application/json",
-//         },
-//       })
-//       .then((response) => {
-//         console.log(response.data);
-//         // setBoardContent(boardContent);
-//         // setBoardTitle(boardTitle);
-//         navigate("/lobby/board", {state : {boardId:response.data.boardId}})
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }
+  function onPublish() {
+    axios
+      .put("/api/board/"+boardId, 
+      {
+        boardContent : quillInstance.current.getText(),
+        boardTitle : boardTitle,
+        boardId : id,
+      },
+      {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/lobby/board", {state : {boardId:response.data.boardId}})
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   function onCancel() {
     navigate("/lobby/board")
@@ -173,13 +161,12 @@ const BoardModify = ({ onCancel, onPublish, isEdit }) => {
     return (
         <EditorBlock>
         {/* <p>작성자 : {nickname}</p> */}
-        <TitleInput required placeholder="제목" onChange={title}/>
+        <TitleInput required onChange={title} value={boardTitle}/>
         <QuillWrapper>
           <div ref={quillElement} />
         </QuillWrapper>
         <WriteActionButtonsBlock>
-        <button cyan className={styles.btn}> 
-        {/* onClick={onPublish} */}
+        <button cyan className={styles.btn} onClick={onPublish}> 
           {'수정'}
         </button>
         <button onClick={onCancel} className={styles.btn}>취소</button>
