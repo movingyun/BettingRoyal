@@ -54,7 +54,6 @@ import card39 from "../../images/cards/39.png";
 import card40 from "../../images/cards/40.png";
 import GameOpenvidu from "./GameOpenvidu";
 
-
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
   const [players, setPlayers] = useState([]);
@@ -83,32 +82,31 @@ export default function Game(props) {
   var sock = new sockjs("http://localhost:8080/stomp-game");
   let stomp = stompjs.over(sock);
 
-  const startButton = new Audio('./Audio/StartButton.mp3')
-  const startGame = new Audio('./Audio/StartGame.mp3')
-  const Shuffling = new Audio('./Audio/Shuffling.mp3')
-  const clickBet = new Audio('./Audio/Click.mp3')
-  const flipCard = new Audio('./Audio/Flip.mp3')
-  const lubbySound = new Audio('./Audio/Lubby.mp3')
-  const endGame = new Audio('./Audio/EndGame.mp3')
+  const startButton = new Audio("./Audio/StartButton.mp3");
+  const startGame = new Audio("./Audio/StartGame.mp3");
+  const Shuffling = new Audio("./Audio/Shuffling.mp3");
+  const clickBet = new Audio("./Audio/Click.mp3");
+  const flipCard = new Audio("./Audio/Flip.mp3");
+  const lubbySound = new Audio("./Audio/Lubby.mp3");
+  const endGame = new Audio("./Audio/EndGame.mp3");
 
   function startbutton() {
-    startButton.play()
+    startButton.play();
   }
   function startgame() {
-    startGame.play()
-    Shuffling.play()
+    startGame.play();
+    Shuffling.play();
   }
   function betting() {
-    clickBet.play()
+    clickBet.play();
   }
   function flip() {
-    flipCard.play()
+    flipCard.play();
   }
   function endgame() {
-    lubbySound.play()
-    endGame.play()
+    lubbySound.play();
+    endGame.play();
   }
-
 
   useEffect(() => {
     console.log(roomId + "번 방 참가");
@@ -145,8 +143,8 @@ export default function Game(props) {
         if (content.type == "START") {
           setmainMessage("게임 시작!");
           setpreaction([{}, {}, {}, {}, {}, {}]);
-          startbutton()
-          startgame()
+          startbutton();
+          startgame();
           setIsStart(true);
           // let action = new Object();
           // action.target = new Object();
@@ -161,9 +159,8 @@ export default function Game(props) {
           //message : {"공통카드 : card1, card2"}
           console.log("그라운드카드 받아라~" + content.message);
 
-          setGroundCard1(content.groundCardNum1);
-          setGroundCard2(content.groundCardNum2);
-          flip()
+          
+          flip();
         }
 
         //수시로 서버와 동기화
@@ -201,7 +198,9 @@ export default function Game(props) {
           //setCurrentBetUnit(content.battingUnit);
           // setCurrentMaxBet(content.gameTotalBet);
           setGameTotalBet(content.gameTotalBet);
-          setMyBet(roomBetUnit)
+          setMyBet(roomBetUnit);
+          setGroundCard1(content.groundCardNum1);
+          setGroundCard2(content.groundCardNum2);
           // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
 
           setTurn(content.turnIdx);
@@ -213,15 +212,16 @@ export default function Game(props) {
           // console.log(preaction);
           let preturn = content.preTurnIdx;
           let temppreaction = preaction;
-          let act = content.message.split(" ",1);
-          console.log(act)
+          let act = content.message.split(" ", 1);
+          console.log(act);
           temppreaction[preturn] = new Object();
           temppreaction[preturn].action = act[0];
           // if (act === "RAISE") {
           //   temppreaction[preturn].amount = content.message.split(" ")[1];
           // }
-          setMyBet(content.gameMaxBet)
+          setMyBet(content.gameMaxBet);
           setCurrentBetUnit(content.gameMaxBet);
+          // setCurrentMaxBet(content.gameMaxBet)
           setpreaction(temppreaction);
           setGameTotalBet(content.gameTotalBet);
           setTurn(content.turnIdx);
@@ -248,9 +248,9 @@ export default function Game(props) {
         if (content.type == "GAMEEND") {
           // let turn = content.preTurnIdx;
           let temppreaction = preaction;
-          let act = content.message.split(" ",1);
-          console.log(act)
-          console.log(turn)
+          let act = content.message.split(" ", 1);
+          console.log(act);
+          console.log(turn);
           temppreaction[turn] = new Object();
           temppreaction[turn].action = act[0];
           // if (act === "RAISE") {
@@ -267,9 +267,9 @@ export default function Game(props) {
           let tempwin = [false, false, false, false, false, false];
           tempwin[content.winnerIdx] = true;
           setwin(tempwin);
-          flip()
-          endgame()
-          
+          flip();
+          endgame();
+
           //2.5초간 효과재생 후 게임시작 활성화
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
@@ -278,9 +278,9 @@ export default function Game(props) {
             }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);
-            setMyBet(roomBetUnit)
+            setMyBet(roomBetUnit);
             setGameTotalBet(0);
-            setpreaction([{},{},{},{},{},{}])
+            setpreaction([{}, {}, {}, {}, {}, {}]);
             console.log(win);
           }, 2500);
         }
@@ -313,6 +313,10 @@ export default function Game(props) {
   //     clearInterval(timerId.current);
   //   }
   // }, [sec]);
+
+  useEffect(() => {
+    console.log(groundCard1);
+  }, [groundCard1]);
 
   function gameStart(e) {
     if (turn == 0 && players[1]) {
@@ -411,7 +415,7 @@ export default function Game(props) {
   function sendBet(action) {
     //call die raise allin
 
-    betting()
+    betting();
 
     console.log(action.target.textContent);
     switch (action.target.textContent) {
@@ -499,13 +503,13 @@ export default function Game(props) {
   }
 
   function setMyBetAmount(e) {
-    console.log(myBet)
+    console.log(myBet);
     if (e.target.id == "up") {
-      console.log("x2 mybet")
-      setMyBet(myBet*2);
+      console.log("x2 mybet");
+      setMyBet(myBet * 2);
     } else {
-      console.log("/2 mybet")
-      setMyBet(myBet/2)
+      console.log("/2 mybet");
+      setMyBet(myBet / 2);
     }
   }
   return (

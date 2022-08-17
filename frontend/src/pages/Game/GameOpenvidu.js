@@ -493,14 +493,14 @@ class Gameroom extends Component {
                   콜
                 </button>
                 <div className={styles.raiseAmountArea}>
-                  {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                  {this.props.currentBetUnit * 5 <= this.props.myBet ? (
                     <button id="up" onClick={this.props.setMyBetAmount}>
                       ^
                     </button>
                   ) : null}
 
                   {this.props.myBet}
-                  {this.props.currentMaxBet >= this.props.myBet / 2 ? (
+                  {this.props.currentBetUnit >= this.props.myBet / 2 ? (
                     <button id="down" onClick={this.props.setMyBetAmount}>
                       v
                     </button>
