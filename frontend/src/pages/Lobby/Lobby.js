@@ -15,6 +15,10 @@ import Test from "../../pages/Test/Test";
 import Board from "../Board/Board";
 import Notice from "../Notice/Notice";
 
+import styles from "../Logo/Logo.module.css";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+
 export default function Lobby(props) {
   // useEffect(() => {
   //   if (!localStorage.getItem("accessToken")) {
@@ -22,12 +26,18 @@ export default function Lobby(props) {
   //     navigate("/login");
   //   }
   // }, []);
+
+  function toggle() {
+    props.bgmState();
+    // console.log(props.playing)
+  }
+
   const navigate = useNavigate();
   let sidemenu = (
     <ThemeProvider theme={dashboardTheme}>
       <LobbyApp />
 
-      {/* <Routes>
+      <Routes>
         <Route path="rooms" element={<Rooms />} />
         <Route path="mypage" element={<Mypage />} />
         <Route path="notice/*" element={<Notice />} />
@@ -38,7 +48,10 @@ export default function Lobby(props) {
         <Route path="replay" element={<Replay />} />
         <Route path="tutorial" element={<Tutorial />} />
         <Route path="test" element={<Test />} />
-      </Routes> */}
+      </Routes>
+      <button className={styles.BGMbutton} onClick={toggle}>
+        {props.playing ? <VolumeUpIcon /> : <VolumeOffIcon />}
+      </button>
     </ThemeProvider>
   );
 

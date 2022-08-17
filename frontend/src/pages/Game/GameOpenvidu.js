@@ -6,6 +6,7 @@ import Chat from "../../components/Openvidu/Chat";
 import styles from "./GameOpenvidu.module.css";
 import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import Test  from "../../components/Audio/Test";
 
 import card1 from "../../images/cards/1.png";
 import card2 from "../../images/cards/2.png";
@@ -54,6 +55,8 @@ import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ruby from "../../images/icon/ruby.png";
+import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
+import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
 
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -211,29 +214,38 @@ class Gameroom extends Component {
           mySession
             .connect(token, { clientData: this.props.players[0].nickname })
             .then(async () => {
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter((device) => device.kind === "videoinput");
+              var devices = await this.OV.getUserMedia({
+                audio: true,
+                video: true
+            })
+            // var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-              let publisher = this.OV.initPublisher(undefined, {
+            // --- 5) Get your own camera stream ---
+
+            // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
+            // element: we will manage it on our own) and with the desired properties
+            let publisher = this.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
-                videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
+                videoSource: undefined, // The source of video. If undefined default webcam
                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                resolution: "640x480", // The resolution of your video
+                resolution: '640x480', // The resolution of your video
                 frameRate: 30, // The frame rate of your video
-                insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+                insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
                 mirror: false, // Whether to mirror your local video or not
+            });
 
-                nickname: this.props.players[0].nickname,
-              });
+            // --- 6) Publish your stream ---
 
-              mySession.publish(publisher);
+            mySession.publish(publisher);
 
-              this.setState({
-                currentVideoDevice: videoDevices[0],
+            // Set the main video in the page to display our webcam and store our Publisher
+            this.setState({
+                // currentVideoDevice: videoDevices[0],
                 mainStreamManager: publisher,
                 publisher: publisher,
-              });
+            });
+
             })
             .catch((error) => {
               console.log(
@@ -475,6 +487,7 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
+<<<<<<< Updated upstream
               <div className={styles.betting}>
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
                   다이
@@ -483,14 +496,14 @@ class Gameroom extends Component {
                   콜
                 </button>
                 <div className={styles.raiseAmountArea}>
-                  {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                  {this.props.currentBetUnit * 5 <= this.props.myBet ? (
                     <button id="up" onClick={this.props.setMyBetAmount}>
                       ^
                     </button>
                   ) : null}
 
                   {this.props.myBet}
-                  {this.props.currentMaxBet >= this.props.myBet / 2 ? (
+                  {this.props.currentBetUnit >= this.props.myBet / 2 ? (
                     <button id="down" onClick={this.props.setMyBetAmount}>
                       v
                     </button>
@@ -503,12 +516,44 @@ class Gameroom extends Component {
                   올인
                 </button>
               </div>
+=======
+                        <div className={styles.betting}>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                          다이
+                        </button>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                          콜
+                        </button>
+          
+                        <div className={styles.raiseAmountArea}>
+                          <div className={styles.raiseNum} >
+                            {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                              <button className={styles.raiseNumUp} id="up" onClick={this.props.setMyBetAmount}>
+                                <ArrowUpwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                            <div className={styles.raiseNumCenter}>{this.props.myBet}</div>
+                            {this.props.currentMaxBet >= this.props.myBet / 2 ? (
+                              <button className={styles.raiseNumDown} id="down" onClick={this.props.setMyBetAmount}>
+                                <ArrowDownwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                          </div >
+                            <button className={styles.raise} onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
+                              레이즈
+                            </button>
+                        </div>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                          올인
+                        </button>
+                      </div>
+>>>>>>> Stashed changes
             ) : (
               <div className={styles.start}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
                   게임시작
                 </button>
-              </div>
+              </div> 
             )}
           </div>
         ) : null}
