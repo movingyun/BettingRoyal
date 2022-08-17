@@ -281,7 +281,7 @@ export default function Game(props) {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
               charge();
               leaveGame();
-              kicksession();
+              // kicksession();
             }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);

@@ -116,6 +116,7 @@ class Gameroom extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    this.leaveSession();
   }
 
   onbeforeunload(event) {
@@ -264,18 +265,6 @@ class Gameroom extends Component {
     if (window.confirm("나가시겠습니까?") == true) {
       console.log("나가기 누름");
       const mySession = this.state.session;
-      this.props.kickSession(this.leaveSession());
-      this.props.stomp.send(
-        "/pub/game/message",
-        {},
-        JSON.stringify({
-          roomId: this.props.roomId,
-          message: "",
-          sender: "",
-          type: "EXIT",
-          socketId: this.props.sessionId,
-        })
-      );
 
       if (mySession) {
         mySession.disconnect();
@@ -290,6 +279,8 @@ class Gameroom extends Component {
       });
       this.props.leavegame();
     }
+
+    
   }
 
   // 채팅 메세지 부분
