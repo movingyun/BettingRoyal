@@ -1,226 +1,468 @@
 import * as React from "react";
-import Player from "./Player";
 import { useEffect, useState, useRef } from "react";
 import styles from "./Game.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import sockjs from "sockjs-client";
-import stompjs from "stompjs";
+import stompjs, { setInterval } from "stompjs";
 import axios from "axios";
 import { listClasses } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
+import ruby_win from "../../images/ruby/ruby_win.gif";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import card_am_1 from "../../images/cards/card_am_1.png";
-import card_aq_1 from "../../images/cards/card_aq_1.png";
-import card_back from "../../images/cards/card_back.png";
-import GameOpenvidu from "./GameOpenvidu"
+
+import card1 from "../../images/cards/1.png";
+import card2 from "../../images/cards/2.png";
+import card3 from "../../images/cards/3.png";
+import card4 from "../../images/cards/4.png";
+import card5 from "../../images/cards/5.png";
+import card6 from "../../images/cards/6.png";
+import card7 from "../../images/cards/7.png";
+import card8 from "../../images/cards/8.png";
+import card9 from "../../images/cards/9.png";
+import card10 from "../../images/cards/10.png";
+import card11 from "../../images/cards/11.png";
+import card12 from "../../images/cards/12.png";
+import card13 from "../../images/cards/13.png";
+import card14 from "../../images/cards/14.png";
+import card15 from "../../images/cards/15.png";
+import card16 from "../../images/cards/16.png";
+import card17 from "../../images/cards/17.png";
+import card18 from "../../images/cards/18.png";
+import card19 from "../../images/cards/19.png";
+import card20 from "../../images/cards/20.png";
+import card21 from "../../images/cards/21.png";
+import card22 from "../../images/cards/22.png";
+import card23 from "../../images/cards/23.png";
+import card24 from "../../images/cards/24.png";
+import card25 from "../../images/cards/25.png";
+import card26 from "../../images/cards/26.png";
+import card27 from "../../images/cards/27.png";
+import card28 from "../../images/cards/28.png";
+import card29 from "../../images/cards/29.png";
+import card30 from "../../images/cards/30.png";
+import card31 from "../../images/cards/31.png";
+import card32 from "../../images/cards/32.png";
+import card33 from "../../images/cards/33.png";
+import card34 from "../../images/cards/34.png";
+import card35 from "../../images/cards/35.png";
+import card36 from "../../images/cards/36.png";
+import card37 from "../../images/cards/37.png";
+import card38 from "../../images/cards/38.png";
+import card39 from "../../images/cards/39.png";
+import card40 from "../../images/cards/40.png";
+import GameOpenvidu from "./GameOpenvidu";
 
 
 export default function Game(props) {
   const [playerOpenvidu, setPlayerOpenvidu] = useState([]);
   const [players, setPlayers] = useState([]);
-  //player { socketId, nickname, ruby, bet, myCard, pair}
-  //const [myCard, setMyCard] = useState([]);
-  const [currentBetUnit, setCurrentBetUnit] = useState([]);
-  const [currentMaxBet, setCurrentMaxBet] = useState([]);
-  const [myBet, setMyBet] = useState([]);
-  const [myTotalBet, setMyTotalBet] = useState([]);
-
-  const [totalBet, setTotalBet] = useState([]);
-  const [groundCard, setGroundCard] = useState([]);
+  const [turn, setTurn] = useState();
+  const [currentBetUnit, setCurrentBetUnit] = useState(0);
+  const [currentMaxBet, setCurrentMaxBet] = useState(0);
+  const [myBet, setMyBet] = useState(0);
+  const [myTotalBet, setMyTotalBet] = useState(0);
+  const [mainMessage, setmainMessage] = useState("");
+  const [buttonDisable, setbuttonDisable] = useState([true, true, true, true]);
+  const [startDisabled, setstartDisabled] = useState(false);
+  const [gameTotalBet, setGameTotalBet] = useState(0);
+  const [groundCard1, setGroundCard1] = useState(0);
+  const [groundCard2, setGroundCard2] = useState(0);
+  const [roomInfo, setroomInfo] = useState();
+  const [isEnter, setisEnter] = useState(false);
+  const [sessionId, setsessionId] = useState(false);
+  const [win, setwin] = useState([false, false, false, false, false, false]);
+  const [preaction, setpreaction] = useState([{}, {}, {}, {}, {}, {}]);
 
   let navigate = useNavigate();
-  let roomId = ""; //방 컴포넌트에 roomid 포함
-  let stomp;
+  let location = useLocation();
+  let roomId = location.state.roomId; //방 컴포넌트에 roomid 포함
+  let roomBetUnit = location.state.roomBetUnit;
+  let roomTitle = location.state.roomTitle;
+  var sock = new sockjs("http://localhost:8080/stomp-game");
+  let stomp = stompjs.over(sock);
 
-//   useEffect(() => {
-//     var sock = new sockjs("http://localhost:8080");
-//     stomp = stompjs.over(sock);
-//     stomp.connect({}, () => {
-//       stomp.send(
-//         "/pub/game/message",
-//         {},
-//         JSON.stringify({ roomId: roomId, sender: "유동윤", type: "ENTER" })
-//       );
+  const startButton = new Audio('./Audio/StartButton.mp3')
+  const startGame = new Audio('./Audio/StartGame.mp3')
+  const Shuffling = new Audio('./Audio/Shuffling.mp3')
+  const clickBet = new Audio('./Audio/Click.mp3')
+  const flipCard = new Audio('./Audio/Flip.mp3')
+  const lubbySound = new Audio('./Audio/Lubby.mp3')
+  const endGame = new Audio('./Audio/EndGame.mp3')
 
-//       //메시지를 받으면
-//       stomp.subscribe("/sub/game/room" + roomId, function (message) {
-//         //content.type, content.message등으로 사용 가능
-//         var content = JSON.parse(message.body);
+  function startbutton() {
+    startButton.play()
+  }
+  function startgame() {
+    startGame.play()
+    Shuffling.play()
+  }
+  function betting() {
+    clickBet.play()
+  }
+  function flip() {
+    flipCard.play()
+  }
+  function endgame() {
+    lubbySound.play()
+    endGame.play()
+  }
 
-//         //참가 후 정보받기
-//         if (content.type == "PLAYERSINFO") {
-//           //{players[], betUnit}
-//           //받은 player[0]이 자신
-//           setPlayers(content.playersInfo);
-//           setPlayerOpenvidu(content.playerOpenvidu);
-//         }
+  useEffect(() => {
+    console.log(roomId + "번 방 참가");
+    setCurrentBetUnit(roomBetUnit);
+    stomp.connect({}, () => {
+      stomp.send(
+        "/pub/game/message",
+        {},
+        JSON.stringify({
+          roomId: roomId,
+          senderNickName: window.localStorage.getItem("accessToken"),
+          type: "ENTER",
+        })
+      );
 
-//         //사람이 들어왔을 때
-//         if (content.type == "ENTER") {
-//           //{player}
-//           console.log("사람들어왔다" + message.body);
-//           setPlayers([...players, content.playerInfo]);
-//         }
+      //메시지를 받으면
+      stomp.subscribe("/sub/game/room" + roomId, function (message) {
+        var content = JSON.parse(message.body);
 
-//         //사람이 나갔을 때
-//         if (content.type == "ENTER") {
-//           //{player}
-//           let leftPlayer = players.find((player) => player.socketId == content.socketId);
-//           setPlayers(players.filter((player) => player.socketId != content.socketId));
-//           console.log(leftPlayer.nickname + " left");
-//         }
+        //사람이 나갔을 때
+        if (content.type == "EXIT") {
+          //{player}
+          let arr = players;
+          for (let i = 0; i < players; i++) {
+            if (players[i] != content.playerInfo[i]) {
+              arr.splice(i, 1);
+              console.log(players[i].sessionId + " left");
+            }
+          }
+          setPlayers(arr);
+        }
 
-//         //게임이 시작됐을 때
-//         if (content.type == "START") {
-//           //ui 게임ui로 바뀜. 버튼생성
-//           //카메라 체크
-//           //기본베팅
-//         }
+        //게임이 시작됐을 때
+        if (content.type == "START") {
+          setmainMessage("게임 시작!");
+          setpreaction([{}, {}, {}, {}, {}, {}]);
 
-//         //그라운드 카드 받을 때
-//         if (content.type == "GROUNDCARD") {
-//           //{groundCard[]}
-//           console.log("그라운드카드 받아라~" + content.message);
-//           setGroundCard(content.groundCard);
-//         }
+          setIsStart(true);
+          // let action = new Object();
+          // action.target = new Object();
+          // action.target.textContent = "다이";
+          // settimer(5, sendBet(action));
+          // setSec(5);
+          //카메라 체크
+        }
 
-//         /*
-//         // 배팅 하자
-//         if (content.type == "UNITBETTING") {
-//           //
-//           //setPlayers(content.playerInfo);
+        //그라운드 카드 받을 때
+        if (content.type == "GROUNDCARD") {
+          //message : {"공통카드 : card1, card2"}
+          console.log("그라운드카드 받아라~" + content.message);
+
+          setGroundCard1(content.groundCardNum1);
+          setGroundCard2(content.groundCardNum2);
+        }
+
+        //수시로 서버와 동기화
+        if (content.type == "SYNC") {
+          //{betUnit, players[], }
+          setPlayers(content.playersInfo);
+          //setCurrentBetUnit(content.betUnit);
+        }
+      });
+
+      stomp.subscribe("/user/sub/game/room" + roomId, function (message) {
+        var content = JSON.parse(message.body);
+
+        //사람이 들어왔을 때
+        if (content.type == "ENTER") {
+          console.log("사람들어왔다" + JSON.stringify(content.playerInfo));
+          setTurn(content.turnIdx);
+          if (content.playerInfo) {
+            setPlayers(content.playerInfo);
+            setsessionId(content.playerInfo[0].sessionId);
+          }
+          setroomInfo(content);
+          setisEnter(true);
+          if (content.turnIdx == 0) {
+            setstartDisabled(false);
+          }
+        }
+
+        //개인 카드 받기
+        if (content.type == "GETMYCARD") {
+          setPlayers(content.playerInfo);
+          if (content.turnIdx == 0) {
+            setbuttonDisable([false, true, false, false]);
+          }
+          //setCurrentBetUnit(content.battingUnit);
+          // setCurrentMaxBet(content.gameTotalBet);
+          setGameTotalBet(content.gameTotalBet);
+          setMyBet(roomBetUnit)
+          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+
+          setTurn(content.turnIdx);
+        }
+
+        //턴
+        if (content.type == "NEXTTURN") {
+          //전사람 행동
+          // console.log(preaction);
+          let preturn = content.preTurnIdx;
+          let temppreaction = preaction;
+          let act = content.message.split(" ",1);
+          console.log(act)
+          temppreaction[preturn] = new Object();
+          temppreaction[preturn].action = act[0];
+          // if (act === "RAISE") {
+          //   temppreaction[preturn].amount = content.message.split(" ")[1];
+          // }
+          setMyBet(content.gameMaxBet)
+          setCurrentBetUnit(content.gameMaxBet);
+          setpreaction(temppreaction);
+          setGameTotalBet(content.gameTotalBet);
+          setTurn(content.turnIdx);
+          // setCurrentMaxBet(content.gameTotalBet);
+          setPlayers(content.playerInfo);
+          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+
+          //내턴일때
+          if (content.turnIdx == 0) {
+            setbuttonDisable([false, false, false, false]);
+            // let action = new Object();
+            // action.target = new Object();
+            // action.target.textContent = "다이";
+            // settimer(5, sendBet(action));
+            // setSec(5);
+          }
+          //다른사람 턴일때
+          else {
+            setbuttonDisable([true, true, true, true]);
+          }
+        }
+
+        //게임 끝
+        if (content.type == "GAMEEND") {
+          // let turn = content.preTurnIdx;
+          let temppreaction = preaction;
+          let act = content.message.split(" ",1);
+          console.log(act)
+          console.log(turn)
+          temppreaction[turn] = new Object();
+          temppreaction[turn].action = act[0];
+          // if (act === "RAISE") {
+          //   temppreaction[preturn].amount = content.message.split(" ")[1];
+          // }
+          setpreaction(temppreaction);
+
+          setbuttonDisable([true, true, true, true]);
+          setPlayers(content.playerInfo);
+          setTurn(content.turnIdx);
+          //이긴사람 표시
+          setmainMessage(content.playerInfo[content.winnerIdx].nickname + " 승리!!");
+          setCurrentBetUnit(roomBetUnit);
+          let tempwin = [false, false, false, false, false, false];
+          tempwin[content.winnerIdx] = true;
+          setwin(tempwin);
           
-//           setPlayers(players.map(
-//             player => player.socketId === content.socketId
-//             ? {...player, bet: content.bet}
-//             : player
-//           ))
-//           setTotalBet(totalBet+content.bet)
-//         }
-// */
+          //2.5초간 효과재생 후 게임시작 활성화
+          setTimeout(() => {
+            if (content.playerInfo[0].myruby <= currentBetUnit) {
+              charge();
+              leaveGame();
+            }
+            setwin([false, false, false, false, false, false]);
+            setIsStart(false);
+            setMyBet(roomBetUnit)
+            setGameTotalBet(0);
+            setpreaction([{},{},{},{},{},{}])
+            console.log(win);
+          }, 2500);
+        }
+      });
+    });
+    return () => {
+      //컴포넌트 unmount 시
+      stomp.send(
+        "/pub/game/message",
+        {},
+        JSON.stringify({
+          roomId: roomId,
+          message: "",
+          sender: "",
+          type: "EXIT",
+          socketId: sessionId,
+        })
+      );
+    };
+  }, []);
 
-//         //플레이어 카드 받기
-//         if (content.type == "MAKECARDSET") {
-//           //{players[]}
-
-//           setPlayers(content.message.playersInfo);
-//           /*
-//           stomp.send(
-//             "/pub/game/message",
-//             {},
-//             JSON.stringify({
-//               roomId: roomId,
-//               message: "",
-//               sender: "",
-//               type: "GETMYCARD",
-//             })
-//           );
-//           */
-//         }
-
-//         //턴
-//         if (content.type == "TURN") {
-//           //{socketId}
-//           let turnplayer = players.find((player) => player.socketId == content.socketId);
-
-//           //플레이어 하이라이트, 내턴이면 버튼 활성화
-//           //내턴일때
-//           if (currentMaxBet > myTotalBet) {
-//             //콜 버튼 비활성화
-//           }
-//         }
-
-//         //수시로 서버와 동기화
-//         if (content.type == "SYNC") {
-//           //{betUnit, players[], }
-//           setPlayers(content.playersInfo);
-//           setCurrentBetUnit(content.betUnit);
-//         }
-//       });
-//     });
-
-//     return () => {
-//       //컴포넌트 unmount 시
-//       stomp.send(
-//         "/pub/game/message",
-//         {},
-//         JSON.stringify({ roomId: roomId, message: "", sender: "", type: "EXIT" })
-//       );
-//     };
-//   }, []);
-
-
-
-
-  
   const [sec, setSec] = useState(0);
   const time = useRef(30); // 30초타이머
   const timerId = useRef(null);
   const [isStart, setIsStart] = React.useState(false);
 
-
-  useEffect(() => {
-    if (time.current <= 0) {
-      console.log("끝");
-      clearInterval(timerId.current);
-    }
-  }, [sec]);
+  // useEffect(() => {
+  //   if (time.current <= 0) {
+  //     console.log("끝");
+  //     clearInterval(timerId.current);
+  //   }
+  // }, [sec]);
 
   function gameStart(e) {
-    console.log("겜시작");
-    setIsStart(true);
-
-    // 타이머 시작
-    timerId.current = setInterval(() => {
-      setSec(time.current);
-      time.current -= 1;
-    }, 1000);
-
-    return () => clearInterval(timerId.current);
+    if (turn == 0 && players[1]) {
+      console.log("겜시작");
+      setIsStart(true);
+      stomp.send(
+        "/pub/game/message",
+        {},
+        JSON.stringify({ roomId: roomId, message: "", sender: "", type: "START" })
+      );
+    } else {
+      if (!players[1]) console.log("플레이어가 부족합니다");
+      if (turn != 0) console.log("방장만 시작 가능");
+    }
   }
 
+  async function charge() {
+    let userId;
+    await axios
+      .get("/api/user", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data.userEmail));
+        userId = response.data.userId;
+      });
 
+    await axios
+      .put(
+        "/api/user/charge",
+        { userId: userId },
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: window.localStorage.accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("50루비 충전");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    console.log(preaction);
+    // setCurrentMaxBet(preaction)
+  }, [preaction]);
+
+  useEffect(() => {
+    // let second = amount;
+    //setSec(amount);
+    console.log(sec);
+    setTimeout(() => {
+      if (turn == 0) {
+        if (sec <= 0) {
+          let action = new Object();
+          action.target = new Object();
+          action.target.textContent = "다이";
+          sendBet(action);
+        } else {
+          setSec(sec - 1);
+        }
+      }
+    }, 1000);
+  }, [sec]);
+
+  //타이머를 위한
+  useEffect(() => {
+    // console.log(turn);
+    // if (turn == 0 && isStart) {
+    //   setSec(5);
+    // }
+  }, [turn]);
+
+  //amount 초 이후 callback 실행
+  function settimer(amount, callback) {
+    let second = amount;
+    //setSec(amount);
+    let counter = setInterval(() => {
+      second--;
+      if (second <= 0) {
+        clearInterval(counter);
+      }
+    }, 1000);
+    callback();
+  }
 
   //콜 다이 레이즈 올인 클릭
   function sendBet(action) {
     //call die raise allin
-
-    switch (action) {
-      case "call":
-        console.log("call");
+    console.log(action.target.textContent);
+    switch (action.target.textContent) {
+      case "콜":
+        console.log("z");
         stomp.send(
           "/pub/game/message",
           {},
-          JSON.stringify({ roomId: roomId, message: "", sender: "", type: "CALL" })
+          JSON.stringify({
+            roomId: roomId,
+            message: "",
+            sender: "",
+            type: "CALL",
+            socketId: sessionId,
+          })
         );
 
         break;
-      case "raise":
+      case "레이즈":
+        // setMyBet(currentBetUnit);
         console.log("raise " + myBet);
         stomp.send(
           "/pub/game/message",
           {},
-          JSON.stringify({ roomId: roomId, message: myBet, sender: "", type: "RAISE" })
+          JSON.stringify({
+            roomId: roomId,
+            message: myBet,
+            sender: "",
+            type: "RAISE",
+            socketId: sessionId,
+          })
         );
 
         break;
-      case "allin":
+      case "올인":
         console.log("allin ");
         stomp.send(
           "/pub/game/message",
           {},
-          JSON.stringify({ roomId: roomId, message: "", sender: "", type: "ALLIN" })
+          JSON.stringify({
+            roomId: roomId,
+            message: "",
+            sender: "",
+            type: "ALLIN",
+            socketId: sessionId,
+          })
         );
 
         break;
-      case "die":
+      case "다이":
         console.log("die");
         stomp.send(
           "/pub/game/message",
           {},
-          JSON.stringify({ roomId: roomId, message: "", sender: "", type: "DIE" })
+          JSON.stringify({
+            roomId: roomId,
+            message: "",
+            sender: "",
+            type: "DIE",
+            socketId: sessionId,
+          })
         );
         //나가기 버튼 활성화
 
@@ -230,111 +472,61 @@ export default function Game(props) {
     }
   }
 
-  function startGame() {
-    //서버에서 isHost 체크
-    console.log("게임 시작 누름");
-
-    stomp.send(
-      "/pub/game/message",
-      {},
-      JSON.stringify({ roomId: roomId, message: "", sender: "", type: "START" })
-    );
-  }
-
   //나가기
   function leaveGame() {
-    console.log("나가기 누름");
-
     stomp.send(
       "/pub/game/message",
       {},
-      JSON.stringify({ roomId: roomId, message: "", sender: "", type: "EXIT" })
+      JSON.stringify({
+        roomId: roomId,
+        message: "",
+        sender: "",
+        type: "EXIT",
+        socketId: sessionId,
+      })
     );
-    navigate("../lobby");
+    navigate("../lobby/rooms");
   }
 
-  //클라이언트 webrtc socket on:
-  //클라이언트 game socket emit : bet, call, raise, die , 나가기, 참가,
-  //클라이언트 game socket on : 내 카드 받기, 공통카드 받기, 차례 받기,
-  //클라이언트 api 요청:
-  //새로고침시 로비로
-  //주기적으로 동기화
-
-
+  function setMyBetAmount(e) {
+    console.log(myBet)
+    if (e.target.id == "up") {
+      console.log("x2 mybet")
+      setMyBet(myBet*2);
+    } else {
+      console.log("/2 mybet")
+      setMyBet(myBet/2)
+    }
+  }
   return (
     <div className={styles.container}>
-      {/* <div className={styles.header}>
-        <h1>
-          <ArrowForwardIosRoundedIcon className={styles.icon} />
-          게임방 이름
-        </h1>
-        <h2>기본 베팅 10 루비</h2>
-        <div className={styles.buttonList}>
-          <button className={styles.button}>관전자모드</button>
-          <button className={styles.button}>나가기</button>
-        </div>
-      </div> */}
-      {/* <div className={styles.grid}>
-        <div className={styles.center}>
-          <div className={styles.qs}>누가 거짓말쟁이?</div>
-          <div className={styles.cards}> */}
-            {/* <div
-              id="card"
-              className={`${styles.cards_back} ${isStart ? styles.flip_back : styles.none}`}
-            >
-              <img src={card_back} />
-              <img src={card_back} />
-            </div> */}
-            {/* <div className={`${styles.cards_front} ${isStart ? styles.flip_front : styles.none}`}>
-              <img src={card_am_1} />
-              <img src={card_aq_1} />
-            </div>
-          </div>
-          <div className={styles.info}>
-            <div className={styles.time}>
-              {sec}초 */}
-              {/* <div className={styles.timer_front}></div>
-                        <div className={styles.timer_back}></div> */}
-            {/* </div>
-            <div className={styles.money}>돈돈돈돈</div>
-          </div>
-        </div> */}
-{/* 
-        <div className={styles.player1}>
-          <Player player={players[1]} />
-        </div>
-        <div className={styles.player2}>
-          <Player player={players[2]} />
-        </div>
-        <div className={styles.player3}>
-          <Player player={players[3]} />
-        </div>
-        <div className={styles.player4}>
-          <Player player={players[4]} />
-        </div>
-        <div className={styles.player5}>
-          <Player player={players[5]} />
-        </div>
-        <div className={styles.playerMe}>
-          <Player player={players[0]} />
-        </div> */}
-        <GameOpenvidu />
-        {/* 게임시작버튼
-        <div className={styles.start}>
-          <button onClick={gameStart}>게임시작</button>
-        </div> */}
-        {/* 베팅버튼 */}
-        {/* <div className={styles.betting}>
-                <button>다이</button>
-                <button>콜</button>
-                <button>레이즈</button>
-                <button>올인</button>
-            </div> */}
-        {/* <div className={styles.rules}>
-          트리플 &#62; 스트레이트 &#62; 더블 <br />
-          에메랄드 &#62; 다이아몬드 &#62; 아쿠아마린 &#62; 자수정
-        </div> */}
-      {/* </div> */}
+      {isEnter && roomInfo && players[0] ? (
+        <GameOpenvidu
+          roomId={roomId}
+          roomInfo={roomInfo}
+          roomTitle={roomTitle}
+          players={players}
+          leavegame={leaveGame}
+          win={win}
+          sendBet={sendBet}
+          gameStart={gameStart}
+          stomp={stomp}
+          sessionId={sessionId}
+          turn={turn}
+          isStart={isStart}
+          buttonDisable={buttonDisable}
+          startDisabled={startDisabled}
+          myBet={myBet}
+          currentBetUnit={roomBetUnit}
+          currentMaxBet={currentMaxBet}
+          preaction={preaction}
+          sec={sec}
+          gameTotalBet={gameTotalBet}
+          setMyBetAmount={setMyBetAmount}
+          groundCard1={groundCard1}
+          groundCard2={groundCard2}
+        />
+      ) : null}
     </div>
   );
 }

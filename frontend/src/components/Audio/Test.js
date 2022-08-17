@@ -3,22 +3,30 @@
 
 
 export default function TEST(props) {
+  const startButton = new Audio('./Audio/StartButton.mp3')
+  const startGame = new Audio('./Audio/StartGame.mp3')
+  const Shuffling = new Audio('./Audio/Shuffling.mp3')
+  const clickBet = new Audio('./Audio/Click.mp3')
+  const flipCard = new Audio('./Audio/Flip.mp3')
+  const lubbySound = new Audio('./Audio/Lubby.mp3')
+  const endGame = new Audio('./Audio/EndGame.mp3')
+
   function startbutton() {
-    new Audio('./Audio/StartButton.mp3').play()
+    startButton.play()
   }
   function startgame() {
-    new Audio('./Audio/StartGame.mp3').play()
-    new Audio('./Audio/Shuffling.mp3').play()
+    startGame.play()
+    Shuffling.play()
   }
   function betting() {
-    new Audio('./Audio/Click.mp3').play()
+    clickBet.play()
   }
   function flip() {
-    new Audio('./Audio/Flip.mp3').play()
+    flipCard.play()
   }
   function endgame() {
-    new Audio('./Audio/Lubby.mp3').play()
-    new Audio('./Audio/EndGame.mp3').play()
+    lubbySound.play()
+    endGame.play()
   }
 
 

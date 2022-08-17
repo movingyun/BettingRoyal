@@ -13,8 +13,8 @@ import Tutorial from "../../pages/Tutorial/Tutorial";
 import { dashboardTheme } from "../../dashboardTheme";
 import Rooms from "../../pages/Rooms/Rooms";
 import Test from "../../pages/Test/Test";
-import styles from "../Logo/Logo.module.css";
 
+import styles from "../Logo/Logo.module.css";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
@@ -26,6 +26,11 @@ export default function Lobby(props) {
   //   }
   // }, []);
 
+
+  function toggle() {
+    props.bgmState()
+    // console.log(props.playing)
+  }
 
   const navigate = useNavigate();
   let sidemenu = (
@@ -43,6 +48,7 @@ export default function Lobby(props) {
         <Route path="tutorial" element={<Tutorial />} />
         <Route path="test" element={<Test />} />
       </Routes>
+      <button className={styles.BGMbutton} onClick={toggle}>{props.playing ? <VolumeUpIcon/> : <VolumeOffIcon/>}</button>
     </ThemeProvider>
   );
 

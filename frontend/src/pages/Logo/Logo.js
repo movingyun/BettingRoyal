@@ -31,7 +31,7 @@ const useAudio = url => {
   useEffect(() => {
     // audio.muted = true
     // audio.muted = false
-    audio.volume = 0.1;
+    audio.volume = 0.5;
     playing ? audio.play() : audio.pause();
     audio.loop = true
   },[playing]);
@@ -43,11 +43,15 @@ const useAudio = url => {
     };
   }, []);
 
-  return [playing, toggle, playingBGM];
+  return [playing, toggle, playingBGM, setPlaying];
 };
 
 export default function First(props) {
-  const [playing, toggle, playingBGM] = useAudio('./Audio/BGM.mp3');
+  const [playing, toggle, playingBGM, setPlaying] = useAudio('./Audio/BGM.mp3');
+
+  function bgmState() {
+    toggle()
+  }
 
   let header = (
     <div className={styles.bg}>
@@ -59,7 +63,7 @@ export default function First(props) {
         </div>
         <Link to="/login"><button onClick={playingBGM} className={styles.button}>로그인</button></Link><br/>
         <Link to="/signup"><button onClick={playingBGM} className={styles.button}>회원가입</button></Link><br/>
-        <Link to="/lobby" toggle={toggle} playing={playing}><button onClick={playingBGM} className={styles.button}>로비 바로가기</button></Link>
+        <Link to="/lobby"><button onClick={playingBGM} className={styles.button}>로비 바로가기</button></Link>
         <button className={styles.BGMbutton} onClick={toggle}>{playing ? <VolumeUpIcon/> : <VolumeOffIcon/>}</button>
         <TEST/>
       </div>
@@ -74,7 +78,7 @@ export default function First(props) {
           <Route path="/" element={header}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup/>}></Route>
-          <Route path="/lobby/*" element={<Lobby />}></Route>
+          <Route path="/lobby/*" element={<Lobby bgmState={bgmState} playing={playing} />}></Route>
           <Route path="/game" element={<Game />}></Route>
         </Routes>
       </BrowserRouter>

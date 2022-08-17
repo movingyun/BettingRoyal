@@ -30,7 +30,7 @@ class Gameroom extends Component {
             myUserName: 'Participant' + Math.floor(Math.random() * 100),
             session: undefined,
             mainStreamManager: undefined,
-            publisher: undefined,
+            publisher: undefined, 
             subscribers: [],
             players: [],
             setPlayers: [],
