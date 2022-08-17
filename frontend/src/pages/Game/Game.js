@@ -159,7 +159,6 @@ export default function Game(props) {
           //message : {"공통카드 : card1, card2"}
           console.log("그라운드카드 받아라~" + content.message);
 
-          
           flip();
         }
 
@@ -502,6 +501,9 @@ export default function Game(props) {
     navigate("../lobby/rooms");
   }
 
+  useEffect(() => {
+    console.log(currentBetUnit);
+  }, [currentBetUnit]);
   function setMyBetAmount(e) {
     console.log(myBet);
     if (e.target.id == "up") {
