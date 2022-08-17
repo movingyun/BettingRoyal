@@ -57,6 +57,7 @@ import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ruby from "../../images/icon/ruby.png";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
+import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers";
 
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -342,16 +343,19 @@ class Gameroom extends Component {
   }
 
   raiseChange(change) {
+    let raise = this.state.raiseCnt;
     if (change == "up") {
       this.setState({
         raiseCnt: parseInt(parseInt(this.state.raiseCnt) + parseInt(this.props.currentBetUnit)),
       });
+      raise = parseInt(parseInt(raise) + parseInt(this.props.currentBetUnit));
     } else {
       this.setState({
         raiseCnt: parseInt(parseInt(this.state.raiseCnt) - parseInt(this.props.currentBetUnit)),
       });
+      raise = parseInt(parseInt(raise) - parseInt(this.props.currentBetUnit));
     }
-    this.props.setMyBetAmount(change);
+    this.props.setMyBetAmount(change, raise);
   }
 
   render() {
@@ -526,7 +530,7 @@ class Gameroom extends Component {
                   다이
                 </button>
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
-                  콜({this.props.currentMaxBet} - {this.props.players[0].mytotalBet})
+                  콜({this.props.currentMaxBet - this.props.players[0].mytotalBet})
                 </button>
 
                 <div className={styles.raiseAmountArea}>
