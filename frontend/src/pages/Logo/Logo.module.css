@@ -83,6 +83,13 @@
     position: fixed;
     right: 10px;
     bottom: 10px;
+    background-color:transparent;
+    border: none;
+    color: #2C3639;
+}
+
+.BGMbutton:hover {
+    color: #A27B5C;
 }
 
 
