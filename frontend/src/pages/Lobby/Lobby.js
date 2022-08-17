@@ -37,7 +37,7 @@ export default function Lobby(props) {
     <ThemeProvider theme={dashboardTheme}>
       <LobbyApp />
 
-      <Routes>
+      {/* <Routes>
         <Route path="rooms" element={<Rooms />} />
         <Route path="mypage" element={<Mypage />} />
         <Route path="notice/*" element={<Notice />} />
@@ -48,7 +48,7 @@ export default function Lobby(props) {
         <Route path="replay" element={<Replay />} />
         <Route path="tutorial" element={<Tutorial />} />
         <Route path="test" element={<Test />} />
-      </Routes>
+      </Routes> */}
       <button className={styles.BGMbutton} onClick={toggle}>
         {props.playing ? <VolumeUpIcon /> : <VolumeOffIcon />}
       </button>

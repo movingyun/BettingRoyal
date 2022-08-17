@@ -301,6 +301,7 @@ export default function Game(props) {
     };
   }, []);
 
+
   const [sec, setSec] = useState(0);
   const time = useRef(30); // 30초타이머
   const timerId = useRef(null);
@@ -335,22 +336,21 @@ export default function Game(props) {
 
   async function charge() {
     let userId;
-    await axios
-      .get("/api/user", {
-        headers: {
-          Authorization: window.localStorage.accessToken,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log(JSON.stringify(response.data.userEmail));
-        userId = response.data.userId;
-      });
+    // await axios
+    //   .get("/api/user", {
+    //     headers: {
+    //       Authorization: window.localStorage.accessToken,
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(JSON.stringify(response.data.userEmail));
+    //     userId = response.data.userId;
+    //   });
 
     await axios
       .put(
-        "/api/user/charge",
-        { userId: userId },
+        "/api/user/charge",{},
         {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -504,6 +504,7 @@ export default function Game(props) {
   useEffect(() => {
     console.log(currentBetUnit);
   }, [currentBetUnit]);
+
   function setMyBetAmount(e) {
     console.log(myBet);
     if (e.target.id == "up") {
