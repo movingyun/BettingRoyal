@@ -9,6 +9,8 @@ import Button from "../../components/common/Write/Button"
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import styles from "./Board.module.css";
+import { Routes, Route, Link } from "react-router-dom";
+import BoardModify from "./BoardModify";
 
 const PostViewerBlock = styled(Responsive)`
   font-family: 'Noto Sans KR', sans-serif;
@@ -53,6 +55,7 @@ const BoardDetail =({isEdit}) => {
     const [boardDate, setBoardDate] = useState();
     const [boardLike, setBoardLike] = useState();
     const [id, setId] = useState();
+    const [myNickname, setmyNickname] = useState();
 
     let navigate = useNavigate();
     let location = useLocation();
@@ -81,6 +84,20 @@ const BoardDetail =({isEdit}) => {
         .catch((error)=> {
             console.log(error);
         });
+
+        axios
+        .get("/api/user", {
+          headers: {
+            Authorization: window.localStorage.accessToken,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          setmyNickname(response.data.userNickname);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },[])
 
     function onCancel() {
@@ -107,8 +124,8 @@ const BoardDetail =({isEdit}) => {
         navigate("/lobby/board")
     }
 
-    function onModify(){
-        navigate("/lobby/board")
+    function onModify(e){
+        navigate("/lobby/board/modify" , {state: { boardId:e.id } })
     }
     
     return (
@@ -116,12 +133,12 @@ const BoardDetail =({isEdit}) => {
         <PostHead>
             <div className={styles.back} onClick={goBack}><ArrowBackIosNewRoundedIcon sx={{ fontSize: 18, mr:0.5, mb:0.4 }} />뒤로가기</div>
             {/* <button onClick={onCancel}>테스트</button> */}
-            <button className={styles.smallBtn} onClick={onCancel}>
+            { myNickname==nickname && <button className={styles.smallBtn} onClick={onCancel}>
                 {'삭제'}
-            </button>
-            <button className={styles.smallBtn} cyan onClick={onModify}>
+            </button>}
+            { myNickname==nickname && <button className={styles.smallBtn} cyan onClick={onModify}>
                 {'수정'}
-            </button>
+            </button>}
             <h1>{boardTitle}</h1>
             <div className={styles.postInfo}>
               <div className={styles.infoLeft}><AccountCircleRoundedIcon sx={{ fontSize: 22, mr:0.5, mb:0.4 }}/><strong>{nickname}</strong>&nbsp;&nbsp;|&nbsp;&nbsp;{new  Date(boardDate).toLocaleDateString()}</div>
@@ -133,14 +150,13 @@ const BoardDetail =({isEdit}) => {
         </PostContent>
         <br/>
         <WriteActionButtonsBlock>
-            {/* <StyledButton cyan onClick={onModify}>
-                {'수정'}
-            </StyledButton>
-            <StyledButton onClick={onCancel}>뒤로가기</StyledButton> */}
         </WriteActionButtonsBlock>
         <PostHead>
           댓글 쓸부분
         </PostHead>
+            {/* <Routes>
+                 <Route path="modify" element={<BoardModify />} />
+            </Routes> */}
         </PostViewerBlock>
     )
 };

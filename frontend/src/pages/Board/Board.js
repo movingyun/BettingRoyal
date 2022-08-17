@@ -9,8 +9,8 @@ export default function Board() {
     <Routes>
         <Route path="/" element={<BoardList />} />
         <Route path="boardwrite" element={<BoardWrite />} />
-        <Route path="detail" element={<BoardDetail />} />
-        <Route path="modify" element={<BoardModify />} />
+        <Route path="detail/*" element={<BoardDetail />} />
+        <Route path="modify/*" element={<BoardModify />} />
     </Routes>
     );
 }
