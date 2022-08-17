@@ -68,12 +68,12 @@ export default function First(props) {
           </div>
         </div>
         <Link to="/login">
-          <button className={styles.button}>로그인</button>
+          <button className={styles.button} onClick={playingBGM} >로그인</button>
         </Link>
         <br />
         {/* <Button href={KAKAO_AUTH_URL}><img src={kakaologin}/></Button><br></br> */}
         <Link to="/signup">
-          <button className={styles.button}>회원가입</button>
+          <button className={styles.button} onClick={playingBGM} >회원가입</button>
         </Link>
         <br />
         {/* <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link> */}
