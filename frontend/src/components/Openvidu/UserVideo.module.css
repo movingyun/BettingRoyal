@@ -72,6 +72,27 @@
     position: relative;
 }
 
+
+
+.mybackcard>img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+}
+
+.flip_back {
+    
+    position: absolute;
+    opacity: 1;
+    backface-visibility: hidden;
+    animation-name: backInUp, flipOutBack;
+    animation-delay: 0s, 1.7s;
+    animation-duration: 1.5s, 1s;
+    width: 100%;
+    height: 100%;
+}
+
 .card_back {
     position: absolute;
     backface-visibility: hidden;

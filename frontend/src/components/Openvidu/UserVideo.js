@@ -134,17 +134,29 @@ export default class UserVideoComponent extends Component {
                 {this.props.preaction.action}
                 {this.props.player.mytotalBet}
               </div>
-            ) : 
-            null
-            }
+            ) : null}
           </div>
           <div className={styles.gameInfo}>
-            <div className={styles.card}>
-              {/* 플레이어 카드 */}
-              <div className={styles.card_front}>
-                <img src={"/images/cards/" + this.props.player.myCard + ".png"} />
+            {this.props.isStart && this.props.number != 0 ? (
+              <div className={styles.card}>
+                {/* 플레이어 카드 */}
+                <div className={`${styles.card_back} ${styles.flip_back}`}>
+                  <img src={card40} />
+                </div>
+                <div className={styles.card_front}>
+                  <img src={"/images/cards/" + this.props.player.myCard + ".png"} />
+                </div>
               </div>
-            </div>
+            ) : null}
+            {this.props.isStart && this.props.number == 0 ? (
+              <div className={styles.card}>
+              <div className={styles.mybackcard}>
+                {/* 플레이어 카드 */}
+                <img src={card40} />
+              </div>
+              </div>
+            ) : null}
+
             <div className={styles.status}>{this.props.player.myPair}</div>
             <div className={styles.emotion}>
               <table>
