@@ -466,7 +466,7 @@ class Gameroom extends Component {
             ) : null}
 
             <div className={styles.center}>
-              <div className={styles.qs}>누가 거짓말쟁이?</div>
+              <div className={styles.qs}>{this.props.mainMessage}</div>
               {this.props.isStart ? (
                 <div className={styles.cards}>
                   <div className={`${styles.cards_back} ${styles.flip_back}`}>

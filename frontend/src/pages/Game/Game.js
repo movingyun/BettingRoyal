@@ -206,7 +206,7 @@ export default function Game(props) {
           setGroundCard1(content.groundCardNum1);
           setGroundCard2(content.groundCardNum2);
           setCurrentMaxBet(content.gameMaxBet);
-          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
+          setmainMessage(content.mission);
 
           setTurn(content.turnIdx);
         }
@@ -549,6 +549,7 @@ export default function Game(props) {
           setMyBetAmount={setMyBetAmount}
           groundCard1={groundCard1}
           groundCard2={groundCard2}
+          mainMessage={mainMessage}
         />
       ) : null}
     </div>
