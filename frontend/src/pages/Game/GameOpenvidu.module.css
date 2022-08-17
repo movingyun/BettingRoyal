@@ -294,6 +294,7 @@
     font-weight: 500;
     font-size: large;
     display: inline-block;
+    margin-top: 0;
 }
 
 .chat {

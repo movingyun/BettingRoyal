@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import Quill from "quill";
+import {  useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import palette from '../../components/common/Write/palette';
@@ -10,108 +11,167 @@ import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRound
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import styles from "./Board.module.css";
 
-const PostViewerBlock = styled(Responsive)`
+const EditorBlock = styled(Responsive)`
+  /* 페이지 위아래 여백 지정 */
+  // padding-top: 1rem;
+  // padding-bottom: 1rem;
+  // background-color: red;
+  // padding:0;
   font-family: 'Noto Sans KR', sans-serif;
+  width: 100%;
+`;
+
+const TitleInput = styled.input`
+  font-size: 20px;
+  padding: 10px;
+  padding-left: 15px;
+  margin-top: 20px;
+  border-radius: 10px;
   border: 1px solid ${palette.gray[4]};
   width: 100%;
+  font-weight: 500;
+`;
+
+const QuillWrapper = styled.div`
+  width: 100%;
+  margin-top: 10px;
   border-radius: 10px;
-  padding:0
-`;
-
-const PostHead = styled.div`
-  padding:20px;
-  border-bottom: 1px solid ${palette.gray[4]};
-  background-color: #f7f3e9;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  h1 {
-    font-size: 25px;
-    margin-top: 10px;
-    margin-bottom: 12px;
-    font-weight: 600;
+  border: 1px solid ${palette.gray[4]};
+  /* 최소 크기 지정 및 padding 제거 */
+  .ql-editor {
+    min-height: 300px;
+    max-height: 500px;
+    font-size: medium;
   }
-`;
-
-const PostContent = styled.div`
-padding:20px;
-
+//   .ql-editor::-webkit-scrollbar {
+//     width: 10px;
+// }
+//   .ql-editor::-webkit-scrollbar-track {
+//       background-color: rgba(0, 0, 0, 0.1);
+//       border-radius: 10px;
+//   }
+//   .ql-editor::-webkit-scrollbar-thumb {
+//       background-color: #A27B5C;
+//       border-radius: 10px;
+//   }
+  // .ql-editor.ql-blank::before {
+  //   left: 0px;
+  // }
 `;
 
 const WriteActionButtonsBlock = styled.div`
-margin-top: 25px;
-text-align: center;
-button + button {
-  margin-left: 10px;
-}
+  margin-top: 25px;
+  text-align: center;
+  button + button {
+    margin-left: 10px;
+  }
 `;
 
-const BoardModify =({isEdit}) => {
-    const [nickname, setNickname] = useState();
-    const [boardTitle, setBoardTitle] = useState();
-    const [boardContent, setBoardContent] = useState();
-    const [boardHit, setBoardHit] = useState();
-    const [boardDate, setBoardDate] = useState();
-    const [boardLike, setBoardLike] = useState();
-    const [id, setId] = useState();
+const BoardModify = ({ onCancel, onPublish, isEdit }) => {
+  const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
+  const quillInstance =  useRef(null); // Quill 인스턴스를 설정
+  const [nickname, setNickname] = useState();
+  const [boardContent, setBoardContent] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
+  const [id, setId] = useState();
+  
+  let navigate = useNavigate();
+  let location = useLocation();
+  let boardId = location.state.boardId;
 
-    let navigate = useNavigate();
-    let location = useLocation();
-    let boardId = location.state.boardId;
+  useEffect(() => {
+    quillInstance.current = new Quill(quillElement.current, {
+      theme: 'bubble',
+    //   placeholder: '내용을 작성 후 드래그시 다양한 수정이 가능합니다.' ,
+      modules: {
+        toolbar: [
+          [{ header: '1' }, { header: '2' }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['blockquote', 'code-block', 'link', 'image'],
+        ],
+      },
+    });
 
+    axios
+      .get("/api/user", {
+        headers : {
+            Authorization: window.localStorage.accessToken,
+            "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setNickname(response.data.userNickname);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
 
-    console.log()
-    useEffect(()=> {
-        axios
-        .put("/api/board/"+boardId, {
-            headers: {
-                Authorization: window.localStorage.accessToken,
-                "Content-Type": "application/json",
-            },
-        })
-        .then((response)=>{
-            console.log("board" + JSON.stringify(response.data));
-            setBoardTitle(response.data.boardTitle);
-            setBoardContent(response.data.boardContent);
-            setNickname(response.data.userNickname);
-            setBoardDate(response.data.boardDate);
-            setBoardHit(response.data.boardHit);
-            setBoardLike(response.data.boardLike);
-            setId(response.data.boardId);
-        })
-        .catch((error)=> {
-            console.log(error);
-        });
-    },[])
+    axios
+      .get("/api/board/" + boardId, {
+        
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("board 테스트" + JSON.stringify(response.data.boardTitle));
+        setBoardTitle(response.data.boardTitle);
+        setBoardContent(response.data.boardContent);
+        setId(response.data.boardId);
+        quillInstance.current.setText(response.data.boardContent)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },  
+   
+  []);
 
+  function onPublish() {
+    axios
+      .put("/api/board/"+boardId, 
+      {
+        boardContent : quillInstance.current.getText(),
+        boardTitle : boardTitle,
+        boardId : id,
+      },
+      {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/lobby/board", {state : {boardId:response.data.boardId}})
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-    function goBack(){
-        navigate("/lobby/board")
-    }
-
-    function onModify(){
-        navigate("/lobby/board")
-    }
-    
+  function onCancel() {
+    navigate("/lobby/board")
+  }
+  function title (e) { 
+    setBoardTitle(e.target.value);
+  }
     return (
-        <PostViewerBlock>
-        <PostHead>
-            <div className={styles.back} onClick={goBack}><ArrowBackIosNewRoundedIcon sx={{ fontSize: 18, mr:0.5, mb:0.4 }} />뒤로가기</div>
-            {/* <button onClick={onCancel}>테스트</button>
-            <button className={styles.smallBtn} onClick={onCancel}>
-                {'삭제'}
-            </button> */}
-            <button className={styles.smallBtn} cyan onClick={onModify}>
-                {'수정 완료'}
-            </button>
-            <h1>{boardTitle}</h1>
-            <div className={styles.postInfo}>
-              <div className={styles.infoLeft}><AccountCircleRoundedIcon sx={{ fontSize: 22, mr:0.5, mb:0.4 }}/><strong>{nickname}</strong>&nbsp;&nbsp;|&nbsp;&nbsp;{new  Date(boardDate).toLocaleDateString()}</div>
-            </div>
-        </PostHead>
-        <PostContent>
-            <p>{boardContent}</p>
-        </PostContent>
-        </PostViewerBlock>
+        <EditorBlock>
+        {/* <p>작성자 : {nickname}</p> */}
+        <TitleInput required onChange={title} value={boardTitle}/>
+        <QuillWrapper>
+          <div ref={quillElement} />
+        </QuillWrapper>
+        <WriteActionButtonsBlock>
+        <button cyan className={styles.btn} onClick={onPublish}> 
+          {'수정'}
+        </button>
+        <button onClick={onCancel} className={styles.btn}>취소</button>
+      </WriteActionButtonsBlock>
+      </EditorBlock>
     )
 };
 

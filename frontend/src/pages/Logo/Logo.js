@@ -13,9 +13,8 @@ import royal from "../../images/logo/logo_royal.png";
 import { KAKAO_AUTH_URL } from "../../pages/Login/OAuth";
 import { Button, Switch } from "@material-ui/core";
 import LobbyApp from "../Lobby/LobbyApp";
-
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import VolumeOffRoundedIcon from '@mui/icons-material/VolumeOffRounded';
+import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
 
 import TEST from "../../components/Audio/Test";
 
@@ -79,7 +78,7 @@ export default function First(props) {
         <br />
         {/* <Link to="/lobby"><button className={styles.button}>로비 바로가기</button></Link> */}
         <button className={styles.BGMbutton} onClick={toggle}>
-          {playing ? <VolumeUpIcon /> : <VolumeOffIcon />}
+          {playing ? <VolumeUpRoundedIcon /> : <VolumeOffRoundedIcon />}
         </button>
       </div>
     </div>

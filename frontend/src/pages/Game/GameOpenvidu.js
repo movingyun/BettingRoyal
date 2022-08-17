@@ -498,45 +498,36 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
-              <div className={styles.betting}>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
-                  다이
-                </button>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
-                  콜
-                </button>
-
-                <div className={styles.raiseAmountArea}>
-                  <div className={styles.raiseNum}>
-                    <button
-                      className={styles.raiseNumUp}
-                      id="up"
-                      onClick={this.props.setMyBetAmount}
-                    >
-                      <ArrowUpwardRoundedIcon />
-                    </button>
-                    <div className={styles.raiseNumCenter}>{this.props.myBet}</div>
-
-                    <button
-                      className={styles.raiseNumDown}
-                      id="down"
-                      onClick={this.props.setMyBetAmount}
-                    >
-                      <ArrowDownwardRoundedIcon />
-                    </button>
-                  </div>
-                  <button
-                    className={styles.raise}
-                    onClick={this.props.sendBet}
-                    disabled={this.props.buttonDisable[2]}
-                  >
-                    레이즈
-                  </button>
-                </div>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
-                  올인
-                </button>
-              </div>
+                        <div className={styles.betting}>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                          다이
+                        </button>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                          콜
+                        </button>
+          
+                        <div className={styles.raiseAmountArea}>
+                          <div className={styles.raiseNum} >
+                            {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                              <button className={styles.raiseNumUp} id="up" onClick={this.props.setMyBetAmount}>
+                                <ArrowUpwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                            <div className={styles.raiseNumCenter}>{this.props.myBet}</div>
+                            {this.props.currentMaxBet >= this.props.myBet / 2 ? (
+                              <button className={styles.raiseNumDown} id="down" onClick={this.props.setMyBetAmount}>
+                                <ArrowDownwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                          </div >
+                            <button className={styles.raise} onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
+                              레이즈
+                            </button>
+                        </div>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                          올인
+                        </button>
+                      </div>
             ) : (
               <div className={styles.start}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
