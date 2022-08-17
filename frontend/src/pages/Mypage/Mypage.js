@@ -176,10 +176,12 @@ const Mypage = () => {
           <Modal open={modalOpen1} close={closeModal1} header="닉네임 변경">
             <Nickname />
           </Modal>
-          <button onClick={openModal2} className={styles.btn}>
-            비밀번호 변경
-          </button>
-          <Modal open={modalOpen2} close={closeModal2} header="비밀번호 변경"></Modal>
+          <button onClick={openModal3} className={styles.btn}>
+            회원탈퇴
+      </button>
+      <Modal open={modalOpen3} close={closeModal3} header="회원 탈퇴">
+        <MyInfoDelete />
+      </Modal>
         </div>
       </div>
       <div className={styles.section}>
@@ -218,12 +220,6 @@ const Mypage = () => {
         <div>승률 : {`${((gameWin / gameCnt) * 100).toFixed(2)}`} %</div>
         <div>가입일 : {startDate}</div>
       </div>
-      <button onClick={openModal3} className={styles.btn}>
-            회원탈퇴
-      </button>
-      <Modal open={modalOpen3} close={closeModal3} header="회원 탈퇴">
-        <MyInfoDelete />
-      </Modal>
     </div>
   );
 };
