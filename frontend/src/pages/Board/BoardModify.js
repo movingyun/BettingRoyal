@@ -101,7 +101,7 @@ const BoardModify =({isEdit}) => {
                 {'삭제'}
             </button> */}
             <button className={styles.smallBtn} cyan onClick={onModify}>
-                {'수정'}
+                {'수정 완료'}
             </button>
             <h1>{boardTitle}</h1>
             <div className={styles.postInfo}>
