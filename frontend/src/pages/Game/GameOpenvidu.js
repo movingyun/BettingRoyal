@@ -55,6 +55,8 @@ import ReactDOM from "react-dom";
 import Popover from "react-popover";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ruby from "../../images/icon/ruby.png";
+import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
+import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
 
 const OPENVIDU_SERVER_URL = "https://" + "i7a404.p.ssafy.io" + ":8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -485,6 +487,7 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
+<<<<<<< Updated upstream
               <div className={styles.betting}>
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
                   다이
@@ -513,12 +516,44 @@ class Gameroom extends Component {
                   올인
                 </button>
               </div>
+=======
+                        <div className={styles.betting}>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                          다이
+                        </button>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                          콜
+                        </button>
+          
+                        <div className={styles.raiseAmountArea}>
+                          <div className={styles.raiseNum} >
+                            {this.props.currentMaxBet * 5 <= this.props.myBet ? (
+                              <button className={styles.raiseNumUp} id="up" onClick={this.props.setMyBetAmount}>
+                                <ArrowUpwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                            <div className={styles.raiseNumCenter}>{this.props.myBet}</div>
+                            {this.props.currentMaxBet >= this.props.myBet / 2 ? (
+                              <button className={styles.raiseNumDown} id="down" onClick={this.props.setMyBetAmount}>
+                                <ArrowDownwardRoundedIcon/>
+                              </button>
+                            ) : null}
+                          </div >
+                            <button className={styles.raise} onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
+                              레이즈
+                            </button>
+                        </div>
+                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                          올인
+                        </button>
+                      </div>
+>>>>>>> Stashed changes
             ) : (
               <div className={styles.start}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
                   게임시작
                 </button>
-              </div>
+              </div> 
             )}
           </div>
         ) : null}
