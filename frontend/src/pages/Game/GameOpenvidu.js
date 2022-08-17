@@ -79,6 +79,7 @@ class Gameroom extends Component {
       chatList: [],
       isOpen: false,
       currentBetUnit: 0,
+      raiseCnt: this.props.currentBetUnit,
     };
 
     this.test = [styles.player1, styles.player2, styles.player3, styles.player4, styles.player5];
@@ -340,6 +341,19 @@ class Gameroom extends Component {
     }
   }
 
+  raiseChange(change) {
+    if (change == "up") {
+      this.setState({
+        raiseCnt: parseInt(parseInt(this.state.raiseCnt) + parseInt(this.props.currentBetUnit)),
+      });
+    } else {
+      this.setState({
+        raiseCnt: parseInt(parseInt(this.state.raiseCnt) - parseInt(this.props.currentBetUnit)),
+      });
+    }
+    this.props.setMyBetAmount(change);
+  }
+
   render() {
     const chatList = this.state.chatList;
     return (
@@ -498,36 +512,53 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
-                        <div className={styles.betting}>
-                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
-                          다이
-                        </button>
-                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
-                          콜
-                        </button>
-          
-                        <div className={styles.raiseAmountArea}>
-                          <div className={styles.raiseNum} >
-                            {this.props.currentMaxBet * 5 <= this.props.myBet ? (
-                              <button className={styles.raiseNumUp} id="up" onClick={this.props.setMyBetAmount}>
-                                <ArrowUpwardRoundedIcon/>
-                              </button>
-                            ) : null}
-                            <div className={styles.raiseNumCenter}>{this.props.myBet}</div>
-                            {this.props.currentMaxBet >= this.props.myBet / 2 ? (
-                              <button className={styles.raiseNumDown} id="down" onClick={this.props.setMyBetAmount}>
-                                <ArrowDownwardRoundedIcon/>
-                              </button>
-                            ) : null}
-                          </div >
-                            <button className={styles.raise} onClick={this.props.sendBet} disabled={this.props.buttonDisable[2]}>
-                              레이즈
-                            </button>
-                        </div>
-                        <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
-                          올인
-                        </button>
-                      </div>
+              <div className={styles.betting}>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                  다이
+                </button>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                  콜({this.props.currentMaxBet} - {this.props.players[0].mytotalBet})
+                </button>
+
+                <div className={styles.raiseAmountArea}>
+                  <div className={styles.raiseNum}>
+                    {this.state.raiseCnt <
+                    this.props.players[0].myruby - (this.props.currentMaxBet - this.props.myBet) ? (
+                      <button
+                        className={styles.raiseNumUp}
+                        id="up"
+                        onClick={() => {
+                          this.raiseChange("up");
+                        }}
+                      >
+                        <ArrowUpwardRoundedIcon />
+                      </button>
+                    ) : null}
+                    <div className={styles.raiseNumCenter}>{this.state.raiseCnt}</div>
+                    {this.props.currentBetUnit * 2 <= this.state.raiseCnt ? (
+                      <button
+                        className={styles.raiseNumDown}
+                        id="down"
+                        onClick={() => {
+                          this.raiseChange("down");
+                        }}
+                      >
+                        <ArrowDownwardRoundedIcon />
+                      </button>
+                    ) : null}
+                  </div>
+                  <button
+                    className={styles.raise}
+                    onClick={this.props.sendBet}
+                    disabled={this.props.buttonDisable[2]}
+                  >
+                    레이즈
+                  </button>
+                </div>
+                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                  올인
+                </button>
+              </div>
             ) : (
               <div className={styles.start}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>

@@ -109,7 +109,7 @@ export default function Game(props) {
   }
 
   function kicksession(props) {
-    props.leavesession()
+    props.leavesession();
   }
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export default function Game(props) {
         if (content.type == "GROUNDCARD") {
           //message : {"공통카드 : card1, card2"}
           console.log("그라운드카드 받아라~" + content.message);
-
+          setCurrentMaxBet(content.gameMaxBet);
           flip();
         }
 
@@ -204,6 +204,7 @@ export default function Game(props) {
           setMyBet(roomBetUnit);
           setGroundCard1(content.groundCardNum1);
           setGroundCard2(content.groundCardNum2);
+          setCurrentMaxBet(content.gameMaxBet);
           // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
 
           setTurn(content.turnIdx);
@@ -224,6 +225,7 @@ export default function Game(props) {
           // }
           setMyBet(content.gameMaxBet);
           setCurrentBetUnit(content.gameMaxBet);
+          setCurrentMaxBet(content.gameMaxBet);
           // setCurrentMaxBet(content.gameMaxBet)
           setpreaction(temppreaction);
           setGameTotalBet(content.gameTotalBet);
@@ -306,7 +308,6 @@ export default function Game(props) {
     };
   }, []);
 
-
   const [sec, setSec] = useState(0);
   const time = useRef(30); // 30초타이머
   const timerId = useRef(null);
@@ -355,7 +356,8 @@ export default function Game(props) {
 
     await axios
       .put(
-        "/api/user/charge",{},
+        "/api/user/charge",
+        {},
         {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -506,18 +508,14 @@ export default function Game(props) {
     navigate("../lobby/rooms");
   }
 
-  useEffect(() => {
-    console.log(currentBetUnit);
-  }, [currentBetUnit]);
-
-  function setMyBetAmount(e) {
+  function setMyBetAmount(change) {
     console.log(myBet);
-    if (e.target.id == "up") {
-      console.log("x2 mybet");
-      setMyBet(myBet * 2);
+    if (change == "up") {
+      console.log("+ currentBetUnit");
+      // setMyBet(parseInt(myBet) + parseInt(currentBetUnit));
     } else {
-      console.log("/2 mybet");
-      setMyBet(myBet / 2);
+      console.log("- currentBetUnit");
+      // setMyBet(parseInt(myBet) - parseInt(currentBetUnit));
     }
   }
   return (
