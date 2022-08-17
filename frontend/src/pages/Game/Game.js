@@ -423,11 +423,11 @@ export default function Game(props) {
     //call die raise allin
 
     betting();
-    if (action.target.textContent.subString(0, 1) == "콜") {
+    console.log(action.target.textContent);
+    if (action.target.textContent[0] == "콜") {
       action.target.textContent = "콜";
     }
 
-    console.log(action.target.textContent);
     switch (action.target.textContent) {
       case "콜":
         console.log("z");
