@@ -10,7 +10,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ruby_win from "../../images/ruby/ruby_win.gif";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-// import Test  from "../../components/Audio/Test";
 
 import card1 from "../../images/cards/1.png";
 import card2 from "../../images/cards/2.png";
@@ -109,7 +108,6 @@ export default function Game(props) {
     endGame.play()
   }
 
-
   useEffect(() => {
     console.log(roomId + "번 방 참가");
     setCurrentBetUnit(roomBetUnit);
@@ -145,8 +143,7 @@ export default function Game(props) {
         if (content.type == "START") {
           setmainMessage("게임 시작!");
           setpreaction([{}, {}, {}, {}, {}, {}]);
-          startbutton()
-          startgame()
+
           setIsStart(true);
           // let action = new Object();
           // action.target = new Object();
@@ -163,7 +160,6 @@ export default function Game(props) {
 
           setGroundCard1(content.groundCardNum1);
           setGroundCard2(content.groundCardNum2);
-          flip()
         }
 
         //수시로 서버와 동기화
@@ -267,8 +263,6 @@ export default function Game(props) {
           let tempwin = [false, false, false, false, false, false];
           tempwin[content.winnerIdx] = true;
           setwin(tempwin);
-          flip()
-          endgame()
           
           //2.5초간 효과재생 후 게임시작 활성화
           setTimeout(() => {
@@ -318,7 +312,6 @@ export default function Game(props) {
     if (turn == 0 && players[1]) {
       console.log("겜시작");
       setIsStart(true);
-
       stomp.send(
         "/pub/game/message",
         {},
@@ -410,9 +403,6 @@ export default function Game(props) {
   //콜 다이 레이즈 올인 클릭
   function sendBet(action) {
     //call die raise allin
-
-    betting()
-
     console.log(action.target.textContent);
     switch (action.target.textContent) {
       case "콜":
