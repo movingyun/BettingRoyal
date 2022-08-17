@@ -510,5 +510,6 @@
 }
 
 .highlight {
-    background-color: #AC4425;
+    /* background-color: #AC4425; */
+    background-color: rgb(204, 41, 95);
 }
