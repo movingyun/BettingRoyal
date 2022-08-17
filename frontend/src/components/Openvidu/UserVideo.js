@@ -141,7 +141,7 @@ export default class UserVideoComponent extends Component {
             <div className={styles.card}>
               {/* 플레이어 카드 */}
               <div className={styles.card_front}>
-                <img src={`card${this.props.player.myCard}`} />
+                <img src={"/images/cards/" + this.props.player.myCard + ".png"} />
               </div>
             </div>
             <div className={styles.status}>{this.props.player.myPair}</div>

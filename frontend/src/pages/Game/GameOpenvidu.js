@@ -435,8 +435,8 @@ class Gameroom extends Component {
                   <img src={card40} />
                 </div>
                 <div className={`${styles.cards_front} ${styles.flip_front}`}>
-                  <img src={this.props.groundCard1} />
-                  <img src={this.props.groundCard2} />
+                  <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
+                  <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
                 </div>
               </div>
               {/* 베팅시*/}
@@ -490,7 +490,7 @@ class Gameroom extends Component {
                   ) : null}
 
                   {this.props.myBet}
-                  {this.props.currentMaxBet >= this.props.myBet/2 ? (
+                  {this.props.currentMaxBet >= this.props.myBet / 2 ? (
                     <button id="down" onClick={this.props.setMyBetAmount}>
                       v
                     </button>
