@@ -12,6 +12,8 @@ import styles from "./Board.module.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { Routes, Route, Link } from "react-router-dom";
+import BoardModify from "./BoardModify";
 
 const PostViewerBlock = styled(Responsive)`
   font-family: "Noto Sans KR", sans-serif;
@@ -55,7 +57,9 @@ const BoardDetail = ({ isEdit }) => {
   const [boardDate, setBoardDate] = useState();
   const [boardLike, setBoardLike] = useState();
   const [isLike, setIsLike] = useState();
+
   const [id, setId] = useState();
+  const [myNickname, setmyNickname] = useState();
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -145,8 +149,8 @@ const BoardDetail = ({ isEdit }) => {
     navigate("/lobby/board");
   }
 
-  function onModify() {
-    navigate("/lobby/board");
+  function onModify(e) {
+    navigate("/lobby/board/modify", { state: { boardId: e.id } });
   }
 
   return (
