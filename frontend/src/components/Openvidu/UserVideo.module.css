@@ -172,6 +172,29 @@
 
 .speech_bubble {
     position: relative;
-    background: #3f4e4f;
-    border-radius: .4em;
+    background-color: #2C3639;
+    border-radius: 20px;
+    z-index:10;
+    padding : 4px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #DCD7C9;
+    text-align: center;
+    width: 60%;
+    font-size: large;
+    font-weight: 500;
+    top: -80px;
+    left: 60px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.speech_bubble:after {
+    border-top: 13px solid #2C3639;
+    border-left: 0px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: 34px;
+    left: 65px;
+    /* box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2); */
 }

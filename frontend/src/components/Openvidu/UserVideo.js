@@ -135,7 +135,9 @@ export default class UserVideoComponent extends Component {
                 {this.props.preaction.action}
                 {this.props.player.mytotalBet}
               </div>
-            ) : null}
+            ) : 
+            null
+            }
           </div>
           <div className={styles.gameInfo}>
             <div className={styles.card}>
