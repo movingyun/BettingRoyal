@@ -388,6 +388,7 @@ class Gameroom extends Component {
                   player={this.props.players[0]}
                   number={0}
                   preaction={this.props.preaction[0]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -404,6 +405,7 @@ class Gameroom extends Component {
                   player={this.props.players[1]}
                   win={this.props.win[1]}
                   preaction={this.props.preaction[1]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -419,6 +421,7 @@ class Gameroom extends Component {
                   player={this.props.players[2]}
                   win={this.props.win[2]}
                   preaction={this.props.preaction[2]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -434,6 +437,7 @@ class Gameroom extends Component {
                   player={this.props.players[3]}
                   win={this.props.win[3]}
                   preaction={this.props.preaction[3]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -449,6 +453,7 @@ class Gameroom extends Component {
                   player={this.props.players[4]}
                   win={this.props.win[4]}
                   preaction={this.props.preaction[4]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -464,22 +469,26 @@ class Gameroom extends Component {
                   player={this.props.players[5]}
                   win={this.props.win[5]}
                   preaction={this.props.preaction[5]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
 
             <div className={styles.center}>
               <div className={styles.qs}>누가 거짓말쟁이?</div>
-              <div className={styles.cards}>
-                <div className={`${styles.cards_back} ${styles.flip_back}`}>
-                  <img src={card40} />
-                  <img src={card40} />
+              {this.props.isStart ? (
+                <div className={styles.cards}>
+                  <div className={`${styles.cards_back} ${styles.flip_back}`}>
+                    <img src={card40} />
+                    <img src={card40} />
+                  </div>
+                  <div className={`${styles.cards_front} ${styles.flip_front}`}>
+                    <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
+                    <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
+                  </div>
                 </div>
-                <div className={`${styles.cards_front} ${styles.flip_front}`}>
-                  <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
-                  <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
-                </div>
-              </div>
+              ) : null}
+
               {/* 베팅시*/}
               {/* <img src={ruby_bet} className={styles.rubyBet}/> */}
               {/* 내가 게임 이길시*/}

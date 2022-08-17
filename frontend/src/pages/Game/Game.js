@@ -280,7 +280,7 @@ export default function Game(props) {
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
               charge();
-              // leaveGame();
+              leaveGame();
               kicksession();
             }
             setwin([false, false, false, false, false, false]);
