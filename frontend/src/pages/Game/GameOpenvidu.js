@@ -339,7 +339,7 @@ class Gameroom extends Component {
         raiseCnt: parseInt(parseInt(this.state.raiseCnt) - parseInt(this.props.currentBetUnit)),
       });
     }
-    this.props.setMyBetAmount(change);
+    this.props.setMyBetAmount(change, this.state.raiseCnt);
   }
 
   render() {
@@ -505,7 +505,7 @@ class Gameroom extends Component {
                   다이
                 </button>
                 <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
-                  콜({this.props.currentMaxBet} - {this.props.players[0].mytotalBet})
+                  콜({this.props.currentMaxBet - this.props.players[0].mytotalBet})
                 </button>
 
                 <div className={styles.raiseAmountArea}>

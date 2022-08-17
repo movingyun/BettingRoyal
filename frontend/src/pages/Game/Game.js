@@ -61,6 +61,7 @@ export default function Game(props) {
   const [currentBetUnit, setCurrentBetUnit] = useState(0);
   const [currentMaxBet, setCurrentMaxBet] = useState(0);
   const [myBet, setMyBet] = useState(0);
+  const [raiseCnt, setRaiseCnt] = useState(0);
   const [myTotalBet, setMyTotalBet] = useState(0);
   const [mainMessage, setmainMessage] = useState("");
   const [buttonDisable, setbuttonDisable] = useState([true, true, true, true]);
@@ -417,6 +418,9 @@ export default function Game(props) {
     //call die raise allin
 
     betting();
+    if (action.target.textContent.subString(0, 1) == "콜") {
+      action.target.textContent = "콜";
+    }
 
     console.log(action.target.textContent);
     switch (action.target.textContent) {
@@ -437,13 +441,13 @@ export default function Game(props) {
         break;
       case "레이즈":
         // setMyBet(currentBetUnit);
-        console.log("raise " + myBet);
+        console.log("raise " + raiseCnt);
         stomp.send(
           "/pub/game/message",
           {},
           JSON.stringify({
             roomId: roomId,
-            message: myBet,
+            message: raiseCnt,
             sender: "",
             type: "RAISE",
             socketId: sessionId,
@@ -503,14 +507,14 @@ export default function Game(props) {
     navigate("../lobby/rooms");
   }
 
-  function setMyBetAmount(change) {
+  function setMyBetAmount(change, raiseCount) {
     console.log(myBet);
     if (change == "up") {
       console.log("+ currentBetUnit");
-      // setMyBet(parseInt(myBet) + parseInt(currentBetUnit));
+      setRaiseCnt(raiseCount);
     } else {
       console.log("- currentBetUnit");
-      // setMyBet(parseInt(myBet) - parseInt(currentBetUnit));
+      setRaiseCnt(raiseCount);
     }
   }
   return (
