@@ -167,8 +167,11 @@ public class UserController {
 
 	//쫒겨난 user 돈 채워주기
 	@PutMapping("/charge")
-	public ResponseEntity<?> rubyCharge (@RequestParam Integer userId) {
-		userService.rubyCharge(userId);
+	public ResponseEntity<?> rubyCharge (@ApiIgnore Authentication authentication) {
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserEmail(userId);
+		userService.rubyCharge(user.getUserId());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 

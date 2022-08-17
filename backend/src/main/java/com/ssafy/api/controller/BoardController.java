@@ -112,7 +112,7 @@ public class BoardController {
         return new ResponseEntity<>(boardListRes, HttpStatus.OK);
     }
 
-    @PutMapping("")
+    @PutMapping("{boardId}")
     @ApiOperation(value = "게시판 수정", notes = "게시판을 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -121,7 +121,8 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> modify (
-            @ApiParam(value = "게시판 수정", required = true)  @RequestBody BoardUpdateReq boardUpdateReq,
+            @ApiParam(value = "게시판 수정", required = true)
+            @RequestBody BoardUpdateReq boardUpdateReq,
             @ApiIgnore Authentication authentication
         ) throws Exception {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();

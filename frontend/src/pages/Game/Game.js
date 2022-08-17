@@ -109,6 +109,10 @@ export default function Game(props) {
     endGame.play();
   }
 
+  function kicksession(props) {
+    props.leavesession();
+  }
+
   useEffect(() => {
     console.log(roomId + "번 방 참가");
     setCurrentBetUnit(roomBetUnit);
@@ -276,7 +280,8 @@ export default function Game(props) {
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
               charge();
-              leaveGame();
+              // leaveGame();
+              kicksession();
             }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);
@@ -338,22 +343,22 @@ export default function Game(props) {
 
   async function charge() {
     let userId;
-    await axios
-      .get("/api/user", {
-        headers: {
-          Authorization: window.localStorage.accessToken,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log(JSON.stringify(response.data.userEmail));
-        userId = response.data.userId;
-      });
+    // await axios
+    //   .get("/api/user", {
+    //     headers: {
+    //       Authorization: window.localStorage.accessToken,
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(JSON.stringify(response.data.userEmail));
+    //     userId = response.data.userId;
+    //   });
 
     await axios
       .put(
         "/api/user/charge",
-        { userId: userId },
+        {},
         {
           headers: {
             "Content-Type": "application/json; charset=utf-8",

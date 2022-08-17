@@ -131,11 +131,12 @@ export default class UserVideoComponent extends Component {
             <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
             {this.props.preaction.action ? (
               <div className={styles.speech_bubble}>
-                {" "}
                 {this.props.preaction.action}
                 {this.props.player.mytotalBet}
               </div>
-            ) : null}
+            ) : 
+            null
+            }
           </div>
           <div className={styles.gameInfo}>
             <div className={styles.card}>
