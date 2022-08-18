@@ -116,6 +116,12 @@ class Gameroom extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    const mySession = this.state.session;
+
+    if (mySession) {
+      mySession.disconnect();
+    }
+    this.state.session.unpublish(this.state.mainStreamManager);
   }
 
   onbeforeunload(event) {
@@ -278,8 +284,6 @@ class Gameroom extends Component {
       });
       this.props.leavegame();
     }
-
-    
   }
 
   // 채팅 메세지 부분

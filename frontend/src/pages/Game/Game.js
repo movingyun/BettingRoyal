@@ -214,7 +214,7 @@ export default function Game(props) {
         //턴
         if (content.type == "NEXTTURN") {
           //전사람 행동
-          // console.log(preaction);
+           console.log(preaction);
           let preturn = content.preTurnIdx;
           let temppreaction = preaction;
           let act = content.message.split(" ", 1);
