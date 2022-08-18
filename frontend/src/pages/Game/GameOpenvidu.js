@@ -96,6 +96,7 @@ class Gameroom extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.sendChat = this.sendChat.bind(this);
+    this.disconnectStomp = this.disconnectStomp.bind(this);
   }
 
   togglePopover = () => {
@@ -211,7 +212,12 @@ class Gameroom extends Component {
         });
 
         mySession.on("streamDestroyed", (event) => {
+          console.log("stream destroyed : " + event.stream.streamManager);
+
           this.deleteSubscriber(event.stream.streamManager);
+          //재정렬
+          
+          
         });
 
         mySession.on("exception", (exception) => {
@@ -282,8 +288,24 @@ class Gameroom extends Component {
         mainStreamManager: undefined,
         publisher: undefined,
       });
-      this.props.leavegame();
+      this.disconnectStomp();
+      // this.props.leavegame();
     }
+  }
+
+  disconnectStomp() {
+    this.props.stomp.send(
+      "/pub/game/message",
+      {},
+      JSON.stringify({
+        roomId: this.props.roomId,
+        message: "",
+        sender: "",
+        type: "EXIT",
+        socketId: this.props.sessionId,
+      })
+    );
+    this.props.navigate("../lobby/rooms");
   }
 
   // 채팅 메세지 부분

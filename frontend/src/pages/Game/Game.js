@@ -208,7 +208,6 @@ export default function Game(props) {
           setCurrentMaxBet(content.gameMaxBet);
           setmainMessage(content.mission);
           setRaiseCnt(content.battingUnit);
-
           setTurn(content.turnIdx);
         }
 
@@ -551,6 +550,7 @@ export default function Game(props) {
           groundCard1={groundCard1}
           groundCard2={groundCard2}
           mainMessage={mainMessage}
+          navigate={navigate}
         />
       ) : null}
     </div>
