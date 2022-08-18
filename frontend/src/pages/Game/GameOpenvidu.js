@@ -518,7 +518,7 @@ class Gameroom extends Component {
               {/* 내가 게임 이길시*/}
               {/* <img src={ruby_win} className={styles.rubyWin}/> */}
               <div className={styles.info}>
-                <div className={styles.time}>{this.props.sec}초</div>
+                {/* <div className={styles.time}>{this.props.sec}초</div> */}
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
                   {this.props.win[0] ? <img src={ruby_win} className={styles.rubyWin} /> : null}
