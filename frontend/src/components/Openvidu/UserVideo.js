@@ -128,7 +128,9 @@ export default class UserVideoComponent extends Component {
         <div className={styles.info}>
           <div className={styles.userInfo}>
             <div className={styles.name}>{this.props.player.nickname}</div>
-            <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
+            <div className={styles.ruby}>
+              {this.props.player.myruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 루비
+            </div>
             {this.props.preaction.action ? (
               <div className={styles.speech_bubble}>
                 {this.props.preaction.action}
@@ -150,10 +152,10 @@ export default class UserVideoComponent extends Component {
             ) : null}
             {this.props.isStart && this.props.number == 0 ? (
               <div className={styles.card}>
-              <div className={styles.mybackcard}>
-                {/* 플레이어 카드 */}
-                <img src={card40} />
-              </div>
+                <div className={styles.mybackcard}>
+                  {/* 플레이어 카드 */}
+                  <img src={card40} />
+                </div>
               </div>
             ) : null}
 

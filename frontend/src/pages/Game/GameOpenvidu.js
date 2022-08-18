@@ -279,8 +279,6 @@ class Gameroom extends Component {
       });
       this.props.leavegame();
     }
-
-    
   }
 
   // 채팅 메세지 부분
@@ -347,6 +345,14 @@ class Gameroom extends Component {
       raise = parseInt(parseInt(raise) - parseInt(this.props.currentBetUnit));
     }
     this.props.setMyBetAmount(change, raise);
+  }
+
+  sendBetting(action) {
+    console.log(action);
+    this.props.sendBet(action);
+    this.setState({
+      raiseCnt: this.props.currentBetUnit,
+    });
   }
 
   render() {
@@ -517,10 +523,20 @@ class Gameroom extends Component {
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
               <div className={styles.betting}>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[0]}
+                >
                   다이
                 </button>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[1]}
+                >
                   콜({this.props.currentMaxBet - this.props.players[0].mytotalBet})
                 </button>
 
@@ -553,13 +569,20 @@ class Gameroom extends Component {
                   </div>
                   <button
                     className={styles.raise}
-                    onClick={this.props.sendBet}
+                    onClick={(action) => {
+                      this.sendBetting(action);
+                    }}
                     disabled={this.props.buttonDisable[2]}
                   >
                     레이즈
                   </button>
                 </div>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[3]}
+                >
                   올인
                 </button>
               </div>
