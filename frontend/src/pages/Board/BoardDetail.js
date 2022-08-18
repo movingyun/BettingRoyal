@@ -112,7 +112,7 @@ const BoardDetail = ({ isEdit }) => {
           "Content-Type": "application/json",
         },
         data: {
-          boardId: id,
+          boardId: boardId,
         },
       })
       .then((request) => {
