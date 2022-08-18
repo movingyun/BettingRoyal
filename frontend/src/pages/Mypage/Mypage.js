@@ -21,7 +21,7 @@ const Mypage = () => {
   const [nickname, setNickname] = useState();
   const [email, setEmail] = useState();
   const [gender, setGender] = useState();
-  const [ruby, setRuby] = useState();
+  const [ruby, setRuby] = useState(0);
   const [gameCnt, setGameCnt] = useState(0);
   const [gameWin, setGameWin] = useState(0);
   const [startDate, setStartDate] = useState();
@@ -156,13 +156,13 @@ const Mypage = () => {
     <div>
       <div className={styles.section}>
         <h3 className={styles.title}>
-          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }} />내 정보
+          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr: 0.5, mb: 0.4 }} />내 정보
         </h3>
         <hr />
         <div>닉네임 : {nickname}</div>
         <div>이메일 : {email}</div>
         <div>성별 : {gender}</div>
-        <div>보유 루비 : {ruby} 루비</div>
+        <div>보유 루비 : {ruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 루비</div>
         <div className={styles.btnList}>
           <button onClick={openModal} className={styles.btn}>
             금고
@@ -178,21 +178,22 @@ const Mypage = () => {
           </Modal>
           <button onClick={openModal3} className={styles.btn}>
             회원탈퇴
-      </button>
-      <Modal open={modalOpen3} close={closeModal3} header="회원 탈퇴">
-        <MyInfoDelete />
-      </Modal>
+          </button>
+          <Modal open={modalOpen3} close={closeModal3} header="회원 탈퇴">
+            <MyInfoDelete />
+          </Modal>
         </div>
       </div>
       <div className={styles.section}>
         <h3 className={styles.title}>
-          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }} />배지
+          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr: 0.5, mb: 0.4 }} />
+          배지
         </h3>
         <hr />
         <Box sx={{ display: "flex" }}>
           {myBadge.map((item, index) => (
             <Box
-              sx={{ mr: '15px'}}
+              sx={{ mr: "15px" }}
               className={item.badgeOwnIsUsing ? styles.myUsingBadge : styles.myUnUsingBadge}
             >
               <img
@@ -211,7 +212,8 @@ const Mypage = () => {
       </div>
       <div className={styles.sectionBottom}>
         <h3 className={styles.title}>
-          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr:0.5, mb:0.4 }} />통계
+          <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, mr: 0.5, mb: 0.4 }} />
+          통계
         </h3>
         <hr />
         <div>

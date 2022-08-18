@@ -549,7 +549,7 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
-              <div className={styles.betting}>
+              <div className={this.props.turn == 0 ? styles.betting : styles.unBetting}>
                 <button
                   onClick={(action) => {
                     this.sendBetting(action);
@@ -614,7 +614,7 @@ class Gameroom extends Component {
                 </button>
               </div>
             ) : (
-              <div className={styles.start}>
+              <div className={this.props.turn == 0 ? styles.start : styles.unStart}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
                   게임시작
                 </button>

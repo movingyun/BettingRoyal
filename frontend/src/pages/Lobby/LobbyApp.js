@@ -103,7 +103,7 @@ const mdTheme = createTheme();
 function NavbarContent(props) {
   const [title, setTitle] = useState(null);
   const [nickname, setNickname] = useState();
-  const [ruby, setRuby] = useState();
+  const [ruby, setRuby] = useState(0);
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -168,7 +168,7 @@ function NavbarContent(props) {
             <IconButton color="inherit">
               {/* <NotificationBell /> */}
               <Button onClick={logout} sx={lobbyStyles.logout}>
-                <LogoutRoundedIcon sx={{ fontSize: 20, mr:0.5}} />
+                <LogoutRoundedIcon sx={{ fontSize: 20, mr: 0.5 }} />
                 로그아웃
               </Button>
             </IconButton>
@@ -195,7 +195,7 @@ function NavbarContent(props) {
             </Box>
             <Box sx={lobbyStyles.infoRuby}>
               <img src={rubyicon} height="15" width="15" />
-              &nbsp;{ruby}&nbsp;루비
+              &nbsp;{ruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}&nbsp;루비
             </Box>
           </ListSubheader>
           <Box>
@@ -249,10 +249,10 @@ function NavbarContent(props) {
                   }}
                 >
                   <Routes>
-                    <Route path="rooms" element={<Rooms bgmState={props.bgmState}/>} />
+                    <Route path="rooms" element={<Rooms bgmState={props.bgmState} />} />
                     <Route path="mypage" element={<Mypage />} />
                     <Route path="notice/*" element={<Notice />} />
-                    <Route path="board/*" element={<Board />}/>
+                    <Route path="board/*" element={<Board />} />
                     <Route path="friend/*" element={<Friend />} />
                     <Route path="ranking" element={<Ranking />} />
                     <Route path="guild" element={<Guild />} />
@@ -272,5 +272,5 @@ function NavbarContent(props) {
 }
 
 export default function LobbyApp(props) {
-  return <NavbarContent bgmState={props.bgmState}/>;
+  return <NavbarContent bgmState={props.bgmState} />;
 }
