@@ -35,7 +35,7 @@ export default function Lobby(props) {
   const navigate = useNavigate();
   let sidemenu = (
     <ThemeProvider theme={dashboardTheme}>
-      <LobbyApp />
+      <LobbyApp bgmState={props.bgmState}/>
 
       {/* <Routes>
         <Route path="rooms" element={<Rooms />} />

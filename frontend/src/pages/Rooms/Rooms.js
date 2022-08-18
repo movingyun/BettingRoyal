@@ -126,8 +126,13 @@ export default function Rooms(props) {
             .then(function (response2) {
               //console.log(JSON.stringify(response))
               setOpen(false);
+              props.bgmState("false");
               navigate("/room", {
-                state: { roomId: response2.data.roomId, roomBetUnit: makeRoomBettingunit,roomTitle:response2.data.roomTitle },
+                state: {
+                  roomId: response2.data.roomId,
+                  roomBetUnit: makeRoomBettingunit,
+                  roomTitle: response2.data.roomTitle,
+                },
               });
             })
             .catch(function (error) {});
@@ -163,8 +168,13 @@ export default function Rooms(props) {
             } else if (roomresponse.data.roomIsClose) {
               alert("방이 닫혔습니다");
             } else {
+              props.bgmState("false");
               navigate("/room", {
-                state: { roomId: e, roomBetUnit: roomresponse.data.roomBettingUnit, roomTitle:roomresponse.data.roomTitle },
+                state: {
+                  roomId: e,
+                  roomBetUnit: roomresponse.data.roomBettingUnit,
+                  roomTitle: roomresponse.data.roomTitle,
+                },
               });
             }
           })

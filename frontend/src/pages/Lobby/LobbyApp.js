@@ -100,7 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 
 const mdTheme = createTheme();
 
-function NavbarContent() {
+function NavbarContent(props) {
   const [title, setTitle] = useState(null);
   const [nickname, setNickname] = useState();
   const [ruby, setRuby] = useState();
@@ -249,7 +249,7 @@ function NavbarContent() {
                   }}
                 >
                   <Routes>
-                    <Route path="rooms" element={<Rooms />} />
+                    <Route path="rooms" element={<Rooms bgmState={props.bgmState}/>} />
                     <Route path="mypage" element={<Mypage />} />
                     <Route path="notice/*" element={<Notice />} />
                     <Route path="board/*" element={<Board />}/>
@@ -271,6 +271,6 @@ function NavbarContent() {
   );
 }
 
-export default function LobbyApp() {
-  return <NavbarContent />;
+export default function LobbyApp(props) {
+  return <NavbarContent bgmState={props.bgmState}/>;
 }

@@ -116,7 +116,6 @@ class Gameroom extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
-    this.leaveSession();
   }
 
   onbeforeunload(event) {
