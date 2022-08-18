@@ -68,17 +68,23 @@ export default class UserVideoComponent extends Component {
   //     console.log(event)
   // }
 
-  classExpression(expression) {
-    if (expression >= 75) {
-      return styles.td1;
-    } else if (expression >= 50) {
-      return styles.td2;
-    } else if (expression >= 25) {
-      return styles.td3;
-    } else {
-      return styles.td4;
+  classExpression(expression, emotion) {
+    if (emotion === "평온") {
+        return styles.td4
     }
-  }
+    if(expression >= 75) {
+        return styles.td1
+    }
+    else if (expression >= 50) {
+        return styles.td2
+    }
+    else if (expression >= 25) {
+        return styles.td3
+    }
+    else {
+        return styles.td4
+    }
+}
 
   // 감정 불러와 dictionary sort
   updateExpressions = (event) => {
@@ -175,27 +181,21 @@ export default class UserVideoComponent extends Component {
 
             <div className={styles.status}>{this.props.player.myPair}</div>
             <div className={styles.emotion}>
-              <table>
-                <tr>
-                  <td className={this.classExpression(Math.floor(this.state.top1value * 100))}>
-                    {this.state.top1Emotion}
-                  </td>
-                  <td>{Math.floor(this.state.top1value * 100)}%</td>
-                </tr>
-                <tr>
-                  <td className={this.classExpression(Math.floor(this.state.top2value * 100))}>
-                    {this.state.top2Emotion}
-                  </td>
-                  <td>{Math.floor(this.state.top2Value * 100)}%</td>
-                </tr>
-                <tr>
-                  <td className={this.classExpression(Math.floor(this.state.top3value * 100))}>
-                    {this.state.top3Emotion}
-                  </td>
-                  <td>{Math.floor(this.state.top3Value * 100)}%</td>
-                </tr>
-              </table>
-            </div>
+                            <table>
+                                <tr>
+                                    <td className={this.classExpression(Math.floor(this.state.top1value*100), this.state.top1Emotion)}>{this.state.top1Emotion}</td>
+                                    <td>{Math.floor(this.state.top1value*100)}%</td>
+                                </tr>
+                                <tr>
+                                    <td className={this.classExpression(Math.floor(this.state.top2value*100), this.state.top2Emotion)}>{this.state.top2Emotion}</td>  
+                                    <td>{Math.floor(this.state.top2Value*100)}%</td>   
+                                </tr>
+                                <tr>
+                                    <td className={this.classExpression(Math.floor(this.state.top3value*100), this.state.top3Emotion)}>{this.state.top3Emotion}</td>  
+                                    <td>{Math.floor(this.state.top3Value*100)}%</td>    
+                                </tr>
+                            </table>
+                        </div>
           </div>
         </div>
       </div>
