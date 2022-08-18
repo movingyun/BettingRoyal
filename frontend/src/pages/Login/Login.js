@@ -19,7 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide(props) {
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -28,6 +28,7 @@ export default function SignInSide() {
   //     password: data.get('password'),
   //   });
   // };
+
 
   const navigate = useNavigate();
 
