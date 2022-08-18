@@ -68,7 +68,7 @@ export default class UserVideoComponent extends Component {
 
   // 감정 불러와 dictionary sort
   updateExpressions = (event) => {
-    console.log(event);
+    // console.log(event);
     const Emotions = {
       angry: "화남",
       disgusted: "역함",
@@ -100,7 +100,7 @@ export default class UserVideoComponent extends Component {
         top3Value: items[4][1],
       },
       () => {
-        console.log(this.state.expressions);
+        // console.log(this.state.expressions);
         // console.log(this.state.expressions[6][0])
         // console.log(this.state.expressions[6][1])
       }
