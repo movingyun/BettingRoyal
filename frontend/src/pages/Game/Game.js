@@ -207,6 +207,7 @@ export default function Game(props) {
           setGroundCard2(content.groundCardNum2);
           setCurrentMaxBet(content.gameMaxBet);
           setmainMessage(content.mission);
+          setRaiseCnt(content.battingUnit);
 
           setTurn(content.turnIdx);
         }
