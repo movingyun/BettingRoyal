@@ -15,7 +15,7 @@
 ### 게임
 <img src="./docs/game.webp" width="600"> 
 
-### win
+### 게임에서 이겼을 때
 <img src="./docs/win.webp" width="600"> 
 
 ### 게시판
