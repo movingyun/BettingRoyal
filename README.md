@@ -79,7 +79,8 @@
 
 
 ### 화면 설계서 
-![image](https://user-images.githubusercontent.com/56749776/185520252-dbc7307b-268a-4edc-a337-c0b588279785.png)
+<img src="https://user-images.githubusercontent.com/56749776/185520252-dbc7307b-268a-4edc-a337-c0b588279785.png" width="600" height="500">
+
 
 ### Git 컨벤션
 - Feat : 새로운 기능 추가 (넓은 개념)
@@ -104,11 +105,12 @@ ex) 회원가입 기능
 ```
 
 ### Jira
-![image](https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png)
-![image](https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png)
+<img src="https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png" width="600" height="450">
+<img src="https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png" width="600" height="450">
+
 
 ### ERD
-![image](https://user-images.githubusercontent.com/56749776/185520712-9886453e-f13a-47d7-b891-5df452c2770b.png)
+<img src="https://user-images.githubusercontent.com/56749776/185520712-9886453e-f13a-47d7-b891-5df452c2770b.png" width="600" height="500">
 
 
 ### EC2 포트 정리
@@ -125,4 +127,4 @@ ex) 회원가입 기능
 
 
 ### 팀원 역할
-![image](https://user-images.githubusercontent.com/56749776/185519803-50f08ece-e0d3-47f2-93ba-bd822524a42e.png)
+<img src="https://user-images.githubusercontent.com/56749776/185519803-50f08ece-e0d3-47f2-93ba-bd822524a42e.png" width="600" height="400">
