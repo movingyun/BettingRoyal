@@ -105,8 +105,8 @@ ex) 회원가입 기능
 ```
 
 ### Jira
-<img src="https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png" width="600" height="450">
-<img src="https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png" width="600" height="450">
+<img src="https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png" width="500" height="400">
+<img src="https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png" width="500" height="400">
 
 
 ### ERD
