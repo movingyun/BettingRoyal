@@ -1,0 +1,135 @@
+.createBtn {
+    font-size: large;
+    background-color: #f7f3e9;
+    color: #A27B5C;
+    border: none;
+    padding: 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 150px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.createBtn:hover {
+  background-color: #DCD7C9;
+  color: #A27B5C;
+}
+
+.okBtn {
+  font-size: medium;
+  background-color: #2C3639;
+  color: #DCD7C9;
+  border: none;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50px;
+  width: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+}
+
+.okBtn:hover {
+background-color: #A27B5C;
+}
+
+.createModal{
+  padding: 30px;
+  width: 350px;
+  text-align: center;
+}
+
+.modalTitle{
+  font-size: 28px;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  color: #2C3639;
+}
+
+.modalExplain{
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  color: #A27B5C;
+}
+
+.modalInput{
+  width: 100%;
+  /* background-color: aqua; */
+  margin-top: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.modalField{
+  width: 90%;
+  margin-bottom: 10px;
+  /* background-color: #2C3639; */
+}
+
+.roomNo{
+  /* font-size: small; */
+  /* margin: 0;
+  padding: 0; */
+  display: inline-block;
+  background-color: #2C3639;
+  color: #DCD7C9;
+  font-weight: 400;
+  padding: 4px 8px 4px 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.roomName{
+  font-size: 25px;
+  font-weight: 600;
+  padding: 0;
+  display: inline-block;
+  color: #2C3639;
+}
+
+.roomIcon{
+  font-size: 25px;
+  float: right;
+  display: inline-block;
+  margin-top: 5px;
+  color: #2C3639;
+}
+
+.roomDiv{
+  margin: 13px 0px 6px 0px;;
+}
+.roomBot{
+  color: #2C3639;
+}
+
+.betRuby{
+  display: inline-block;
+  
+}
+
+.peopleNum{
+  display: inline-block;
+  float: right;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.page {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.pageDiv {
+  text-align: center;
+}

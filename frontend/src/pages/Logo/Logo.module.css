@@ -4,8 +4,10 @@
     width: 100%;        
     height: 100%;
     display: table;
+    /* animation-name: vanishIn;
+    animation-duration: 1.5s; */
 }
-
+  
 .mainframe {
     width:100vh;
     margin: 0 auto;
@@ -15,45 +17,49 @@
 }
 
 .parent {
-    margin-bottom: 20vh;
-    height: 8em; /* 애니메이션 높이 */
+    margin-bottom: 15vh;
+    height: 35vh;
     overflow-y: hidden;
     display: block;
+    position: relative;
+    overflow-x: hidden
 }
-.parent .child {
-    font-family: 'Times New Roman', Times, serif ;
-    color: #2C3639;
-    font-size: 8em;/* 애니메이션 높이 */
-    line-height: 1;
+.parent .child_betting {
+    position: absolute;
     animation-name: grow;
     animation-duration: 1.5s;/* 애니메이션 시간 */
 }
-/* 키프레임 애니메이션 */
-@keyframes grow {
-    from { transform: translateY(3em) }/* 애니메이션 높이 */
-    to { transform: translateY(0) }
+
+.parent .child_betting > img {
+    width: 55%;
+}
+
+.parent .child_royal {
+    position: absolute;
+    overflow-x: hidden;
+    animation-name: opacity, swipe;
+    animation-delay: 0s, 0.5s;
+    animation-duration: 0.5s, 3s;
+}
+
+.parent .child_royal > img {
+    width: 55%;
+    overflow-x: hidden
 }
 
 .explan {
+    margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
-    color: #2C3639;
+    color: #A27B5C;
     font-size: 25px;
-    animation-name: fadeIn;
-    animation-duration: 1.5s;/* 애니메이션 시간 */
+    animation-name: opacity, fadeIn;
+    animation-delay: 0s, 2.5s;
+    animation-duration: 2.5s, 1.5s;/* 애니메이션 시간 */
 }
 
-@keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
 .button {
-    font-size: 15px;
+    font-size: medium;
     background-color: #2C3639;
     color: #DCD7C9;
     border: none;
@@ -61,7 +67,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin: 4px auto;
+    margin: 5px;
     cursor: pointer;
     border-radius: 50px;
     width: 250px;
@@ -71,5 +77,59 @@
 
 .button:hover{
     background-color: #A27B5C;
-    color: #DCD7C9;
+}
+
+.BGMbutton {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background-color:transparent;
+    border: none;
+    color: #2C3639;
+}
+
+.BGMbutton:hover {
+    color: #A27B5C;
+}
+
+
+@keyframes grow {
+    0% {
+        transform: translateY(15vh);
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        
+    }
+}
+
+@keyframes swipe {
+    0% {
+        clip: rect(0vh, -100vw, 100vh, -100vw);
+    }
+    100% {
+        clip: rect(0vh, 100vw, 100vh, -100vw);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+@keyframes opacity {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0;
+    }
 }

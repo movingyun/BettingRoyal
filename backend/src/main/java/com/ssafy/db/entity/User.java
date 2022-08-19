@@ -42,20 +42,20 @@ public class User {
     @Column(name = "userNickname" )
     private String userNickname;
 
-    @Column(name = "userRuby", columnDefinition = "INT(11)")
+    @Column(name = "userRuby", columnDefinition = "INT(11) DEFAULT 300")
     private Integer userRuby;
 
     @ApiModelProperty(value = "금고", example = "금고 제한 루비에 따라 변경")
-    @Column(name = "userVault", columnDefinition = "INT(11)")
+    @Column(name = "userVault", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userVault;
 
     @Column(name = "userGuild", columnDefinition = "INT(11)")
     private Integer userGuild;
 
-    @Column(name = "userGameCount", columnDefinition = "INT(11)")
+    @Column(name = "userGameCount", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userGameCount;
 
-    @Column(name = "userWin", columnDefinition = "INT(11)")
+    @Column(name = "userWin", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userWin;
 
     @Column(name = "userGender", nullable = false, length = 1,
@@ -77,7 +77,7 @@ public class User {
     private Date userRecent;
 
     @ApiModelProperty(value = "연속접속일")
-    @Column(name = "userRow", columnDefinition = "INT(11)")
+    @Column(name = "userRow", columnDefinition = "INT(11) DEFAULT 0")
     private Integer userRow;
 
     @ApiModelProperty(value =  "0: 유저, 1: 관리자", allowableValues = "0, 1")
@@ -85,11 +85,12 @@ public class User {
             columnDefinition = "CHAR(1) DEFAULT '0'")
     private String userType;
 
-    @ApiModelProperty(value = "활성화 여부")
-    @Column(name = "userIsActive")
-    private boolean userIsActive;
+    @ApiModelProperty(value = "회원 탈퇴 여부")
+    @Column(name = "userIsActive", columnDefinition = "INT(1) DEFAULT 1")//columnDefinition = "boolean DEFAULT true")
+    private Integer userIsActive;
 
-    //////////////////////////////////////////
-    // 다중성인 엔티티 관계는 그때그때 생성하는걸로 함. 너무 많...
+    @ManyToOne //객체관계 생성 -> 하나의 티어를 여러 유저가 사용 가능
+    @JoinColumn(name="tierId")
+    private Tier tier;
 
 }

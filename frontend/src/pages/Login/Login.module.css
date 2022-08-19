@@ -15,7 +15,7 @@
 
 .borderBox {
     /* width : 30vw; */
-    height: 80vh;
+    /* height: 80vh; */
     /* margin: 10vh auto; */
     background-color: #FFFFFF;
     border-radius: 18px;
@@ -25,9 +25,9 @@
 }
 
 .button {
-    margin-top: 9vh;
-    margin-bottom: 8vh;
-    font-size: 15px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: medium;
     background-color: #2C3639;
     color: #DCD7C9;
     border: none;
@@ -61,13 +61,26 @@
 .ico{
     display: inline-block;
     color: #2C3639;
+    margin-top: 20px;
 }
 
 .title {
     margin: 0 auto;
-    margin-bottom: 8vh;
+    margin-bottom: 40px;
     font-family: 'Times New Roman', Times, serif ;
     color: #2C3639;
     font-size: 30px;
 }
 
+.read{
+    color : #A27B5C;
+    font-size: small;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    margin: 0;
+}
+
+.botGrid{
+    margin-bottom: 20px;
+
+}

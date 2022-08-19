@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@DynamicInsert
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +41,11 @@ public class Board {
     @Column(name = "boardContent", columnDefinition = "TEXT")
     private String boardContent;
 
-    @Column(name = "boardHit", columnDefinition = "INT(11)")
+    @Column(name = "boardHit", columnDefinition = "INT(11) DEFAULT 0")
     private Integer boardHit;
 
-    @Column(name = "boardLike", columnDefinition = "INT(11)")
+    @Column(name = "boardLike", columnDefinition = "INT(11) DEFAULT 0")
     private Integer boardLike;
+
 
 }

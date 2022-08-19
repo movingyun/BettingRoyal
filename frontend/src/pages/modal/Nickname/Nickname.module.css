@@ -1,0 +1,47 @@
+.bg {
+    background-color: #f7f3e9;
+    padding: 7px;
+    padding-left: 20px;
+    border-radius: 30px;
+    font-weight: 500;
+}
+
+.contents{
+    margin-top: 25px;
+    text-align: center
+}
+
+.read {
+    color: #A27B5C;
+    font-weight: 500;
+}
+
+.field {
+    width: 60%;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.btn {
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 5px;
+    border: none;
+    padding: 3px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #3F4E4F;
+    margin-right: 10px;
+    color: #DCD7C9;
+    width: 80px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.btn:hover {
+    background-color: #A27B5C;
+    color: #DCD7C9;
+};
+  
+.btn:focus {
+    background-color: #A27B5C;
+    color: #DCD7C9;
+};

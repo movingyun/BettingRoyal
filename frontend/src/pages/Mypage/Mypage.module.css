@@ -1,0 +1,62 @@
+.section{
+  background-color: #f7f3e9;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.sectionBottom{
+  background-color: #f7f3e9;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.title{
+  font-size: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: #3F4E4F;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+.btn {
+  font-family: 'Noto Sans KR', sans-serif;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  background-color: #DCD7C9;
+  margin-right: 10px;
+  color: #A27B5C;
+  /* width: 100px; */
+  padding: 3px 15px 3px 15px;
+}
+
+.btn:hover {
+  background-color: #A27B5C;
+  color: #DCD7C9;
+};
+
+.btn:focus {
+  background-color: #A27B5C;
+  color: #DCD7C9;
+};
+
+.myUsingBadge {
+}
+
+.myUnUsingBadge{
+  border-radius: 10px;
+  opacity: 40%;
+}
+
+.imgBadge{
+  background-color: #DCD7C9;
+  border-radius: 10px;
+  padding: 10px;
+}

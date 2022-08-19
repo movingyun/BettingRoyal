@@ -24,6 +24,8 @@ public class QVaultLog extends EntityPathBase<VaultLog> {
 
     public final QUser user;
 
+    public final NumberPath<Integer> userBalance = createNumber("userBalance", Integer.class);
+
     public final NumberPath<Integer> vaultBalance = createNumber("vaultBalance", Integer.class);
 
     public final DateTimePath<java.util.Date> vaultLogDate = createDateTime("vaultLogDate", java.util.Date.class);
@@ -50,7 +52,7 @@ public class QVaultLog extends EntityPathBase<VaultLog> {
 
     public QVaultLog(Class<? extends VaultLog> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

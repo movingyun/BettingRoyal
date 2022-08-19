@@ -26,6 +26,8 @@ public class QRoom extends EntityPathBase<Room> {
 
     public final NumberPath<Integer> roomId = createNumber("roomId", Integer.class);
 
+    public final NumberPath<Integer> roomInCnt = createNumber("roomInCnt", Integer.class);
+
     public final BooleanPath roomIsClose = createBoolean("roomIsClose");
 
     public final BooleanPath roomIsStart = createBoolean("roomIsStart");
@@ -54,7 +56,7 @@ public class QRoom extends EntityPathBase<Room> {
 
     public QRoom(Class<? extends Room> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

@@ -1,0 +1,75 @@
+.title {
+  font-size: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: #3F4E4F;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.btn {
+  font-size: medium;
+  background-color: #2C3639;
+  color: #DCD7C9;
+  border: none;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50px;
+  width: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.btn:hover {
+background-color: #A27B5C;
+}
+
+.back{
+  cursor: pointer;
+  font-size: medium;
+  display: inline-block;
+}
+
+.back:hover{
+  color: #A27B5C;
+}
+
+.smallBtn{
+  display: inline-block;
+  float: right;
+  font-family: 'Noto Sans KR', sans-serif;
+  border-radius: 5px;
+  border: none;
+  padding: 3px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #DCD7C9;
+  color: #A27B5C;
+  width: 60px;
+  margin-left: 10px;
+}
+
+
+.smallBtn:hover {
+  background-color: #A27B5C;
+  color: #DCD7C9;
+};
+
+.postInfo{
+  font-size: medium;
+}
+
+
+.infoLeft{
+  display: inline-block;
+}
+
+
+.infoRignt{
+  display: inline-block;
+  float: right;
+}

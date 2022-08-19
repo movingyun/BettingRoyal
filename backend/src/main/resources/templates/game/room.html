@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{room.roomTitle}}</title>
+    <script src="/webjars/jquery/3.3.1/dist/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+  </head>
+  <body>
+    <h1>{{room.roomTitle}}({{room.roomId}})</h1>
+
+    <div class="content" data-room-id="{{room.roomId}}">
+      <ul class="game_box"></ul>
+      <input name="nickname" /> <input name="message" />
+      <button class="send">보내기</button>
+    </div>
+    <div>
+      <button class="start">게임시작</button>
+    </div>
+    <div>
+      <button class="call">콜</button>
+      <input name="raise" />
+      <button class="raise">레이즈</button>
+      <button class="die">다이</button>
+      <button class="allin">올인</button>
+    </div>
+    <script>
+      $(function () {
+        var gameBox = $(".game_box");
+        var nicknameInput = $('input[name="nickname"]');
+        var messageInput = $('input[name="message"]');
+        var raiseInput = $('input[name="raise"]');
+        var sendBtn = $(".send");
+        var startBtn = $(".start");
+        var callBtn = $(".call");
+        var raiseBtn = $(".raise");
+        var dieBtn = $(".die");
+        var allinBtn = $(".allin");
+        var roomId = $(".content").data("room-id");
+        var sock = new SockJS("/stomp-game");
+        var client = Stomp.over(sock);
+        client.debug = function (e) {};
+        console.log(client);
+
+        client.connect({}, function () {
+          client.send(
+            "/pub/game/message",
+            {},
+            JSON.stringify({
+              roomId: roomId,
+              senderNickName: "string",
+              type: "ENTER",
+            })
+          );
+
+          //공통 메시지를 받으면
+          client.subscribe("/sub/game/room" + roomId, function (message) {
+            //content에 받은 메시지의 body값을 넣어준다.
+            //content.type, content.message등으로 사용 가능
+            var content = JSON.parse(message.body);
+            console.log(content.type);
+
+            //사람이 들어왔을 때
+            if (content.type == "ENTER") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //게임이 시작됐을 때
+            if (content.type == "START") {
+              //console.log("게임시작하자" + content.message)
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //그라운드 카드 받을 때
+            if (content.type == "GROUNDCARD") {
+              //console.log("그라운드카드 받아라~" + content.message)
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //기본 배팅 하자
+            if (content.type == "UNITBETTING") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "GAMEEND") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+
+
+          });
+
+          //개인 메시지를 받으면
+          client.subscribe("/user/sub/game/room" + roomId, function (message) {
+            var content = JSON.parse(message.body);
+
+            //사람이 들어왔을 때
+            if (content.type == "ENTER") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //사람이 나갔을 때
+            if (content.type == "EXIT") {
+              console.log(content);
+              gameBox.append("<li>" + content.message + "</li>");
+            }
+
+            //개인 카드 받기
+            if (content.type == "GETMYCARD") {
+              //무슨 카드를 받았나?
+              gameBox.append("<li>" + content.message + "</li>");
+              if(content.turnIdx==0){
+                gameBox.append("<li>" + "당신이 베팅할 차례입니다." + "</li>");
+              }
+              console.log(content);
+            }
+
+            //첫 배팅하기
+            if (content.type == "NEXTTURN") {
+              console.log(content);
+              gameBox.append("<li>" + content.playerInfo[(content.turnIdx+2)%3].nickname + " : " + content.message + "</li>");
+              if(content.turnIdx==0){
+                gameBox.append("<li>" + "당신이 베팅할 차례입니다. / 현재 총 베팅금액 : "+ content.gameTotalBet + " / 콜 비용 : " +
+                        (content.gameMaxBet - content.playerInfo[0].mytotalBet) + "</li>");
+              }
+            }
+
+            //게임이 끝났을 때
+            if (content.type == "GAMEEND") {
+              console.log(content);
+              gameBox.append("<li>" +  "플레이어 베팅 : " + content.message + "</li>");
+              gameBox.append("<li>" + "게임이 끝났습니다" + "</li>");
+              gameBox.append("<li>" + "승리 : " + content.playerInfo[content.winnerIdx].nickname + "/ 획득 루비 : " + (content.gameTotalBet-content.gameMaxBet) + "</li>");
+            }
+
+
+          });
+        });
+
+        sendBtn.click(function () {
+          console.log("보내기 눌렀다.--------");
+          var content = messageInput.val();
+          var nickname = nicknameInput.val();
+          client.send(
+            "/pub/game/message",
+            {},
+            JSON.stringify({
+              roomId: roomId,
+              message: content,
+              sender: nickname,
+            })
+          );
+          messageInput.val("");
+        });
+
+        startBtn.click(function () {
+          console.log("게임 시작됐다!!");
+          //gameBox.append("<li> 게임이 시작되었습니다. </li>");
+          client.send(
+            "/pub/game/message",
+            {},
+            JSON.stringify({
+              roomId: roomId,
+              message: "",
+              sender: "",
+              type: "START",
+            })
+          );
+        });
+
+        callBtn.click(function () {
+          console.log("콜 버튼이 눌렸다");
+          client.send(
+            "/pub/game/message",
+            {},
+            JSON.stringify({
+              roomId: roomId,
+              message: "",
+              sender: "",
+              type: "CALL",
+            })
+          );
+        });
+
+        raiseBtn.click(function () {
+          console.log("레이즈 버튼이 눌렸다");
+          var raiseCnt = raiseInput.val();
+          client.send(
+            "/pub/game/message",
+            {},
+            JSON.stringify({
+              roomId: roomId,
+              message: raiseCnt,
+              sender: "",
+              type: "RAISE",
+            })
+          );
+        });
+
+
+        dieBtn.click(function () {
+          console.log("다이 버튼이 눌렸다");
+          client.send(
+                  "/pub/game/message",
+                  {},
+                  JSON.stringify({
+                    roomId: roomId,
+                    message: "",
+                    sender: "",
+                    type: "DIE",
+                  })
+          );
+        });
+
+        allinBtn.click(function () {
+          console.log("올인 버튼이 눌렸다");
+          client.send(
+                  "/pub/game/message",
+                  {},
+                  JSON.stringify({
+                    roomId: roomId,
+                    message: "",
+                    sender: "",
+                    type: "ALLIN",
+                  })
+          );
+        });
+
+
+
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

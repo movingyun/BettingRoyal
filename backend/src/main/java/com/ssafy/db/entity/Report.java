@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@DynamicInsert
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class Report {
             columnDefinition = "INT(11)")
     private Integer reportId;
 
-    @ManyToOne //객체관계 생성 -> 한명의 유저는 여러개의 게시글 작성 가능
+    @ManyToOne //객체관계 생성 -> 한명의 유저는 여러개의 신고 가능
     @JoinColumn(name="reportUserId")
     private User user;
 

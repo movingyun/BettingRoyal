@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@DynamicInsert
 public class Ranking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +35,8 @@ public class Ranking {
     @Column(name = "rankingUserRuby", columnDefinition = "INT(11)")
     private Integer rankingUserRuby;
 
-    @Column(name = "rankingUserGuild", length = 100)
-    private String rankingUserGuild;
+    @Column(name = "rankingUserTotal", length = 100)
+    private String rankingUserTotal;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)

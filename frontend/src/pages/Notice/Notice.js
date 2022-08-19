@@ -1,11 +1,13 @@
-import React from "react"
+import { Routes, Route, Link } from "react-router-dom";
+import NoticeList from "./NoticeList";
+import NoticeDetail from "./NoticeDetail";
 
-const Notice = () => {
+
+export default function Notice() {
     return (
-        <div style={{marginLeft: '500px'}}>
-        공지사항
-        </div>
-    )
+    <Routes>
+        <Route path="/" element={<NoticeList />} />
+        <Route path="detail" element={<NoticeDetail />} />
+    </Routes>
+    );
 }
-
-export default Notice
