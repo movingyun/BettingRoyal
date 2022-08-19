@@ -10,7 +10,7 @@
 # Betting Royal 서비스 화면
 
 ### 회원가입 및 로그인
-<img src="./docs/login.webp" width="1000"> 
+<img src="./docs/login.webp" width="600"> 
 
 #  주요 기능
 
@@ -71,8 +71,8 @@
 
 
 ### 요구 사항 정의서
-<img src="https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png" width="600" height="400">
-<img src="https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png" width="600" height="400">
+<img src="https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png" width="600" height="500">
+<img src="https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png" width="600" height="500">
 
 ### 마일스톤
 <img src="https://user-images.githubusercontent.com/56749776/185520326-3b83b272-9c20-4f2e-824a-997040bc662d.png" width="600" height="650">
