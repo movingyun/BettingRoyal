@@ -1,5 +1,7 @@
 # ♣ Betting Royal
-온라인 화상 심리 카드 게임 
+### 온라인 화상 심리 카드 게임 
+<img src="https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png" width="200" height="400">
+
 ![image](https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png)
 
 #  Overview
