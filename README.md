@@ -13,19 +13,19 @@
 <img src="./docs/login.webp" width="600"> 
 
 ### 게임
-<img src="./docs/게임.webp" width="600"> 
+<img src="./docs/game.webp" width="600"> 
 
 ### win
 <img src="./docs/win.webp" width="600"> 
 
 ### 게시판
-<img src="./docs/게시판.webp" width="600"> 
+<img src="./docs/board.webp" width="600"> 
 
 ### 금고
-<img src="./docs/금고.webp" width="600"> 
+<img src="./docs/vault.webp" width="600"> 
 
 ### 친구
-<img src="./docs/친구.webp" width="600"> 
+<img src="./docs/friend.webp" width="600"> 
 
 
 #  주요 기능
