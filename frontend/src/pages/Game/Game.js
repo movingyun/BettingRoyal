@@ -80,7 +80,7 @@ export default function Game(props) {
   let roomId = location.state.roomId; //방 컴포넌트에 roomid 포함
   let roomBetUnit = location.state.roomBetUnit;
   let roomTitle = location.state.roomTitle;
-  var sock = new sockjs("http://localhost:8080/stomp-game");
+  var sock = new sockjs("https://i7a404.p.ssafy.io/stomp-game");
   let stomp = stompjs.over(sock);
 
   const startButton = new Audio("./Audio/StartButton.mp3");
