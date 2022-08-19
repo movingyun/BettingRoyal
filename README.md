@@ -1,20 +1,20 @@
 develop init
-
-<img src="./docs/login.webp" width="1000"> 
-
-
-
-# Project Title
-
 # Betting Royal
 온라인 화상 심리 카드 게임 
+![image](https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png)
 
 #  Overview
 상대의 모습이 보이지 않아 정확하게 심리를 파악하기 어려운 기존의 온라인 카드게임은 이제 그만!
 
 온라인으로 실제와 같은 카드게임을 시작하세요!
 
+# Betting Royal 서비스 화면
+
+### 회원가입 및 로그인
+<img src="./docs/login.webp" width="1000"> 
+
 #  주요 기능
+
 ### 서비스 소개
 최후의 1인을 가리는 일러미네이션 매치, 배틀로얄
       X
@@ -67,3 +67,65 @@ develop init
 - 커뮤니케이션 : Notion, MatterMost, Webex
 
 ### 서비스 아키텍처
+
+![image](https://user-images.githubusercontent.com/56749776/185519575-74973bc4-0ed0-4361-b499-7f8278b474b9.png)
+
+
+### 요구 사항 정의서
+![image](https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png)
+![image](https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png)
+
+### 소켓 명세서
+![image](https://user-images.githubusercontent.com/56749776/185520375-978145ad-eb54-423c-bd7d-e24fbdcd421f.png)
+
+### 마일스톤
+![image](https://user-images.githubusercontent.com/56749776/185520326-3b83b272-9c20-4f2e-824a-997040bc662d.png)
+
+### 화면 설계서 
+![image](https://user-images.githubusercontent.com/56749776/185520252-dbc7307b-268a-4edc-a337-c0b588279785.png)
+
+### Git 컨벤션
+- Feat : 새로운 기능 추가 (넓은 개념)
+- Fix : 버그 수정
+- Design : css 등 UI 디자인 변경
+- Add : 코드, 테스트, 예제, 문서 등 추가 생성 (좁은 개념)
+- Delete : 코드 삭제
+- Rename : 이름 변경, 위치 옮기는 작업
+- Refactor : 코드 전면 수정
+- Test : 테스트 코드 추가, 테스트 코드 리팩토링
+
+### 커밋타입
+- 명령어로 작성한다.
+- 백앤드 [BE]와 프론트앤드 [FE] 구분
+```
+[Category] Type : subject
+
+ex) 회원가입 기능
+
+- 프론트 - [FE] Feat : Join in
+- 백 - [BE] Feat : Join in
+```
+
+### Jira
+![image](https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png)
+![image](https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png)
+
+### ERD
+![image](https://user-images.githubusercontent.com/56749776/185520712-9886453e-f13a-47d7-b891-5df452c2770b.png)
+
+
+### EC2 포트 정리
+| 8443 | openvidu server |
+| --- | --- |
+| 8081 | openvidu server |
+| 80 | nginx HTTP 기본 포트 |
+| 443 | nginx HTTPS |
+| 8888 | kurento media server |
+| 3478 | docker proxy |
+| 3306 | mysql |
+| 3001 | react app |
+| 8080 | Spring boot |
+
+
+### 팀원 역할
+![image](https://user-images.githubusercontent.com/56749776/185519803-50f08ece-e0d3-47f2-93ba-bd822524a42e.png)
