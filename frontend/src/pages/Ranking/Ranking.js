@@ -17,22 +17,21 @@ import gold from "../../images/icon/gold-medal.png";
 import silver from "../../images/icon/silver-medal.png";
 import bronze from "../../images/icon/bronze-medal.png";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const useStyles = makeStyles({
   grid: {
     fontFamily: "'Noto Sans KR', sans-serif",
-    fontSize: '16px',
-    fontWeight: '400',
+    fontSize: "16px",
+    fontWeight: "400",
   },
   rank: {
     color: "#A27B5C",
-    fontSize: '18px',
+    fontSize: "18px",
   },
 });
 
 export default function Ranking(props) {
-
   const styles = useStyles();
 
   const [rows, setRows] = useState("");
@@ -61,17 +60,17 @@ export default function Ranking(props) {
       headerAlign: "center",
       align: "center",
       cellClassName: (params) => {
-        return clsx('super-app', {
+        return clsx("super-app", {
           colored: params.row.id === 1,
         });
       },
       renderCell: (params) => (
-      <div className={styles.rank}>
-        {params.row.id === 1 && <img src={gold} height="25"/>} 
-        {params.row.id === 2 && <img src={silver} height="25"/>} 
-        {params.row.id === 3 && <img src={bronze} height="25"/>} 
-        {params.row.id > 3 && <div>{params.row.id}</div>} 
-      </div>
+        <div className={styles.rank}>
+          {params.row.id === 1 && <img src={gold} height="25" />}
+          {params.row.id === 2 && <img src={silver} height="25" />}
+          {params.row.id === 3 && <img src={bronze} height="25" />}
+          {params.row.id > 3 && <div>{params.row.id}</div>}
+        </div>
       ),
     },
     // {
@@ -106,7 +105,11 @@ export default function Ranking(props) {
       renderCell: (params) => (
         <div>
           <img src={rubyicon} height="16" width="16" />
-          &nbsp;{params.row.ruby}&nbsp;루비
+          &nbsp;
+          {params.row.ruby == null
+            ? params.row.ruby
+            : params.row.ruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          &nbsp;루비
         </div>
       ),
     },
@@ -118,18 +121,22 @@ export default function Ranking(props) {
       editable: false,
       headerAlign: "center",
       align: "center",
-     
     },
   ];
 
   let roomsdummy = (
     <Grid>
-      <Box sx={{ height: 631, width: "100%",
-        '& .super-app.colored': {
-          // backgroundColor: 'aqua',
-        },
-        }}>
-        <DataGrid className={styles.grid}
+      <Box
+        sx={{
+          height: 631,
+          width: "100%",
+          "& .super-app.colored": {
+            // backgroundColor: 'aqua',
+          },
+        }}
+      >
+        <DataGrid
+          className={styles.grid}
           rows={rows}
           columns={columns}
           pageSize={10}

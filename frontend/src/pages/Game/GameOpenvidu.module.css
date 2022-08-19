@@ -341,6 +341,57 @@
     color: #DCD7C9;
 }
 
+.unBetting {
+    /* display: grid;
+    grid-template-columns: repeat(3, 1fr); */
+    grid-row: 6 / 7;
+    grid-column: 2 / 4;
+    padding-bottom: 15px;
+    margin-top: 5px;
+    padding-top: 15px;
+    background-color: #3F4E4F;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-left: 15px;
+}
+
+.unBetting > button{
+    margin-right: 15px;
+    font-size: 25px;
+    background-color: #2C3639;
+    color: #DCD7C9;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: default;
+    opacity: 0.5;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.unBetting > div > button{
+    margin-right: 15px;
+    font-size: 25px;
+    background-color: #2C3639;
+    color: #DCD7C9;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: default;
+    opacity: 0.5;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.unBetting > div > button:hover{
+    background-color: #2C3639;
+
+}
+
 .raiseAmountArea {
     margin-right: 15px;
     /* font-size: 25px; */
@@ -497,6 +548,38 @@
 .start>button:hover {
     background-color: #A27B5C;
     color: #DCD7C9;
+}
+
+.unStart {
+    grid-row: 6 / 7;
+    grid-column: 2 / 4;
+    padding-bottom: 15px;
+    margin-top: 5px;
+    padding-top: 15px;
+    background-color: #3F4E4F;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.unStart>button {
+    margin-right: 15px;
+    margin-left: 15px;
+    font-size: 25px;
+    background-color: #2C3639;
+    color: #DCD7C9;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: default;
+    opacity: 0.5;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.unStart>button:hover {
+    background-color: #2C3639;
 }
 
 

@@ -95,7 +95,7 @@ const BoardDetail = ({ isEdit }) => {
         console.log(error);
       });
 
-      axios
+    axios
       .get("/api/user", {
         headers: {
           Authorization: window.localStorage.accessToken,
@@ -163,8 +163,8 @@ const BoardDetail = ({ isEdit }) => {
           "Content-Type": "application/json",
         },
         data: {
-          boardId : id,
-      },
+          boardId: boardId,
+        },
       })
       .then((request) => {
         console.log("test:" + request.data);
@@ -254,12 +254,16 @@ const BoardDetail = ({ isEdit }) => {
           <ArrowBackIosNewRoundedIcon sx={{ fontSize: 18, mr: 0.5, mb: 0.4 }} />
           뒤로가기
         </div>
-        { myNickname==nickname && <button className={styles.smallBtn} onClick={onCancel}>
-                {'삭제'}
-        </button>}
-        { myNickname==nickname && <button className={styles.smallBtn} cyan onClick={onModify}>
-            {'수정'}
-        </button>}
+        {myNickname == nickname && (
+          <button className={styles.smallBtn} onClick={onCancel}>
+            {"삭제"}
+          </button>
+        )}
+        {myNickname == nickname && (
+          <button className={styles.smallBtn} cyan onClick={onModify}>
+            {"수정"}
+          </button>
+        )}
         <h1>{boardTitle}</h1>
         <div className={styles.postInfo}>
           <div className={styles.infoLeft}>
@@ -299,6 +303,7 @@ const BoardDetail = ({ isEdit }) => {
       <br />
       <WriteActionButtonsBlock>
       </WriteActionButtonsBlock>
+<<<<<<< HEAD
       <button onClick={reply}>sss</button>
       <PostHead>
         <Box>
@@ -310,6 +315,8 @@ const BoardDetail = ({ isEdit }) => {
             </Grid> */}
         </Box>
       </PostHead>
+=======
+>>>>>>> 3d9d3ab009a79e9e91cb9cb3339ec540050273d5
     </PostViewerBlock>
   );
 };

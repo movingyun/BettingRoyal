@@ -80,7 +80,7 @@ export default function Game(props) {
   let roomId = location.state.roomId; //방 컴포넌트에 roomid 포함
   let roomBetUnit = location.state.roomBetUnit;
   let roomTitle = location.state.roomTitle;
-  var sock = new sockjs("http://localhost:8080/stomp-game");
+  var sock = new sockjs("https://i7a404.p.ssafy.io/stomp-game");
   let stomp = stompjs.over(sock);
 
   const startButton = new Audio("./Audio/StartButton.mp3");
@@ -206,15 +206,15 @@ export default function Game(props) {
           setGroundCard1(content.groundCardNum1);
           setGroundCard2(content.groundCardNum2);
           setCurrentMaxBet(content.gameMaxBet);
-          // setmainMessage("현재 총 베팅 금액 : " + content.gameTotalBet);
-
+          setmainMessage(content.mission);
+          setRaiseCnt(content.battingUnit);
           setTurn(content.turnIdx);
         }
 
         //턴
         if (content.type == "NEXTTURN") {
           //전사람 행동
-          // console.log(preaction);
+           console.log(preaction);
           let preturn = content.preTurnIdx;
           let temppreaction = preaction;
           let act = content.message.split(" ", 1);
@@ -280,8 +280,8 @@ export default function Game(props) {
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
               charge();
-              // leaveGame();
-              kicksession();
+              leaveGame();
+              // kicksession();
             }
             setwin([false, false, false, false, false, false]);
             setIsStart(false);
@@ -549,6 +549,8 @@ export default function Game(props) {
           setMyBetAmount={setMyBetAmount}
           groundCard1={groundCard1}
           groundCard2={groundCard2}
+          mainMessage={mainMessage}
+          navigate={navigate}
         />
       ) : null}
     </div>

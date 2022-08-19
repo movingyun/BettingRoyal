@@ -96,6 +96,7 @@ class Gameroom extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.sendChat = this.sendChat.bind(this);
+    this.disconnectStomp = this.disconnectStomp.bind(this);
   }
 
   togglePopover = () => {
@@ -116,6 +117,12 @@ class Gameroom extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    const mySession = this.state.session;
+
+    if (mySession) {
+      mySession.disconnect();
+    }
+    this.state.session.unpublish(this.state.mainStreamManager);
   }
 
   onbeforeunload(event) {
@@ -205,7 +212,12 @@ class Gameroom extends Component {
         });
 
         mySession.on("streamDestroyed", (event) => {
+          console.log("stream destroyed : " + event.stream.streamManager);
+
           this.deleteSubscriber(event.stream.streamManager);
+          //재정렬
+          
+          
         });
 
         mySession.on("exception", (exception) => {
@@ -264,18 +276,6 @@ class Gameroom extends Component {
     if (window.confirm("나가시겠습니까?") == true) {
       console.log("나가기 누름");
       const mySession = this.state.session;
-      this.props.kickSession(this.leaveSession());
-      this.props.stomp.send(
-        "/pub/game/message",
-        {},
-        JSON.stringify({
-          roomId: this.props.roomId,
-          message: "",
-          sender: "",
-          type: "EXIT",
-          socketId: this.props.sessionId,
-        })
-      );
 
       if (mySession) {
         mySession.disconnect();
@@ -288,8 +288,24 @@ class Gameroom extends Component {
         mainStreamManager: undefined,
         publisher: undefined,
       });
-      this.props.leavegame();
+      this.disconnectStomp();
+      // this.props.leavegame();
     }
+  }
+
+  disconnectStomp() {
+    this.props.stomp.send(
+      "/pub/game/message",
+      {},
+      JSON.stringify({
+        roomId: this.props.roomId,
+        message: "",
+        sender: "",
+        type: "EXIT",
+        socketId: this.props.sessionId,
+      })
+    );
+    this.props.navigate("../lobby/rooms");
   }
 
   // 채팅 메세지 부분
@@ -358,6 +374,14 @@ class Gameroom extends Component {
     this.props.setMyBetAmount(change, raise);
   }
 
+  sendBetting(action) {
+    console.log(action);
+    this.props.sendBet(action);
+    this.setState({
+      raiseCnt: this.props.currentBetUnit,
+    });
+  }
+
   render() {
     const chatList = this.state.chatList;
     return (
@@ -388,6 +412,7 @@ class Gameroom extends Component {
                   player={this.props.players[0]}
                   number={0}
                   preaction={this.props.preaction[0]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -404,6 +429,7 @@ class Gameroom extends Component {
                   player={this.props.players[1]}
                   win={this.props.win[1]}
                   preaction={this.props.preaction[1]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -419,6 +445,7 @@ class Gameroom extends Component {
                   player={this.props.players[2]}
                   win={this.props.win[2]}
                   preaction={this.props.preaction[2]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -434,6 +461,7 @@ class Gameroom extends Component {
                   player={this.props.players[3]}
                   win={this.props.win[3]}
                   preaction={this.props.preaction[3]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -449,6 +477,7 @@ class Gameroom extends Component {
                   player={this.props.players[4]}
                   win={this.props.win[4]}
                   preaction={this.props.preaction[4]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
@@ -464,28 +493,32 @@ class Gameroom extends Component {
                   player={this.props.players[5]}
                   win={this.props.win[5]}
                   preaction={this.props.preaction[5]}
+                  isStart={this.props.isStart}
                 />
               </div>
             ) : null}
 
             <div className={styles.center}>
-              <div className={styles.qs}>누가 거짓말쟁이?</div>
-              <div className={styles.cards}>
-                <div className={`${styles.cards_back} ${styles.flip_back}`}>
-                  <img src={card40} />
-                  <img src={card40} />
+              <div className={styles.qs}>{this.props.mainMessage}</div>
+              {this.props.isStart ? (
+                <div className={styles.cards}>
+                  <div className={`${styles.cards_back} ${styles.flip_back}`}>
+                    <img src={card40} />
+                    <img src={card40} />
+                  </div>
+                  <div className={`${styles.cards_front} ${styles.flip_front}`}>
+                    <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
+                    <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
+                  </div>
                 </div>
-                <div className={`${styles.cards_front} ${styles.flip_front}`}>
-                  <img src={"/images/cards/" + this.props.groundCard1 + ".png"} />
-                  <img src={"/images/cards/" + this.props.groundCard2 + ".png"} />
-                </div>
-              </div>
+              ) : null}
+
               {/* 베팅시*/}
               {/* <img src={ruby_bet} className={styles.rubyBet}/> */}
               {/* 내가 게임 이길시*/}
               {/* <img src={ruby_win} className={styles.rubyWin}/> */}
               <div className={styles.info}>
-                <div className={styles.time}>{this.props.sec}초</div>
+                {/* <div className={styles.time}>{this.props.sec}초</div> */}
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
                   {this.props.win[0] ? <img src={ruby_win} className={styles.rubyWin} /> : null}
@@ -516,11 +549,21 @@ class Gameroom extends Component {
             </div>
             {/* 게임시작버튼 */}
             {this.props.isStart ? (
-              <div className={styles.betting}>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[0]}>
+              <div className={this.props.turn == 0 ? styles.betting : styles.unBetting}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[0]}
+                >
                   다이
                 </button>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[1]}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[1]}
+                >
                   콜({this.props.currentMaxBet - this.props.players[0].mytotalBet})
                 </button>
 
@@ -553,18 +596,25 @@ class Gameroom extends Component {
                   </div>
                   <button
                     className={styles.raise}
-                    onClick={this.props.sendBet}
+                    onClick={(action) => {
+                      this.sendBetting(action);
+                    }}
                     disabled={this.props.buttonDisable[2]}
                   >
                     레이즈
                   </button>
                 </div>
-                <button onClick={this.props.sendBet} disabled={this.props.buttonDisable[3]}>
+                <button
+                  onClick={(action) => {
+                    this.sendBetting(action);
+                  }}
+                  disabled={this.props.buttonDisable[3]}
+                >
                   올인
                 </button>
               </div>
             ) : (
-              <div className={styles.start}>
+              <div className={this.props.turn == 0 ? styles.start : styles.unStart}>
                 <button onClick={this.props.gameStart} disabled={this.props.startDisabled}>
                   게임시작
                 </button>

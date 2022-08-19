@@ -20,7 +20,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     // 게시판 삭제
     @Modifying
     @Transactional
-    @Query(value = "delete from Board where board_id=?",nativeQuery = true)
+    @Query(value = "delete from board where board_id=?",nativeQuery = true)
     void deleteBoardByBoardIdAndUserId( Integer boardId);
 
     /////////

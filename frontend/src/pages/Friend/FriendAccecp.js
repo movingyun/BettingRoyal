@@ -7,46 +7,46 @@ import { DataGrid } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import rubyicon from "../../images/icon/ruby.png";
 import Typography from "@mui/material/Typography";
-import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded';
-import {makeStyles} from "@material-ui/core/styles";
-import {createStyles} from "@material-ui/core";
+import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
+import NotListedLocationRoundedIcon from "@mui/icons-material/NotListedLocationRounded";
+import { makeStyles } from "@material-ui/core/styles";
+import { createStyles } from "@material-ui/core";
 
 export default function FriendRequest(props) {
-
-  const useStyles = makeStyles((theme) => createStyles({
-    grid: {
-      fontFamily: "'Noto Sans KR', sans-serif",
-      fontSize: '16px',
-      fontWeight: '400',
-    },
-    none: {
-      color: '#A27B5C',
-      fontSize: '70px',
-      marginBottom: '5px',
-    },
-    alert: {
-      fontFamily: "'Noto Sans KR', sans-serif",
-      fontSize: '20px',
-      color: '#A27B5C',
-      fontWeight: '400',
-    },
-    icon: {
-      fontSize: '20px',
-    },
-    add: {
-      fontFamily: "'Noto Sans KR', sans-serif",
-      border: 'none',
-      backgroundColor: 'transparent',
-      fontSize: '16px',
-      color: '#3F4E4F',
-      '&:hover': {
-        color: '#A27B5C',
-        backgroundColor: 'transparent',
+  const useStyles = makeStyles((theme) =>
+    createStyles({
+      grid: {
+        fontFamily: "'Noto Sans KR', sans-serif",
+        fontSize: "16px",
+        fontWeight: "400",
       },
-    },
-    
-  }));
+      none: {
+        color: "#A27B5C",
+        fontSize: "70px",
+        marginBottom: "5px",
+      },
+      alert: {
+        fontFamily: "'Noto Sans KR', sans-serif",
+        fontSize: "20px",
+        color: "#A27B5C",
+        fontWeight: "400",
+      },
+      icon: {
+        fontSize: "20px",
+      },
+      add: {
+        fontFamily: "'Noto Sans KR', sans-serif",
+        border: "none",
+        backgroundColor: "transparent",
+        fontSize: "16px",
+        color: "#3F4E4F",
+        "&:hover": {
+          color: "#A27B5C",
+          backgroundColor: "transparent",
+        },
+      },
+    })
+  );
 
   const styles = useStyles();
   const [rows, setRows] = useState("");
@@ -55,7 +55,7 @@ export default function FriendRequest(props) {
     axios
       .get("/api/friends/request", {
         headers: {
-          Authorization: window.localStorage.accessToken, 
+          Authorization: window.localStorage.accessToken,
           "Content-Type": "application/json",
         },
       })
@@ -130,7 +130,7 @@ export default function FriendRequest(props) {
       renderCell: (params) => (
         <div>
           <img src={rubyicon} height="16" width="16" />
-          &nbsp;{params.row.ruby}&nbsp;루비
+          &nbsp;{params.row.ruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}&nbsp;루비
         </div>
       ),
     },
@@ -143,13 +143,14 @@ export default function FriendRequest(props) {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-          <button className={styles.add}
-            onClick={() => {
-              acceptFriendBtn(params);
-            }}
-          >
-            <PersonAddRoundedIcon className={styles.icon}/> 친구수락
-          </button>
+        <button
+          className={styles.add}
+          onClick={() => {
+            acceptFriendBtn(params);
+          }}
+        >
+          <PersonAddRoundedIcon className={styles.icon} /> 친구수락
+        </button>
       ),
     },
   ];
@@ -168,8 +169,8 @@ export default function FriendRequest(props) {
             NoRowsOverlay: () => (
               <Box height="100%" textAlign="center" alignContent="center">
                 <Box sx={{ mt: "10%" }}>
-                <NotListedLocationRoundedIcon className={styles.none}/>
-                <p className={styles.alert}>받은 요청이 없습니다.</p>
+                  <NotListedLocationRoundedIcon className={styles.none} />
+                  <p className={styles.alert}>받은 요청이 없습니다.</p>
                 </Box>
               </Box>
             ),

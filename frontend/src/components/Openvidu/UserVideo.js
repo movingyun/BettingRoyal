@@ -54,6 +54,8 @@ export default class UserVideoComponent extends Component {
       top3Emotion: "Top3",
       top3Value: 0,
     };
+
+    this.classExpression = this.classExpression.bind(this);
   }
 
   getNicknameTag() {
@@ -66,9 +68,24 @@ export default class UserVideoComponent extends Component {
   //     console.log(event)
   // }
 
+  classExpression(expression, emotion) {
+    if (emotion === "평온") {
+      return styles.td4;
+    }
+    if (expression >= 75) {
+      return styles.td1;
+    } else if (expression >= 50) {
+      return styles.td2;
+    } else if (expression >= 25) {
+      return styles.td3;
+    } else {
+      return styles.td4;
+    }
+  }
+
   // 감정 불러와 dictionary sort
   updateExpressions = (event) => {
-    console.log(event);
+    // console.log(event);
     const Emotions = {
       angry: "화남",
       disgusted: "역함",
@@ -100,7 +117,7 @@ export default class UserVideoComponent extends Component {
         top3Value: items[4][1],
       },
       () => {
-        console.log(this.state.expressions);
+        // console.log(this.state.expressions);
         // console.log(this.state.expressions[6][0])
         // console.log(this.state.expressions[6][1])
       }
@@ -128,37 +145,72 @@ export default class UserVideoComponent extends Component {
         <div className={styles.info}>
           <div className={styles.userInfo}>
             <div className={styles.name}>{this.props.player.nickname}</div>
-            <div className={styles.ruby}>{this.props.player.myruby} 루비</div>
+            <div className={styles.ruby}>
+              {this.props.player.myruby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 루비
+            </div>
             {this.props.preaction.action ? (
               <div className={styles.speech_bubble}>
                 {this.props.preaction.action}
                 {this.props.player.mytotalBet}
               </div>
-            ) : 
-            null
-            }
+            ) : null}
           </div>
           <div className={styles.gameInfo}>
-            <div className={styles.card}>
-              {/* 플레이어 카드 */}
-              <div className={styles.card_front}>
-                <img src={"/images/cards/" + this.props.player.myCard + ".png"} />
+            {this.props.isStart && this.props.number != 0 ? (
+              <div className={styles.card}>
+                {/* 플레이어 카드 */}
+                <div className={`${styles.card_back} ${styles.flip_back}`}>
+                  <img src={card40} />
+                </div>
+                <div className={styles.card_front}>
+                  <img src={"/images/cards/" + this.props.player.myCard + ".png"} />
+                </div>
               </div>
-            </div>
+            ) : null}
+            {this.props.isStart && this.props.number == 0 ? (
+              <div className={styles.card}>
+                <div className={styles.mybackcard}>
+                  {/* 플레이어 카드 */}
+                  <img src={card40} />
+                </div>
+              </div>
+            ) : null}
+
             <div className={styles.status}>{this.props.player.myPair}</div>
             <div className={styles.emotion}>
               <table>
                 <tr>
-                  <td className={styles.td}>{this.state.top1Emotion}</td>
+                  <td
+                    className={this.classExpression(
+                      Math.floor(this.state.top1value * 100),
+                      this.state.top1Emotion
+                    )}
+                  >
+                    {this.state.top1Emotion}
+                  </td>
                   <td>{Math.floor(this.state.top1value * 100)}%</td>
                 </tr>
                 <tr>
-                  <td className={styles.td}>{this.state.top2Emotion}</td>
+                  <td
+                    className={this.classExpression(
+                      Math.floor(this.state.top2value * 100),
+                      this.state.top2Emotion
+                    )}
+                  >
+                    {this.state.top2Emotion}
+                  </td>
                   <td>{Math.floor(this.state.top2Value * 100)}%</td>
                 </tr>
                 <tr>
-                  <td className={styles.td}>{this.state.top3Emotion}</td>
-                  <td>{Math.floor(this.state.top2Value * 100)}%</td>
+                  <td
+                    className={this.classExpression(
+                      Math.floor(this.state.top3value * 100),
+                      this.state.top3Emotion
+                    )}
+                  >
+                    {this.state.top3Emotion}
+                  </td>
+                  <td>{Math.floor(this.state.top3Value * 100)}%</td>
                 </tr>
               </table>
             </div>
