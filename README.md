@@ -2,8 +2,6 @@
 ### 온라인 화상 심리 카드 게임 
 <img src="https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png" width="400" height="200">
 
-![image](https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png)
-
 #  Overview
 상대의 모습이 보이지 않아 정확하게 심리를 파악하기 어려운 기존의 온라인 카드게임은 이제 그만!
 
