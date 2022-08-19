@@ -9,8 +9,24 @@
 
 # Betting Royal 서비스 화면
 
-### 회원가입 및 로그인
+### 로그인
 <img src="./docs/login.webp" width="600"> 
+
+### 게임
+<img src="./docs/게임.webp" width="600"> 
+
+### win
+<img src="./docs/win.webp" width="600"> 
+
+### 게시판
+<img src="./docs/게시판.webp" width="600"> 
+
+### 금고
+<img src="./docs/금고.webp" width="600"> 
+
+### 친구
+<img src="./docs/친구.webp" width="600"> 
+
 
 #  주요 기능
 
