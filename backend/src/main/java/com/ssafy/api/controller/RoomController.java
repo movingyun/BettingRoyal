@@ -12,11 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController //RESTFull Controller 개발
 @Api(value = "Room API", tags = {"Room"}) //Swagger에 이름 변경(기본값:room-controller)
+@CrossOrigin(origins = "*")
 public class RoomController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class RoomController {
         //스켈레톤 코드 UserController에서 가져옴
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
-        User user = userService.getUserByUserId(userId);
+        User user = userService.getUserByUserEmail(userId);
         roomService.createRoom(room, user);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
