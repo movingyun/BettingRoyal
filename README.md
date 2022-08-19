@@ -1,4 +1,3 @@
-develop init
 # Betting Royal
 온라인 화상 심리 카드 게임 
 ![image](https://user-images.githubusercontent.com/56749776/185520779-aa84ce29-ace1-40d8-8267-746c7ead418a.png)
@@ -74,9 +73,6 @@ develop init
 ### 요구 사항 정의서
 ![image](https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png)
 ![image](https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png)
-
-### 소켓 명세서
-![image](https://user-images.githubusercontent.com/56749776/185520375-978145ad-eb54-423c-bd7d-e24fbdcd421f.png)
 
 ### 마일스톤
 ![image](https://user-images.githubusercontent.com/56749776/185520326-3b83b272-9c20-4f2e-824a-997040bc662d.png)
