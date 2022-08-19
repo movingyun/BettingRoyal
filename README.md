@@ -67,12 +67,12 @@
 
 ### 서비스 아키텍처
 
-![image](https://user-images.githubusercontent.com/56749776/185519575-74973bc4-0ed0-4361-b499-7f8278b474b9.png)
+<img src="https://user-images.githubusercontent.com/56749776/185519575-74973bc4-0ed0-4361-b499-7f8278b474b9.png" width="400" height="400">
 
 
 ### 요구 사항 정의서
-![image](https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png)
-![image](https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png)
+<img src="https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png" width="400" height="400">
+<img src="https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png" width="400" height="400">
 
 ### 마일스톤
 ![image](https://user-images.githubusercontent.com/56749776/185520326-3b83b272-9c20-4f2e-824a-997040bc662d.png)
