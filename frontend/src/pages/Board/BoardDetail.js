@@ -14,6 +14,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Routes, Route, Link } from "react-router-dom";
 import BoardModify from "./BoardModify";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box, Grid } from "@mui/material";
 
 const PostViewerBlock = styled(Responsive)`
   font-family: "Noto Sans KR", sans-serif;
@@ -61,6 +63,10 @@ const BoardDetail = ({ isEdit }) => {
   const [id, setId] = useState();
   const [myNickname, setmyNickname] = useState();
 
+  const [replyContent, setReplyContent] = useState();
+  const [replyDate, setReplyDate] = useState();
+  const [rows, setRows] = useState("");
+
   let navigate = useNavigate();
   let location = useLocation();
   let boardId = location.state.boardId;
@@ -75,7 +81,7 @@ const BoardDetail = ({ isEdit }) => {
         },
       })
       .then((response) => {
-        console.log("board" + JSON.stringify(response.data));
+        // console.log("board" + JSON.stringify(response.data));
         setBoardTitle(response.data.boardTitle);
         setBoardContent(response.data.boardContent);
         setNickname(response.data.userNickname);
@@ -102,7 +108,52 @@ const BoardDetail = ({ isEdit }) => {
       .catch((error) => {
         console.log(error);
       });
+
+      axios
+      .get("/api/board/"+boardId+"/reply/test", {
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("댓글댓글:  "+ JSON.stringify(response.data[0]));
+        // setReplyContent(response.data.replyContent);
+        // setReplyDate(response.data.replyDate);
+        setRows(response.data); 
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
+
+  const columns = [ 
+    {
+      field: "replyContent",
+      headerName: "댓글내용",
+      flex: 2,
+      editable: false,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "replyDate",
+      headerName: "작성 일자",
+      flex: 2,
+      editable: false,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "userNickname",
+      headerName: "닉네임",
+      flex: 2,
+      editable: false,
+      align: "center",
+      headerAlign: "center",
+    },
+  ];
+
 
   function onCancel() {
     axios
@@ -123,6 +174,32 @@ const BoardDetail = ({ isEdit }) => {
         console.log(error);
       });
   }
+
+
+  function reply(params) {
+    axios
+      .post("/api/board"+boardId+"reply", {
+        params : { boardId: params.id},
+        headers: {
+          Authorization: window.localStorage.accessToken,
+          "Content-Type": "application/json",
+        },
+      //   data: {
+      //     boardId : id,
+      // },
+      })
+      .then((response) => {
+        // setReplyContent(response.data.replyContent);
+        // setReplyDate(response.data.replyDate);
+        navigate("/lobby/board"+boardId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
+
 
   async function unLikeClick() {
     await axios
@@ -221,12 +298,18 @@ const BoardDetail = ({ isEdit }) => {
       </PostContent>
       <br />
       <WriteActionButtonsBlock>
-        {/* <StyledButton cyan onClick={onModify}>
-                {'수정'}
-            </StyledButton>
-            <StyledButton onClick={onCancel}>뒤로가기</StyledButton> */}
       </WriteActionButtonsBlock>
-      <PostHead>댓글 쓸부분</PostHead>
+      <button onClick={reply}>sss</button>
+      <PostHead>
+        <Box>
+          {/* <Grid>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+            />
+            </Grid> */}
+        </Box>
+      </PostHead>
     </PostViewerBlock>
   );
 };
