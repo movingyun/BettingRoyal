@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import Test from "../../components/Audio/Test";
 
-import card40 from "../../images/cards/40.png";
+import card40 from "../../images/cards/card_back_logo.png";
 import ruby_win from "../../images/ruby/ruby_win.gif";
 import ruby_bet from "../../images/ruby/ruby_bet.gif";
 import ruby_get from "../../images/ruby/ruby_get.gif";
