@@ -682,7 +682,12 @@ public class MessageController {
 		}
 		//todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
 		//게임의 총 배팅 금액은 모든 플레이어에 저장되어있으니 첫번째 플레이어의 값으로 채워줌
-		message.setGameTotalBet(gpList.get(0).getGameTotalBet());
+		if(gpList.get(0).getGameTotalBet() != null){
+
+			message.setGameTotalBet(gpList.get(0).getGameTotalBet());
+		}else{
+			message.setGameTotalBet(0);
+		}
 		return infos;
 	}
 
