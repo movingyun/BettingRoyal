@@ -183,7 +183,8 @@ public class MessageController {
 
 			// tb_game 생성 -> 공용카드 넣기
 			//미션도 찾아와서 게임에 같이 넣어줌
-			int missionId = r.nextInt(missionRepository.getMissionCnt())+1;
+//			int missionId = r.nextInt(missionRepository.getMissionCnt())+1;
+			int missionId = 1;
 
 			Mission mission = missionRepository.findByMissionId(missionId);
 			int gameId = gameService.createGame(roomId, groundCard1, groundCard2, mission);
