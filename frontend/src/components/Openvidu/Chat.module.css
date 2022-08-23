@@ -4,7 +4,7 @@
 }
 .chatList {
     overflow-y:auto;
-    height: 75px;
+    height: 100px;
     padding-left: 10px;
 }
 
