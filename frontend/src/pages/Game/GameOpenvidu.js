@@ -266,6 +266,7 @@ class Gameroom extends Component {
                 error.code,
                 error.message
               );
+              this.disconnectStomp()
             });
         });
       }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate ,useLocation} from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -21,6 +21,8 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import Modal from "../../components/Modal/Modal";
+import Kick from "../../pages/modal/kick/kick";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#DCD7C9",
@@ -34,7 +36,7 @@ const Item = styled(Paper)(({ theme }) => ({
   },
 }));
 
-export default function Rooms(props) {
+export default function Rooms(props,route) {
   const useStyles = makeStyles((theme) =>
     createStyles({
       grid: {
@@ -54,11 +56,19 @@ export default function Rooms(props) {
   const [roomCnt, setRoomCnt] = useState();
   const [makeRoomPw, setMakeRoomPw] = useState("");
   const [page, setPage] = useState(1);
+  const [kickmodal, setkickmodal] = useState(false)
 
   let navigate = useNavigate();
+  let location = useLocation();
+
 
   useEffect(() => {
     //fetch room list
+    console.log(location.state)
+    if (location.state) {
+      setkickmodal(true)
+      
+    }
     axios
       .get("/api/room", {
         headers: {
@@ -267,8 +277,15 @@ export default function Rooms(props) {
     return list;
   }
 
+  function closeModal  ()  {
+    setkickmodal(false);
+  };
+
   let roomsdummy = (
     <Grid>
+      <Modal open={kickmodal} close={closeModal} header="루비가 부족합니다">
+        <Kick />
+      </Modal>
       {roomcreate}
       <Grid container rowSpacing={"10px"} columnSpacing={"10px"}>
         {rooms.map((item, index) => (

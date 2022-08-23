@@ -134,6 +134,7 @@ export default function Game(props) {
         //사람이 나갔을 때
         if (content.type == "EXIT") {
           //{player}
+          console.log("exit")
           let arr = players;
           for (let i = 0; i < players; i++) {
             if (players[i] != content.playerInfo[i]) {
@@ -280,7 +281,7 @@ export default function Game(props) {
           setTimeout(() => {
             if (content.playerInfo[0].myruby <= currentBetUnit) {
               charge();
-              leaveGame();
+              kick()
               // kicksession();
             }
             setwin([false, false, false, false, false, false]);
@@ -510,6 +511,21 @@ export default function Game(props) {
       })
     );
     navigate("../lobby/rooms");
+  }
+
+  function kick(){
+    stomp.send(
+      "/pub/game/message",
+      {},
+      JSON.stringify({
+        roomId: roomId,
+        message: "",
+        sender: "",
+        type: "EXIT",
+        socketId: sessionId,
+      })
+    );
+    navigate("../lobby/rooms",{state:true});
   }
 
   function setMyBetAmount(change, raiseCount) {
