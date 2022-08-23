@@ -8,45 +8,6 @@ import { useEffect, useState } from "react";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import Test from "../../components/Audio/Test";
 
-import card1 from "../../images/cards/1.png";
-import card2 from "../../images/cards/2.png";
-import card3 from "../../images/cards/3.png";
-import card4 from "../../images/cards/4.png";
-import card5 from "../../images/cards/5.png";
-import card6 from "../../images/cards/6.png";
-import card7 from "../../images/cards/7.png";
-import card8 from "../../images/cards/8.png";
-import card9 from "../../images/cards/9.png";
-import card10 from "../../images/cards/10.png";
-import card11 from "../../images/cards/11.png";
-import card12 from "../../images/cards/12.png";
-import card13 from "../../images/cards/13.png";
-import card14 from "../../images/cards/14.png";
-import card15 from "../../images/cards/15.png";
-import card16 from "../../images/cards/16.png";
-import card17 from "../../images/cards/17.png";
-import card18 from "../../images/cards/18.png";
-import card19 from "../../images/cards/19.png";
-import card20 from "../../images/cards/20.png";
-import card21 from "../../images/cards/21.png";
-import card22 from "../../images/cards/22.png";
-import card23 from "../../images/cards/23.png";
-import card24 from "../../images/cards/24.png";
-import card25 from "../../images/cards/25.png";
-import card26 from "../../images/cards/26.png";
-import card27 from "../../images/cards/27.png";
-import card28 from "../../images/cards/28.png";
-import card29 from "../../images/cards/29.png";
-import card30 from "../../images/cards/30.png";
-import card31 from "../../images/cards/31.png";
-import card32 from "../../images/cards/32.png";
-import card33 from "../../images/cards/33.png";
-import card34 from "../../images/cards/34.png";
-import card35 from "../../images/cards/35.png";
-import card36 from "../../images/cards/36.png";
-import card37 from "../../images/cards/37.png";
-import card38 from "../../images/cards/38.png";
-import card39 from "../../images/cards/39.png";
 import card40 from "../../images/cards/40.png";
 import ruby_win from "../../images/ruby/ruby_win.gif";
 import ruby_bet from "../../images/ruby/ruby_bet.gif";
@@ -216,8 +177,6 @@ class Gameroom extends Component {
 
           this.deleteSubscriber(event.stream.streamManager);
           //재정렬
-          
-          
         });
 
         mySession.on("exception", (exception) => {
@@ -522,7 +481,11 @@ class Gameroom extends Component {
                 <div className={styles.ruby}>
                   <img src={ruby} className={styles.rubyImg} />
                   {this.props.win[0] ? <img src={ruby_win} className={styles.rubyWin} /> : null}
-                  <p className={styles.rubyNum}>{this.props.gameTotalBet}</p>
+                  <p className={styles.rubyNum}>
+                    {this.props.gameTotalBet == null
+                      ? this.props.gameTotalBet
+                      : this.props.gameTotalBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </p>
                 </div>
                 <div className={styles.help}>
                   <Popover
