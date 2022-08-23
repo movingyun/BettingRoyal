@@ -137,9 +137,6 @@ public class BettingService {
                 gameId = gp.getGameId();
                 gp.setMyBetting(gp.getMyBetting()+bettingUser.getUserRuby());
             }
-            //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
-            //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
-            gp.setGameTotalBet(gp.getGameTotalBet() + gp.getMyBetting()+bettingUser.getUserRuby());
         }
 
         //gp의 MaxBet 바꿔줌.
@@ -147,6 +144,10 @@ public class BettingService {
         if(allInBettingCnt >= 0) {
             for (GamePlayer gp : gpList) {
                 gp.setMaxBetting(gp.getMaxBetting() + allInBettingCnt);
+
+                //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+                //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+                gp.setGameTotalBet(gp.getGameTotalBet() + bettingUser.getUserRuby());
             }
             // message에 maxBetting 올려주기
             message.setGameMaxBet(message.getGameMaxBet()+allInBettingCnt);
@@ -158,6 +159,12 @@ public class BettingService {
 
             //내 돈도 올인만큼 줄이면 음수여서 +가 되기 때문에 내가 가진 돈 전부를 보내준다!
             gameInfoService.allInBetting(gameId, bettingUser.getUserId(), bettingUser.getUserRuby());
+
+            for (GamePlayer gp : gpList) {
+                //todo : gameTotalBet 구하는 방식 변경 : 사람 나갔을 때 고려(GP에 totalBet만들기) 해결
+                //모든 gp에 게임의 총 배팅을 레이즈 금액 만큼 늘려준다
+                gp.setGameTotalBet(gp.getGameTotalBet() + bettingUser.getUserRuby());
+            }
         }
 
 
